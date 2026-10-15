@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>B · Календарь</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Sofia+Sans+Extra+Condensed:wght@700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1a73e8;text-decoration:none}a:hover{color:#1558b8}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #f4f6fa; color: #0f1b2d; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <header style="display: flex; flex-direction: column; gap: 8px; padding: 18px 20px 10px">
+    <a href="B-Home.dc.html" style="display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; height: 32px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Поездка</a>
+    <div style="display: flex; align-items: flex-end; justify-content: space-between">
+      <h1 style="margin: 0; font-family: 'Sofia Sans Extra Condensed', sans-serif; font-weight: 800; font-size: 40px; line-height: 0.95; text-transform: uppercase">Календарь</h1>
+      <div role="group" aria-label="Вид" style="display: flex; padding: 3px; border-radius: 10px; background: #e3e7ef">
+        <button aria-pressed="true" style="height: 30px; padding: 0 12px; border: 0; border-radius: 8px; background: #ffffff; color: #0f1b2d; font-family: Inter, sans-serif; font-size: 13px; font-weight: 600">Месяц</button>
+        <button aria-pressed="false" style="height: 30px; padding: 0 12px; border: 0; border-radius: 8px; background: transparent; color: #5b6576; font-family: Inter, sans-serif; font-size: 13px; font-weight: 500">Список</button>
+      </div>
+    </div>
+  </header>
+
+  <main style="flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 0 16px 16px">
+    <section aria-label="Ноябрь 2026" style="background: #ffffff; border: 1px solid #e3e7ef; border-radius: 16px; padding: 12px 12px 8px">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px 8px"><span style="font-size: 15px; font-weight: 700">Ноябрь 2026</span><span style="font-size: 12px; color: #5b6576">поездка 9–14</span></div>
+      <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; font-size: 11px; font-weight: 600; color: #5b6576; padding-bottom: 4px">
+        <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: 4px">
+        <sc-for list="{{cells}}" as="c" hint-placeholder-count="42">
+          <span style="height: 34px; display: flex; align-items: center; justify-content: center; position: relative; background: {{c.band}}; border-radius: {{c.radius}}">
+            <span style="width: 32px; height: 32px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: {{c.weight}}; background: {{c.bg}}; color: {{c.fg}}">{{c.label}}</span>
+          </span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section aria-label="Вторник, 10 ноября" style="flex: 1; min-height: 0; background: #ffffff; border: 1px solid #e3e7ef; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 15px; font-weight: 700">Вт, 10 ноября · Пекин</span><span style="font-size: 12px; font-weight: 700; color: #0f1b2d; background: #ffb27a; padding: 3px 9px; border-radius: 999px">сегодня</span></div>
+      <div style="position: relative; height: 312px">
+        <sc-for list="{{hours}}" as="h" hint-placeholder-count="7">
+          <div style="position: absolute; left: 0; right: 0; top: {{h.top}}px; display: flex; align-items: center; gap: 8px">
+            <span style="width: 40px; font-size: 11px; color: #5b6576">{{h.label}}</span>
+            <span style="flex: 1; height: 1px; background: #eef1f6"></span>
+          </div>
+        </sc-for>
+        <sc-for list="{{events}}" as="e" hint-placeholder-count="5">
+          <div style="position: absolute; left: 48px; right: 0; top: {{e.top}}px; height: {{e.h}}px; box-sizing: border-box; border-radius: 10px; padding: 5px 10px; background: {{e.bg}}; color: {{e.fg}}; display: flex; flex-direction: column; justify-content: center; overflow: hidden">
+            <span style="font-size: 13px; font-weight: 700">{{e.name}}</span>
+            <sc-if value="{{e.hasTime}}" hint-placeholder-val="{{true}}"><span style="font-size: 11.5px; color: {{e.sub}}">{{e.time}}</span></sc-if>
+          </div>
+        </sc-for>
+        <div aria-label="Сейчас 09:05" style="position: absolute; left: 40px; right: 0; top: 2px; height: 2px; background: #f26b1d"></div>
+        <div style="position: absolute; left: 36px; top: -2px; width: 10px; height: 10px; border-radius: 5px; background: #f26b1d"></div>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var cells = [];
+    var i;
+    for (i = 0; i < 6; i++) cells.push({ label: '', bg: 'transparent', fg: '#0f1b2d', weight: 400, band: 'transparent', radius: '0' });
+    for (i = 1; i <= 30; i++) {
+      var trip = i >= 9 && i <= 14;
+      var sel = i === 10;
+      var dow = (6 + i - 1) % 7;
+      var leftEdge = i === 9 || dow === 0;
+      var rightEdge = i === 14 || dow === 6;
+      cells.push({
+        label: String(i),
+        bg: sel ? '#1a73e8' : 'transparent',
+        fg: sel ? '#ffffff' : (trip ? '#1558b8' : '#0f1b2d'),
+        weight: trip ? 700 : 400,
+        band: trip ? '#e8f0fe' : 'transparent',
+        radius: trip ? ((leftEdge ? '17px' : '0') + ' ' + (rightEdge ? '17px 17px' : '0 0') + ' ' + (leftEdge ? '17px' : '0')) : '0'
+      });
+    }
+    while (cells.length < 42) cells.push({ label: '', bg: 'transparent', fg: '#0f1b2d', weight: 400, band: 'transparent', radius: '0' });
+    var PX = 26, START = 9;
+    var hours = [];
+    for (var hh = 9; hh <= 21; hh += 2) hours.push({ label: (hh < 10 ? '0' : '') + hh + ':00', top: (hh - START) * PX - 6 });
+    var raw = [
+      { name: '09:30 · Выезд из отеля', s: 9.5, e: 10.25, time: '', kind: 'move' },
+      { name: 'JD.com', s: 10.5, e: 12.5, time: '10:30–12:30 · шоурум и встреча', kind: 'co' },
+      { name: '13:00 · Обед', s: 13, e: 14, time: '', kind: 'free' },
+      { name: 'Meituan', s: 15, e: 17, time: '15:00–17:00 · встреча с командой', kind: 'co' },
+      { name: '19:00 · Ужин группы', s: 19, e: 20.5, time: '', kind: 'free' }
+    ];
+    var events = raw.map(function (r) {
+      var co = r.kind === 'co', mv = r.kind === 'move';
+      return {
+        name: r.name, time: r.time,
+        top: Math.round((r.s - START) * PX), h: Math.max(24, Math.round((r.e - r.s) * PX) - 3), hasTime: r.time !== '',
+        bg: co ? '#1a73e8' : (mv ? '#fff1e6' : '#eef1f6'),
+        fg: co ? '#ffffff' : '#0f1b2d',
+        sub: co ? '#e3edff' : '#5b6576'
+      };
+    });
+    return { cells: cells, hours: hours, events: events };
+  }
+}
+</script>
+</body>
+</html>
