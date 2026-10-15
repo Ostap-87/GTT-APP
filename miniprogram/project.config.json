@@ -1,0 +1,15 @@
+{
+  "description": "Global Tech Tour — страница визита для принимающей стороны (мини-программа WeChat)",
+  "appid": "touristappid",
+  "projectname": "gtt-visit",
+  "compileType": "miniprogram",
+  "libVersion": "3.0.0",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": false
+  },
+  "condition": {}
+}

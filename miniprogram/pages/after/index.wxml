@@ -1,0 +1,63 @@
+<view class="header">
+  <view class="brand-row">
+    <text class="brand">GLOBAL TECH TOUR</text>
+    <text class="sub">{{head}}</text>
+  </view>
+  <view class="h1">{{L.afterTitle}}</view>
+</view>
+
+<view class="main">
+  <view wx:if="{{!ready}}" class="empty">{{L.loading}}</view>
+
+  <view wx:elif="{{error}}" class="empty">
+    <view>{{error}}</view>
+    <button class="btn btn-outline" bindtap="retry">{{L.retry}}</button>
+  </view>
+
+  <block wx:else>
+    <view wx:if="{{!rating && !requests.length}}" class="empty">{{L.noRating}}</view>
+
+    <view wx:if="{{rating}}" class="card-dark row">
+      <view class="score">{{rating.avg}}<text class="score-of"> / 5</text></view>
+      <view class="rating-text">
+        <view class="rating-title">{{L.rating}}</view>
+        <view class="light">{{rating.count}}</view>
+        <view class="light">{{rating.top}}</view>
+      </view>
+    </view>
+
+    <view wx:if="{{requests.length}}" class="card">
+      <view class="card-title">
+        <text>{{requestsTitle}}</text>
+        <text class="muted">{{L.translated}}</text>
+      </view>
+      <view class="list-item" wx:for="{{requests}}" wx:key="id">
+        <view class="req-head">
+          <text class="name">{{item.nameLatin}}</text>
+          <text class="muted">{{item.company}}</text>
+        </view>
+        <view class="req-text">{{item.text}}</view>
+        <view class="req-foot">
+          <text class="chip {{item.consent ? 'chip-ok' : 'chip-warn'}}">{{item.consent ? L.consent : L.viaCoordinator}}</text>
+          <text wx:if="{{item.contact}}" class="link" data-id="{{item.id}}" bindtap="showContact">{{L.showContact}}</text>
+        </view>
+      </view>
+    </view>
+
+    <button wx:if="{{canReply && requests.length}}" class="btn btn-primary" bindtap="openReply">{{L.reply}}</button>
+    <view class="muted mt">{{L.afterHint}}</view>
+  </block>
+</view>
+
+<view wx:if="{{sheet}}" class="mask" bindtap="closeReply"></view>
+<view wx:if="{{sheet}}" class="sheet">
+  <view class="card-title"><text>{{L.reply}}</text></view>
+  <picker mode="selector" range="{{targets}}" value="{{targetIndex}}" bindchange="onTarget">
+    <view class="field"><text class="muted">{{L.replyTo}}</text><text>{{targets[targetIndex]}}</text></view>
+  </picker>
+  <textarea class="textarea" fixed="{{true}}" maxlength="1000" placeholder="{{L.replyPlaceholder}}" value="{{text}}" bindinput="onText" />
+  <view class="sheet-actions">
+    <button class="btn btn-outline" bindtap="closeReply">{{L.cancel}}</button>
+    <button class="btn btn-primary" loading="{{sending}}" bindtap="sendReply">{{L.send}}</button>
+  </view>
+</view>

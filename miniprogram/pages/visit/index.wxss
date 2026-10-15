@@ -1,0 +1,7 @@
+.group-icon { width: 88rpx; height: 88rpx; border-radius: 24rpx; background: #ffb27a; display: flex; align-items: center; justify-content: center; flex: none; }
+.group-img { width: 52rpx; height: 52rpx; }
+.group-title { font-size: 32rpx; font-weight: 700; }
+.prog { display: flex; gap: 16rpx; padding: 8rpx 0; font-size: 28rpx; }
+.prog-time { width: 100rpx; flex: none; font-weight: 700; }
+.prog-text { flex: 1; }
+.coord-text { flex: 1; min-width: 0; }

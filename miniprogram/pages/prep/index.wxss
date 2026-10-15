@@ -1,0 +1,7 @@
+.question { font-size: 28rpx; line-height: 1.5; margin-bottom: 4rpx; }
+.file-badge { width: 80rpx; height: 80rpx; border-radius: 20rpx; background: #fdecea; color: #c5321b; font-size: 22rpx; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; }
+.file-text { flex: 1; min-width: 0; }
+.file-text .name { word-break: break-all; }
+.file-status { font-size: 24rpx; font-weight: 600; }
+.file-status.warn { color: #a2470a; }
+.file-status.ok { color: #1e6b45; }

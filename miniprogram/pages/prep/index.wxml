@@ -1,0 +1,42 @@
+<view class="header">
+  <view class="brand-row">
+    <text class="brand">GLOBAL TECH TOUR</text>
+    <text class="sub">{{head}}</text>
+  </view>
+  <view class="h1">{{L.prepTitle}}</view>
+</view>
+
+<view class="main">
+  <view wx:if="{{!ready}}" class="empty">{{L.loading}}</view>
+
+  <view wx:elif="{{error}}" class="empty">
+    <view>{{error}}</view>
+    <button class="btn btn-outline" bindtap="retry">{{L.retry}}</button>
+  </view>
+
+  <block wx:else>
+    <view class="card">
+      <view class="card-title">
+        <text>{{questionsTitle}}</text>
+        <text class="chip chip-ok">{{L.translated}}</text>
+      </view>
+      <view class="list-item" wx:for="{{questions}}" wx:key="id">
+        <view class="question">{{item.text}}</view>
+        <view class="muted">{{item.author}}</view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title"><text>{{L.materials}}</text></view>
+      <view class="row list-item" wx:for="{{materials}}" wx:key="id">
+        <view class="file-badge">{{item.ext}}</view>
+        <view class="file-text">
+          <view class="name">{{item.name}}</view>
+          <view class="file-status {{item.tone}}">{{item.size}} · {{item.statusText}}</view>
+        </view>
+      </view>
+      <button wx:if="{{canUpload}}" class="btn btn-dashed mt" loading="{{uploading}}" bindtap="upload">{{uploading ? L.uploading : L.upload}}</button>
+      <view class="muted mt">{{L.uploadHint}}</view>
+    </view>
+  </block>
+</view>

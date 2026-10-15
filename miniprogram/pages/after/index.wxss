@@ -1,0 +1,7 @@
+.score { font-size: 88rpx; font-weight: 800; line-height: 1; flex: none; }
+.score-of { font-size: 40rpx; color: #c9d4e8; }
+.rating-text { flex: 1; min-width: 0; }
+.rating-title { font-size: 30rpx; font-weight: 700; }
+.req-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16rpx; }
+.req-text { font-size: 28rpx; margin: 8rpx 0 12rpx; }
+.req-foot { display: flex; justify-content: space-between; align-items: center; }

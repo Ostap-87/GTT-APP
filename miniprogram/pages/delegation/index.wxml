@@ -1,0 +1,42 @@
+<view class="header">
+  <view class="brand-row">
+    <text class="brand">GLOBAL TECH TOUR</text>
+    <text class="sub">{{head}}</text>
+  </view>
+  <view class="h1">{{title || L.tabs[1]}}</view>
+  <scroll-view wx:if="{{filters.length}}" class="filters" scroll-x="{{true}}" enable-flex="{{true}}">
+    <view wx:for="{{filters}}" wx:key="key" class="filter {{item.key === filter ? 'on' : ''}}" data-key="{{item.key}}" bindtap="setFilter">{{item.label}} {{item.count}}</view>
+  </scroll-view>
+</view>
+
+<view class="main">
+  <view wx:if="{{!ready}}" class="empty">{{L.loading}}</view>
+
+  <view wx:elif="{{error}}" class="empty">
+    <view>{{error}}</view>
+    <button class="btn btn-outline" bindtap="retry">{{L.retry}}</button>
+  </view>
+
+  <block wx:else>
+    <view class="note-info">
+      <image class="icon-s" src="/assets/icons/lock.png" mode="aspectFit" />
+      <text>{{L.privacy}}</text>
+    </view>
+
+    <view class="card">
+      <view class="row list-item" wx:for="{{people}}" wx:key="id">
+        <view class="avatar">{{item.initials}}</view>
+        <view class="person">
+          <view class="name">{{item.nameLatin}}</view>
+          <view class="muted">{{item.line}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{canGuestList}}" class="card">
+      <view class="card-title"><text>{{L.guestList}}</text></view>
+      <view class="muted">{{L.guestListHint}}</view>
+      <button class="btn btn-primary mt" loading="{{downloading}}" bindtap="downloadList">{{L.download}}</button>
+    </view>
+  </block>
+</view>

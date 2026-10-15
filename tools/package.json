@@ -1,0 +1,9 @@
+{
+  "name": "gtt-app-tools",
+  "private": true,
+  "description": "Инструменты репозитория: загрузка мини-программы (miniprogram-ci). Рендер превью дизайна использует playwright-core из окружения.",
+  "type": "module",
+  "devDependencies": {
+    "miniprogram-ci": "2.1.31"
+  }
+}

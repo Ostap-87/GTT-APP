@@ -1,0 +1,4 @@
+.filters { white-space: nowrap; display: flex; flex-direction: row; margin-top: 20rpx; }
+.filter { display: inline-flex; flex: none; height: 64rpx; line-height: 64rpx; padding: 0 24rpx; margin-right: 12rpx; border-radius: 999rpx; border: 2rpx solid #d5dbe6; background: #ffffff; font-size: 26rpx; }
+.filter.on { background: #0f1b2d; border-color: #0f1b2d; color: #ffffff; font-weight: 700; }
+.person { flex: 1; min-width: 0; }

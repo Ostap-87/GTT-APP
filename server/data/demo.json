@@ -1,0 +1,510 @@
+{
+ "_": "Демо-данные: поездка «Новый ритейл Китая», визит в JD.com 10.11.2026. Все делегаты, телефоны и почты вымышленные.",
+ "visits": [
+  {
+   "id": "jd-1110",
+   "trip": {
+    "zh": "俄罗斯零售考察团",
+    "en": "Russian Retail Delegation",
+    "ru": "Новый ритейл Китая"
+   },
+   "company": {
+    "zh": "京东",
+    "en": "JD.com"
+   },
+   "date": "2026-11-10",
+   "start": "10:30",
+   "end": "12:30",
+   "status": "confirmed",
+   "group": {
+    "state": "departed",
+    "eta": "10:25"
+   },
+   "info": {
+    "people": {
+     "zh": "18 位代表 + 2 位组织者",
+     "en": "18 delegates + 2 organizers"
+    },
+    "language": {
+     "zh": "俄语，全程配中俄翻译",
+     "en": "Russian, with a Chinese–Russian interpreter"
+    },
+    "industries": {
+     "zh": "零售、电商、物流、投资",
+     "en": "Retail, e-commerce, logistics, investment"
+    },
+    "focus": {
+     "zh": "自营物流、自有品牌、即时零售",
+     "en": "Own logistics, private labels, instant retail"
+    }
+   },
+   "program": [
+    {
+     "time": "10:30",
+     "zh": "参观展厅",
+     "en": "Showroom tour"
+    },
+    {
+     "time": "11:15",
+     "zh": "与管理层交流（问题已提前发送）",
+     "en": "Meeting with management (questions sent in advance)"
+    },
+    {
+     "time": "12:15",
+     "zh": "合影留念",
+     "en": "Group photo"
+    }
+   ],
+   "coordinator": {
+    "name": "Ostap Dotsenko",
+    "role": {
+     "zh": "协调人 · 中文、英文",
+     "en": "Coordinator · Chinese, English"
+    },
+    "wechatId": "",
+    "phone": ""
+   },
+   "delegates": [
+    {
+     "id": "d1",
+     "nameLatin": "Anna Smirnova",
+     "nameRu": "Анна Смирнова",
+     "initials": "AS",
+     "roleZh": "商业总监",
+     "roleEn": "Commercial Director",
+     "companyZh": "连锁超市",
+     "companyEn": "Supermarket chain",
+     "cityZh": "喀山",
+     "cityEn": "Kazan",
+     "industry": "retail",
+     "private": {
+      "phone": "+7 900 000-00-01",
+      "email": "anna.smirnova@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d2",
+     "nameLatin": "Dmitry Orlov",
+     "nameRu": "Дмитрий Орлов",
+     "initials": "DO",
+     "roleZh": "创始人",
+     "roleEn": "Founder",
+     "companyZh": "生鲜配送平台",
+     "companyEn": "Fresh-food delivery platform",
+     "cityZh": "莫斯科",
+     "cityEn": "Moscow",
+     "industry": "retail",
+     "private": {
+      "phone": "+7 900 000-00-02",
+      "email": "dmitry.orlov@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d3",
+     "nameLatin": "Elena Kovaleva",
+     "nameRu": "Елена Ковалёва",
+     "initials": "EK",
+     "roleZh": "采购总监",
+     "roleEn": "Purchasing Director",
+     "companyZh": "休闲食品制造商",
+     "companyEn": "Snack manufacturer",
+     "cityZh": "圣彼得堡",
+     "cityEn": "Saint Petersburg",
+     "industry": "manufacturing",
+     "private": {
+      "phone": "+7 900 000-00-03",
+      "email": "elena.kovaleva@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d4",
+     "nameLatin": "Igor Belov",
+     "nameRu": "Игорь Белов",
+     "initials": "IB",
+     "roleZh": "合伙人",
+     "roleEn": "Partner",
+     "companyZh": "零售投资基金",
+     "companyEn": "Retail investment fund",
+     "cityZh": "莫斯科",
+     "cityEn": "Moscow",
+     "industry": "investment",
+     "private": {
+      "phone": "+7 900 000-00-04",
+      "email": "igor.belov@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d5",
+     "nameLatin": "Marina Lebedeva",
+     "nameRu": "Марина Лебедева",
+     "initials": "ML",
+     "roleZh": "电商负责人",
+     "roleEn": "Head of E-commerce",
+     "companyZh": "服装零售",
+     "companyEn": "Fashion retail",
+     "cityZh": "叶卡捷琳堡",
+     "cityEn": "Yekaterinburg",
+     "industry": "retail",
+     "private": {
+      "phone": "+7 900 000-00-05",
+      "email": "marina.lebedeva@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d6",
+     "nameLatin": "Pavel Sokolov",
+     "nameRu": "Павел Соколов",
+     "initials": "PS",
+     "roleZh": "运营总监",
+     "roleEn": "Operations Director",
+     "companyZh": "便利店连锁",
+     "companyEn": "Convenience store chain",
+     "cityZh": "新西伯利亚",
+     "cityEn": "Novosibirsk",
+     "industry": "retail",
+     "private": {
+      "phone": "+7 900 000-00-06",
+      "email": "pavel.sokolov@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d7",
+     "nameLatin": "Olga Morozova",
+     "nameRu": "Ольга Морозова",
+     "initials": "OM",
+     "roleZh": "品类经理",
+     "roleEn": "Category Manager",
+     "companyZh": "大型超市",
+     "companyEn": "Hypermarket",
+     "cityZh": "莫斯科",
+     "cityEn": "Moscow",
+     "industry": "retail",
+     "private": {
+      "phone": "+7 900 000-00-07",
+      "email": "olga.morozova@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d8",
+     "nameLatin": "Sergey Volkov",
+     "nameRu": "Сергей Волков",
+     "initials": "SV",
+     "roleZh": "物流总监",
+     "roleEn": "Logistics Director",
+     "companyZh": "零售集团",
+     "companyEn": "Retail group",
+     "cityZh": "圣彼得堡",
+     "cityEn": "Saint Petersburg",
+     "industry": "retail",
+     "private": {
+      "phone": "+7 900 000-00-08",
+      "email": "sergey.volkov@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d9",
+     "nameLatin": "Natalia Fedorova",
+     "nameRu": "Наталья Фёдорова",
+     "initials": "NF",
+     "roleZh": "市场总监",
+     "roleEn": "Marketing Director",
+     "companyZh": "电商平台",
+     "companyEn": "E-commerce platform",
+     "cityZh": "莫斯科",
+     "cityEn": "Moscow",
+     "industry": "retail",
+     "private": {
+      "phone": "+7 900 000-00-09",
+      "email": "natalia.fedorova@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d10",
+     "nameLatin": "Alexey Kuznetsov",
+     "nameRu": "Алексей Кузнецов",
+     "initials": "AK",
+     "roleZh": "首席执行官",
+     "roleEn": "CEO",
+     "companyZh": "家电零售",
+     "companyEn": "Home appliance retail",
+     "cityZh": "克拉斯诺达尔",
+     "cityEn": "Krasnodar",
+     "industry": "retail",
+     "private": {
+      "phone": "+7 900 000-00-10",
+      "email": "alexey.kuznetsov@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d11",
+     "nameLatin": "Yulia Popova",
+     "nameRu": "Юлия Попова",
+     "initials": "YP",
+     "roleZh": "产品经理",
+     "roleEn": "Product Manager",
+     "companyZh": "自有品牌",
+     "companyEn": "Private label",
+     "cityZh": "莫斯科",
+     "cityEn": "Moscow",
+     "industry": "retail",
+     "private": {
+      "phone": "+7 900 000-00-11",
+      "email": "yulia.popova@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d12",
+     "nameLatin": "Andrey Vasiliev",
+     "nameRu": "Андрей Васильев",
+     "initials": "AV",
+     "roleZh": "总经理",
+     "roleEn": "General Manager",
+     "companyZh": "食品工厂",
+     "companyEn": "Food factory",
+     "cityZh": "图拉",
+     "cityEn": "Tula",
+     "industry": "manufacturing",
+     "private": {
+      "phone": "+7 900 000-00-12",
+      "email": "andrey.vasiliev@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d13",
+     "nameLatin": "Ekaterina Novikova",
+     "nameRu": "Екатерина Новикова",
+     "initials": "EN",
+     "roleZh": "供应链经理",
+     "roleEn": "Supply Chain Manager",
+     "companyZh": "饮料制造商",
+     "companyEn": "Beverage manufacturer",
+     "cityZh": "萨马拉",
+     "cityEn": "Samara",
+     "industry": "manufacturing",
+     "private": {
+      "phone": "+7 900 000-00-13",
+      "email": "ekaterina.novikova@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d14",
+     "nameLatin": "Mikhail Zaitsev",
+     "nameRu": "Михаил Зайцев",
+     "initials": "MZ",
+     "roleZh": "技术总监",
+     "roleEn": "Technical Director",
+     "companyZh": "包装生产",
+     "companyEn": "Packaging production",
+     "cityZh": "下诺夫哥罗德",
+     "cityEn": "Nizhny Novgorod",
+     "industry": "manufacturing",
+     "private": {
+      "phone": "+7 900 000-00-14",
+      "email": "mikhail.zaitsev@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d15",
+     "nameLatin": "Roman Pavlov",
+     "nameRu": "Роман Павлов",
+     "initials": "RP",
+     "roleZh": "投资经理",
+     "roleEn": "Investment Manager",
+     "companyZh": "风险投资",
+     "companyEn": "Venture capital",
+     "cityZh": "莫斯科",
+     "cityEn": "Moscow",
+     "industry": "investment",
+     "private": {
+      "phone": "+7 900 000-00-15",
+      "email": "roman.pavlov@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d16",
+     "nameLatin": "Svetlana Egorova",
+     "nameRu": "Светлана Егорова",
+     "initials": "SE",
+     "roleZh": "董事",
+     "roleEn": "Director",
+     "companyZh": "家族办公室",
+     "companyEn": "Family office",
+     "cityZh": "莫斯科",
+     "cityEn": "Moscow",
+     "industry": "investment",
+     "private": {
+      "phone": "+7 900 000-00-16",
+      "email": "svetlana.egorova@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d17",
+     "nameLatin": "Victor Stepanov",
+     "nameRu": "Виктор Степанов",
+     "initials": "VS",
+     "roleZh": "顾问",
+     "roleEn": "Consultant",
+     "companyZh": "零售咨询",
+     "companyEn": "Retail consulting",
+     "cityZh": "莫斯科",
+     "cityEn": "Moscow",
+     "industry": "other",
+     "private": {
+      "phone": "+7 900 000-00-17",
+      "email": "victor.stepanov@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    },
+    {
+     "id": "d18",
+     "nameLatin": "Irina Makarova",
+     "nameRu": "Ирина Макарова",
+     "initials": "IM",
+     "roleZh": "记者",
+     "roleEn": "Journalist",
+     "companyZh": "商业媒体",
+     "companyEn": "Business media",
+     "cityZh": "莫斯科",
+     "cityEn": "Moscow",
+     "industry": "other",
+     "private": {
+      "phone": "+7 900 000-00-18",
+      "email": "irina.makarova@example.com",
+      "passportNo": "[только у координатора]"
+     }
+    }
+   ],
+   "questions": [
+    {
+     "id": "q1",
+     "zh": "京东自营物流在三四线城市的配送时效如何？",
+     "en": "How fast is JD's own logistics in lower-tier cities?",
+     "ru": "Как быстро работает собственная логистика JD в городах третьего-четвёртого уровня?",
+     "delegateId": "d1"
+    },
+    {
+     "id": "q2",
+     "zh": "京东如何挑选自有品牌的供应商？",
+     "en": "How does JD choose private-label suppliers?",
+     "ru": "Как JD выбирает поставщиков для собственных марок?",
+     "delegateId": "d3"
+    },
+    {
+     "id": "q3",
+     "zh": "仓储自动化项目的投资回收期一般是多久？",
+     "en": "What is the typical payback period of warehouse automation?",
+     "ru": "Какой обычно срок окупаемости автоматизации склада?",
+     "delegateId": "d4"
+    },
+    {
+     "id": "q4",
+     "zh": "生鲜品类的损耗是如何控制的？",
+     "en": "How do you control fresh-produce shrinkage?",
+     "ru": "Как вы контролируете списания по свежим продуктам?",
+     "delegateId": "d2"
+    },
+    {
+     "id": "q5",
+     "zh": "京东的即时零售业务如何与线下门店合作？",
+     "en": "How does JD's instant retail work with offline stores?",
+     "ru": "Как мгновенная доставка JD работает с офлайн-магазинами?",
+     "delegateId": "d5"
+    },
+    {
+     "id": "q6",
+     "zh": "你们如何利用数据预测区域需求？",
+     "en": "How do you use data to forecast regional demand?",
+     "ru": "Как вы используете данные для прогноза спроса по регионам?",
+     "delegateId": "d6"
+    },
+    {
+     "id": "q7",
+     "zh": "外国品牌入驻京东国际的流程是什么？",
+     "en": "What is the onboarding process for foreign brands on JD Worldwide?",
+     "ru": "Как иностранному бренду выйти на JD Worldwide?",
+     "delegateId": "d12"
+    }
+   ],
+   "materials": [
+    {
+     "id": "m1",
+     "name": "京东公司介绍.pdf",
+     "sizeMb": 12,
+     "status": "review",
+     "file": null
+    }
+   ],
+   "feedback": {
+    "avg": 4.8,
+    "count": 16,
+    "top": {
+     "zh": "自营物流讲解",
+     "en": "Own logistics walkthrough"
+    }
+   },
+   "requests": [
+    {
+     "id": "r1",
+     "delegateId": "d1",
+     "zh": "希望洽谈自有品牌产品的供应合作。",
+     "en": "Would like to discuss supplying private-label products.",
+     "consent": true
+    },
+    {
+     "id": "r2",
+     "delegateId": "d2",
+     "zh": "希望了解即时配送方面的合作机会。",
+     "en": "Interested in partnership on instant delivery.",
+     "consent": true
+    },
+    {
+     "id": "r3",
+     "delegateId": "d4",
+     "zh": "希望安排第二次会面，讨论仓储自动化。",
+     "en": "Would like a second meeting on warehouse automation.",
+     "consent": false
+    }
+   ],
+   "proposals": [],
+   "replies": []
+  }
+ ],
+ "invites": [
+  {
+   "code": "demoJDhost01",
+   "visitId": "jd-1110",
+   "role": "host",
+   "createdAt": "2026-10-15T00:00:00Z"
+  }
+ ],
+ "members": [],
+ "subscriptions": {},
+ "orders": [
+  {
+   "id": "demo-0001",
+   "visitId": "jd-1110",
+   "description": {
+    "zh": "示例订单（测试 0.01 元）",
+    "en": "Sample order (test, 0.01 CNY)"
+   },
+   "totalFen": 1,
+   "status": "created"
+  }
+ ]
+}

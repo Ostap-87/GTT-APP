@@ -1,0 +1,69 @@
+/* Общий стиль: как сайт и приложение GTT — синий #1a73e8, тёмный #0f1b2d, светлый фон #f4f6fa */
+page {
+  background: #f4f6fa;
+  color: #0f1b2d;
+  font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+  font-size: 28rpx;
+  line-height: 1.45;
+}
+
+.header { background: #ffffff; padding: 28rpx 40rpx 28rpx; border-bottom: 1rpx solid #e3e7ef; }
+.brand-row { display: flex; justify-content: space-between; align-items: center; }
+.brand { font-weight: 800; font-size: 30rpx; letter-spacing: 2rpx; color: #1558b8; }
+.sub { font-size: 26rpx; color: #5b6576; }
+.h1 { font-size: 46rpx; font-weight: 700; line-height: 1.25; margin-top: 12rpx; }
+.main { padding: 24rpx 32rpx 48rpx; }
+.mt { margin-top: 20rpx; }
+
+.lang { display: flex; padding: 4rpx; border-radius: 16rpx; background: #eef1f6; }
+.lang-item { padding: 8rpx 20rpx; border-radius: 12rpx; font-size: 24rpx; font-weight: 600; color: #5b6576; }
+.lang-item.on { background: #ffffff; color: #0f1b2d; font-weight: 700; }
+
+.card { background: #ffffff; border: 1rpx solid #e3e7ef; border-radius: 32rpx; padding: 28rpx 32rpx; margin-bottom: 20rpx; }
+.card-dark { background: #0f1b2d; color: #ffffff; border-radius: 32rpx; padding: 28rpx 32rpx; margin-bottom: 20rpx; }
+.card-title { display: flex; justify-content: space-between; align-items: center; font-size: 32rpx; font-weight: 700; margin-bottom: 16rpx; }
+.light { color: #c9d4e8; font-size: 26rpx; }
+.muted { color: #5b6576; font-size: 24rpx; line-height: 1.5; }
+.name { font-size: 30rpx; font-weight: 600; }
+.link { color: #1a73e8; font-size: 28rpx; font-weight: 600; }
+
+.chip { font-size: 24rpx; font-weight: 700; padding: 6rpx 16rpx; border-radius: 999rpx; white-space: nowrap; }
+.chip-ok { color: #1e6b45; background: #e3f3ea; }
+.chip-warn { color: #a2470a; background: #fff1e6; }
+.chip-info { color: #1558b8; background: #e8f0fe; }
+
+.kv { display: flex; padding: 8rpx 0; font-size: 28rpx; }
+.kv .k { width: 160rpx; flex: none; color: #5b6576; }
+.kv .v { flex: 1; }
+
+.btn { width: 100% !important; height: 88rpx; line-height: 88rpx; padding: 0 !important; margin: 0; border-radius: 24rpx; font-size: 30rpx; font-weight: 700; }
+.btn::after { border: none; }
+.btn-primary { background: #1a73e8; color: #ffffff; }
+.btn-primary[disabled] { background: #a9c7f5 !important; color: #ffffff !important; }
+.btn-outline { background: #ffffff; color: #0f1b2d; border: 2rpx solid #d5dbe6; }
+.btn-dashed { background: #ffffff; color: #1558b8; border: 2rpx dashed #1a73e8; }
+.btn-mini { width: auto !important; height: 72rpx; line-height: 72rpx; padding: 0 24rpx !important; margin: 0; border-radius: 20rpx; font-size: 26rpx; font-weight: 700; }
+.btn-mini::after { border: none; }
+.btn-green { background: #1e8e5a; color: #ffffff; }
+.btn-light { background: #e8f0fe; color: #1558b8; }
+
+.avatar { width: 80rpx; height: 80rpx; border-radius: 40rpx; background: #dbe7fd; color: #1558b8; font-weight: 700; font-size: 28rpx; display: flex; align-items: center; justify-content: center; flex: none; }
+.avatar-blue { background: #1a73e8; color: #ffffff; }
+
+.row { display: flex; align-items: center; gap: 24rpx; }
+.list-item { padding: 22rpx 0; border-top: 1rpx solid #eef1f6; }
+.list-item:first-child { border-top: none; padding-top: 4rpx; }
+
+.note-info { display: flex; gap: 16rpx; align-items: flex-start; padding: 20rpx 24rpx; border-radius: 24rpx; background: #e8f0fe; color: #1558b8; font-size: 26rpx; margin-bottom: 20rpx; }
+.note-warn { padding: 20rpx 24rpx; border-radius: 24rpx; background: #fff8f2; border: 1rpx solid #ffd2b0; font-size: 26rpx; margin-top: 16rpx; }
+.icon-s { width: 36rpx; height: 36rpx; flex: none; margin-top: 4rpx; }
+
+.empty { padding: 120rpx 40rpx; text-align: center; color: #5b6576; font-size: 28rpx; }
+.empty .btn { margin-top: 32rpx; }
+
+.mask { position: fixed; left: 0; top: 0; right: 0; bottom: 0; background: rgba(15, 27, 45, 0.45); z-index: 10; }
+.sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 11; background: #ffffff; border-radius: 32rpx 32rpx 0 0; padding: 32rpx 32rpx calc(32rpx + env(safe-area-inset-bottom)); }
+.field { display: flex; justify-content: space-between; align-items: center; padding: 24rpx 0; border-bottom: 1rpx solid #eef1f6; font-size: 30rpx; }
+.textarea { width: 100%; box-sizing: border-box; height: 180rpx; margin-top: 20rpx; padding: 20rpx; border: 2rpx solid #d5dbe6; border-radius: 20rpx; font-size: 28rpx; }
+.sheet-actions { display: flex; gap: 20rpx; margin-top: 28rpx; }
+.sheet-actions .btn { flex: 1; }

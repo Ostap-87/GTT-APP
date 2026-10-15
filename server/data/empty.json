@@ -1,0 +1,8 @@
+{
+ "_": "Пустое стартовое состояние для боевого сервера. Визиты заводит координатор: PUT /api/admin/visits/<id>.",
+ "visits": [],
+ "invites": [],
+ "members": [],
+ "subscriptions": {},
+ "orders": []
+}

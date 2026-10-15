@@ -1,0 +1,88 @@
+<view class="header">
+  <view class="brand-row">
+    <text class="brand">GLOBAL TECH TOUR</text>
+    <view class="lang">
+      <text class="lang-item {{lang === 'zh' ? 'on' : ''}}" bindtap="setZh">中文</text>
+      <text class="lang-item {{lang === 'en' ? 'on' : ''}}" bindtap="setEn">EN</text>
+    </view>
+  </view>
+  <block wx:if="{{v}}">
+    <view class="h1">{{v.trip}}</view>
+    <view class="sub">{{v.when}}</view>
+  </block>
+</view>
+
+<view class="main">
+  <view wx:if="{{!ready}}" class="empty">{{L.loading}}</view>
+
+  <view wx:elif="{{error}}" class="empty">
+    <view>{{error}}</view>
+    <button class="btn btn-outline" bindtap="retry">{{L.retry}}</button>
+  </view>
+
+  <block wx:else>
+    <view wx:if="{{v.group}}" class="card-dark row">
+      <view class="group-icon"><image class="group-img" src="/assets/icons/bus.png" mode="aspectFit" /></view>
+      <view>
+        <view class="group-title">{{v.group.title}}</view>
+        <view class="light">{{v.group.sub}}</view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">
+        <text>{{L.visitInfo}}</text>
+        <text class="chip chip-{{v.statusTone}}">{{v.statusText}}</text>
+      </view>
+      <view class="kv" wx:for="{{v.info}}" wx:key="k">
+        <text class="k">{{item.k}}</text>
+        <text class="v">{{item.v}}</text>
+      </view>
+      <view wx:if="{{v.proposal}}" class="note-warn">{{v.proposal}}</view>
+      <button wx:if="{{v.canConfirm}}" class="btn btn-primary mt" bindtap="confirmVisit">{{L.confirm}}</button>
+    </view>
+
+    <view class="card">
+      <view class="card-title"><text>{{L.program}}</text></view>
+      <view class="prog" wx:for="{{v.program}}" wx:key="time">
+        <text class="prog-time">{{item.time}}</text>
+        <text class="prog-text">{{item.text}}</text>
+      </view>
+      <button wx:if="{{v.canPropose}}" class="btn btn-outline mt" bindtap="openSheet">{{L.proposeTime}}</button>
+    </view>
+
+    <view class="card row">
+      <view class="avatar avatar-blue">{{v.coordinator.initials}}</view>
+      <view class="coord-text">
+        <view class="name">{{v.coordinator.name}}</view>
+        <view class="muted">{{v.coordinator.role}}</view>
+      </view>
+      <button wx:if="{{v.coordinator.wechatId}}" class="btn-mini btn-green" bindtap="copyWechat">{{L.wechat}}</button>
+      <button wx:if="{{v.coordinator.phone}}" class="btn-mini btn-light" bindtap="call">{{L.call}}</button>
+    </view>
+
+    <view wx:if="{{canSubscribe}}" class="card">
+      <view class="card-title"><text>{{subscribed ? L.subscribed : L.subscribe}}</text></view>
+      <view class="muted">{{L.subscribeHint}}</view>
+      <button wx:if="{{!subscribed}}" class="btn btn-primary mt" bindtap="subscribe">{{L.subscribe}}</button>
+    </view>
+
+    <button wx:if="{{v.canShare}}" class="btn btn-outline" open-type="share">{{L.share}}</button>
+  </block>
+</view>
+
+<view wx:if="{{sheet}}" class="mask" bindtap="closeSheet"></view>
+<view wx:if="{{sheet}}" class="sheet">
+  <view class="card-title"><text>{{L.proposeTime}}</text></view>
+  <picker mode="date" value="{{form.date}}" bindchange="onDate">
+    <view class="field"><text class="muted">{{L.date}}</text><text>{{form.date}}</text></view>
+  </picker>
+  <picker mode="time" value="{{form.start}}" bindchange="onTime">
+    <view class="field"><text class="muted">{{L.time}}</text><text>{{form.start}}</text></view>
+  </picker>
+  <textarea class="textarea" fixed="{{true}}" maxlength="300" placeholder="{{L.note}}" value="{{form.note}}" bindinput="onNote" />
+  <view class="sheet-actions">
+    <button class="btn btn-outline" bindtap="closeSheet">{{L.cancel}}</button>
+    <button class="btn btn-primary" loading="{{sending}}" bindtap="submitProposal">{{L.send}}</button>
+  </view>
+</view>

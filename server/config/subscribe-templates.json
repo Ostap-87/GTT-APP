@@ -1,0 +1,18 @@
+{
+  "_": "Шаблоны подписочных уведомлений. templateId и ключи полей берутся из кабинета mp.weixin.qq.com → 订阅消息 после выбора шаблона. Пустой templateId — событие не отправляется. Подстановки {…} — см. server/src/events.js.",
+  "departed": {
+    "templateId": "",
+    "page": "pages/visit/index",
+    "fields": { "thing1": "{company}", "time2": "{eta}", "thing3": "{note}" }
+  },
+  "reschedule": {
+    "templateId": "",
+    "page": "pages/visit/index",
+    "fields": { "thing1": "{company}", "time2": "{newTime}", "thing3": "{note}" }
+  },
+  "request": {
+    "templateId": "",
+    "page": "pages/after/index",
+    "fields": { "thing1": "{title}", "thing2": "{summary}" }
+  }
+}

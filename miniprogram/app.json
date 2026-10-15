@@ -1,0 +1,31 @@
+{
+  "pages": [
+    "pages/visit/index",
+    "pages/delegation/index",
+    "pages/prep/index",
+    "pages/after/index",
+    "pages/pay/index"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "Global Tech Tour",
+    "backgroundColor": "#f4f6fa",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#5b6576",
+    "selectedColor": "#1a73e8",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/visit/index", "text": "概览", "iconPath": "assets/tab/visit.png", "selectedIconPath": "assets/tab/visit-on.png" },
+      { "pagePath": "pages/delegation/index", "text": "代表团", "iconPath": "assets/tab/delegation.png", "selectedIconPath": "assets/tab/delegation-on.png" },
+      { "pagePath": "pages/prep/index", "text": "问题与资料", "iconPath": "assets/tab/prep.png", "selectedIconPath": "assets/tab/prep-on.png" },
+      { "pagePath": "pages/after/index", "text": "访问后", "iconPath": "assets/tab/after.png", "selectedIconPath": "assets/tab/after-on.png" }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "style": "v2"
+}

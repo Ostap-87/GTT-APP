@@ -1,0 +1,15 @@
+<view class="main">
+  <view wx:if="{{!ready}}" class="empty">{{L.loading}}</view>
+
+  <view wx:elif="{{error}}" class="empty">{{error}}</view>
+
+  <view wx:else class="card">
+    <view class="card-title">
+      <text>{{L.order}}</text>
+      <text class="chip {{order.paid ? 'chip-ok' : 'chip-info'}}">{{order.paid ? L.paid : L.unpaid}}</text>
+    </view>
+    <view class="kv"><text class="k">{{L.order}}</text><text class="v">{{order.description}}</text></view>
+    <view class="kv"><text class="k">{{L.amount}}</text><text class="v amount">¥{{order.amount}}</text></view>
+    <button wx:if="{{!order.paid}}" class="btn btn-primary mt" disabled="{{!order.payEnabled}}" loading="{{paying}}" bindtap="pay">{{order.payEnabled ? L.pay : L.payDisabled}}</button>
+  </view>
+</view>

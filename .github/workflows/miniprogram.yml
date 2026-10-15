@@ -1,0 +1,55 @@
+name: Мини-программа WeChat
+
+# Ручной запуск: Actions → «Мини-программа WeChat» → Run workflow.
+# Нужны: переменные репозитория MP_APPID и MP_API_BASE, секрет MP_UPLOAD_KEY (ключ загрузки из кабинета
+# mp.weixin.qq.com → 开发管理 → 开发设置 → 小程序代码上传). Белый список IP для загрузки в кабинете
+# нужно выключить: адреса серверов GitHub меняются.
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'preview — QR-код для проверки на телефоне; upload — версия для модерации'
+        type: choice
+        options: [preview, upload]
+        default: preview
+      version:
+        description: 'Версия для upload, например 0.1.0'
+        required: false
+      desc:
+        description: 'Описание версии'
+        required: false
+        default: 'Страница визита GTT'
+      query:
+        description: 'Параметры страницы для preview, например i=КОД_ПРИГЛАШЕНИЯ'
+        required: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Проверки перед загрузкой
+        run: |
+          npm test --prefix server
+          node tools/mp-check.mjs
+      - name: Установить miniprogram-ci
+        run: npm i --prefix tools --no-audit --no-fund
+      - name: Загрузка в WeChat
+        env:
+          MP_APPID: ${{ vars.MP_APPID }}
+          MP_API_BASE: ${{ vars.MP_API_BASE }}
+          MP_UPLOAD_KEY: ${{ secrets.MP_UPLOAD_KEY }}
+          ACTION: ${{ inputs.action }}
+          VERSION: ${{ inputs.version }}
+          DESC: ${{ inputs.desc }}
+          QUERY: ${{ inputs.query }}
+        run: node tools/mp-ci.mjs "$ACTION" --version "$VERSION" --desc "$DESC" --query "$QUERY" --out mp-preview.png
+      - name: QR-код предпросмотра
+        if: inputs.action == 'preview'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mp-preview-qr
+          path: mp-preview.png

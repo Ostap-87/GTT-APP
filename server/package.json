@@ -1,0 +1,12 @@
+{
+  "name": "gtt-mp-server",
+  "private": true,
+  "description": "Сервер мини-программы WeChat Global Tech Tour: вход, данные визита, уведомления, оплата, бот WeCom",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "WX_MOCK=1 node src/index.js",
+    "test": "node --test test/*.test.js"
+  }
+}
