@@ -320,6 +320,39 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     { name: '自有品牌产品目录.pdf', size: '15 MB' },
   ];
 
+  // Погода, отели, рестораны, культурная программа и телефоны — примеры для прототипа.
+  // В приложении их заполняет координатор, прогноз погоды приходит автоматически по городу и дате.
+  const CITY = ['Пекин', 'Пекин', 'Шанхай', 'Шанхай', 'Ханчжоу', 'Шэньчжэнь'];
+  const WEATHER = [
+    { icon: 'sun', max: '+13°', min: '+3°', text: 'Ясно, ветер 3 м/с' },
+    { icon: 'sun', max: '+12°', min: '+2°', text: 'Солнечно и сухо' },
+    { icon: 'cloud', max: '+18°', min: '+12°', text: 'Облачно' },
+    { icon: 'rain', max: '+17°', min: '+13°', text: 'Небольшой дождь — возьмите зонт' },
+    { icon: 'cloud', max: '+18°', min: '+11°', text: 'Переменная облачность' },
+    { icon: 'sun', max: '+26°', min: '+19°', text: 'Тепло и влажно' },
+  ];
+  const HOTELS = {
+    beijing: { name: 'Отель у улицы Ванфуцзин', city: 'Пекин', addrZh: '北京市东城区王府井', nights: '9–11 ноября · 2 ночи', phone: '+86 10 0000 0000', desc: 'Заселение с 14:00, завтрак 06:30–10:00, Wi‑Fi в номере. До JD.com около 40 минут на автобусе.' },
+    shanghai: { name: 'Отель на набережной Бунд', city: 'Шанхай', addrZh: '上海市黄浦区外滩', nights: '11–13 ноября · 2 ночи', phone: '+86 21 0000 0000', desc: 'Номера с видом на реку, завтрак 06:30–10:30, фитнес-зал. Рядом метро.' },
+    shenzhen: { name: 'Отель в районе Футянь', city: 'Шэньчжэнь', addrZh: '深圳市福田区', nights: '13–14 ноября · 1 ночь', phone: '+86 755 0000 0000', desc: 'Заезд около 21:00 после перелёта, завтрак 06:30–10:00. Выезд 14 ноября до 12:00, багаж можно оставить у стойки.' },
+  };
+  const HOTEL_BY_DAY = ['beijing', 'beijing', 'shanghai', 'shanghai', 'shenzhen', null];
+  const MEALS = {
+    'm-mon-d': { title: 'Приветственный ужин', when: 'Пн, 9 ноября · 19:30', place: 'Ресторан пекинской кухни', addrZh: '北京市东城区（地址见预订）', cuisine: 'Пекинская утка, холодные закуски, овощи на воке.', options: ['Классическое меню', 'Вегетарианское', 'Без свинины'] },
+    'm-tue-l': { title: 'Обед', when: 'Вт, 10 ноября · 13:00', place: 'Ресторан кантонской кухни рядом с JD.com', addrZh: '北京市大兴区（地址见预订）', cuisine: 'Димсамы, рис с овощами, суп дня.', options: ['Классическое меню', 'Вегетарианское', 'Без морепродуктов'] },
+    'm-tue-d': { title: 'Ужин группы', when: 'Вт, 10 ноября · 19:00', place: 'Ресторан хого (горячий котёл)', addrZh: '北京市东城区（地址见预订）', cuisine: 'Каждый варит мясо, овощи и тофу в бульоне за столом.', options: ['Неострый бульон', 'Острый сычуаньский', 'Грибной вегетарианский'] },
+    'm-wed-l': { title: 'Обед', when: 'Ср, 11 ноября · 12:00', place: 'Ресторан шанхайской кухни', addrZh: '上海市黄浦区（地址见预订）', cuisine: 'Сяолунбао — пельмени с бульоном, тушёная свинина по-шанхайски.', options: ['Классическое меню', 'Вегетарианское', 'Без свинины'] },
+    'm-thu-l': { title: 'Обед', when: 'Чт, 12 ноября · 12:30', place: 'Бизнес-ланч рядом с RT-Mart', addrZh: '上海市（地址见预订）', cuisine: 'Сет из трёх блюд: суп, горячее, фрукты.', options: ['Классическое меню', 'Вегетарианское'] },
+    'm-thu-d': { title: 'Ужин на набережной', when: 'Чт, 12 ноября · 20:00', place: 'Ресторан с видом на реку', addrZh: '上海市黄浦区外滩（地址见预订）', cuisine: 'Китайская и европейская кухня на выбор.', options: ['Китайское меню', 'Европейское меню', 'Вегетарианское'] },
+    'm-fri-l': { title: 'Обед', when: 'Пт, 13 ноября · 13:30', place: 'Ресторан ханчжоуской кухни', addrZh: '杭州市西湖区（地址见预订）', cuisine: 'Рыба из озера Сиху в кисло-сладком соусе, креветки с чаем Лунцзин.', options: ['Классическое меню', 'Без рыбы и морепродуктов', 'Вегетарианское'] },
+    'm-sat-l': { title: 'Обед', when: 'Сб, 14 ноября · 12:00', place: 'Ресторан кантонской кухни', addrZh: '深圳市福田区（地址见预订）', cuisine: 'Морепродукты, жареный рис, кантонские десерты.', options: ['Классическое меню', 'Без морепродуктов', 'Вегетарианское'] },
+  };
+  const CULTURE = {
+    'c-bund': { title: 'Прогулка по набережной Бунд', when: 'Чт, 12 ноября · 18:00–19:30', desc: 'Вечерняя прогулка с гидом вдоль исторических зданий набережной, вид на небоскрёбы Пудуна. Сбор у отеля.', bring: 'Удобная обувь и лёгкая куртка: вечером у реки ветрено.' },
+    'c-tea': { title: 'Чайная церемония Лунцзин', when: 'Пт, 13 ноября · 15:00–16:00', desc: 'Как собирают и заваривают зелёный чай Лунцзин, дегустация с мастером.', bring: 'Чай можно купить с собой — оплата WeChat Pay или Alipay.' },
+  };
+  const DIETS = ['Без ограничений', 'Вегетарианское', 'Без свинины', 'Халяль', 'Без острого', 'Аллергия на морепродукты'];
+
   // Тексты страницы компании (мини-программа WeChat)
   const H = {
     zh: {
@@ -377,6 +410,14 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     check: '<path d="M5 12l5 5L20 7"/>',
     down: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
     pin: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+    cloud: '<path d="M7 18h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6 9.5 4.5 4.5 0 0 0 7 18z"/>',
+    rain: '<path d="M7 14h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6 5.5 4.5 4.5 0 0 0 7 14z"/><path d="M8 17l-1 3M12 17l-1 3M16 17l-1 3"/>',
+    food: '<path d="M7 3v8M5 3v4a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 2-2 6 0 8v10"/>',
+    culture: '<path d="M3 21h18M5 21V11M19 21V11M9 21v-6h6v6M2 11h20L12 4z"/>',
+    bed: '<path d="M3 18V7M3 14h18v4M21 18v-6a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="11" r="2"/>',
+    pinned: '<path d="M9 4h6l-1 6 3 3H7l3-3z"/><path d="M12 13v8"/>',
+    video: '<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/>',
+    star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
   };
   const icon = (name, size = 22) => `<svg class="ico" width="${size}" height="${size}" style="width:${size}px;height:${size}px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -385,7 +426,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   const addHours = (t, h) => { const [hh, mm] = t.split(':').map(Number); return `${String(hh + h).padStart(2, '0')}:${String(mm).padStart(2, '0')}`; };
 
   // ——— Состояние ———
-  const KEY = 'gtt-proto-v1';
+  const KEY = 'gtt-proto-v2';
   function fresh() {
     return {
       role: 'delegate', viewAs: null,
@@ -408,6 +449,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       downloaded: { memo: true, program: true, companies: false, jd: false },
       checklist: { passport: true, tickets: true, interests: true, memo: false },
       intros: {}, hostSubscribed: false, hostNotice: null, dNotices: [],
+      diet: null, reviews: [], reviewMode: 'text', videoAttached: false, reviewConsent: true,
       form: {}, annText: TEMPLATES[0].ru, annTpl: 'late', annTo: { d: true, h: true, tg: true },
       log: [], toast: null, sheet: null, seq: 1,
     };
@@ -430,18 +472,21 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   // ——— Производные данные ———
   const busCount = () => 18 - S.missing.length;
   const me = byId.d1;
+  const ME_GEN = 'Анны Смирновой';
+  const ME_ACC = 'Анну Смирнову';
   function dayEvents(i) {
     const jdStart = S.jd.start;
     const hemaT = S.hema === 'accepted' ? '14:00' : '13:30';
     const E = [
-      [['14:00', 'Прилёт и трансфер', 'Аэропорт → отель', 'move'], ['17:00', 'Брифинг экспедиции', 'Конференц-зал отеля'], ['19:30', 'Приветственный ужин', 'Ресторан у отеля']],
-      [['09:30', 'Выезд из отеля', 'Лобби · автобус №2', 'move'], [jdStart, 'JD.com', 'Шоурум и встреча с менеджментом', 'co', jdStart !== '10:30'], ['13:00', 'Обед', 'Рядом с офисом JD.com'], ['15:30', 'Meituan', 'Встреча с командой', 'co', true], ['19:00', 'Ужин группы', 'Адрес по-китайски — в карточке']],
-      [['07:40', 'Перелёт в Шанхай', 'Сбор в лобби в 05:45', 'move'], [hemaT, 'Hema (Freshippo)', 'Магазин и склад', 'co', S.hema === 'accepted'], ['16:30', 'Pinduoduo', 'Встреча с командой', 'co']],
-      [['10:00', 'RT-Mart', 'Гипермаркет', 'co'], ['14:30', 'Ele.me', 'Мгновенная доставка', 'co'], ['18:00', 'Свободный вечер', 'Идеи — в Материалах']],
-      [['08:30', 'Переезд в Ханчжоу', 'Скоростной поезд', 'move'], ['11:00', 'Alibaba', 'Кампус и шоурум', 'co'], ['18:00', 'Переезд в Шэньчжэнь', 'Детали — у координатора', 'move']],
-      [['10:00', "Sam's Club", 'Магазин', 'co'], ['14:00', 'Yonghui', 'Супермаркет', 'co'], ['18:00', 'Итоги и вылет', 'Аэропорт Шэньчжэня', 'move']],
+      [['14:00', 'Прилёт и трансфер', 'Аэропорт → отель', 'move'], ['17:00', 'Брифинг экспедиции', 'Конференц-зал отеля'], ['19:30', 'Приветственный ужин', 'Пекинская утка', 'meal', 'm-mon-d']],
+      [['09:30', 'Выезд из отеля', 'Лобби · автобус №2', 'move'], [jdStart, 'JD.com', 'Шоурум и встреча с менеджментом', 'co', jdStart !== '10:30'], ['13:00', 'Обед', 'Кантонская кухня рядом с JD.com', 'meal', 'm-tue-l'], ['15:30', 'Meituan', 'Встреча с командой', 'co', true], ['19:00', 'Ужин группы', 'Хого — горячий котёл', 'meal', 'm-tue-d']],
+      [['07:40', 'Перелёт в Шанхай', 'Сбор в лобби в 05:45', 'move'], ['12:00', 'Обед', 'Шанхайская кухня', 'meal', 'm-wed-l'], [hemaT, 'Hema (Freshippo)', 'Магазин и склад', 'co', S.hema === 'accepted'], ['16:30', 'Pinduoduo', 'Встреча с командой', 'co']],
+      [['10:00', 'RT-Mart', 'Гипермаркет', 'co'], ['12:30', 'Обед', 'Бизнес-ланч рядом с RT-Mart', 'meal', 'm-thu-l'], ['14:30', 'Ele.me', 'Мгновенная доставка', 'co'], ['18:00', 'Прогулка по набережной Бунд', 'Культурная программа · 1,5 часа', 'culture', 'c-bund'], ['20:00', 'Ужин на набережной', 'Китайская и европейская кухня', 'meal', 'm-thu-d']],
+      [['08:30', 'Переезд в Ханчжоу', 'Скоростной поезд', 'move'], ['11:00', 'Alibaba', 'Кампус и шоурум', 'co'], ['13:30', 'Обед', 'Ханчжоуская кухня', 'meal', 'm-fri-l'], ['15:00', 'Чайная церемония Лунцзин', 'Культурная программа · 1 час', 'culture', 'c-tea'], ['18:00', 'Перелёт в Шэньчжэнь', 'Детали — у координатора', 'move']],
+      [['10:00', "Sam's Club", 'Магазин', 'co'], ['12:00', 'Обед', 'Кантонская кухня', 'meal', 'm-sat-l'], ['14:00', 'Yonghui', 'Супермаркет', 'co'], ['18:00', 'Итоги и вылет', 'Аэропорт Шэньчжэня', 'move']],
     ][i];
-    return E.map(([t, name, place, kind, moved]) => ({ t, name, place, kind: kind || '', moved: Boolean(moved) })).sort((a, b) => a.t.localeCompare(b.t));
+    return E.map(([t, name, place, kind, extra]) => ({ t, name, place, kind: kind || '', moved: kind === 'co' && extra === true, ref: typeof extra === 'string' ? extra : null }))
+      .sort((a, b) => a.t.localeCompare(b.t));
   }
   function companies() {
     const ok = (s) => ['ok', s];
@@ -467,6 +512,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     if (pq) a.push({ title: `${pq} ${plural(pq, 'вопрос ждёт', 'вопроса ждут', 'вопросов ждут')} перевода`, sub: 'После перевода компании видят их на китайском', btns: [['translateQ', 'Перевести и отправить', 'primary']] });
     S.replies.filter((r) => !r.forwarded).forEach((r) => a.push({ title: `JD.com ответила${r.toName ? ` · для ${r.toName}` : ' группе'}`, sub: `«${r.text}»`, btns: [['forwardReply', 'Переслать делегатам', 'primary', r.id]] }));
     S.followups.filter((f) => f.status === 'new').forEach((f) => a.push({ title: `${me.ru} хочет продолжить с ${f.company}`, sub: f.typeRu, btns: [['sendFollowup', 'Отправить компании', 'primary', f.id]] }));
+    S.reviews.filter((r) => r.status === 'new').forEach((r) => a.push({ title: `Отзыв о поездке от ${ME_GEN} · ${r.video ? 'видео 0:48' : 'текст'}`, sub: r.text ? `«${r.text}»` : 'Видеоотзыв с телефона', btns: [['thankReview', 'Поблагодарить', 'primary', r.id]].concat(r.consent ? [['shareReview', 'В соцсети GTT', 'ghost', r.id]] : []) }));
     if (!S.pddReminded) a.push({ title: 'Pinduoduo не открыла ссылку визита · 3 дня', btns: [['remindPdd', 'Напомнить', 'ghost']] });
     if (!S.igorReminded) a.push({ title: 'Игорь Белов · нет билета', btns: [['remindIgor', 'Напомнить', 'ghost']] });
     return a;
@@ -504,6 +550,22 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   function delegateHead(eyebrow, title) {
     return `<header class="head"><span class="eyebrow">${eyebrow}</span><h2>${title}</h2></header>`;
   }
+  const hotelOf = (i) => (HOTEL_BY_DAY[i] ? HOTELS[HOTEL_BY_DAY[i]] : null);
+  function eventRow(day, e) {
+    const chip = e.moved ? '<span class="chip warn">перенесено</span>'
+      : e.kind === 'co' ? '<span class="chip info">визит</span>'
+        : e.kind === 'meal' ? `<span class="chip ok">${/обед/i.test(e.name) ? 'обед' : 'ужин'}</span>`
+          : e.kind === 'culture' ? '<span class="chip dark">культура</span>'
+            : e.kind === 'move' ? '<span class="chip" style="background:var(--a-line2);color:var(--a-muted)">переезд</span>' : '';
+    return `<div class="li two tap" data-act="openEvent" data-arg="${day}|${e.t}|${esc(e.name)}"><div><div class="t"><span class="time ${e.moved ? 'moved' : ''}">${e.t}</span> ${esc(e.name)}</div><div class="s">${esc(e.place)}</div></div>${chip}</div>`;
+  }
+  function weatherHotel(i) {
+    const w = WEATHER[i];
+    const h = hotelOf(i);
+    return `<div class="li two"><div style="display:flex;gap:10px;align-items:center">${icon(w.icon, 26)}<div><div class="t">${w.max} / ${w.min} · ${CITY[i]}</div><div class="s">${esc(w.text)}</div></div></div></div>
+      ${h ? `<div class="li two tap" data-act="openHotel" data-arg="${i}"><div style="display:flex;gap:10px;align-items:center">${icon('bed', 26)}<div><div class="t">${esc(h.name)}</div><div class="s">${esc(h.nights)} · адрес по-китайски</div></div></div><span class="chip info">отель</span></div>`
+    : `<div class="li two"><div style="display:flex;gap:10px;align-items:center">${icon('bed', 26)}<div><div class="t">Выезд из отеля до 12:00</div><div class="s">Багаж у стойки отеля, вылет вечером</div></div></div></div>`}`;
+  }
   function dToday() {
     const inBus = !S.missing.includes('d1');
     const notices = S.dNotices.slice(0, 3);
@@ -513,38 +575,47 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       ? `<section class="card dark"><span class="muted">Автобус №2 в пути</span><div class="big">JD.COM · ${S.jd.start}</div><span class="muted">Прибытие около 10:25 · компания знает, что вы едете</span>${btn('taxi', `${icon('pin', 18)} Адрес по-китайски`, 'white')}</section>`
       : `<section class="card dark"><span class="muted">Через 25 минут</span><div class="big">ВЫЕЗД В 09:30</div><span class="muted">Лобби отеля · автобус №2 · затем JD.com в ${S.jd.start}</span>
         <div class="btns split">${inBus ? `<button type="button" class="btn done" data-act="busToggle">${icon('check', 18)} Вы в автобусе</button>` : btn('busToggle', `${icon('bus', 18)} Я в автобусе`)}${btn('taxi', 'Адрес для такси', 'white')}</div></section>`;
-    const plan = dayEvents(1).map((e) => `<div class="li two tap" data-act="openEvent" data-arg="1|${e.t}|${esc(e.name)}"><div><div class="t"><span class="time ${e.moved ? 'moved' : ''}">${e.t}</span> ${esc(e.name)}</div><div class="s">${esc(e.place)}</div></div>${e.moved ? '<span class="chip warn">перенесено</span>' : e.kind === 'co' ? '<span class="chip info">визит</span>' : ''}</div>`).join('');
-    return `${delegateHead('Вт, 10 ноября · Пекин · день 2 из 6', 'Сегодня')}<div class="body">
+    const plan = dayEvents(1).map((e) => eventRow(1, e)).join('');
+    return `${delegateHead(`Вт, 10 ноября · Пекин · ${WEATHER[1].max}`, 'Сегодня')}<div class="body">
       ${next}
+      <section class="card" style="flex-direction:row;align-items:center;gap:10px"><span class="avatar blue">ОД</span><div style="flex:1;min-width:0"><div class="t" style="font-weight:700">Связь с координатором</div><div class="muted">Остап Доценко · на связи круглосуточно</div></div>
+        <button type="button" class="icon-btn" data-act="fakeCall" data-arg="Остапу" aria-label="Позвонить координатору">${icon('phone', 18)}</button>${btn('contacts', 'Контакты', 'light small')}</section>
       ${notices.map((n) => `<section class="card ${n.tone || 'info'}"><span class="muted" style="color:inherit;opacity:.8">Уведомление · ${esc(n.time)}</span><strong>${esc(n.text)}</strong></section>`).join('')}
       ${ann ? `<section class="card warn"><div class="title-row"><h3>Объявление координатора</h3><span class="muted">${esc(ann.time)}</span></div><div>${esc(ann.ru)}</div></section>` : ''}
+      <section class="card"><h3>Погода и отель</h3><div class="list">${weatherHotel(1)}</div></section>
       <section class="card"><div class="title-row"><h3>План дня</h3><button type="button" class="btn light small" data-act="tab" data-arg="plan">Весь план</button></div><div class="list">${plan}</div></section>
     </div>`;
   }
   function dPlan() {
-    const days = DAYS.map((d, i) => `<button type="button" data-act="day" data-arg="${i}" aria-pressed="${S.day === i}"><span class="w">${d.wd}</span><span class="n">${d.n}</span><span class="c">${d.city}</span></button>`).join('');
+    const days = DAYS.map((d, i) => `<button type="button" data-act="day" data-arg="${i}" aria-pressed="${S.day === i}"><span class="w">${d.wd}</span><span class="n">${d.n}</span><span class="c">${WEATHER[i].max}</span></button>`).join('');
     const d = DAYS[S.day];
-    const ev = dayEvents(S.day).map((e) => `<div class="li two tap" data-act="openEvent" data-arg="${S.day}|${e.t}|${esc(e.name)}"><div><div class="t"><span class="time ${e.moved ? 'moved' : ''}">${e.t}</span> ${esc(e.name)}</div><div class="s">${esc(e.place)}</div></div>${e.moved ? '<span class="chip warn">перенесено</span>' : e.kind === 'co' ? '<span class="chip info">вопросы</span>' : e.kind === 'move' ? '<span class="chip dark">переезд</span>' : ''}</div>`).join('');
+    const ev = dayEvents(S.day).map((e) => eventRow(S.day, e)).join('');
+    const hasCulture = dayEvents(S.day).some((e) => e.kind === 'culture');
     return `${delegateHead('Пекин → Шанхай → Ханчжоу → Шэньчжэнь', 'План')}<div class="body"><div class="days">${days}</div>
-      <section class="card"><div class="title-row"><h3>${d.wd}, ${d.n} ноября · ${d.city}</h3>${S.day === 1 ? '<span class="chip warn" style="background:var(--a-orange);color:var(--a-ink)">сегодня</span>' : ''}</div><div class="list">${ev}</div></section>
-      <p class="muted">Нажмите на событие: адрес, ваши вопросы и заметки. Перенесённые встречи подсвечены.</p></div>`;
+      <section class="card"><div class="title-row"><h3>${d.wd}, ${d.n} ноября · ${CITY[S.day]}</h3>${S.day === 1 ? '<span class="chip warn" style="background:var(--a-orange);color:var(--a-ink)">сегодня</span>' : ''}</div>
+        <div class="list">${weatherHotel(S.day)}</div></section>
+      <section class="card"><div class="title-row"><h3>Расписание</h3>${hasCulture ? '<span class="chip dark">есть культурная программа</span>' : ''}</div><div class="list">${ev}</div></section>
+      <p class="muted">Нажмите на событие: ресторан и кухня, культурная программа, вопросы компании. Отели, рестораны и погода в прототипе — примеры.</p></div>`;
   }
   function dLibrary() {
+    const pinned = [['trip', 'Презентация поездки «Новый ритейл Китая»', 'От Global Tech Tour · PDF 18 МБ']];
+    if (S.materials.some((m) => m.status === 'published' && m.id === 'm1')) pinned.push(['jd', 'Презентация JD.com', 'От компании, проверена координатором · 12 МБ', true]);
+    S.materials.filter((m) => m.status === 'published' && m.id !== 'm1').forEach((m) => pinned.push([m.id, `JD.com: ${m.name}`, `От компании · ${m.size}`, true]));
     const items = [
       ['memo', 'Памятка по Китаю', 'Связь, WeChat, Alipay, этикет · PDF 2 МБ'],
       ['program', 'Программа поездки', '6 дней, 9 компаний · PDF 1 МБ'],
       ['companies', 'Справки о компаниях', '9 карточек с сайта globaltechtour.ru'],
     ];
-    if (S.materials.some((m) => m.status === 'published' && m.id === 'm1')) items.unshift(['jd', 'Презентация JD.com', 'От компании, проверена координатором · 12 МБ', true]);
-    S.materials.filter((m) => m.status === 'published' && m.id !== 'm1').forEach((m) => items.unshift([m.id, `JD.com: ${m.name}`, `От компании · ${m.size}`, true]));
-    const rows = items.map(([key, t, s, isNew]) => {
+    const row = ([key, t, sub, isNew]) => {
       const got = S.downloaded[key];
-      return `<div class="li"><span class="file-badge" style="background:var(--a-blue-soft);color:var(--a-blue-ink)">${icon('doc', 20)}</span><div><div class="t">${esc(t)} ${isNew ? '<span class="chip new">новое</span>' : ''}</div><div class="s">${esc(s)}</div></div>
+      return `<div class="li"><span class="file-badge" style="background:var(--a-blue-soft);color:var(--a-blue-ink)">${icon('doc', 20)}</span><div><div class="t">${esc(t)} ${isNew ? '<span class="chip new">новое</span>' : ''}</div><div class="s">${esc(sub)}</div></div>
         <button type="button" class="icon-btn" data-act="download" data-arg="${key}" aria-label="${got ? 'Скачано' : 'Скачать'}: ${esc(t)}" style="${got ? 'background:var(--a-ok-soft);color:var(--a-ok)' : ''}">${icon(got ? 'check' : 'down', 18)}</button></div>`;
-    }).join('');
+    };
     const notes = S.notes.map((n) => `<div class="li two"><div><div>${esc(n.text)}</div><div class="s">${esc(n.time)}</div></div></div>`).join('');
     return `${delegateHead('Скачанное открывается без интернета', 'Материалы')}<div class="body">
-      <section class="card"><div class="title-row"><h3>Материалы поездки</h3><span class="muted">${Object.values(S.downloaded).filter(Boolean).length} скачано</span></div><div class="list">${rows}</div></section>
+      <section class="card" style="border-color:var(--a-blue)"><div class="title-row"><h3 style="display:flex;gap:6px;align-items:center">${icon('pinned', 18)} Закреплено · презентации</h3><span class="muted">${pinned.length}</span></div><div class="list">${pinned.map(row).join('')}</div>
+        <span class="muted">Координатор закрепляет главное наверх: презентацию поездки и презентации компаний после проверки.</span></section>
+      <section class="card"><div class="title-row"><h3>Материалы поездки</h3><span class="muted">${Object.values(S.downloaded).filter(Boolean).length} скачано</span></div><div class="list">${items.map(row).join('')}</div></section>
       <section class="card"><div class="title-row"><h3>Мои заметки · ${S.notes.length}</h3>${btn('addNote', '+ Заметка', 'light small')}</div><div class="list">${notes}</div><span class="muted">Заметки видите только вы.</span></section>
     </div>`;
   }
@@ -556,13 +627,12 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     }).join('');
     const list = D.filter((d) => d.id !== 'd1').map((d) => `<div class="li"><span class="avatar">${initials(d.lat)}</span><div><div class="t">${d.ru}</div><div class="s">${d.roleRu} · ${d.coRu}, ${d.cityRu}</div></div><span></span></div>`).join('');
     return `${delegateHead('Группа · 18 делегатов и 2 организатора', 'Люди')}<div class="body">
+      <section class="card dark"><h3>Связь с координатором</h3><span class="muted">Остап Доценко · русский, китайский, английский · круглосуточно</span>
+        <div class="btns split">${btn('fakeCall', `${icon('phone', 18)} Позвонить`, 'white', 'Остапу')}${btn('fakeMsg', `${icon('msg', 18)} Написать`, 'white', 'координатору')}</div>${btn('contacts', 'Все контакты и экстренные номера', 'primary full')}</section>
       <section class="card"><h3>Вам стоит познакомиться</h3><div class="list">${intro}</div></section>
       <section class="card"><h3>Организаторы</h3><div class="list">
-        <div class="li"><span class="avatar blue">ОД</span><div><div class="t">Остап Доценко</div><div class="s">Координатор · русский, китайский, английский</div></div><div class="btns">
-          <button type="button" class="icon-btn" data-act="fakeCall" data-arg="Остапу" aria-label="Позвонить координатору">${icon('phone', 18)}</button>
-          <button type="button" class="icon-btn" data-act="fakeMsg" data-arg="координатору" aria-label="Написать координатору">${icon('msg', 18)}</button></div></div>
-        <div class="li"><span class="avatar blue">ЛМ</span><div><div class="t">Ли Мэй</div><div class="s">Переводчик · китайский, русский</div></div>
-          <button type="button" class="icon-btn" data-act="fakeCall" data-arg="переводчику" aria-label="Позвонить переводчику">${icon('phone', 18)}</button></div>
+        <div class="li"><span class="avatar blue">ОД</span><div><div class="t">Остап Доценко</div><div class="s">Координатор</div></div><button type="button" class="icon-btn" data-act="fakeCall" data-arg="Остапу" aria-label="Позвонить координатору">${icon('phone', 18)}</button></div>
+        <div class="li"><span class="avatar blue">ЛМ</span><div><div class="t">Ли Мэй</div><div class="s">Переводчик · китайский, русский</div></div><button type="button" class="icon-btn" data-act="fakeCall" data-arg="переводчику" aria-label="Позвонить переводчику">${icon('phone', 18)}</button></div>
       </div></section>
       <section class="card"><h3>Делегаты · 17</h3><div class="list">${list}</div></section></div>`;
   }
@@ -577,17 +647,33 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
         ['tickets', 'Билеты и страховка', 'Загружены'],
         ['interests', 'Отрасль и интересы', 'Ритейл, собственные марки, доставка'],
         ['memo', 'Прочитать памятку по Китаю', 'Связь, оплата, этикет'],
-      ].map(([k, t, s]) => `<div class="check tap" data-act="tick" data-arg="${k}"><span class="box ${S.checklist[k] ? 'on' : ''}">${S.checklist[k] ? icon('check', 14) : ''}</span><div><div class="t">${t}</div><div class="s">${s}</div></div><span></span></div>`).join('');
-      const done = Object.values(S.checklist).filter(Boolean).length + (myQ ? 1 : 0);
-      body = `<section class="card"><div class="title-row"><h3>Подготовка · ${done} из 5</h3></div><div class="bar"><span style="width:${done * 20}%"></span></div>
-        <div class="list">${items}<div class="check tap" data-act="askQ"><span class="box ${myQ ? 'on' : ''}">${myQ ? icon('check', 14) : ''}</span><div><div class="t">Вопросы компаниям</div><div class="s">${myQ ? `Задано: ${myQ}. Координатор переведёт на китайский` : 'Компании получат их заранее, на китайском'}</div></div>${btn('askQ', myQ ? 'Ещё' : 'Задать', 'light small')}</div></div></section>`;
+      ].map(([k, t, sub]) => `<div class="check tap" data-act="tick" data-arg="${k}"><span class="box ${S.checklist[k] ? 'on' : ''}">${S.checklist[k] ? icon('check', 14) : ''}</span><div><div class="t">${t}</div><div class="s">${sub}</div></div><span></span></div>`).join('');
+      const done = Object.values(S.checklist).filter(Boolean).length + (myQ ? 1 : 0) + (S.diet ? 1 : 0);
+      body = `<section class="card"><div class="title-row"><h3>Подготовка · ${done} из 6</h3></div><div class="bar"><span style="width:${Math.round(done / 6 * 100)}%"></span></div>
+        <div class="list">${items}
+          <div class="check tap" data-act="diet"><span class="box ${S.diet ? 'on' : ''}">${S.diet ? icon('check', 14) : ''}</span><div><div class="t">Предпочтения в еде</div><div class="s">${S.diet ? `${esc(S.diet)} · рестораны предупреждены` : 'Учтём в забронированных ресторанах'}</div></div>${btn('diet', S.diet ? 'Изменить' : 'Указать', 'light small')}</div>
+          <div class="check tap" data-act="askQ"><span class="box ${myQ ? 'on' : ''}">${myQ ? icon('check', 14) : ''}</span><div><div class="t">Вопросы компаниям</div><div class="s">${myQ ? `Задано: ${myQ}. Координатор переведёт на китайский` : 'Компании получат их заранее, на китайском'}</div></div>${btn('askQ', myQ ? 'Ещё' : 'Задать', 'light small')}</div></div></section>`;
     } else if (stage === 'during') {
       body = `<section class="card"><h3>День 2 из 6</h3><div class="bar"><span style="width:33%"></span></div><span class="muted">Пройдено визитов: 0 из 9 · сегодня JD.com и Meituan</span></section>
+        <section class="card"><h3>Культурная программа</h3><div class="list">${Object.entries(CULTURE).map(([k, c]) => `<div class="li two tap" data-act="openCulture" data-arg="${k}"><div><div class="t">${esc(c.title)}</div><div class="s">${esc(c.when)}</div></div><span class="chip dark">культура</span></div>`).join('')}</div></section>
         <section class="card"><h3>Мои вопросы к компаниям</h3>${S.questions.length ? S.questions.map((q) => `<div class="li two"><div><div>${esc(q.ru)}</div><div class="s">${q.company} · ${q.status === 'sent' ? 'переведено и отправлено' : 'ждёт перевода координатором'}</div></div></div>`).join('') : '<span class="muted">Пока нет. Задайте их на вкладке «До».</span>'}</section>`;
     } else {
       const r = S.myRating;
       const stars = [1, 2, 3, 4, 5].map((n) => `<button type="button" class="${n <= r ? 'on' : ''}" data-act="rate" data-arg="${n}" aria-label="${n} из 5">★</button>`).join('');
-      body = `<section class="card"><h3>Оцените визит в JD.com</h3><div class="stars">${stars}</div><span class="muted">${r ? 'Спасибо! Компания увидит общую оценку группы, без имён.' : 'Компания видит только общую оценку группы.'}</span></section>
+      const sent = S.reviews.length > 0;
+      const mode = S.reviewMode;
+      const review = sent
+        ? `<div class="card info" style="padding:10px 12px">Спасибо! Отзыв${S.reviews[0].video ? ' (видео)' : ''} у координатора.</div>`
+        : `<div class="seg light">${[['text', 'Текстом'], ['video', 'Видео']].map(([k, l]) => `<button type="button" data-act="reviewMode" data-arg="${k}" aria-pressed="${mode === k}">${l}</button>`).join('')}</div>
+          ${mode === 'text'
+    ? `<label class="field" for="reviewText">Ваш отзыв<textarea id="reviewText" rows="4" data-field="reviewText" placeholder="Что было самым полезным? Что улучшить?">${esc(S.form.reviewText || '')}</textarea></label>`
+    : (S.videoAttached
+      ? `<div class="card" style="background:var(--a-bg);flex-direction:row;align-items:center;gap:10px">${icon('video', 26)}<div style="flex:1"><div class="t" style="font-weight:600">Видео 0:48 записано</div><div class="muted">Можно переснять</div></div>${btn('recordVideo', 'Переснять', 'ghost small')}</div>`
+      : `${btn('recordVideo', `${icon('video', 18)} Записать видео до 2 минут`, 'dashed full')}<span class="muted">Или загрузите готовое видео из галереи.</span>`)}
+          <div class="toggle-row"><label><input id="reviewConsent" type="checkbox" data-check="reviewConsent" ${S.reviewConsent ? 'checked' : ''}> Разрешаю Global Tech Tour опубликовать отзыв на сайте и в соцсетях</label></div>
+          ${btn('sendReview', 'Отправить отзыв', 'primary full')}`;
+      body = `<section class="card"><h3>Отзыв о поездке</h3>${review}</section>
+        <section class="card"><h3>Оцените визит в JD.com</h3><div class="stars">${stars}</div><span class="muted">${r ? 'Спасибо! Компания увидит общую оценку группы, без имён.' : 'Компания видит только общую оценку группы.'}</span></section>
         <section class="card"><h3>Хочу продолжить</h3><span class="muted">Образцы, переговоры, повторная встреча — координатор передаст компании.</span>${btn('followup', 'Оставить запрос', 'primary full')}
           ${S.followups.map((f) => `<div class="li two"><div><div class="t">${f.company} · ${esc(f.typeRu)}</div><div class="s">${f.status === 'new' ? 'у координатора' : 'передано компании'}</div></div></div>`).join('')}</section>
         <section class="card"><h3>Фото, видео и отчёт</h3><span class="muted">Откроются 14 ноября, после возвращения группы.</span></section>`;
@@ -630,7 +716,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     const rows = D.map((d) => {
       const inBus = !S.missing.includes(d.id);
       const doc = S.docsMissing.includes(d.id);
-      return `<div class="li"><span class="avatar">${initials(d.lat)}</span><div><div class="t">${d.ru}</div><div class="s">${d.roleRu} · ${d.coRu}</div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">${inBus ? '<span class="chip ok">в автобусе</span>' : '<span class="chip warn">нет в автобусе</span>'}${doc ? `<span class="chip warn">${d.id === 'd4' ? 'нет билета' : 'нет паспорта'}</span>` : ''}</div></div>`;
+      return `<div class="li"><span class="avatar">${initials(d.lat)}</span><div><div class="t">${d.ru}</div><div class="s">${d.roleRu} · ${d.coRu}</div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">${inBus ? '<span class="chip ok">в автобусе</span>' : '<span class="chip warn">нет в автобусе</span>'}${doc ? `<span class="chip warn">${d.id === 'd4' ? 'нет билета' : 'нет паспорта'}</span>` : ''}${d.id === 'd1' && S.diet ? `<span class="chip info">${esc(S.diet)}</span>` : ''}</div></div>`;
     }).join('');
     return `${coordHead('Группа · 18')}<div class="body"><section class="card"><div class="list">${rows}</div></section></div>`;
   }
@@ -762,6 +848,36 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       const email = `${d.lat.toLowerCase().replace(' ', '.')}@example.com`;
       inner = `<h3>${d.lat} · ${L.contact}</h3><div class="card" style="background:var(--a-bg)"><strong style="user-select:all">${email}</strong><span class="muted">${S.lang === 'en' ? 'Shared with the delegate’s consent. Sample address.' : '经代表本人同意提供（示例地址）'}</span></div>${btn('copyText', L.copied === 'Copied' ? 'Copy' : '复制', 'primary full', email)}${btn('closeSheet', L.cancel, 'ghost full')}`;
     }
+    if (sh.type === 'meal') {
+      const m = MEALS[sh.ref];
+      inner = `<h3>${esc(m.title)} · забронировано</h3><span class="muted">${esc(m.when)}</span>
+        <div class="card" style="background:var(--a-bg)"><div class="t" style="font-weight:700">${esc(m.place)}</div><div style="font-family:var(--font-ui),var(--font-cjk)">${esc(m.addrZh)}</div><div class="muted">Адрес по-китайски — показать водителю</div></div>
+        <div><div class="t" style="font-weight:700">Кухня</div><div>${esc(m.cuisine)}</div></div>
+        <div><div class="t" style="font-weight:700;margin-bottom:6px">Варианты меню</div><div class="chips">${m.options.map((o) => `<span class="pick" style="cursor:default">${esc(o)}</span>`).join('')}</div></div>
+        <div class="card ${S.diet ? 'info' : 'warn'}" style="padding:10px 12px">${S.diet ? `Ваше меню: ${esc(S.diet)} — ресторан предупреждён.` : 'Укажите предпочтения в еде — ресторан учтёт их.'}</div>
+        ${S.diet ? '' : btn('diet', 'Указать предпочтения', 'light full')}${btn('closeSheet', 'Закрыть', 'ghost full')}`;
+    } else if (sh.type === 'culture') {
+      const c = CULTURE[sh.ref];
+      inner = `<h3>${esc(c.title)}</h3><span class="chip dark" style="align-self:flex-start">культурная программа</span><span class="muted">${esc(c.when)}</span><div>${esc(c.desc)}</div>
+        <div class="card" style="background:var(--a-bg)"><div class="t" style="font-weight:700">Что взять</div><div>${esc(c.bring)}</div></div>${btn('closeSheet', 'Закрыть', 'ghost full')}`;
+    } else if (sh.type === 'hotel') {
+      const h = hotelOf(sh.day);
+      inner = `<h3>${esc(h.name)}</h3><span class="muted">${esc(h.city)} · ${esc(h.nights)}</span>
+        <div class="card" style="background:var(--a-bg)"><span class="muted">Адрес для такси</span><div style="font-size:22px;font-weight:700;font-family:var(--font-ui),var(--font-cjk)">${esc(h.addrZh)}</div><span class="muted">Точный адрес — из брони · [уточнить]</span></div>
+        <div>${esc(h.desc)}</div><div class="kv"><span class="k">Телефон</span><span style="user-select:all">${esc(h.phone)} (пример)</span></div>
+        <div class="btns split">${btn('fakeCall', 'Позвонить в отель', 'light', 'в отель')}${btn('closeSheet', 'Закрыть', 'ghost')}</div>`;
+    } else if (sh.type === 'contacts') {
+      const h = hotelOf(1);
+      const person = (name, role, phones, im) => `<div class="li two"><div><div class="t">${name}</div><div class="s">${role}</div>${phones.map((ph) => `<div style="user-select:all;font-variant-numeric:tabular-nums">${ph}</div>`).join('')}<div class="s">${im}</div></div><button type="button" class="icon-btn" data-act="fakeCall" data-arg="${name}" aria-label="Позвонить: ${name}">${icon('phone', 18)}</button></div>`;
+      inner = `<h3>Контакты поездки</h3><span class="muted">Номера в прототипе — примеры; в приложении их задаёт координатор.</span>
+        <div class="list">${person('Остап Доценко', 'Координатор · круглосуточно', ['+86 138 0000 0000', '+7 900 000-00-00'], 'WeChat · Telegram · WhatsApp')}${person('Ли Мэй', 'Переводчик', ['+86 139 0000 0000'], 'WeChat')}${person(esc(h.name), 'Отель сегодня', [esc(h.phone)], 'Стойка регистрации')}</div>
+        <div class="card warn"><div class="t" style="font-weight:700">Экстренные службы Китая</div><div class="kv" style="grid-template-columns:52px minmax(0,1fr)"><strong>110</strong><span>Полиция</span><strong>120</strong><span>Скорая помощь</span><strong>119</strong><span>Пожарная служба</span></div><span class="muted">Посольство России в Китае — [телефон уточнить]</span></div>
+        ${btn('closeSheet', 'Закрыть', 'ghost full')}`;
+    } else if (sh.type === 'diet') {
+      inner = `<h3>Предпочтения в еде</h3><span class="muted">Координатор передаст их во все забронированные рестораны.</span>
+        <div class="chips">${DIETS.map((d) => `<button type="button" class="pick" data-act="sheetSet" data-arg="pick|${d}" aria-pressed="${sh.pick === d}">${esc(d)}</button>`).join('')}</div>
+        <div class="btns split">${btn('closeSheet', 'Отмена', 'ghost')}${btn('saveDiet', 'Сохранить')}</div>`;
+    }
     return `<div class="shade" data-act="closeSheet"></div><div class="sheet" role="dialog" aria-modal="true"><span class="grip"></span>${inner}</div>`;
   }
   function qrSvg() {
@@ -808,7 +924,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
 
   const ROLE_INFO = {
-    delegate: { name: `Делегат · ${me.ru}`, text: 'Участник экспедиции. Видит свою поездку: что сегодня, план по дням, материалы, людей группы и подготовку. Телефоны других — только через знакомство.', tips: ['Нажмите «Я в автобусе» — у координатора счётчик станет 15/18.', 'Во вкладке «Поездка» задайте вопрос JD.com — его переведут для компании.', 'В «Плане» листайте дни и откройте событие.', 'В «Поездке» → «После» оцените визит и оставьте запрос «Хочу продолжить».'] },
+    delegate: { name: `Делегат · ${me.ru}`, text: 'Участник экспедиции. Видит свою поездку: что сегодня, план по дням с погодой, отелями, ресторанами и культурной программой, материалы, людей группы и подготовку. Отели, рестораны, погода и телефоны в прототипе — примеры.', tips: ['Нажмите «Я в автобусе» — у координатора счётчик станет 15/18.', 'Кнопка «Контакты» на «Сегодня» — телефоны координатора, переводчика, отеля и экстренные номера.', 'В «Плане» у дня — погода и отель; нажмите на обед, ужин или культурную программу.', 'В «Материалах» закреплены презентации; в «Поездке» → «До» укажите предпочтения в еде.', 'В «Поездке» → «После» оставьте отзыв текстом или видео.'] },
     coordinator: { name: 'Координатор · Остап Доценко', text: 'Видит и меняет всё. Ведёт группу и визиты, отвечает на запросы компаний и делегатов, может открыть любой экран глазами делегата или JD.com.', tips: ['На «Пульте» примите перенос Hema — у делегата обновится план.', 'Нажмите «Автобус выехал» — JD.com узнает в WeChat, если включила напоминания.', 'Откройте презентацию JD.com делегатам или переведите вопросы.', 'Переключите «Как делегат» / «Как JD.com» в шапке.'] },
     host: { name: 'Компания · JD.com в WeChat', text: 'Менеджер компании, куда едет группа. Открывает мини-программу по QR-коду в WeChat, без установки. Видит только свой визит; телефонов делегатов не видит.', tips: ['Нажмите «接收提醒» (напоминания), потом у координатора «Автобус выехал».', 'Предложите другое время — запрос уйдёт координатору.', 'Загрузите файл во вкладке «问题与资料» — он попадёт на проверку.', 'Переключите 中文 / EN и ответьте делегатам во вкладке «访问后».'] },
   };
@@ -823,7 +939,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
 
   // ——— Действия ———
-  const NAV = new Set(['tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet']);
+  const NAV = new Set(['tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet', 'openHotel', 'openCulture', 'contacts', 'reviewMode']);
   const now = () => '09:05';
   const A = {
     tab: (k) => { const who = S.role === 'coordinator' && S.viewAs ? S.viewAs : S.role; S.tab[who] = k; if (who === 'host' && k === 'after') setTimeout(() => { S.requests.forEach((r) => { r.isNew = false; }); save(); }, 0); },
@@ -831,7 +947,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     stage: (k) => { S.tripStage = k; },
     viewAs: (v) => { S.viewAs = v || null; S.sheet = null; if (v) log('coordinator', `Включил «Смотреть как ${v === 'delegate' ? 'делегат' : 'JD.com'}» — экран ровно такой, как у них.`); },
     closeSheet: () => { S.sheet = null; },
-    sheetSet: (arg) => { const [k, v] = arg.split('|'); S.sheet[k] = k === 'pick' ? Number(v) : v; },
+    sheetSet: (arg) => { const [k, v] = arg.split('|'); S.sheet[k] = k === 'pick' && S.sheet.type === 'question' ? Number(v) : v; },
     lang: (l) => { S.lang = l; },
     hostFilter: (k) => { S.hostFilter = k; },
 
@@ -841,7 +957,35 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       else { S.missing.unshift('d1'); log('delegate', `${me.ru} отменила отметку → ${busCount()}/18.`); }
     },
     taxi: () => { S.sheet = { type: 'taxi' }; },
-    openEvent: (arg) => { const [day, t, name] = arg.split('|'); S.sheet = { type: 'event', day: Number(day), t, name }; },
+    openEvent: (arg) => {
+      const [day, t, name] = arg.split('|');
+      const e = dayEvents(Number(day)).find((x) => x.t === t && x.name === name);
+      if (e && e.kind === 'meal') S.sheet = { type: 'meal', ref: e.ref };
+      else if (e && e.kind === 'culture') S.sheet = { type: 'culture', ref: e.ref };
+      else S.sheet = { type: 'event', day: Number(day), t, name };
+    },
+    openHotel: (day) => { S.sheet = { type: 'hotel', day: Number(day) }; },
+    openCulture: (ref) => { S.sheet = { type: 'culture', ref }; },
+    contacts: () => { S.sheet = { type: 'contacts' }; },
+    diet: () => { S.sheet = { type: 'diet', pick: S.diet }; },
+    saveDiet: () => {
+      if (!S.sheet.pick) return toast('Выберите вариант');
+      S.diet = S.sheet.pick;
+      S.sheet = null;
+      log('delegate', `${me.ru} указала питание «${S.diet}» → у координатора в группе, рестораны предупреждены.`);
+      toast('Сохранено: рестораны учтут');
+    },
+    reviewMode: (k) => { S.reviewMode = k; },
+    recordVideo: () => { S.videoAttached = true; toast('В прототипе запись имитируется: видео 0:48'); },
+    sendReview: () => {
+      const text = (S.form.reviewText || '').trim();
+      const video = S.reviewMode === 'video' && S.videoAttached;
+      if (S.reviewMode === 'text' && !text) return toast('Напишите пару слов о поездке');
+      if (S.reviewMode === 'video' && !S.videoAttached) return toast('Сначала запишите видео');
+      S.reviews.unshift({ id: nid(), text: S.reviewMode === 'text' ? text : '', video, consent: S.reviewConsent, status: 'new' });
+      log('delegate', `${me.ru} оставила отзыв ${video ? 'видео' : 'текстом'}${S.reviewConsent ? ' с разрешением на публикацию' : ''} → у координатора на пульте.`);
+      toast('Отзыв отправлен координатору');
+    },
     download: (k) => { S.downloaded[k] = !S.downloaded[k]; if (S.downloaded[k]) toast('Скачано — откроется без интернета'); },
     addNote: () => { S.form.noteText = ''; S.sheet = { type: 'note' }; },
     submitNote: () => { const t = (S.form.noteText || '').trim(); if (!t) return toast('Напишите текст заметки'); S.notes.unshift({ text: t, time: 'сейчас' }); S.sheet = null; toast('Заметка сохранена · видите только вы'); },
@@ -873,6 +1017,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     },
 
     // координатор
+    thankReview: (id) => { const r = S.reviews.find((x) => x.id === id); r.status = 'done'; log('coordinator', `Поблагодарил ${ME_ACC} за отзыв.`); toast('Спасибо отправлено'); },
+    shareReview: (id) => { const r = S.reviews.find((x) => x.id === id); r.status = 'done'; log('coordinator', `Отзыв ${ME_GEN} отправлен в очередь публикаций GTT (есть согласие).`); toast('Отзыв ушёл в очередь публикаций'); },
     markBus: (id) => { S.missing = S.missing.filter((x) => x !== id); log('coordinator', `Отметил ${byId[id].ru} в автобусе → ${busCount()}/18.`); },
     depart: () => {
       S.departed = true;
@@ -921,8 +1067,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       f.status = 'sent';
       if (f.company === 'JD.com') {
         S.requests.push({ id: nid(), d: 'd1', zh: f.zh, en: f.en, consent: f.consent, isNew: true });
-        log('coordinator', `Передал запрос ${me.ru} в JD.com → у компании во вкладке «访问后»${f.consent ? ' с контактами (есть согласие)' : ' без контактов'}.`);
-      } else log('coordinator', `Передал запрос ${me.ru} в ${f.company}.`);
+        log('coordinator', `Передал запрос ${ME_GEN} в JD.com → у компании во вкладке «访问后»${f.consent ? ' с контактами (есть согласие)' : ' без контактов'}.`);
+      } else log('coordinator', `Передал запрос ${ME_GEN} в ${f.company}.`);
       toast('Запрос передан компании');
     },
     remindPdd: () => { S.pddReminded = true; log('coordinator', 'Напомнил Pinduoduo открыть ссылку визита (WeChat и почта).'); toast('Напоминание отправлено'); },
@@ -1004,6 +1150,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     const c = e.target.dataset.check;
     if (!c) return;
     if (c === 'consent') { S.sheet.consent = e.target.checked; return; }
+    if (c === 'reviewConsent') { S.reviewConsent = e.target.checked; save(); return; }
     S.annTo[c] = e.target.checked;
     save();
   });
