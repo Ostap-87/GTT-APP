@@ -1,0 +1,1014 @@
+<title>Прототип приложения GTT</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Sofia+Sans+Extra+Condensed:wght@800&display=swap">
+<style>
+/* Раскладка: слева пульт демо (роли, что попробовать, журнал связей), справа телефон с приложением;
+   на узком экране — переключатель ролей, телефон, затем журнал. Экран приложения всегда светлый, как в макетах. */
+:root {
+  --page-bg: #eef1f6;
+  --page-fg: #0f1b2d;
+  --page-muted: #5b6576;
+  --panel: #ffffff;
+  --panel-line: #dfe4ec;
+  --accent: #1a73e8;
+  --accent-ink: #1558b8;
+  --accent-soft: #e8f0fe;
+  --on-accent: #ffffff;
+  --device: #0f1b2d;
+  --font-display: 'Sofia Sans Extra Condensed', 'Arial Narrow', 'Roboto Condensed', sans-serif;
+  --font-ui: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-cjk: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+
+  --a-bg: #f4f6fa;
+  --a-card: #ffffff;
+  --a-ink: #0f1b2d;
+  --a-muted: #5b6576;
+  --a-line: #e3e7ef;
+  --a-line2: #eef1f6;
+  --a-blue: #1a73e8;
+  --a-blue-ink: #1558b8;
+  --a-blue-soft: #e8f0fe;
+  --a-ok: #1e6b45;
+  --a-ok-soft: #e3f3ea;
+  --a-warn: #a2470a;
+  --a-warn-soft: #fff1e6;
+  --a-warn-line: #ffd2b0;
+  --a-orange: #ffb27a;
+  --a-green: #1e8e5a;
+  --a-dark: #0f1b2d;
+  --a-dark-2: #233350;
+  --a-on-dark: #c9d4e8;
+  --a-red: #c5321b;
+  --a-red-soft: #fdecea;
+  --a-shade: rgba(15, 27, 45, 0.45);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page-bg: #0b1220; --page-fg: #e6ebf4; --page-muted: #97a3b6; --panel: #121b2e; --panel-line: #24304a;
+    --accent: #6aa3ff; --accent-ink: #9cc2ff; --accent-soft: #1b2a47; --on-accent: #0b1220; --device: #02060f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --page-bg: #0b1220; --page-fg: #e6ebf4; --page-muted: #97a3b6; --panel: #121b2e; --panel-line: #24304a;
+  --accent: #6aa3ff; --accent-ink: #9cc2ff; --accent-soft: #1b2a47; --on-accent: #0b1220; --device: #02060f; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--page-bg); color: var(--page-fg); font-family: var(--font-ui); font-size: 14px; line-height: 1.45; }
+button { font-family: inherit; cursor: pointer; }
+button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.page { max-width: 1120px; margin: 0 auto; padding-block: 24px 40px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; justify-content: space-between; margin-bottom: 20px; }
+.brand { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.brand .eyebrow { font-family: var(--font-display); font-weight: 800; letter-spacing: 1.2px; font-size: 17px; color: var(--accent-ink); }
+.brand h1 { margin: 0; font-size: 22px; font-weight: 700; text-wrap: balance; }
+.roles { display: flex; gap: 4px; padding: 4px; border-radius: 14px; background: var(--panel); border: 1px solid var(--panel-line); flex-wrap: wrap; }
+.roles button { border: 0; background: transparent; color: var(--page-fg); padding: 8px 14px; border-radius: 10px; font-weight: 600; font-size: 14px; }
+.roles button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: start; }
+.side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.card-side { background: var(--panel); border: 1px solid var(--panel-line); border-radius: 18px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.card-side h2 { margin: 0; font-size: 15px; font-weight: 700; }
+.who { display: flex; flex-direction: column; gap: 4px; }
+.who .name { font-size: 18px; font-weight: 700; }
+.who p { margin: 0; color: var(--page-muted); max-width: 60ch; }
+.tips { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto; }
+.log li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; font-size: 13px; }
+.tag { font-size: 11px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.tag.delegate { background: var(--accent-soft); color: var(--accent-ink); }
+.tag.coordinator { background: var(--page-fg); color: var(--page-bg); }
+.tag.host { background: #e3f3ea; color: #1e6b45; }
+.log .empty { color: var(--page-muted); display: block; }
+.reset { align-self: flex-start; border: 1px solid var(--panel-line); background: transparent; color: var(--page-muted); border-radius: 10px; padding: 6px 12px; font-size: 13px; }
+.note-small { color: var(--page-muted); font-size: 12.5px; margin: 0; }
+
+/* ——— Телефон ——— */
+.device { width: 390px; max-width: 100%; height: 820px; border: 10px solid var(--device); border-radius: 46px; overflow: hidden; position: relative; background: var(--a-bg); color: var(--a-ink); box-shadow: 0 30px 60px -30px rgba(15, 27, 45, .45); }
+.screen { position: absolute; inset: 0; display: flex; flex-direction: column; font-family: var(--font-ui); font-size: 14px; }
+.screen.cjk { font-family: var(--font-ui), var(--font-cjk); }
+.statusbar { flex: none; height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 26px; font-size: 13px; font-weight: 600; background: var(--a-card); color: var(--a-ink); }
+.statusbar.dark { background: var(--a-dark); color: #ffffff; }
+.statusbar .icons { display: flex; gap: 5px; align-items: center; }
+.statusbar .bat { width: 22px; height: 11px; border: 1.5px solid currentColor; border-radius: 3px; position: relative; }
+.statusbar .bat::after { content: ""; position: absolute; inset: 1.5px 5px 1.5px 1.5px; background: currentColor; border-radius: 1px; }
+.wxbar { flex: none; height: 44px; background: var(--a-card); display: flex; align-items: center; justify-content: center; position: relative; font-weight: 600; font-size: 16px; color: var(--a-ink); }
+.capsule { position: absolute; right: 8px; top: 6px; width: 86px; height: 32px; border: 1px solid var(--a-line); border-radius: 16px; display: flex; align-items: center; justify-content: space-around; font-size: 15px; color: var(--a-ink); background: var(--a-card); }
+.viewas { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 14px; background: var(--a-orange); color: var(--a-ink); font-size: 12.5px; font-weight: 600; }
+.viewas button { border: 0; background: var(--a-ink); color: #ffffff; border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 700; }
+.scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.tabbar { flex: none; display: grid; background: var(--a-card); border-top: 1px solid var(--a-line); padding: 6px 2px 18px; }
+.tabbar button { border: 0; background: transparent; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; font-weight: 500; color: var(--a-muted); padding: 4px 0; position: relative; }
+.tabbar button[aria-current="page"] { color: var(--a-blue); font-weight: 700; }
+.tabbar .badge { position: absolute; top: 0; left: calc(50% + 6px); min-width: 17px; height: 17px; padding: 0 5px; border-radius: 9px; background: var(--a-red); color: #ffffff; font-size: 10.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.ico { width: 22px; height: 22px; flex: none; }
+
+.head { background: var(--a-card); padding: 14px 18px 14px; border-bottom: 1px solid var(--a-line); display: flex; flex-direction: column; gap: 6px; }
+.head.dark { background: var(--a-dark); color: #ffffff; border-bottom: 0; }
+.head .eyebrow { font-size: 12px; font-weight: 600; color: var(--a-muted); }
+.head.dark .eyebrow { color: var(--a-orange); text-transform: uppercase; letter-spacing: .6px; font-weight: 700; }
+.head h2 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 34px; line-height: .95; text-transform: uppercase; letter-spacing: .3px; }
+.head h2.plain { font-family: inherit; text-transform: none; font-size: 22px; font-weight: 700; line-height: 1.25; letter-spacing: 0; }
+.head .row-between { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.wxbrand { font-family: var(--font-display); font-weight: 800; letter-spacing: 1px; font-size: 15px; color: var(--a-blue-ink); }
+.sub { font-size: 13px; color: var(--a-muted); }
+.lang { display: flex; padding: 2px; border-radius: 8px; background: var(--a-line2); }
+.lang button { border: 0; background: transparent; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; color: var(--a-muted); }
+.lang button[aria-pressed="true"] { background: var(--a-card); color: var(--a-ink); font-weight: 700; }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); padding: 3px; border-radius: 10px; background: var(--a-dark-2); }
+.seg button { border: 0; background: transparent; color: #ffffff; border-radius: 8px; height: 30px; font-size: 12.5px; font-weight: 600; }
+.seg button[aria-pressed="true"] { background: #ffffff; color: var(--a-ink); font-weight: 700; }
+.seg.light { background: var(--a-line2); }
+.seg.light button { color: var(--a-ink); }
+
+.body { padding: 12px 14px 20px; display: flex; flex-direction: column; gap: 10px; }
+.card { background: var(--a-card); border: 1px solid var(--a-line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.card.dark { background: var(--a-dark); border-color: var(--a-dark); color: #ffffff; }
+.card.warn { background: #fff8f2; border-color: var(--a-warn-line); }
+.card.info { background: var(--a-blue-soft); border-color: var(--a-blue-soft); color: var(--a-blue-ink); }
+.card h3 { margin: 0; font-size: 15px; font-weight: 700; }
+.card .title-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.muted { color: var(--a-muted); font-size: 12.5px; }
+.card.dark .muted { color: var(--a-on-dark); }
+.big { font-family: var(--font-display); font-weight: 800; font-size: 40px; line-height: 1; letter-spacing: .3px; }
+.chip { font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.chip.ok { color: var(--a-ok); background: var(--a-ok-soft); }
+.chip.warn { color: var(--a-warn); background: var(--a-warn-soft); }
+.chip.info { color: var(--a-blue-ink); background: var(--a-blue-soft); }
+.chip.dark { color: #ffffff; background: var(--a-dark); }
+.chip.new { color: #ffffff; background: var(--a-red); }
+.btn { border: 0; border-radius: 12px; height: 42px; padding: 0 14px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.btn.full { width: 100%; }
+.btn.primary { background: var(--a-blue); color: #ffffff; }
+.btn.ghost { background: var(--a-card); color: var(--a-ink); border: 1px solid #d5dbe6; }
+.btn.light { background: var(--a-blue-soft); color: var(--a-blue-ink); }
+.btn.green { background: var(--a-green); color: #ffffff; }
+.btn.white { background: #ffffff; color: var(--a-ink); }
+.btn.dashed { background: var(--a-card); color: var(--a-blue-ink); border: 1.5px dashed var(--a-blue); }
+.btn.small { height: 34px; padding: 0 11px; font-size: 12.5px; border-radius: 10px; }
+.btn.done { background: var(--a-ok-soft); color: var(--a-ok); }
+.btn[disabled] { opacity: .5; cursor: default; }
+.btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.btns.split > * { flex: 1 1 0; }
+.icon-btn { width: 38px; height: 38px; border-radius: 19px; border: 0; background: var(--a-blue-soft); color: var(--a-blue-ink); display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.list { display: flex; flex-direction: column; }
+.li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--a-line2); }
+.li:first-child { border-top: 0; padding-top: 2px; }
+.li.two { grid-template-columns: minmax(0, 1fr) auto; }
+.li .t { font-weight: 600; font-size: 14px; }
+.li .s { color: var(--a-muted); font-size: 12.5px; }
+.tap { cursor: pointer; }
+.avatar { width: 38px; height: 38px; border-radius: 19px; background: #dbe7fd; color: var(--a-blue-ink); font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; flex: none; }
+.avatar.blue { background: var(--a-blue); color: #ffffff; }
+.time { font-weight: 700; font-variant-numeric: tabular-nums; width: 46px; }
+.time.moved { color: var(--a-warn); }
+.kv { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 6px 10px; font-size: 13.5px; }
+.kv .k { color: var(--a-muted); }
+.days { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.days button { border: 1px solid var(--a-line); background: var(--a-card); color: var(--a-ink); border-radius: 12px; padding: 6px 0; display: flex; flex-direction: column; align-items: center; gap: 0; }
+.days button .n { font-family: var(--font-display); font-weight: 800; font-size: 22px; line-height: 1.05; }
+.days button .w, .days button .c { font-size: 10.5px; color: var(--a-muted); }
+.days button[aria-pressed="true"] { background: var(--a-blue); border-color: var(--a-blue); color: #ffffff; }
+.days button[aria-pressed="true"] .w, .days button[aria-pressed="true"] .c { color: #dbe7fd; }
+.bar { height: 8px; border-radius: 4px; background: var(--a-line2); overflow: hidden; }
+.bar > span { display: block; height: 100%; background: var(--a-green); border-radius: 4px; transition: width .3s; }
+.check { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 0; border-top: 1px solid var(--a-line2); }
+.check:first-child { border-top: 0; }
+.box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #c3cbd8; display: flex; align-items: center; justify-content: center; color: #ffffff; }
+.box.on { background: var(--a-green); border-color: var(--a-green); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.pick { border: 1px solid #d5dbe6; background: var(--a-card); color: var(--a-ink); border-radius: 999px; padding: 6px 12px; font-size: 13px; }
+.pick[aria-pressed="true"] { background: var(--a-dark); border-color: var(--a-dark); color: #ffffff; font-weight: 700; }
+.field { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; color: var(--a-muted); }
+.field textarea, .field input { width: 100%; border: 1px solid #d5dbe6; border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 14px; font-weight: 400; color: var(--a-ink); background: var(--a-card); resize: none; }
+.toggle-row { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; }
+.toggle-row label { display: flex; align-items: center; gap: 6px; }
+.toggle-row input { width: 18px; height: 18px; accent-color: var(--a-blue); }
+.stars { display: flex; gap: 6px; }
+.stars button { border: 0; background: transparent; font-size: 26px; line-height: 1; color: #c3cbd8; padding: 0; }
+.stars button.on { color: #f2a33a; }
+.stat-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.stat { background: var(--a-card); border: 1px solid var(--a-line); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+.stat .v { font-family: var(--font-display); font-weight: 800; font-size: 28px; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat.dark { background: var(--a-dark); border-color: var(--a-dark); color: #ffffff; }
+.stat.dark .muted { color: var(--a-on-dark); }
+.qr { width: 180px; height: 180px; align-self: center; }
+.file-badge { width: 40px; height: 40px; border-radius: 10px; background: var(--a-red-soft); color: var(--a-red); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; }
+.empty-state { padding: 40px 20px; text-align: center; color: var(--a-muted); }
+
+.shade { position: absolute; inset: 0; background: var(--a-shade); z-index: 5; }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; background: var(--a-card); border-radius: 22px 22px 0 0; padding: 10px 16px 24px; display: flex; flex-direction: column; gap: 12px; max-height: 86%; overflow-y: auto; color: var(--a-ink); }
+.sheet .grip { width: 40px; height: 5px; border-radius: 3px; background: #d5dbe6; align-self: center; }
+.sheet h3 { margin: 0; font-size: 17px; font-weight: 700; }
+.toast { position: absolute; left: 14px; right: 14px; top: 92px; z-index: 8; background: var(--a-dark); color: #ffffff; border-radius: 14px; padding: 12px 14px; font-size: 13.5px; font-weight: 500; box-shadow: 0 10px 30px -10px rgba(15, 27, 45, .5); animation: drop .25s ease-out; }
+.toast .from { display: block; font-size: 11px; font-weight: 700; color: var(--a-orange); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 2px; }
+@keyframes drop { from { transform: translateY(-8px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .toast { animation: none; } .bar > span { transition: none; } }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .phone-col { order: 1; display: flex; justify-content: center; }
+  .side { order: 2; }
+}
+@media (max-width: 480px) {
+  .device { width: 100%; height: min(760px, calc(100dvh - 150px)); min-height: 560px; border-width: 6px; border-radius: 30px; }
+  .top { align-items: stretch; }
+  .roles { width: 100%; }
+  .roles button { flex: 1 1 0; padding: 8px 6px; }
+}
+</style>
+
+<div class="page">
+  <header class="top">
+    <div class="brand">
+      <span class="eyebrow">GLOBAL TECH TOUR</span>
+      <h1>Прототип приложения: одна поездка, три роли</h1>
+    </div>
+    <div class="roles" role="group" aria-label="Чьими глазами смотреть">
+      <button type="button" data-role="delegate">Делегат</button>
+      <button type="button" data-role="coordinator">Координатор</button>
+      <button type="button" data-role="host">Компания · WeChat</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="side">
+      <section class="card-side" id="who"></section>
+      <section class="card-side">
+        <h2>Попробуйте</h2>
+        <ol class="tips" id="tips"></ol>
+      </section>
+      <section class="card-side">
+        <h2>Что произошло в поездке</h2>
+        <p class="note-small">Действие одной роли сразу видно у других: переключайте роли сверху.</p>
+        <ul class="log" id="log"></ul>
+        <button type="button" class="reset" id="reset">Начать демо заново</button>
+      </section>
+    </aside>
+    <div class="phone-col">
+      <div class="device" id="device">
+        <div class="screen" id="screen"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ——— Данные демо: поездка «Новый ритейл Китая», 9–14 ноября 2026. Все делегаты вымышленные. ———
+  const D = [
+    ['d1', 'Анна Смирнова', 'Anna Smirnova', 'Коммерческий директор', '商业总监', 'Commercial Director', 'Сеть супермаркетов', '连锁超市', 'Supermarket chain', 'Казань', '喀山', 'Kazan', 'retail'],
+    ['d2', 'Дмитрий Орлов', 'Dmitry Orlov', 'Основатель', '创始人', 'Founder', 'Доставка свежих продуктов', '生鲜配送平台', 'Fresh-food delivery', 'Москва', '莫斯科', 'Moscow', 'retail'],
+    ['d3', 'Елена Ковалёва', 'Elena Kovaleva', 'Директор по закупкам', '采购总监', 'Purchasing Director', 'Производитель снеков', '休闲食品制造商', 'Snack manufacturer', 'Санкт-Петербург', '圣彼得堡', 'Saint Petersburg', 'manufacturing'],
+    ['d4', 'Игорь Белов', 'Igor Belov', 'Партнёр', '合伙人', 'Partner', 'Фонд инвестиций в ритейл', '零售投资基金', 'Retail investment fund', 'Москва', '莫斯科', 'Moscow', 'investment'],
+    ['d5', 'Марина Лебедева', 'Marina Lebedeva', 'Руководитель e-commerce', '电商负责人', 'Head of E-commerce', 'Сеть одежды', '服装零售', 'Fashion retail', 'Екатеринбург', '叶卡捷琳堡', 'Yekaterinburg', 'retail'],
+    ['d6', 'Павел Соколов', 'Pavel Sokolov', 'Операционный директор', '运营总监', 'Operations Director', 'Сеть магазинов у дома', '便利店连锁', 'Convenience stores', 'Новосибирск', '新西伯利亚', 'Novosibirsk', 'retail'],
+    ['d7', 'Ольга Морозова', 'Olga Morozova', 'Категорийный менеджер', '品类经理', 'Category Manager', 'Гипермаркет', '大型超市', 'Hypermarket', 'Москва', '莫斯科', 'Moscow', 'retail'],
+    ['d8', 'Сергей Волков', 'Sergey Volkov', 'Директор по логистике', '物流总监', 'Logistics Director', 'Розничная группа', '零售集团', 'Retail group', 'Санкт-Петербург', '圣彼得堡', 'Saint Petersburg', 'retail'],
+    ['d9', 'Наталья Фёдорова', 'Natalia Fedorova', 'Директор по маркетингу', '市场总监', 'Marketing Director', 'Маркетплейс', '电商平台', 'E-commerce platform', 'Москва', '莫斯科', 'Moscow', 'retail'],
+    ['d10', 'Алексей Кузнецов', 'Alexey Kuznetsov', 'Генеральный директор', '首席执行官', 'CEO', 'Магазины техники', '家电零售', 'Appliance retail', 'Краснодар', '克拉斯诺达尔', 'Krasnodar', 'retail'],
+    ['d11', 'Юлия Попова', 'Yulia Popova', 'Продакт-менеджер', '产品经理', 'Product Manager', 'Собственные марки', '自有品牌', 'Private label', 'Москва', '莫斯科', 'Moscow', 'retail'],
+    ['d12', 'Андрей Васильев', 'Andrey Vasiliev', 'Генеральный директор', '总经理', 'General Manager', 'Пищевая фабрика', '食品工厂', 'Food factory', 'Тула', '图拉', 'Tula', 'manufacturing'],
+    ['d13', 'Екатерина Новикова', 'Ekaterina Novikova', 'Менеджер цепочки поставок', '供应链经理', 'Supply Chain Manager', 'Производитель напитков', '饮料制造商', 'Beverage maker', 'Самара', '萨马拉', 'Samara', 'manufacturing'],
+    ['d14', 'Михаил Зайцев', 'Mikhail Zaitsev', 'Технический директор', '技术总监', 'Technical Director', 'Производство упаковки', '包装生产', 'Packaging', 'Нижний Новгород', '下诺夫哥罗德', 'Nizhny Novgorod', 'manufacturing'],
+    ['d15', 'Роман Павлов', 'Roman Pavlov', 'Инвестиционный менеджер', '投资经理', 'Investment Manager', 'Венчурный фонд', '风险投资', 'Venture capital', 'Москва', '莫斯科', 'Moscow', 'investment'],
+    ['d16', 'Светлана Егорова', 'Svetlana Egorova', 'Директор', '董事', 'Director', 'Семейный офис', '家族办公室', 'Family office', 'Москва', '莫斯科', 'Moscow', 'investment'],
+    ['d17', 'Виктор Степанов', 'Victor Stepanov', 'Консультант', '顾问', 'Consultant', 'Консалтинг в ритейле', '零售咨询', 'Retail consulting', 'Москва', '莫斯科', 'Moscow', 'other'],
+    ['d18', 'Ирина Макарова', 'Irina Makarova', 'Журналист', '记者', 'Journalist', 'Деловое издание', '商业媒体', 'Business media', 'Москва', '莫斯科', 'Moscow', 'other'],
+  ].map((r) => ({ id: r[0], ru: r[1], lat: r[2], roleRu: r[3], roleZh: r[4], roleEn: r[5], coRu: r[6], coZh: r[7], coEn: r[8], cityRu: r[9], cityZh: r[10], cityEn: r[11], ind: r[12] }));
+  const byId = Object.fromEntries(D.map((d) => [d.id, d]));
+  const initials = (lat) => lat.split(' ').map((w) => w[0]).join('');
+
+  const DAYS = [
+    { wd: 'Пн', n: 9, city: 'Пекин' }, { wd: 'Вт', n: 10, city: 'Пекин' }, { wd: 'Ср', n: 11, city: 'Шанхай' },
+    { wd: 'Чт', n: 12, city: 'Шанхай' }, { wd: 'Пт', n: 13, city: 'Ханчжоу' }, { wd: 'Сб', n: 14, city: 'Шэньчж.' },
+  ];
+
+  const BASE_Q = [
+    { zh: '京东自营物流在三四线城市的配送时效如何？', en: "How fast is JD's own logistics in lower-tier cities?", by: 'd1' },
+    { zh: '京东如何挑选自有品牌的供应商？', en: 'How does JD choose private-label suppliers?', by: 'd3' },
+    { zh: '仓储自动化项目的投资回收期一般是多久？', en: 'What is the typical payback period of warehouse automation?', by: 'd4' },
+    { zh: '生鲜品类的损耗是如何控制的？', en: 'How do you control fresh-produce shrinkage?', by: 'd2' },
+    { zh: '京东的即时零售业务如何与线下门店合作？', en: "How does JD's instant retail work with offline stores?", by: 'd5' },
+    { zh: '你们如何利用数据预测区域需求？', en: 'How do you use data to forecast regional demand?', by: 'd6' },
+    { zh: '外国品牌入驻京东国际的流程是什么？', en: 'What is the onboarding process for foreign brands on JD Worldwide?', by: 'd12' },
+  ];
+  const SUGGESTED_Q = [
+    { ru: 'Какие категории растут у вас быстрее всего в 2026 году?', zh: '2026年哪些品类增长最快？', en: 'Which categories are growing fastest in 2026?' },
+    { ru: 'Можно ли посмотреть работу склада вживую?', zh: '能否参观仓库的实际运作？', en: 'Could we see the warehouse in operation?' },
+    { ru: 'Как вы работаете с иностранными поставщиками?', zh: '你们如何与外国供应商合作？', en: 'How do you work with foreign suppliers?' },
+  ];
+  const TEMPLATES = [
+    { key: 'late', label: 'Задержка 10 мин', ru: 'Автобус задерживается на 10 минут: выезд в 09:40.', zh: '大巴推迟10分钟，09:40出发。', en: 'The bus is 10 minutes late: departure at 09:40.' },
+    { key: 'lobby', label: 'Сбор в лобби', ru: 'Сбор в лобби отеля в 09:20, не опаздывайте.', zh: '代表团09:20在酒店大堂集合。', en: 'The group meets in the hotel lobby at 09:20.' },
+    { key: 'meituan', label: 'Перенос встречи', ru: 'Встреча в Meituan перенесена на 15:30. Автобус от JD.com — в 14:50.', zh: '美团的会面改到15:30，14:50从京东出发。', en: 'The Meituan meeting moved to 15:30; the bus leaves JD.com at 14:50.' },
+  ];
+  const FOLLOW_TYPES = [
+    { key: 'samples', ru: 'Образцы продукции', zh: '希望获取自有品牌产品样品。', en: 'Would like samples of private-label products.' },
+    { key: 'talks', ru: 'Переговоры о поставках', zh: '希望洽谈供应合作。', en: 'Would like to discuss a supply partnership.' },
+    { key: 'meeting', ru: 'Повторная встреча', zh: '希望安排第二次会面。', en: 'Would like a second meeting.' },
+  ];
+  const HOST_FILES = [
+    { name: '京东物流介绍.pdf', size: '8 MB' },
+    { name: '展厅参观路线.pptx', size: '5 MB' },
+    { name: '自有品牌产品目录.pdf', size: '15 MB' },
+  ];
+
+  // Тексты страницы компании (мини-программа WeChat)
+  const H = {
+    zh: {
+      tabs: ['概览', '代表团', '问题与资料', '访问后'], trip: '俄罗斯零售考察团', company: '京东', date: '11月10日（周二）',
+      departed: '代表团已出发', eta: '预计 10:25 到达，约 15 分钟', planned: '代表团将于 09:30 从酒店出发', plannedSub: '出发后您会收到微信通知',
+      info: '访问信息', confirmed: '已确认', proposed: '已提议新时间', people: '人数', peopleV: '18 位代表 + 2 位组织者', language: '语言', languageV: '俄语，全程配中俄翻译',
+      industries: '行业', industriesV: '零售、电商、物流、投资', focus: '关注重点', focusV: '自营物流、自有品牌、即时零售',
+      program: '访问流程', p1: '参观展厅', p2: '与管理层交流（问题已提前发送）', p3: '合影留念', propose: '提议其他时间', proposalWait: '您提议改为 {t}，等待协调人确认',
+      coordinator: '协调人 · 中文、英文', wechat: '微信', phone: '电话', subscribe: '接收访问提醒', subscribed: '已开启提醒：出发、时间变更时通知您',
+      message: '协调人消息', delegation: '代表团 · 18 人', all: '全部', retail: '零售', manufacturing: '制造', investment: '投资', other: '其他',
+      privacy: '为保护隐私，代表的联系方式在访问后经本人同意才会提供。', guest: '门禁访客名单', guestHint: '含护照英文姓名；如需护照号码，请联系协调人。', download: '下载名单（Excel）',
+      prep: '问题与资料', questions: '代表团的问题 · {n} 条', translated: '已翻译', newQ: '新', materials: '给代表团的资料', review: '协调人审核中', published: '已发给代表团',
+      upload: '+ 上传文件', uploadHint: '资料经协调人审核后发给代表团。可上传 PDF、PPT、图片或视频。', chooseFile: '选择文件',
+      after: '访问后', rating: '代表团评价', rated: '{n} 位代表已评价', top: '最受欢迎：自营物流讲解', requests: '合作意向 · {n} 条',
+      consent: '已同意分享联系方式', via: '通过协调人联系', show: '查看联系方式', reply: '回复（经协调人）', afterHint: '联系方式仅在代表本人同意后显示。其他请求由协调人转达并翻译。',
+      replyTo: '回复对象', whole: '整个代表团', replyPh: '您的回复将由协调人翻译并转达', send: '发送', cancel: '取消', proposeTitle: '提议其他时间', note: '备注（可选）', notePh: '例如：上午有内部会议',
+      sent: '已发送给协调人', copied: '已复制', downloaded: '名单已下载（原型）', wxCopied: '协调人微信号已复制（原型）', call: '原型中不拨打电话',
+      contact: '联系方式', newReq: '新',
+    },
+    en: {
+      tabs: ['Overview', 'Delegation', 'Q&A · Files', 'After visit'], trip: 'Russian Retail Delegation', company: 'JD.com', date: 'Tue, Nov 10',
+      departed: 'The delegation is on the way', eta: 'Arriving around 10:25, in about 15 min', planned: 'The delegation leaves the hotel at 09:30', plannedSub: 'You will get a WeChat notice when they leave',
+      info: 'Visit details', confirmed: 'Confirmed', proposed: 'New time proposed', people: 'People', peopleV: '18 delegates + 2 organizers', language: 'Language', languageV: 'Russian, with an interpreter',
+      industries: 'Industries', industriesV: 'Retail, e-commerce, logistics, investment', focus: 'Focus', focusV: 'Own logistics, private labels, instant retail',
+      program: 'Program', p1: 'Showroom tour', p2: 'Meeting with management (questions sent in advance)', p3: 'Group photo', propose: 'Propose another time', proposalWait: 'You proposed {t}; waiting for the coordinator',
+      coordinator: 'Coordinator · Chinese, English', wechat: 'WeChat', phone: 'Call', subscribe: 'Get visit reminders', subscribed: 'Reminders on: departure and time changes',
+      message: 'Message from the coordinator', delegation: 'Delegation · 18', all: 'All', retail: 'Retail', manufacturing: 'Manufacturing', investment: 'Investment', other: 'Other',
+      privacy: 'To protect privacy, contacts are shared only after the visit and with each delegate’s consent.', guest: 'Guest list for security', guestHint: 'Names as in passports; for passport numbers contact the coordinator.', download: 'Download list (Excel)',
+      prep: 'Questions & files', questions: 'Questions · {n}', translated: 'Translated', newQ: 'New', materials: 'Materials for the delegation', review: 'Coordinator review', published: 'Shared with the delegation',
+      upload: '+ Upload file', uploadHint: 'The coordinator reviews files before sharing them. PDF, PPT, images or video.', chooseFile: 'Choose a file',
+      after: 'After the visit', rating: 'Delegation rating', rated: '{n} delegates rated the visit', top: 'Most valued: own logistics walkthrough', requests: 'Follow-up requests · {n}',
+      consent: 'Agreed to share contacts', via: 'Via the coordinator', show: 'Show contact', reply: 'Reply (via coordinator)', afterHint: 'Contacts appear only with the delegate’s consent. Other requests go through the coordinator.',
+      replyTo: 'Reply to', whole: 'Whole delegation', replyPh: 'The coordinator will translate and pass on your reply', send: 'Send', cancel: 'Cancel', proposeTitle: 'Propose another time', note: 'Note (optional)', notePh: 'e.g. internal meeting in the morning',
+      sent: 'Sent to the coordinator', copied: 'Copied', downloaded: 'List downloaded (prototype)', wxCopied: 'Coordinator WeChat ID copied (prototype)', call: 'No real calls in the prototype',
+      contact: 'Contact', newReq: 'New',
+    },
+  };
+
+  const ICONS = {
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+    cal: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    book: '<path d="M4 5a2 2 0 0 1 2-2h5v17H6a2 2 0 0 0-2 2z"/><path d="M20 5a2 2 0 0 0-2-2h-5v17h5a2 2 0 0 1 2 2z"/>',
+    people: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/>',
+    suitcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/>',
+    grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+    building: '<path d="M4 21V5l8-3v19M12 21h8V9l-8-3"/><path d="M8 9h.01M8 13h.01M8 17h.01M16 13h.01M16 17h.01"/>',
+    megaphone: '<path d="M3 11v2a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M17 9a4 4 0 0 1 0 6"/>',
+    home: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',
+    doc: '<path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5"/>',
+    chat: '<path d="M4 5h16v11H9l-5 4z"/>',
+    bus: '<rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16M8 21v-3M16 21v-3"/>',
+    phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+    msg: '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/>',
+    lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+    check: '<path d="M5 12l5 5L20 7"/>',
+    down: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
+    pin: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  };
+  const icon = (name, size = 22) => `<svg class="ico" width="${size}" height="${size}" style="width:${size}px;height:${size}px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const fill = (t, v) => String(t).replace(/\{(\w+)\}/g, (_, k) => v[k] ?? '');
+  const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? b : c); };
+  const addHours = (t, h) => { const [hh, mm] = t.split(':').map(Number); return `${String(hh + h).padStart(2, '0')}:${String(mm).padStart(2, '0')}`; };
+
+  // ——— Состояние ———
+  const KEY = 'gtt-proto-v1';
+  function fresh() {
+    return {
+      role: 'delegate', viewAs: null,
+      tab: { delegate: 'today', coordinator: 'center', host: 'visit' },
+      day: 1, tripStage: 'before', lang: 'zh', hostFilter: 'all', coordFocus: null,
+      missing: ['d1', 'd4', 'd2', 'd3'], departed: false,
+      hema: 'pending', pddReminded: false, igorReminded: false, docsMissing: ['d4', 'd15'],
+      jd: { status: 'confirmed', start: '10:30', proposal: null },
+      materials: [{ id: 'm1', name: '京东公司介绍.pdf', size: '12 MB', status: 'review' }],
+      basePendingQ: 3, addedQ: 0, translatedQ: 0,
+      questions: [],
+      requests: [
+        { id: 'r1', d: 'd1', zh: '希望洽谈自有品牌产品的供应合作。', en: 'Would like to discuss supplying private-label products.', consent: true },
+        { id: 'r2', d: 'd2', zh: '希望了解即时配送方面的合作机会。', en: 'Interested in partnership on instant delivery.', consent: true },
+        { id: 'r3', d: 'd4', zh: '希望安排第二次会面，讨论仓储自动化。', en: 'Would like a second meeting on warehouse automation.', consent: false },
+      ],
+      replies: [], followups: [], myRating: 0,
+      announcements: [{ id: 'a0', ru: TEMPLATES[2].ru, zh: TEMPLATES[2].zh, en: TEMPLATES[2].en, toD: true, toH: false, time: '08:40' }],
+      notes: [{ text: 'JD: спросить про сроки доставки в регионах', time: 'вчера' }],
+      downloaded: { memo: true, program: true, companies: false, jd: false },
+      checklist: { passport: true, tickets: true, interests: true, memo: false },
+      intros: {}, hostSubscribed: false, hostNotice: null, dNotices: [],
+      form: {}, annText: TEMPLATES[0].ru, annTpl: 'late', annTo: { d: true, h: true, tg: true },
+      log: [], toast: null, sheet: null, seq: 1,
+    };
+  }
+  let S;
+  try { S = Object.assign(fresh(), JSON.parse(localStorage.getItem(KEY) || 'null') || {}); } catch (e) { S = fresh(); }
+  S.sheet = null; S.toast = null;
+  const save = () => { try { const { toast, sheet, ...rest } = S; localStorage.setItem(KEY, JSON.stringify(rest)); } catch (e) { /* хранилище недоступно — демо работает и без него */ } };
+  const nid = () => `x${S.seq++}`;
+
+  const ROLE_RU = { delegate: 'Делегат', coordinator: 'Координатор', host: 'Компания' };
+  function log(role, text) { S.log.unshift({ role, text, id: nid() }); S.log = S.log.slice(0, 40); }
+  let toastTimer = null;
+  function toast(text, from) {
+    S.toast = { text, from };
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { S.toast = null; const t = screenEl.querySelector('.toast'); if (t) t.remove(); }, 2800);
+  }
+
+  // ——— Производные данные ———
+  const busCount = () => 18 - S.missing.length;
+  const me = byId.d1;
+  function dayEvents(i) {
+    const jdStart = S.jd.start;
+    const hemaT = S.hema === 'accepted' ? '14:00' : '13:30';
+    const E = [
+      [['14:00', 'Прилёт и трансфер', 'Аэропорт → отель', 'move'], ['17:00', 'Брифинг экспедиции', 'Конференц-зал отеля'], ['19:30', 'Приветственный ужин', 'Ресторан у отеля']],
+      [['09:30', 'Выезд из отеля', 'Лобби · автобус №2', 'move'], [jdStart, 'JD.com', 'Шоурум и встреча с менеджментом', 'co', jdStart !== '10:30'], ['13:00', 'Обед', 'Рядом с офисом JD.com'], ['15:30', 'Meituan', 'Встреча с командой', 'co', true], ['19:00', 'Ужин группы', 'Адрес по-китайски — в карточке']],
+      [['07:40', 'Перелёт в Шанхай', 'Сбор в лобби в 05:45', 'move'], [hemaT, 'Hema (Freshippo)', 'Магазин и склад', 'co', S.hema === 'accepted'], ['16:30', 'Pinduoduo', 'Встреча с командой', 'co']],
+      [['10:00', 'RT-Mart', 'Гипермаркет', 'co'], ['14:30', 'Ele.me', 'Мгновенная доставка', 'co'], ['18:00', 'Свободный вечер', 'Идеи — в Материалах']],
+      [['08:30', 'Переезд в Ханчжоу', 'Скоростной поезд', 'move'], ['11:00', 'Alibaba', 'Кампус и шоурум', 'co'], ['18:00', 'Переезд в Шэньчжэнь', 'Детали — у координатора', 'move']],
+      [['10:00', "Sam's Club", 'Магазин', 'co'], ['14:00', 'Yonghui', 'Супермаркет', 'co'], ['18:00', 'Итоги и вылет', 'Аэропорт Шэньчжэня', 'move']],
+    ][i];
+    return E.map(([t, name, place, kind, moved]) => ({ t, name, place, kind: kind || '', moved: Boolean(moved) })).sort((a, b) => a.t.localeCompare(b.t));
+  }
+  function companies() {
+    const ok = (s) => ['ok', s];
+    return [
+      { id: 'jd', name: 'JD.com', when: `Вт 10 · ${S.jd.start}`, st: S.jd.proposal ? ['warn', `предлагает ${S.jd.proposal.start}`] : ok('подтверждено') },
+      { id: 'meituan', name: 'Meituan', when: 'Вт 10 · 15:30', st: ok('перенос согласован') },
+      { id: 'hema', name: 'Hema (Freshippo)', when: `Ср 11 · ${S.hema === 'accepted' ? '14:00' : '13:30'}`, st: S.hema === 'accepted' ? ok('перенос согласован') : S.hema === 'discuss' ? ['info', 'обсуждаем'] : ['warn', 'предлагает 14:00'] },
+      { id: 'pdd', name: 'Pinduoduo', when: 'Ср 11 · 16:30', st: S.pddReminded ? ['info', 'напомнили'] : ['warn', 'ссылку не открыли'] },
+      { id: 'rtmart', name: 'RT-Mart', when: 'Чт 12 · 10:00', st: ok('подтверждено') },
+      { id: 'eleme', name: 'Ele.me', when: 'Чт 12 · 14:30', st: ok('подтверждено') },
+      { id: 'alibaba', name: 'Alibaba', when: 'Пт 13 · 11:00', st: ok('подтверждено') },
+      { id: 'sams', name: "Sam's Club", when: 'Сб 14 · 10:00', st: ok('подтверждено') },
+      { id: 'yonghui', name: 'Yonghui', when: 'Сб 14 · 14:00', st: ok('подтверждено') },
+    ];
+  }
+  const pendingQ = () => S.basePendingQ + S.questions.filter((q) => q.status === 'pending').length;
+  function attention() {
+    const a = [];
+    if (S.jd.proposal) a.push({ title: `JD.com предлагает ${S.jd.proposal.start} вместо ${S.jd.start}`, sub: S.jd.proposal.note ? `«${S.jd.proposal.note}» · из мини-программы` : 'Написали в мини-программе WeChat', btns: [['acceptJd', 'Принять', 'primary'], ['rejectJd', `Оставить ${S.jd.start}`, 'ghost']] });
+    if (S.hema === 'pending') a.push({ title: 'Hema предлагает 14:00 вместо 13:30', sub: 'Ср, 11 ноября · написали на странице визита', btns: [['acceptHema', 'Принять и сообщить группе', 'primary'], ['discussHema', 'Обсудить', 'ghost']] });
+    S.materials.filter((m) => m.status === 'review').forEach((m) => a.push({ title: `JD.com загрузила «${m.name}»`, sub: `${m.size} · делегаты увидят после вашей проверки`, btns: [['publishMat', 'Открыть делегатам', 'primary', m.id]] }));
+    const pq = pendingQ();
+    if (pq) a.push({ title: `${pq} ${plural(pq, 'вопрос ждёт', 'вопроса ждут', 'вопросов ждут')} перевода`, sub: 'После перевода компании видят их на китайском', btns: [['translateQ', 'Перевести и отправить', 'primary']] });
+    S.replies.filter((r) => !r.forwarded).forEach((r) => a.push({ title: `JD.com ответила${r.toName ? ` · для ${r.toName}` : ' группе'}`, sub: `«${r.text}»`, btns: [['forwardReply', 'Переслать делегатам', 'primary', r.id]] }));
+    S.followups.filter((f) => f.status === 'new').forEach((f) => a.push({ title: `${me.ru} хочет продолжить с ${f.company}`, sub: f.typeRu, btns: [['sendFollowup', 'Отправить компании', 'primary', f.id]] }));
+    if (!S.pddReminded) a.push({ title: 'Pinduoduo не открыла ссылку визита · 3 дня', btns: [['remindPdd', 'Напомнить', 'ghost']] });
+    if (!S.igorReminded) a.push({ title: 'Игорь Белов · нет билета', btns: [['remindIgor', 'Напомнить', 'ghost']] });
+    return a;
+  }
+  const rating = () => {
+    if (!S.myRating) return { avg: '4.8', n: 16 };
+    return { avg: ((4.8 * 16 + S.myRating) / 17).toFixed(1), n: 17 };
+  };
+  const hostQuestions = () => BASE_Q.map((q) => ({ ...q, isNew: false })).concat(S.questions.filter((q) => q.status === 'sent' && q.company === 'JD.com').map((q) => ({ zh: q.zh, en: q.en, by: 'd1', isNew: true })));
+
+  // ——— Общие куски ———
+  const tabsOf = {
+    delegate: [['today', 'Сегодня', 'sun'], ['plan', 'План', 'cal'], ['library', 'Материалы', 'book'], ['people', 'Люди', 'people'], ['trip', 'Поездка', 'suitcase']],
+    coordinator: [['center', 'Пульт', 'grid'], ['visits', 'Визиты', 'building'], ['group', 'Группа', 'people'], ['announce', 'Объявление', 'megaphone']],
+    host: [['visit', 0, 'home'], ['delegation', 1, 'people'], ['prep', 2, 'doc'], ['after', 3, 'chat']],
+  };
+  function tabbar(who) {
+    const list = tabsOf[who];
+    const cur = S.tab[who];
+    const badge = (key) => {
+      if (who === 'coordinator' && key === 'center') return attention().length;
+      if (who === 'delegate' && key === 'today') return S.dNotices.filter((n) => !n.seen).length;
+      if (who === 'host' && key === 'after') return S.requests.filter((r) => r.isNew).length;
+      return 0;
+    };
+    return `<nav class="tabbar" style="grid-template-columns:repeat(${list.length},minmax(0,1fr))" aria-label="Разделы">${list.map(([key, label, ic]) => {
+      const text = who === 'host' ? H[S.lang].tabs[label] : label;
+      const b = badge(key);
+      return `<button type="button" data-act="tab" data-arg="${key}" ${cur === key ? 'aria-current="page"' : ''}>${icon(ic)}${esc(text)}${b ? `<span class="badge">${b}</span>` : ''}</button>`;
+    }).join('')}</nav>`;
+  }
+  const btn = (act, label, kind = 'primary', arg = '', extra = '') => `<button type="button" class="btn ${kind}" data-act="${act}" data-arg="${esc(arg)}" ${extra}>${label}</button>`;
+
+  // ——— Делегат ———
+  function delegateHead(eyebrow, title) {
+    return `<header class="head"><span class="eyebrow">${eyebrow}</span><h2>${title}</h2></header>`;
+  }
+  function dToday() {
+    const inBus = !S.missing.includes('d1');
+    const notices = S.dNotices.slice(0, 3);
+    S.dNotices.forEach((n) => { n.seen = true; }); // экран «Сегодня» открыт — значок на вкладке гаснет
+    const ann = S.announcements.find((a) => a.toD);
+    const next = S.departed
+      ? `<section class="card dark"><span class="muted">Автобус №2 в пути</span><div class="big">JD.COM · ${S.jd.start}</div><span class="muted">Прибытие около 10:25 · компания знает, что вы едете</span>${btn('taxi', `${icon('pin', 18)} Адрес по-китайски`, 'white')}</section>`
+      : `<section class="card dark"><span class="muted">Через 25 минут</span><div class="big">ВЫЕЗД В 09:30</div><span class="muted">Лобби отеля · автобус №2 · затем JD.com в ${S.jd.start}</span>
+        <div class="btns split">${inBus ? `<button type="button" class="btn done" data-act="busToggle">${icon('check', 18)} Вы в автобусе</button>` : btn('busToggle', `${icon('bus', 18)} Я в автобусе`)}${btn('taxi', 'Адрес для такси', 'white')}</div></section>`;
+    const plan = dayEvents(1).map((e) => `<div class="li two tap" data-act="openEvent" data-arg="1|${e.t}|${esc(e.name)}"><div><div class="t"><span class="time ${e.moved ? 'moved' : ''}">${e.t}</span> ${esc(e.name)}</div><div class="s">${esc(e.place)}</div></div>${e.moved ? '<span class="chip warn">перенесено</span>' : e.kind === 'co' ? '<span class="chip info">визит</span>' : ''}</div>`).join('');
+    return `${delegateHead('Вт, 10 ноября · Пекин · день 2 из 6', 'Сегодня')}<div class="body">
+      ${next}
+      ${notices.map((n) => `<section class="card ${n.tone || 'info'}"><span class="muted" style="color:inherit;opacity:.8">Уведомление · ${esc(n.time)}</span><strong>${esc(n.text)}</strong></section>`).join('')}
+      ${ann ? `<section class="card warn"><div class="title-row"><h3>Объявление координатора</h3><span class="muted">${esc(ann.time)}</span></div><div>${esc(ann.ru)}</div></section>` : ''}
+      <section class="card"><div class="title-row"><h3>План дня</h3><button type="button" class="btn light small" data-act="tab" data-arg="plan">Весь план</button></div><div class="list">${plan}</div></section>
+    </div>`;
+  }
+  function dPlan() {
+    const days = DAYS.map((d, i) => `<button type="button" data-act="day" data-arg="${i}" aria-pressed="${S.day === i}"><span class="w">${d.wd}</span><span class="n">${d.n}</span><span class="c">${d.city}</span></button>`).join('');
+    const d = DAYS[S.day];
+    const ev = dayEvents(S.day).map((e) => `<div class="li two tap" data-act="openEvent" data-arg="${S.day}|${e.t}|${esc(e.name)}"><div><div class="t"><span class="time ${e.moved ? 'moved' : ''}">${e.t}</span> ${esc(e.name)}</div><div class="s">${esc(e.place)}</div></div>${e.moved ? '<span class="chip warn">перенесено</span>' : e.kind === 'co' ? '<span class="chip info">вопросы</span>' : e.kind === 'move' ? '<span class="chip dark">переезд</span>' : ''}</div>`).join('');
+    return `${delegateHead('Пекин → Шанхай → Ханчжоу → Шэньчжэнь', 'План')}<div class="body"><div class="days">${days}</div>
+      <section class="card"><div class="title-row"><h3>${d.wd}, ${d.n} ноября · ${d.city}</h3>${S.day === 1 ? '<span class="chip warn" style="background:var(--a-orange);color:var(--a-ink)">сегодня</span>' : ''}</div><div class="list">${ev}</div></section>
+      <p class="muted">Нажмите на событие: адрес, ваши вопросы и заметки. Перенесённые встречи подсвечены.</p></div>`;
+  }
+  function dLibrary() {
+    const items = [
+      ['memo', 'Памятка по Китаю', 'Связь, WeChat, Alipay, этикет · PDF 2 МБ'],
+      ['program', 'Программа поездки', '6 дней, 9 компаний · PDF 1 МБ'],
+      ['companies', 'Справки о компаниях', '9 карточек с сайта globaltechtour.ru'],
+    ];
+    if (S.materials.some((m) => m.status === 'published' && m.id === 'm1')) items.unshift(['jd', 'Презентация JD.com', 'От компании, проверена координатором · 12 МБ', true]);
+    S.materials.filter((m) => m.status === 'published' && m.id !== 'm1').forEach((m) => items.unshift([m.id, `JD.com: ${m.name}`, `От компании · ${m.size}`, true]));
+    const rows = items.map(([key, t, s, isNew]) => {
+      const got = S.downloaded[key];
+      return `<div class="li"><span class="file-badge" style="background:var(--a-blue-soft);color:var(--a-blue-ink)">${icon('doc', 20)}</span><div><div class="t">${esc(t)} ${isNew ? '<span class="chip new">новое</span>' : ''}</div><div class="s">${esc(s)}</div></div>
+        <button type="button" class="icon-btn" data-act="download" data-arg="${key}" aria-label="${got ? 'Скачано' : 'Скачать'}: ${esc(t)}" style="${got ? 'background:var(--a-ok-soft);color:var(--a-ok)' : ''}">${icon(got ? 'check' : 'down', 18)}</button></div>`;
+    }).join('');
+    const notes = S.notes.map((n) => `<div class="li two"><div><div>${esc(n.text)}</div><div class="s">${esc(n.time)}</div></div></div>`).join('');
+    return `${delegateHead('Скачанное открывается без интернета', 'Материалы')}<div class="body">
+      <section class="card"><div class="title-row"><h3>Материалы поездки</h3><span class="muted">${Object.values(S.downloaded).filter(Boolean).length} скачано</span></div><div class="list">${rows}</div></section>
+      <section class="card"><div class="title-row"><h3>Мои заметки · ${S.notes.length}</h3>${btn('addNote', '+ Заметка', 'light small')}</div><div class="list">${notes}</div><span class="muted">Заметки видите только вы.</span></section>
+    </div>`;
+  }
+  function dPeople() {
+    const intro = [['d2', 'Вы оба занимаетесь доставкой свежих продуктов'], ['d5', 'Оба строите онлайн-продажи сети']].map(([id, why]) => {
+      const d = byId[id];
+      const sent = S.intros[id];
+      return `<div class="li"><span class="avatar">${initials(d.lat)}</span><div><div class="t">${d.ru}</div><div class="s">${esc(why)}</div></div>${sent ? '<span class="chip ok">запрос отправлен</span>' : btn('intro', 'Познакомиться', 'light small', id)}</div>`;
+    }).join('');
+    const list = D.filter((d) => d.id !== 'd1').map((d) => `<div class="li"><span class="avatar">${initials(d.lat)}</span><div><div class="t">${d.ru}</div><div class="s">${d.roleRu} · ${d.coRu}, ${d.cityRu}</div></div><span></span></div>`).join('');
+    return `${delegateHead('Группа · 18 делегатов и 2 организатора', 'Люди')}<div class="body">
+      <section class="card"><h3>Вам стоит познакомиться</h3><div class="list">${intro}</div></section>
+      <section class="card"><h3>Организаторы</h3><div class="list">
+        <div class="li"><span class="avatar blue">ОД</span><div><div class="t">Остап Доценко</div><div class="s">Координатор · русский, китайский, английский</div></div><div class="btns">
+          <button type="button" class="icon-btn" data-act="fakeCall" data-arg="Остапу" aria-label="Позвонить координатору">${icon('phone', 18)}</button>
+          <button type="button" class="icon-btn" data-act="fakeMsg" data-arg="координатору" aria-label="Написать координатору">${icon('msg', 18)}</button></div></div>
+        <div class="li"><span class="avatar blue">ЛМ</span><div><div class="t">Ли Мэй</div><div class="s">Переводчик · китайский, русский</div></div>
+          <button type="button" class="icon-btn" data-act="fakeCall" data-arg="переводчику" aria-label="Позвонить переводчику">${icon('phone', 18)}</button></div>
+      </div></section>
+      <section class="card"><h3>Делегаты · 17</h3><div class="list">${list}</div></section></div>`;
+  }
+  function dTrip() {
+    const stage = S.tripStage;
+    const seg = `<div class="seg light">${[['before', 'До'], ['during', 'В поездке'], ['after', 'После']].map(([k, l]) => `<button type="button" data-act="stage" data-arg="${k}" aria-pressed="${stage === k}">${l}</button>`).join('')}</div>`;
+    let body = '';
+    if (stage === 'before') {
+      const myQ = S.questions.length;
+      const items = [
+        ['passport', 'Скан паспорта', 'Проверен координатором'],
+        ['tickets', 'Билеты и страховка', 'Загружены'],
+        ['interests', 'Отрасль и интересы', 'Ритейл, собственные марки, доставка'],
+        ['memo', 'Прочитать памятку по Китаю', 'Связь, оплата, этикет'],
+      ].map(([k, t, s]) => `<div class="check tap" data-act="tick" data-arg="${k}"><span class="box ${S.checklist[k] ? 'on' : ''}">${S.checklist[k] ? icon('check', 14) : ''}</span><div><div class="t">${t}</div><div class="s">${s}</div></div><span></span></div>`).join('');
+      const done = Object.values(S.checklist).filter(Boolean).length + (myQ ? 1 : 0);
+      body = `<section class="card"><div class="title-row"><h3>Подготовка · ${done} из 5</h3></div><div class="bar"><span style="width:${done * 20}%"></span></div>
+        <div class="list">${items}<div class="check tap" data-act="askQ"><span class="box ${myQ ? 'on' : ''}">${myQ ? icon('check', 14) : ''}</span><div><div class="t">Вопросы компаниям</div><div class="s">${myQ ? `Задано: ${myQ}. Координатор переведёт на китайский` : 'Компании получат их заранее, на китайском'}</div></div>${btn('askQ', myQ ? 'Ещё' : 'Задать', 'light small')}</div></div></section>`;
+    } else if (stage === 'during') {
+      body = `<section class="card"><h3>День 2 из 6</h3><div class="bar"><span style="width:33%"></span></div><span class="muted">Пройдено визитов: 0 из 9 · сегодня JD.com и Meituan</span></section>
+        <section class="card"><h3>Мои вопросы к компаниям</h3>${S.questions.length ? S.questions.map((q) => `<div class="li two"><div><div>${esc(q.ru)}</div><div class="s">${q.company} · ${q.status === 'sent' ? 'переведено и отправлено' : 'ждёт перевода координатором'}</div></div></div>`).join('') : '<span class="muted">Пока нет. Задайте их на вкладке «До».</span>'}</section>`;
+    } else {
+      const r = S.myRating;
+      const stars = [1, 2, 3, 4, 5].map((n) => `<button type="button" class="${n <= r ? 'on' : ''}" data-act="rate" data-arg="${n}" aria-label="${n} из 5">★</button>`).join('');
+      body = `<section class="card"><h3>Оцените визит в JD.com</h3><div class="stars">${stars}</div><span class="muted">${r ? 'Спасибо! Компания увидит общую оценку группы, без имён.' : 'Компания видит только общую оценку группы.'}</span></section>
+        <section class="card"><h3>Хочу продолжить</h3><span class="muted">Образцы, переговоры, повторная встреча — координатор передаст компании.</span>${btn('followup', 'Оставить запрос', 'primary full')}
+          ${S.followups.map((f) => `<div class="li two"><div><div class="t">${f.company} · ${esc(f.typeRu)}</div><div class="s">${f.status === 'new' ? 'у координатора' : 'передано компании'}</div></div></div>`).join('')}</section>
+        <section class="card"><h3>Фото, видео и отчёт</h3><span class="muted">Откроются 14 ноября, после возвращения группы.</span></section>`;
+    }
+    return `${delegateHead(`${me.ru} · делегат`, 'Моя поездка')}<div class="body">${seg}${body}</div>`;
+  }
+
+  // ——— Координатор ———
+  function coordHead(title) {
+    const va = S.viewAs;
+    return `<header class="head dark"><div class="row-between"><span class="eyebrow">Координатор · полный доступ</span><span class="muted" style="color:var(--a-on-dark)">09:05</span></div><h2>${title}</h2>
+      <div class="seg" role="group" aria-label="Смотреть как"><button type="button" data-act="viewAs" data-arg="" aria-pressed="${!va}">Я</button><button type="button" data-act="viewAs" data-arg="delegate" aria-pressed="${va === 'delegate'}">Как делегат</button><button type="button" data-act="viewAs" data-arg="host" aria-pressed="${va === 'host'}">Как JD.com</button></div></header>`;
+  }
+  function kCenter() {
+    const c = companies();
+    const conf = c.filter((x) => x.st[0] === 'ok').length;
+    const att = attention();
+    const missing = S.missing.map((id) => { const d = byId[id]; return `<div class="li"><span class="avatar">${initials(d.lat)}</span><div class="t">${d.ru}</div><div class="btns"><button type="button" class="icon-btn" data-act="fakeCall" data-arg="${d.ru}" aria-label="Позвонить: ${d.ru}">${icon('phone', 18)}</button>${btn('markBus', 'В автобусе', 'ghost small', id)}</div></div>`; }).join('');
+    return `${coordHead('Новый ритейл · день 2')}<div class="body">
+      <div class="stat-grid">
+        <div class="stat dark"><span class="muted">В автобусе</span><span class="v">${busCount()} / 18</span><span class="muted">выезд в 09:30</span></div>
+        <div class="stat"><span class="muted">Визиты подтверждены</span><span class="v">${conf} / 9</span><span class="muted">${c.filter((x) => x.st[0] !== 'ok').map((x) => x.name.split(' ')[0]).join(', ') || 'все'}</span></div>
+        <div class="stat"><span class="muted">Вопросы компаниям</span><span class="v">${41 + S.addedQ}</span><span class="muted">${38 + S.translatedQ} переведено</span></div>
+        <div class="stat"><span class="muted">Документы</span><span class="v">${18 - S.docsMissing.length} / 18</span><span class="muted">${S.docsMissing.length ? `${S.docsMissing.length} ждём` : 'все на месте'}</span></div>
+      </div>
+      <section class="card"><div class="title-row"><h3>Сбор группы · автобус №2</h3><span class="big" style="font-size:28px">${busCount()}/18</span></div><div class="bar"><span style="width:${busCount() / 18 * 100}%"></span></div>
+        ${S.missing.length ? `<div class="list">${missing}</div>` : '<span class="muted">Все в автобусе.</span>'}
+        ${S.departed ? '<span class="chip ok" style="align-self:flex-start">Автобус выехал · JD.com знает: прибытие ~10:25</span>' : btn('depart', 'Автобус выехал — сообщить JD.com', 'primary full')}</section>
+      <section class="card"><div class="title-row"><h3>Требует внимания</h3><span class="chip ${att.length ? 'warn' : 'ok'}">${att.length || 'всё решено'}</span></div>
+        <div class="list">${att.map((a) => `<div class="li two"><div style="display:flex;flex-direction:column;gap:6px"><div class="t">${esc(a.title)}</div>${a.sub ? `<div class="s">${esc(a.sub)}</div>` : ''}<div class="btns">${a.btns.map(([act, l, k, arg]) => btn(act, esc(l), `${k} small`, arg || '')).join('')}</div></div></div>`).join('') || '<span class="muted">Новых дел нет.</span>'}</div></section>
+    </div>`;
+  }
+  function kVisits() {
+    const rows = companies().map((c) => `<div class="li tap" data-act="openCompany" data-arg="${c.id}"><span class="avatar" style="border-radius:10px">${c.name.slice(0, 2).toUpperCase()}</span><div><div class="t">${esc(c.name)}</div><div class="s">${c.when}</div></div><span class="chip ${c.st[0]}">${esc(c.st[1])}</span></div>`).join('');
+    const conf = companies().filter((x) => x.st[0] === 'ok').length;
+    return `${coordHead(`Визиты · ${conf} из 9`)}<div class="body"><section class="card"><div class="list">${rows}</div></section>
+      <p class="muted">Нажмите на компанию: ссылка визита, QR-код приглашения, что она видит.</p></div>`;
+  }
+  function kGroup() {
+    const rows = D.map((d) => {
+      const inBus = !S.missing.includes(d.id);
+      const doc = S.docsMissing.includes(d.id);
+      return `<div class="li"><span class="avatar">${initials(d.lat)}</span><div><div class="t">${d.ru}</div><div class="s">${d.roleRu} · ${d.coRu}</div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">${inBus ? '<span class="chip ok">в автобусе</span>' : '<span class="chip warn">нет в автобусе</span>'}${doc ? `<span class="chip warn">${d.id === 'd4' ? 'нет билета' : 'нет паспорта'}</span>` : ''}</div></div>`;
+    }).join('');
+    return `${coordHead('Группа · 18')}<div class="body"><section class="card"><div class="list">${rows}</div></section></div>`;
+  }
+  function kAnnounce() {
+    const tpl = TEMPLATES.map((t) => `<button type="button" class="pick" data-act="tpl" data-arg="${t.key}" aria-pressed="${S.annTpl === t.key}">${t.label}</button>`).join('');
+    const sent = S.announcements.slice(0, 4).map((a) => `<div class="li two"><div><div>${esc(a.ru)}</div><div class="s">${a.time} · ${[a.toD && 'делегатам', a.toH && 'JD.com по-китайски', a.tg && 'Telegram'].filter(Boolean).join(', ')}</div></div></div>`).join('');
+    return `${coordHead('Объявление')}<div class="body">
+      <section class="card"><h3>Быстрые шаблоны</h3><div class="chips">${tpl}</div>
+        <label class="field" for="annText">Текст<textarea id="annText" rows="3" data-field="annText">${esc(S.annText)}</textarea></label>
+        <div class="toggle-row"><label><input id="toD" type="checkbox" data-check="d" ${S.annTo.d ? 'checked' : ''}> Делегатам (18)</label><label><input id="toH" type="checkbox" data-check="h" ${S.annTo.h ? 'checked' : ''}> JD.com (中文)</label><label><input id="toTg" type="checkbox" data-check="tg" ${S.annTo.tg ? 'checked' : ''}> Telegram</label></div>
+        ${btn('sendAnn', 'Отправить', 'primary full')}</section>
+      <section class="card"><h3>Отправлено</h3><div class="list">${sent}</div></section></div>`;
+  }
+
+  // ——— Компания (мини-программа WeChat) ———
+  function hostHead(title) {
+    const L = H[S.lang];
+    return `<header class="head"><div class="row-between"><span class="wxbrand">GLOBAL TECH TOUR</span>
+      <div class="lang" role="group" aria-label="语言 Language"><button type="button" data-act="lang" data-arg="zh" aria-pressed="${S.lang === 'zh'}">中文</button><button type="button" data-act="lang" data-arg="en" aria-pressed="${S.lang === 'en'}">EN</button></div></div>
+      <h2 class="plain">${title}</h2><span class="sub">${L.company} · ${L.date} ${S.jd.start}–${addHours(S.jd.start, 2)}</span></header>`;
+  }
+  function hVisit() {
+    const L = H[S.lang];
+    const ann = S.announcements.find((a) => a.toH);
+    const annText = ann ? (ann[S.lang] || ann.zh || ann.ru) : '';
+    const status = S.jd.proposal ? `<span class="chip warn">${L.proposed}</span>` : `<span class="chip ok">${L.confirmed}</span>`;
+    return `${hostHead(L.trip)}<div class="body">
+      <section class="card dark" style="flex-direction:row;align-items:center;gap:12px"><span style="width:44px;height:44px;border-radius:12px;background:var(--a-orange);color:var(--a-ink);display:flex;align-items:center;justify-content:center;flex:none">${icon('bus', 24)}</span>
+        <div><div style="font-weight:700;font-size:16px">${S.departed ? L.departed : L.planned}</div><div class="muted">${S.departed ? L.eta : L.plannedSub}</div></div></section>
+      ${ann ? `<section class="card warn"><span class="muted">${L.message} · ${esc(ann.time)}</span><div>${esc(annText)}</div></section>` : ''}
+      <section class="card"><div class="title-row"><h3>${L.info}</h3>${status}</div>
+        <div class="kv"><span class="k">${L.people}</span><span>${L.peopleV}</span><span class="k">${L.language}</span><span>${L.languageV}</span><span class="k">${L.industries}</span><span>${L.industriesV}</span><span class="k">${L.focus}</span><span>${L.focusV}</span></div>
+        ${S.jd.proposal ? `<div class="card warn" style="padding:10px 12px">${esc(fill(L.proposalWait, { t: S.jd.proposal.start }))}</div>` : ''}</section>
+      <section class="card"><h3>${L.program}</h3><div class="kv" style="grid-template-columns:52px minmax(0,1fr)"><strong>${S.jd.start}</strong><span>${L.p1}</span><strong>${shift(S.jd.start, 45)}</strong><span>${L.p2}</span><strong>${shift(S.jd.start, 105)}</strong><span>${L.p3}</span></div>
+        ${S.jd.proposal ? '' : btn('hostPropose', L.propose, 'ghost full')}</section>
+      <section class="card" style="flex-direction:row;align-items:center;gap:10px"><span class="avatar blue">OD</span><div style="flex:1;min-width:0"><div class="t" style="font-weight:700">Ostap Dotsenko</div><div class="muted">${L.coordinator}</div></div>${btn('hostWechat', L.wechat, 'green small')}<button type="button" class="icon-btn" data-act="hostCall" aria-label="${L.phone}">${icon('phone', 18)}</button></section>
+      ${S.hostSubscribed ? `<section class="card info">${L.subscribed}</section>` : btn('hostSubscribe', L.subscribe, 'primary full')}
+    </div>`;
+  }
+  function shift(t, minutes) {
+    const [h, m] = t.split(':').map(Number);
+    const total = h * 60 + m + minutes;
+    return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
+  }
+  function hDelegation() {
+    const L = H[S.lang];
+    const f = S.hostFilter;
+    const counts = { all: 18, retail: 0, manufacturing: 0, investment: 0, other: 0 };
+    D.forEach((d) => { counts[d.ind] += 1; });
+    const chips = ['all', 'retail', 'manufacturing', 'investment', 'other'].map((k) => `<button type="button" class="pick" data-act="hostFilter" data-arg="${k}" aria-pressed="${f === k}">${L[k]} ${counts[k]}</button>`).join('');
+    const rows = D.filter((d) => f === 'all' || d.ind === f).map((d) => `<div class="li"><span class="avatar">${initials(d.lat)}</span><div><div class="t">${d.lat}</div><div class="s">${S.lang === 'en' ? `${d.roleEn} · ${d.coEn}, ${d.cityEn}` : `${d.roleZh} · ${d.coZh}（${d.cityZh}）`}</div></div><span></span></div>`).join('');
+    return `${hostHead(L.delegation)}<div class="body"><div class="chips">${chips}</div>
+      <section class="card info" style="flex-direction:row;gap:10px;align-items:flex-start">${icon('lock', 18)}<span>${L.privacy}</span></section>
+      <section class="card"><div class="list">${rows}</div></section>
+      <section class="card"><h3>${L.guest}</h3><span class="muted">${L.guestHint}</span>${btn('hostDownload', L.download, 'primary full')}</section></div>`;
+  }
+  function hPrep() {
+    const L = H[S.lang];
+    const qs = hostQuestions();
+    const rows = qs.map((q) => { const d = byId[q.by]; return `<div class="li two"><div><div>${esc(S.lang === 'en' ? q.en : q.zh)} ${q.isNew ? `<span class="chip new">${L.newQ}</span>` : ''}</div><div class="s">${S.lang === 'en' ? `${d.roleEn} · ${d.coEn}` : `${d.roleZh} · ${d.coZh}`}</div></div></div>`; }).join('');
+    const mats = S.materials.map((m) => `<div class="li"><span class="file-badge">${m.name.split('.').pop().toUpperCase()}</span><div><div class="t">${esc(m.name)}</div><div class="s" style="color:${m.status === 'published' ? 'var(--a-ok)' : 'var(--a-warn)'};font-weight:600">${m.size} · ${m.status === 'published' ? L.published : L.review}</div></div><span></span></div>`).join('');
+    return `${hostHead(L.prep)}<div class="body">
+      <section class="card"><div class="title-row"><h3>${fill(L.questions, { n: qs.length })}</h3><span class="chip ok">${L.translated}</span></div><div class="list">${rows}</div></section>
+      <section class="card"><h3>${L.materials}</h3><div class="list">${mats}</div>${btn('hostUpload', L.upload, 'dashed full')}<span class="muted">${L.uploadHint}</span></section></div>`;
+  }
+  function hAfter() {
+    const L = H[S.lang];
+    const r = rating();
+    const reqs = S.requests.map((q) => { const d = byId[q.d]; return `<div class="li two"><div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><span class="t">${d.lat} ${q.isNew ? `<span class="chip new">${L.newReq}</span>` : ''}</span><span class="s">${S.lang === 'en' ? d.coEn : d.coZh}</span></div><div>${esc(S.lang === 'en' ? q.en : q.zh)}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="chip ${q.consent ? 'ok' : 'warn'}">${q.consent ? L.consent : L.via}</span>${q.consent ? `<button type="button" class="btn light small" data-act="hostContact" data-arg="${q.id}">${L.show}</button>` : ''}</div></div></div>`; }).join('');
+    return `${hostHead(L.after)}<div class="body">
+      <section class="card dark" style="flex-direction:row;align-items:center;gap:14px"><span class="big" style="font-size:46px">${r.avg}<span style="font-size:22px;color:var(--a-on-dark)"> / 5</span></span><div><div style="font-weight:700">${L.rating}</div><div class="muted">${fill(L.rated, { n: r.n })}</div><div class="muted">${L.top}</div></div></section>
+      <section class="card"><h3>${fill(L.requests, { n: S.requests.length })}</h3><div class="list">${reqs}</div></section>
+      ${btn('hostReply', L.reply, 'primary full')}<span class="muted">${L.afterHint}</span></div>`;
+  }
+
+  // ——— Листы (снизу) ———
+  function sheet() {
+    const sh = S.sheet;
+    if (!sh) return '';
+    const L = H[S.lang];
+    let inner = '';
+    if (sh.type === 'taxi') {
+      inner = `<h3>Покажите водителю</h3><div class="card" style="background:var(--a-bg)"><span class="muted">Куда</span><div style="font-size:26px;font-weight:700;font-family:var(--font-ui),var(--font-cjk)">京东集团总部</div><span class="muted">Точный адрес добавит координатор · [уточнить]</span></div>${btn('closeSheet', 'Готово', 'ghost full')}`;
+    } else if (sh.type === 'event') {
+      const isCo = ['JD.com', 'Meituan', 'Hema (Freshippo)', 'Pinduoduo', 'RT-Mart', 'Ele.me', 'Alibaba', "Sam's Club", 'Yonghui'].includes(sh.name);
+      const myQ = S.questions.filter((q) => q.company === sh.name);
+      inner = `<h3>${esc(sh.name)} · ${esc(sh.t)}</h3><span class="muted">${DAYS[sh.day].wd}, ${DAYS[sh.day].n} ноября · ${DAYS[sh.day].city}</span>
+        ${isCo ? `<div class="card" style="background:var(--a-bg)"><h3>Мои вопросы · ${myQ.length}</h3>${myQ.length ? myQ.map((q) => `<div>${esc(q.ru)}</div>`).join('') : '<span class="muted">Пока нет</span>'}</div>${btn('askQ', 'Задать вопрос компании', 'primary full', sh.name)}` : '<span class="muted">Детали и адрес по-китайски — у координатора.</span>'}
+        ${btn('closeSheet', 'Закрыть', 'ghost full')}`;
+    } else if (sh.type === 'question') {
+      const cos = ['JD.com', 'Meituan', 'Hema (Freshippo)'];
+      inner = `<h3>Вопрос компании</h3><div class="chips">${cos.map((c) => `<button type="button" class="pick" data-act="sheetSet" data-arg="company|${c}" aria-pressed="${sh.company === c}">${c}</button>`).join('')}</div>
+        <span class="muted">Выберите готовый или напишите свой — координатор переведёт на китайский.</span>
+        <div class="list">${SUGGESTED_Q.map((q, i) => `<button type="button" class="pick" style="border-radius:12px;text-align:left" data-act="sheetSet" data-arg="pick|${i}" aria-pressed="${sh.pick === i}">${esc(q.ru)}</button>`).join('<div style="height:6px"></div>')}</div>
+        <label class="field" for="qText">Свой вопрос<textarea id="qText" rows="2" data-field="qText" placeholder="Например: как вы отбираете поставщиков?">${esc(S.form.qText || '')}</textarea></label>
+        <div class="btns split">${btn('closeSheet', 'Отмена', 'ghost')}${btn('submitQ', 'Отправить')}</div>`;
+    } else if (sh.type === 'note') {
+      inner = `<h3>Новая заметка</h3><label class="field" for="noteText">Текст<textarea id="noteText" rows="3" data-field="noteText" placeholder="Что важно запомнить с визита">${esc(S.form.noteText || '')}</textarea></label><div class="btns split">${btn('closeSheet', 'Отмена', 'ghost')}${btn('submitNote', 'Сохранить')}</div>`;
+    } else if (sh.type === 'followup') {
+      const cos = ['JD.com', 'Meituan', 'Hema (Freshippo)'];
+      inner = `<h3>Хочу продолжить</h3><span class="muted">С какой компанией</span><div class="chips">${cos.map((c) => `<button type="button" class="pick" data-act="sheetSet" data-arg="company|${c}" aria-pressed="${sh.company === c}">${c}</button>`).join('')}</div>
+        <span class="muted">Что нужно</span><div class="chips">${FOLLOW_TYPES.map((t) => `<button type="button" class="pick" data-act="sheetSet" data-arg="ftype|${t.key}" aria-pressed="${sh.ftype === t.key}">${t.ru}</button>`).join('')}</div>
+        <div class="toggle-row"><label><input id="consent" type="checkbox" data-check="consent" ${sh.consent ? 'checked' : ''}> Разрешаю передать компании мои контакты</label></div>
+        <div class="btns split">${btn('closeSheet', 'Отмена', 'ghost')}${btn('submitFollowup', 'Отправить координатору')}</div>`;
+    } else if (sh.type === 'company') {
+      const c = companies().find((x) => x.id === sh.id);
+      const isJd = sh.id === 'jd';
+      inner = `<h3>${esc(c.name)}</h3><div class="kv"><span class="k">Когда</span><span>${c.when}</span><span class="k">Статус</span><span><span class="chip ${c.st[0]}">${esc(c.st[1])}</span></span>
+        ${isJd ? `<span class="k">Ссылка</span><span>открывали 6 раз · вчера</span><span class="k">Видит</span><span>18 гостей без телефонов, ${hostQuestions().length} вопросов на китайском</span>` : ''}</div>
+        ${isJd ? `<div class="btns split">${btn('viewAs', 'Смотреть как JD.com', 'primary', 'host')}${btn('showQr', 'QR приглашения', 'ghost')}</div>` : '<span class="muted">В прототипе подробная карточка есть у JD.com.</span>'}
+        ${btn('closeSheet', 'Закрыть', 'ghost full')}`;
+    } else if (sh.type === 'qr') {
+      inner = `<h3>QR-код приглашения JD.com</h3>${qrSvg()}<span class="muted" style="text-align:center">Менеджер JD.com сканирует его в WeChat — и сразу видит страницу своего визита. Ничего не нужно ставить.</span>${btn('closeSheet', 'Готово', 'ghost full')}`;
+    } else if (sh.type === 'hostPropose') {
+      inner = `<h3>${L.proposeTitle}</h3><div class="chips">${['10:00', '11:00', '14:00', '15:30'].map((t) => `<button type="button" class="pick" data-act="sheetSet" data-arg="start|${t}" aria-pressed="${sh.start === t}">11月10日 ${t}</button>`).join('')}</div>
+        <label class="field" for="propNote">${L.note}<input id="propNote" data-field="propNote" placeholder="${L.notePh}" value="${esc(S.form.propNote || '')}"></label>
+        <div class="btns split">${btn('closeSheet', L.cancel, 'ghost')}${btn('submitPropose', L.send)}</div>`;
+    } else if (sh.type === 'hostUpload') {
+      inner = `<h3>${L.chooseFile}</h3><div class="list">${HOST_FILES.map((f, i) => `<div class="li tap" data-act="submitUpload" data-arg="${i}"><span class="file-badge">${f.name.split('.').pop().toUpperCase()}</span><div><div class="t">${f.name}</div><div class="s">${f.size}</div></div><span></span></div>`).join('')}</div>${btn('closeSheet', L.cancel, 'ghost full')}`;
+    } else if (sh.type === 'hostReply') {
+      const targets = [[null, L.whole]].concat(S.requests.map((q) => [q.d, byId[q.d].lat]));
+      inner = `<h3>${L.reply}</h3><span class="muted">${L.replyTo}</span><div class="chips">${targets.map(([id, name]) => `<button type="button" class="pick" data-act="sheetSet" data-arg="to|${id || ''}" aria-pressed="${(sh.to || '') === (id || '')}">${name}</button>`).join('')}</div>
+        <label class="field" for="replyText">${L.reply}<textarea id="replyText" rows="3" data-field="replyText" placeholder="${L.replyPh}">${esc(S.form.replyText || '')}</textarea></label>
+        <div class="btns split">${btn('closeSheet', L.cancel, 'ghost')}${btn('submitReply', L.send)}</div>`;
+    } else if (sh.type === 'contact') {
+      const q = S.requests.find((x) => x.id === sh.id);
+      const d = byId[q.d];
+      const email = `${d.lat.toLowerCase().replace(' ', '.')}@example.com`;
+      inner = `<h3>${d.lat} · ${L.contact}</h3><div class="card" style="background:var(--a-bg)"><strong style="user-select:all">${email}</strong><span class="muted">${S.lang === 'en' ? 'Shared with the delegate’s consent. Sample address.' : '经代表本人同意提供（示例地址）'}</span></div>${btn('copyText', L.copied === 'Copied' ? 'Copy' : '复制', 'primary full', email)}${btn('closeSheet', L.cancel, 'ghost full')}`;
+    }
+    return `<div class="shade" data-act="closeSheet"></div><div class="sheet" role="dialog" aria-modal="true"><span class="grip"></span>${inner}</div>`;
+  }
+  function qrSvg() {
+    // Узор-заглушка в виде QR-кода (настоящий выдаёт WeChat по коду приглашения)
+    let cells = '';
+    let seed = 7;
+    for (let y = 0; y < 25; y++) for (let x = 0; x < 25; x++) {
+      seed = (seed * 9301 + 49297) % 233280;
+      const finder = (x < 7 && y < 7) || (x > 17 && y < 7) || (x < 7 && y > 17);
+      if (finder) continue;
+      if (seed / 233280 > 0.55) cells += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+    }
+    const finder = (x, y) => `<rect x="${x}" y="${y}" width="7" height="7" fill="#0f1b2d"/><rect x="${x + 1}" y="${y + 1}" width="5" height="5" fill="#ffffff"/><rect x="${x + 2}" y="${y + 2}" width="3" height="3" fill="#0f1b2d"/>`;
+    return `<svg class="qr" viewBox="-2 -2 29 29" role="img" aria-label="QR-код приглашения"><rect x="-2" y="-2" width="29" height="29" fill="#ffffff"/><g fill="#0f1b2d">${cells}</g>${finder(0, 0)}${finder(18, 0)}${finder(0, 18)}</svg>`;
+  }
+
+  // ——— Отрисовка ———
+  const screenEl = document.getElementById('screen');
+  let lastKey = '';
+  function render() {
+    const who = S.role === 'coordinator' && S.viewAs ? S.viewAs : S.role;
+    const key = `${S.role}:${who}:${S.tab[who]}`;
+    const scroller = screenEl.querySelector('.scroll');
+    const keepScroll = scroller && key === lastKey ? scroller.scrollTop : 0;
+    const views = {
+      delegate: { today: dToday, plan: dPlan, library: dLibrary, people: dPeople, trip: dTrip },
+      coordinator: { center: kCenter, visits: kVisits, group: kGroup, announce: kAnnounce },
+      host: { visit: hVisit, delegation: hDelegation, prep: hPrep, after: hAfter },
+    };
+    const isHost = who === 'host';
+    const banner = S.viewAs ? `<div class="viewas"><span>Вы смотрите как ${S.viewAs === 'delegate' ? `делегат ${me.ru}` : 'JD.com'} · только просмотр</span><button type="button" data-act="viewAs" data-arg="">Вернуться</button></div>` : '';
+    const top = isHost
+      ? `<div class="statusbar"><span>09:05</span><span class="icons">●●● <span class="bat"></span></span></div><div class="wxbar">Global Tech Tour<span class="capsule" aria-hidden="true"><span>•••</span><span>◎</span></span></div>`
+      : `<div class="statusbar ${who === 'coordinator' ? 'dark' : ''}"><span>09:05</span><span class="icons">●●● <span class="bat"></span></span></div>`;
+    const toastEl = S.toast ? `<div class="toast" role="status">${S.toast.from ? `<span class="from">${esc(S.toast.from)}</span>` : ''}${esc(S.toast.text)}</div>` : '';
+    screenEl.className = `screen${isHost ? ' cjk' : ''}`;
+    screenEl.setAttribute('lang', isHost ? (S.lang === 'zh' ? 'zh-CN' : 'en') : 'ru');
+    screenEl.innerHTML = `${top}${banner}<div class="scroll">${views[who][S.tab[who]]()}</div>${tabbar(who)}${sheet()}${toastEl}`;
+    const sc = screenEl.querySelector('.scroll');
+    if (sc) sc.scrollTop = keepScroll;
+    lastKey = key;
+    renderSide();
+    save();
+  }
+
+  const ROLE_INFO = {
+    delegate: { name: `Делегат · ${me.ru}`, text: 'Участник экспедиции. Видит свою поездку: что сегодня, план по дням, материалы, людей группы и подготовку. Телефоны других — только через знакомство.', tips: ['Нажмите «Я в автобусе» — у координатора счётчик станет 15/18.', 'Во вкладке «Поездка» задайте вопрос JD.com — его переведут для компании.', 'В «Плане» листайте дни и откройте событие.', 'В «Поездке» → «После» оцените визит и оставьте запрос «Хочу продолжить».'] },
+    coordinator: { name: 'Координатор · Остап Доценко', text: 'Видит и меняет всё. Ведёт группу и визиты, отвечает на запросы компаний и делегатов, может открыть любой экран глазами делегата или JD.com.', tips: ['На «Пульте» примите перенос Hema — у делегата обновится план.', 'Нажмите «Автобус выехал» — JD.com узнает в WeChat, если включила напоминания.', 'Откройте презентацию JD.com делегатам или переведите вопросы.', 'Переключите «Как делегат» / «Как JD.com» в шапке.'] },
+    host: { name: 'Компания · JD.com в WeChat', text: 'Менеджер компании, куда едет группа. Открывает мини-программу по QR-коду в WeChat, без установки. Видит только свой визит; телефонов делегатов не видит.', tips: ['Нажмите «接收提醒» (напоминания), потом у координатора «Автобус выехал».', 'Предложите другое время — запрос уйдёт координатору.', 'Загрузите файл во вкладке «问题与资料» — он попадёт на проверку.', 'Переключите 中文 / EN и ответьте делегатам во вкладке «访问后».'] },
+  };
+  function renderSide() {
+    document.querySelectorAll('[data-role]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.role === S.role)));
+    const info = ROLE_INFO[S.role];
+    document.getElementById('who').innerHTML = `<div class="who"><span class="tag ${S.role}" style="align-self:flex-start">${ROLE_RU[S.role]}</span><span class="name">${esc(info.name)}</span><p>${esc(info.text)}</p></div>`;
+    document.getElementById('tips').innerHTML = info.tips.map((t) => `<li>${esc(t)}</li>`).join('');
+    document.getElementById('log').innerHTML = S.log.length
+      ? S.log.map((l) => `<li><span class="tag ${l.role}">${ROLE_RU[l.role]}</span><span>${esc(l.text)}</span></li>`).join('')
+      : '<li><span class="empty">Пока ничего. Нажмите любую кнопку в телефоне.</span></li>';
+  }
+
+  // ——— Действия ———
+  const NAV = new Set(['tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet']);
+  const now = () => '09:05';
+  const A = {
+    tab: (k) => { const who = S.role === 'coordinator' && S.viewAs ? S.viewAs : S.role; S.tab[who] = k; if (who === 'host' && k === 'after') setTimeout(() => { S.requests.forEach((r) => { r.isNew = false; }); save(); }, 0); },
+    day: (i) => { S.day = Number(i); },
+    stage: (k) => { S.tripStage = k; },
+    viewAs: (v) => { S.viewAs = v || null; S.sheet = null; if (v) log('coordinator', `Включил «Смотреть как ${v === 'delegate' ? 'делегат' : 'JD.com'}» — экран ровно такой, как у них.`); },
+    closeSheet: () => { S.sheet = null; },
+    sheetSet: (arg) => { const [k, v] = arg.split('|'); S.sheet[k] = k === 'pick' ? Number(v) : v; },
+    lang: (l) => { S.lang = l; },
+    hostFilter: (k) => { S.hostFilter = k; },
+
+    // делегат
+    busToggle: () => {
+      if (S.missing.includes('d1')) { S.missing = S.missing.filter((x) => x !== 'd1'); log('delegate', `${me.ru}: «Я в автобусе» → у координатора ${busCount()}/18.`); toast(`Координатор видит: в автобусе ${busCount()} из 18`); }
+      else { S.missing.unshift('d1'); log('delegate', `${me.ru} отменила отметку → ${busCount()}/18.`); }
+    },
+    taxi: () => { S.sheet = { type: 'taxi' }; },
+    openEvent: (arg) => { const [day, t, name] = arg.split('|'); S.sheet = { type: 'event', day: Number(day), t, name }; },
+    download: (k) => { S.downloaded[k] = !S.downloaded[k]; if (S.downloaded[k]) toast('Скачано — откроется без интернета'); },
+    addNote: () => { S.form.noteText = ''; S.sheet = { type: 'note' }; },
+    submitNote: () => { const t = (S.form.noteText || '').trim(); if (!t) return toast('Напишите текст заметки'); S.notes.unshift({ text: t, time: 'сейчас' }); S.sheet = null; toast('Заметка сохранена · видите только вы'); },
+    intro: (id) => { S.intros[id] = true; log('delegate', `Запрос на знакомство: ${me.ru} → ${byId[id].ru}. Контакты откроются, если он согласится.`); toast(`${byId[id].ru} получит запрос на знакомство`); },
+    fakeCall: (who) => toast(`В прототипе звонка нет — в приложении наберёт ${who}`),
+    fakeMsg: (who) => toast(`В прототипе сообщения нет — в приложении откроется чат с ${who}`),
+    tick: (k) => { S.checklist[k] = !S.checklist[k]; },
+    askQ: (company) => { S.form.qText = ''; S.sheet = { type: 'question', company: ['JD.com', 'Meituan', 'Hema (Freshippo)'].includes(company) ? company : 'JD.com', pick: null }; },
+    submitQ: () => {
+      const sh = S.sheet;
+      const own = (S.form.qText || '').trim();
+      if (sh.pick == null && !own) return toast('Выберите вопрос или напишите свой');
+      const base = sh.pick != null ? SUGGESTED_Q[sh.pick] : { ru: own, zh: `（原型：此处为协调人翻译的中文）${own}`, en: `(prototype: coordinator’s English translation) ${own}` };
+      S.questions.push({ id: nid(), company: sh.company, ru: base.ru, zh: base.zh, en: base.en, status: 'pending' });
+      S.addedQ += 1;
+      S.sheet = null;
+      log('delegate', `${me.ru} задала вопрос ${sh.company} → у координатора «ждут перевода».`);
+      toast('Вопрос у координатора: он переведёт и отправит компании');
+    },
+    rate: (n) => { const first = !S.myRating; S.myRating = Number(n); if (first) log('delegate', `Оценка визита ${n}/5 → у JD.com общий отзыв ${rating().avg} (${rating().n} оценок), без имён.`); },
+    followup: () => { S.sheet = { type: 'followup', company: 'JD.com', ftype: 'samples', consent: true }; },
+    submitFollowup: () => {
+      const sh = S.sheet;
+      const t = FOLLOW_TYPES.find((x) => x.key === sh.ftype);
+      S.followups.push({ id: nid(), company: sh.company, typeRu: t.ru, zh: t.zh, en: t.en, consent: sh.consent, status: 'new' });
+      S.sheet = null;
+      log('delegate', `${me.ru}: «Хочу продолжить» с ${sh.company} (${t.ru.toLowerCase()}) → у координатора на пульте.`);
+      toast('Запрос у координатора');
+    },
+
+    // координатор
+    markBus: (id) => { S.missing = S.missing.filter((x) => x !== id); log('coordinator', `Отметил ${byId[id].ru} в автобусе → ${busCount()}/18.`); },
+    depart: () => {
+      S.departed = true;
+      log('coordinator', `«Автобус выехал» → JD.com видит «代表团已出发», делегаты — «в пути».`);
+      if (S.hostSubscribed) { S.hostNotice = true; log('host', 'JD.com получила уведомление WeChat: «代表团已出发，预计10:25到达».'); toast('JD.com получила уведомление в WeChat'); }
+      else toast('JD.com увидит статус на странице визита. Уведомление придёт, если включит напоминания');
+    },
+    acceptHema: () => {
+      S.hema = 'accepted';
+      S.dNotices.unshift({ text: 'Hema перенесли на 14:00 (ср, 11 ноября). План уже обновлён.', time: now(), tone: 'warn' });
+      log('coordinator', 'Принял перенос Hema на 14:00 → у делегатов план обновлён и пришло уведомление.');
+      toast('Группа получила уведомление, план обновлён');
+    },
+    discussHema: () => { S.hema = 'discuss'; log('coordinator', 'Hema: «Обсудить» → открыт чат с менеджером компании.'); toast('В приложении откроется чат с Hema'); },
+    acceptJd: () => {
+      const p = S.jd.proposal;
+      S.jd = { status: 'confirmed', start: p.start, proposal: null };
+      S.dNotices.unshift({ text: `JD.com перенесли на ${p.start}. План обновлён.`, time: now(), tone: 'warn' });
+      log('coordinator', `Принял время JD.com ${p.start} → у компании «已确认», у делегатов новый план.`);
+      toast('JD.com и группа получили новое время');
+    },
+    rejectJd: () => { S.jd.proposal = null; S.jd.status = 'confirmed'; log('coordinator', `Оставил JD.com прежнее время ${S.jd.start} → компания видит «已确认».`); },
+    publishMat: (id) => {
+      const m = S.materials.find((x) => x.id === id);
+      m.status = 'published';
+      S.dNotices.unshift({ text: `Новый материал от JD.com: «${m.name}» — в Материалах`, time: now(), tone: 'info' });
+      log('coordinator', `Открыл делегатам «${m.name}» → у делегатов в Материалах, у JD.com статус «已发给代表团».`);
+      toast('Материал открыт делегатам');
+    },
+    translateQ: () => {
+      const n = pendingQ();
+      S.questions.forEach((q) => { if (q.status === 'pending') q.status = 'sent'; });
+      S.translatedQ += n;
+      S.basePendingQ = 0;
+      log('coordinator', `Перевёл и отправил ${n} ${plural(n, 'вопрос', 'вопроса', 'вопросов')} → компании видят их на китайском.`);
+      toast('Вопросы отправлены компаниям на китайском');
+    },
+    forwardReply: (id) => {
+      const r = S.replies.find((x) => x.id === id);
+      r.forwarded = true;
+      S.dNotices.unshift({ text: `JD.com ответила${r.toName ? ` (для ${r.toName})` : ''}: «${r.text}» — перевод координатора`, time: now(), tone: 'info' });
+      log('coordinator', 'Переслал ответ JD.com делегатам → у делегата уведомление на «Сегодня».');
+    },
+    sendFollowup: (id) => {
+      const f = S.followups.find((x) => x.id === id);
+      f.status = 'sent';
+      if (f.company === 'JD.com') {
+        S.requests.push({ id: nid(), d: 'd1', zh: f.zh, en: f.en, consent: f.consent, isNew: true });
+        log('coordinator', `Передал запрос ${me.ru} в JD.com → у компании во вкладке «访问后»${f.consent ? ' с контактами (есть согласие)' : ' без контактов'}.`);
+      } else log('coordinator', `Передал запрос ${me.ru} в ${f.company}.`);
+      toast('Запрос передан компании');
+    },
+    remindPdd: () => { S.pddReminded = true; log('coordinator', 'Напомнил Pinduoduo открыть ссылку визита (WeChat и почта).'); toast('Напоминание отправлено'); },
+    remindIgor: () => { S.igorReminded = true; log('coordinator', 'Напомнил Игорю Белову загрузить билет.'); toast('Игорь Белов получил напоминание'); },
+    openCompany: (id) => { S.sheet = { type: 'company', id }; },
+    showQr: () => { S.sheet = { type: 'qr' }; },
+    tpl: (k) => { const t = TEMPLATES.find((x) => x.key === k); S.annTpl = k; S.annText = t.ru; },
+    sendAnn: () => {
+      const text = (S.annText || '').trim();
+      if (!text) return toast('Напишите текст объявления');
+      if (!S.annTo.d && !S.annTo.h && !S.annTo.tg) return toast('Выберите, кому отправить');
+      const t = TEMPLATES.find((x) => x.ru === text);
+      S.announcements.unshift({ id: nid(), ru: text, zh: t ? t.zh : `（原型：中文译文）${text}`, en: t ? t.en : `(prototype: English translation) ${text}`, toD: S.annTo.d, toH: S.annTo.h, tg: S.annTo.tg, time: now() });
+      if (S.annTo.d) S.dNotices.unshift({ text: `Объявление: ${text}`, time: now(), tone: 'warn' });
+      log('coordinator', `Объявление «${text.slice(0, 40)}${text.length > 40 ? '…' : ''}» → ${[S.annTo.d && 'делегатам', S.annTo.h && 'JD.com по-китайски', S.annTo.tg && 'в Telegram'].filter(Boolean).join(', ')}.`);
+      toast('Объявление отправлено');
+    },
+
+    // компания
+    hostPropose: () => { S.form.propNote = ''; S.sheet = { type: 'hostPropose', start: '11:00' }; },
+    submitPropose: () => {
+      const note = (S.form.propNote || '').trim();
+      S.jd.proposal = { start: S.sheet.start, note };
+      S.jd.status = 'time_proposed';
+      S.sheet = null;
+      log('host', `JD.com предложила ${S.jd.proposal.start} вместо ${S.jd.start} → у координатора на пульте «Принять / Оставить».`);
+      toast(H[S.lang].sent);
+    },
+    hostUpload: () => { S.sheet = { type: 'hostUpload' }; },
+    submitUpload: (i) => {
+      const f = HOST_FILES[Number(i)];
+      if (S.materials.some((m) => m.name === f.name)) { S.sheet = null; return toast(S.lang === 'en' ? 'This file is already uploaded' : '该文件已上传'); }
+      S.materials.push({ id: nid(), name: f.name, size: f.size, status: 'review' });
+      S.sheet = null;
+      log('host', `JD.com загрузила «${f.name}» → у координатора «Открыть делегатам».`);
+      toast(S.lang === 'en' ? 'Uploaded, under review' : '已上传，等待协调人审核');
+    },
+    hostReply: () => { S.form.replyText = ''; S.sheet = { type: 'hostReply', to: '' }; },
+    submitReply: () => {
+      const text = (S.form.replyText || '').trim();
+      if (!text) return toast(S.lang === 'en' ? 'Write a reply' : '请输入回复内容');
+      const to = S.sheet.to;
+      S.replies.push({ id: nid(), text, toName: to ? byId[to].ru : '', forwarded: false });
+      S.sheet = null;
+      log('host', `JD.com ответила${to ? ` ${byId[to].ru}` : ' группе'} → координатор переведёт и перешлёт.`);
+      toast(H[S.lang].sent);
+    },
+    hostContact: (id) => { S.sheet = { type: 'contact', id }; },
+    hostSubscribe: () => { S.hostSubscribed = true; log('host', 'JD.com включила напоминания WeChat → получит уведомление, когда автобус выедет.'); toast(S.lang === 'en' ? 'Reminders on' : '已开启提醒'); },
+    hostWechat: () => toast(H[S.lang].wxCopied),
+    hostCall: () => toast(H[S.lang].call),
+    hostDownload: () => { log('host', 'JD.com скачала список гостей для охраны (имена латиницей, без паспортов).'); toast(H[S.lang].downloaded); },
+    copyText: (text) => {
+      const done = () => toast(H[S.lang].copied);
+      try { navigator.clipboard.writeText(text).then(done, done); } catch (e) { done(); }
+    },
+  };
+
+  document.addEventListener('click', (e) => {
+    const roleBtn = e.target.closest('[data-role]');
+    if (roleBtn) { S.role = roleBtn.dataset.role; S.viewAs = null; S.sheet = null; render(); return; }
+    const el = e.target.closest('[data-act]');
+    if (!el || !screenEl.contains(el)) return;
+    const act = el.dataset.act;
+    if (el.classList.contains('shade') && act === 'closeSheet') { S.sheet = null; render(); return; }
+    if (S.viewAs && !NAV.has(act)) { toast('Режим просмотра: действие делает сам ' + (S.viewAs === 'delegate' ? 'делегат' : 'JD.com')); render(); return; }
+    const fn = A[act];
+    if (!fn) return;
+    fn(el.dataset.arg || '');
+    render();
+  });
+  document.addEventListener('input', (e) => {
+    const f = e.target.dataset.field;
+    if (!f) return;
+    if (f === 'annText') { S.annText = e.target.value; S.annTpl = null; } else S.form[f] = e.target.value;
+    save();
+  });
+  document.addEventListener('change', (e) => {
+    const c = e.target.dataset.check;
+    if (!c) return;
+    if (c === 'consent') { S.sheet.consent = e.target.checked; return; }
+    S.annTo[c] = e.target.checked;
+    save();
+  });
+  document.getElementById('reset').addEventListener('click', () => { S = fresh(); render(); });
+
+  render();
+})();
+</script>

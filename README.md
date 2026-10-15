@@ -31,6 +31,7 @@
 | [`CLAUDE.md`](CLAUDE.md) | Правила работы с репозиторием для сессий Claude |
 
 Рабочие версии с комментариями:
+- **кликабельный прототип** (три роли, кнопки работают) — https://claude.ai/artifact/WqVbtPczcM5Vny7N5f1Jym, исходник `design/prototype/index.html`
 - документ архитектуры — Claude Docs, https://claude.ai/artifact/6nudCcLPP5eTTKeu6WhLGp
 - холст с экранами — Claude Design, https://claude.ai/artifact/8Tw2bADzTCNwschFSXRMAy
 

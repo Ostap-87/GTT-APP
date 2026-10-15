@@ -15,6 +15,8 @@
 - `design/canvas/` — копия файлов холста Claude Design (https://claude.ai/artifact/8Tw2bADzTCNwschFSXRMAy,
   файлы `project/*.dc.html` и `canvas.json`). После правок на холсте скопируй изменённые файлы сюда и пересобери
   превью: `node tools/render-previews.mjs`, затем `python3 tools/role-sheets.py`.
+- `design/prototype/index.html` — кликабельный прототип (артефакт https://claude.ai/artifact/WqVbtPczcM5Vny7N5f1Jym):
+  одна страница без зависимостей, общее состояние трёх ролей. Правишь — публикуй тот же файл в тот же артефакт и коммить.
 - `design/previews/` — PNG экранов и листы-обзоры по ролям (`_делегат.jpg`, `_координатор.jpg`, `_компания.jpg`):
   их и показывай пользователю в чате после каждой правки.
 
