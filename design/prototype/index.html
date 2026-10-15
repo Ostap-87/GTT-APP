@@ -43,6 +43,14 @@
   --a-red: #c5321b;
   --a-red-soft: #fdecea;
   --a-shade: rgba(15, 27, 45, 0.45);
+  --a-map: #eef1ea;
+  --a-map-road: #ffffff;
+  --a-map-water: #cfe2f3;
+  --a-map-park: #dde9cf;
+  --a-shop: #1a73e8;
+  --a-night: #7b4fd6;
+  --a-store: #1e8e5a;
+  --a-wc: #d9822b;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -217,6 +225,11 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
 .bubble.them { align-self: flex-start; background: var(--a-line2); color: var(--a-ink); }
 .bubble .tr { font-size: 12.5px; opacity: .85; }
 .range { width: 100%; accent-color: var(--a-blue); }
+.qa { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.qa .btn { height: 46px; }
+.map { width: 100%; height: auto; border-radius: 12px; display: block; }
+.map .pin { cursor: pointer; }
+.back { border: 0; background: transparent; color: var(--a-blue-ink); font-weight: 600; font-size: 14px; padding: 0; align-self: flex-start; }
 @media (prefers-reduced-motion: reduce) { .toast { animation: none; } .bar > span { transition: none; } .eq span { animation: none; height: 22px; } }
 
 @media (max-width: 900px) {
@@ -377,6 +390,32 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     zh: [['这是今年的新茶。', 'Это чай нового урожая.'], ['可以用支付宝或者微信支付。', 'Можно оплатить через Alipay или WeChat.'], ['好的，请上车。', 'Хорошо, садитесь, пожалуйста.']],
   };
   const SUBS = ['Сейчас мы проходим зону сортировки.', 'Обратите внимание: полки сами подъезжают к сотрудникам.', 'Следующий зал — шоурум собственных марок.'];
+  // Свободное время: подборка координатора рядом с отелем (Пекин). Часы и расстояния — примеры.
+  const CITY_CATS = [['shop', 'Шопинг'], ['night', 'Ночная жизнь'], ['store', '24/7'], ['wc', 'Туалеты']];
+  const CAT_COLOR = { shop: 'var(--a-shop)', night: 'var(--a-night)', store: 'var(--a-store)', wc: 'var(--a-wc)' };
+  const PLACES = {
+    shop: [
+      { id: 'p1', ru: 'Улица Ванфуцзин', zh: '王府井大街', en: 'Wangfujing Street', what: 'Пешеходная торговая улица: универмаги, сувениры, уличная еда', hours: '10:00–22:00', dist: '5 мин пешком', x: 150, y: 118 },
+      { id: 'p2', ru: 'Sanlitun Taikoo Li', zh: '三里屯太古里', en: 'Sanlitun Taikoo Li', what: 'Магазины брендов, кафе и рестораны под открытым небом', hours: '10:00–22:00', dist: '20 мин на такси', x: 288, y: 62 },
+      { id: 'p3', ru: 'Шёлковый рынок', zh: '秀水街', en: 'Silk Street Market', what: 'Сувениры, одежда, шёлк; торговаться здесь нормально', hours: '09:30–21:00', dist: '15 мин на такси', x: 262, y: 172 },
+    ],
+    night: [
+      { id: 'n1', ru: 'Барная улица Саньлитунь', zh: '三里屯酒吧街', en: 'Sanlitun Bar Street', what: 'Бары и клубы, много иностранцев', hours: 'до 02:00', dist: '20 мин на такси', x: 296, y: 80 },
+      { id: 'n2', ru: 'Бары у озера Хоухай', zh: '后海酒吧街', en: 'Houhai Bar Street', what: 'Бары с живой музыкой у озера, старые хутуны', hours: 'до 01:00', dist: '15 мин на такси', x: 72, y: 50 },
+      { id: 'n3', ru: 'Улица Гуйцзе', zh: '簋街', en: 'Guijie Street', what: 'Ночные рестораны: острые раки, шашлычки', hours: 'до 04:00', dist: '10 мин на такси', x: 205, y: 52 },
+    ],
+    store: [
+      { id: 's1', ru: '7-Eleven', zh: '7-Eleven 便利店', en: '7-Eleven', what: 'Вода, снеки, SIM-карты, зарядки', hours: 'круглосуточно', dist: '150 м', x: 168, y: 140 },
+      { id: 's2', ru: 'FamilyMart', zh: '全家便利店', en: 'FamilyMart', what: 'Горячая еда, кофе, оплата WeChat и Alipay', hours: 'круглосуточно', dist: '300 м', x: 122, y: 102 },
+      { id: 's3', ru: 'Lawson', zh: '罗森便利店', en: 'Lawson', what: 'Снеки, напитки, бытовые мелочи', hours: 'круглосуточно', dist: '450 м', x: 186, y: 96 },
+    ],
+    wc: [
+      { id: 'w1', ru: 'Общественный туалет', zh: '公共厕所', en: 'Public toilet', what: 'Бесплатный; бумаги часто нет — возьмите салфетки', hours: 'круглосуточно', dist: '120 м', x: 136, y: 136 },
+      { id: 'w2', ru: 'Туалет в универмаге', zh: '百货商场卫生间', en: 'Department store restroom', what: 'Чище и с бумагой, 3-й этаж', hours: '10:00–22:00', dist: '250 м', x: 162, y: 106 },
+      { id: 'w3', ru: 'Туалет в лобби отеля', zh: '酒店大堂卫生间', en: 'Hotel lobby restroom', what: 'Для гостей отеля, открыт всегда', hours: 'круглосуточно', dist: 'в отеле', x: 152, y: 160 },
+    ],
+  };
+  const placeById = (id) => Object.values(PLACES).flat().find((x) => x.id === id);
   const DIETS = ['Без ограничений', 'Вегетарианское', 'Без свинины', 'Халяль', 'Без острого', 'Аллергия на морепродукты'];
 
   // Тексты страницы компании (мини-программа WeChat)
@@ -447,6 +486,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     headphones: '<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="5" height="7" rx="2"/><rect x="16" y="14" width="5" height="7" rx="2"/>',
     mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
     copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
+    map: '<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+    car: '<path d="M4 16v-4l2-5h12l2 5v4z"/><path d="M4 12h16"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/>',
     star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
   };
   const icon = (name, size = 22) => `<svg class="ico" width="${size}" height="${size}" style="width:${size}px;height:${size}px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
@@ -456,7 +497,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   const addHours = (t, h) => { const [hh, mm] = t.split(':').map(Number); return `${String(hh + h).padStart(2, '0')}:${String(mm).padStart(2, '0')}`; };
 
   // ——— Состояние ———
-  const KEY = 'gtt-proto-v3';
+  const KEY = 'gtt-proto-v4';
   function fresh() {
     return {
       role: 'delegate', viewAs: null,
@@ -481,6 +522,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       intros: {}, hostSubscribed: false, hostNotice: null, dNotices: [],
       diet: null, reviews: [], reviewMode: 'text', videoAttached: false, reviewConsent: true,
       guideLive: false, listening: false, subtitles: true, voiceOut: true, chat: [], tIdx: { ru: 0, zh: 0 },
+      cityCat: 'shop', place: null, out: null,
       form: {}, annText: TEMPLATES[0].ru, annTpl: 'late', annTo: { d: true, h: true, tg: true },
       log: [], toast: null, sheet: null, seq: 1,
     };
@@ -597,7 +639,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
   function quickActions() {
     return `${S.guideLive ? `<section class="card info tap" data-act="guide" style="flex-direction:row;align-items:center;gap:10px">${icon('headphones', 24)}<div style="flex:1"><div class="t" style="font-weight:700">Гид в эфире</div><div class="muted" style="color:inherit">Ли Мэй · нажмите, чтобы слушать в наушниках</div></div></section>` : ''}
-      <div class="btns split">${btn('translator', `${icon('translate', 18)} Переводчик`, 'ghost')}${btn('guide', `${icon('headphones', 18)} Слушать гида`, 'ghost')}</div>`;
+      <div class="qa">${btn('translator', `${icon('translate', 18)} Переводчик`, 'ghost')}${btn('guide', `${icon('headphones', 18)} Слушать гида`, 'ghost')}${btn('tab', `${icon('map', 18)} Город`, 'ghost', 'city')}${btn('taxi2', `${icon('car', 18)} Такси`, 'ghost', 'hotel')}</div>`;
   }
   function weatherHotel(i) {
     const w = WEATHER[i];
@@ -626,6 +668,42 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       <section class="card"><h3>Погода и отель</h3><div class="list">${weatherHotel(1)}</div></section>
       <section class="card"><div class="title-row"><h3>План дня</h3><button type="button" class="btn light small" data-act="tab" data-arg="plan">Весь план</button></div><div class="list">${plan}</div></section>
     </div>`;
+  }
+  function cityMap(cat) {
+    const pins = PLACES[cat].map((pl) => {
+      const on = S.place === pl.id;
+      return `<g class="pin" data-act="pickPlace" data-arg="${pl.id}" role="button" tabindex="0" aria-label="${esc(pl.ru)}"><circle cx="${pl.x}" cy="${pl.y}" r="${on ? 13 : 10}" fill="${CAT_COLOR[cat]}" stroke="#ffffff" stroke-width="3"/>${on ? `<circle cx="${pl.x}" cy="${pl.y}" r="18" fill="none" stroke="${CAT_COLOR[cat]}" stroke-width="2" opacity=".5"/>` : ''}</g>`;
+    }).join('');
+    return `<svg class="map" viewBox="0 0 340 220" role="img" aria-label="Схема центра Пекина с местами рядом с отелем">
+      <rect width="340" height="220" fill="var(--a-map)"/>
+      <path d="M50 30 Q60 20 80 28 L95 40 Q90 60 70 62 Q48 58 50 30z" fill="var(--a-map-water)"/>
+      <rect x="92" y="96" width="44" height="52" rx="4" fill="var(--a-map-park)"/>
+      <rect x="30" y="22" width="285" height="180" rx="26" fill="none" stroke="var(--a-map-road)" stroke-width="7"/>
+      <path d="M10 168 H330" stroke="var(--a-map-road)" stroke-width="10"/>
+      <path d="M150 10 V210" stroke="var(--a-map-road)" stroke-width="6"/>
+      <path d="M10 92 H330" stroke="var(--a-map-road)" stroke-width="5"/>
+      <path d="M230 10 V210" stroke="var(--a-map-road)" stroke-width="5"/>
+      <text x="114" y="126" font-size="9" text-anchor="middle" fill="var(--a-muted)">Гугун</text>
+      <text x="72" y="74" font-size="9" text-anchor="middle" fill="var(--a-muted)">Хоухай</text>
+      <text x="300" y="181" font-size="9" text-anchor="end" fill="var(--a-muted)">проспект Чанъань</text>
+      <rect x="140" y="152" width="22" height="16" rx="4" fill="var(--a-dark)"/><text x="151" y="164" font-size="10" font-weight="700" text-anchor="middle" fill="#ffffff">H</text>
+      ${pins}
+    </svg>`;
+  }
+  function dCity() {
+    const cat = S.cityCat;
+    const seg = `<div class="seg light" style="grid-auto-columns:minmax(0,1fr)">${CITY_CATS.map(([k, l]) => `<button type="button" data-act="cityCat" data-arg="${k}" aria-pressed="${cat === k}">${l}</button>`).join('')}</div>`;
+    const list = PLACES[cat].map((pl) => `<div class="li tap" data-act="pickPlace" data-arg="${pl.id}"><span class="avatar" style="background:${CAT_COLOR[cat]};color:#ffffff;width:12px;height:12px;border-radius:6px"></span><div><div class="t">${esc(pl.ru)} <span class="s" style="font-family:var(--font-ui),var(--font-cjk)">${esc(pl.zh)}</span></div><div class="s">${esc(pl.what)}</div><div class="s">${esc(pl.hours)} · ${esc(pl.dist)}</div></div><span class="chip info">${cat === 'store' || cat === 'wc' ? 'рядом' : 'подборка'}</span></div>`).join('');
+    const out = S.out
+      ? `<section class="card info" style="flex-direction:row;align-items:center;gap:10px"><div style="flex:1"><div class="t" style="font-weight:700">Вы гуляете самостоятельно</div><div class="muted" style="color:inherit">Координатор знает · вернуться до ${esc(S.out.back)}</div></div>${btn('backHome', 'Я в отеле', 'primary small')}</section>`
+      : `<section class="card" style="flex-direction:row;align-items:center;gap:10px"><div style="flex:1"><div class="t" style="font-weight:700">Идёте гулять сами?</div><div class="muted">Отметьтесь — координатор будет знать, что всё в порядке</div></div>${btn('goOut', 'Иду гулять', 'light small')}</section>`;
+    const more = cat === 'store' || cat === 'wc' ? btn('findMore', `Найти ещё рядом на карте`, 'ghost full', cat) : '';
+    return `<header class="head"><button type="button" class="back" data-act="tab" data-arg="today">← Сегодня</button><span class="eyebrow">Пекин · свободное время · ${WEATHER[1].max}</span><h2>Город</h2></header><div class="body">
+      ${out}${seg}
+      <section class="card" style="padding:8px">${cityMap(cat)}<span class="muted" style="padding:4px 6px 2px">Схема для прототипа. В приложении — карта Amap с поиском рядом с вами.</span></section>
+      <section class="card"><div class="list">${list}</div>${more}</section>
+      <section class="card dark" style="flex-direction:row;align-items:center;gap:10px">${icon('car', 26)}<div style="flex:1"><div class="t" style="font-weight:700">Вернуться в отель</div><div class="muted">DiDi или такси на улице — адрес по-китайски готов</div></div>${btn('taxi2', 'Такси', 'white small', 'hotel')}</section>
+      <p class="muted">Места, часы работы и расстояния — примеры. Подборку для каждого города делает координатор, магазины 24/7 и туалеты ищутся на карте автоматически.</p></div>`;
   }
   function dPlan() {
     const days = DAYS.map((d, i) => `<button type="button" data-act="day" data-arg="${i}" aria-pressed="${S.day === i}"><span class="w">${d.wd}</span><span class="n">${d.n}</span><span class="c">${WEATHER[i].max}</span></button>`).join('');
@@ -745,6 +823,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
         ${S.departed ? '<span class="chip ok" style="align-self:flex-start">Автобус выехал · JD.com знает: прибытие ~10:25</span>' : btn('depart', 'Автобус выехал — сообщить JD.com', 'primary full')}</section>
       <section class="card"><div class="title-row"><h3 style="display:flex;gap:6px;align-items:center">${icon('headphones', 18)} Радиогид для группы</h3>${S.guideLive ? '<span class="chip new">в эфире</span>' : ''}</div>
         ${S.guideLive ? `<span class="muted">Говорит Ли Мэй · слушают ${11 + (S.listening ? 1 : 0)} из 18</span>${btn('stopBroadcast', 'Остановить трансляцию', 'ghost full')}` : `<span class="muted">Переводчик или гид говорит в свой телефон, группа слушает в своих наушниках.</span>${btn('startBroadcast', 'Начать трансляцию', 'primary full')}`}</section>
+      ${S.out ? `<section class="card info"><div class="t" style="font-weight:700">Свободное время</div><span>Гуляет самостоятельно: ${me.ru}, вернётся до ${esc(S.out.back)}</span></section>` : ''}
       <section class="card"><div class="title-row"><h3>Требует внимания</h3><span class="chip ${att.length ? 'warn' : 'ok'}">${att.length || 'всё решено'}</span></div>
         <div class="list">${att.map((a) => `<div class="li two"><div style="display:flex;flex-direction:column;gap:6px"><div class="t">${esc(a.title)}</div>${a.sub ? `<div class="s">${esc(a.sub)}</div>` : ''}<div class="btns">${a.btns.map(([act, l, k, arg]) => btn(act, esc(l), `${k} small`, arg || '')).join('')}</div></div></div>`).join('') || '<span class="muted">Новых дел нет.</span>'}</div></section>
     </div>`;
@@ -759,7 +838,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     const rows = D.map((d) => {
       const inBus = !S.missing.includes(d.id);
       const doc = S.docsMissing.includes(d.id);
-      return `<div class="li"><span class="avatar">${initials(d.lat)}</span><div><div class="t">${d.ru}</div><div class="s">${d.roleRu} · ${d.coRu}</div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">${inBus ? '<span class="chip ok">в автобусе</span>' : '<span class="chip warn">нет в автобусе</span>'}${doc ? `<span class="chip warn">${d.id === 'd4' ? 'нет билета' : 'нет паспорта'}</span>` : ''}${d.id === 'd1' && S.diet ? `<span class="chip info">${esc(S.diet)}</span>` : ''}</div></div>`;
+      return `<div class="li"><span class="avatar">${initials(d.lat)}</span><div><div class="t">${d.ru}</div><div class="s">${d.roleRu} · ${d.coRu}</div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">${inBus ? '<span class="chip ok">в автобусе</span>' : '<span class="chip warn">нет в автобусе</span>'}${doc ? `<span class="chip warn">${d.id === 'd4' ? 'нет билета' : 'нет паспорта'}</span>` : ''}${d.id === 'd1' && S.diet ? `<span class="chip info">${esc(S.diet)}</span>` : ''}${d.id === 'd1' && S.out ? `<span class="chip dark">гуляет · до ${esc(S.out.back)}</span>` : ''}</div></div>`;
     }).join('');
     return `${coordHead('Группа · 18')}<div class="body"><section class="card"><div class="list">${rows}</div></section></div>`;
   }
@@ -937,6 +1016,23 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
           ${S.listening && S.subtitles ? `<div class="card" style="background:var(--a-bg);gap:6px">${SUBS.map((l) => `<div>${esc(l)}</div>`).join('')}</div>` : ''}
           <span class="muted">Вставьте наушники — проводные или Bluetooth. Звук идёт через интернет или Wi‑Fi гида, задержка около полсекунды. В шумном цеху слышен голос гида, а не шум зала.</span>${btn('closeSheet', 'Закрыть', 'ghost full')}`;
       }
+    } else if (sh.type === 'place') {
+      const pl = placeById(sh.id);
+      inner = `<h3>${esc(pl.ru)}</h3><span class="muted">${esc(pl.what)}</span><div class="kv"><span class="k">Часы</span><span>${esc(pl.hours)}</span><span class="k">Как далеко</span><span>${esc(pl.dist)}</span></div>
+        ${addr3(pl.zh, pl.ru, pl.en, 'Название по-китайски таксисты понимают; точный адрес — в карте')}
+        <div class="btns split">${btn('taxi2', `${icon('car', 18)} Такси сюда`, 'primary', pl.id)}${btn('closeSheet', 'Закрыть', 'ghost')}</div>`;
+    } else if (sh.type === 'taxi2') {
+      const h = hotelOf(1);
+      const dests = [['hotel', 'В отель'], ['jd', 'JD.com']].concat(S.place ? [[S.place, placeById(S.place).ru]] : []);
+      const destZh = sh.dest === 'hotel' ? h.addrZh : sh.dest === 'jd' ? '京东集团总部' : placeById(sh.dest).zh;
+      inner = `<h3>Такси</h3><span class="muted">Куда</span><div class="chips">${dests.map(([k, l]) => `<button type="button" class="pick" data-act="sheetSet" data-arg="dest|${k}" aria-pressed="${sh.dest === k}">${esc(l)}</button>`).join('')}</div>
+        <div class="card" style="background:var(--a-bg)"><span class="muted">Адрес по-китайски</span><div style="font-family:var(--font-ui),var(--font-cjk);font-size:22px;font-weight:700">${esc(destZh)}</div></div>
+        <div class="btns split">${btn('callDidi', `${icon('car', 18)} Вызвать DiDi`, 'primary', destZh)}${btn('driverCard', 'Показать водителю', 'ghost', destZh)}</div>
+        <span class="muted">DiDi работает на английском и принимает иностранные карты; его можно вызвать и из WeChat или Alipay. На улице свободное такси — с зелёной табличкой «空车».</span>${btn('closeSheet', 'Закрыть', 'ghost full')}`;
+    } else if (sh.type === 'out') {
+      inner = `<h3>Иду гулять</h3><span class="muted">Координатор увидит, что вы гуляете самостоятельно. Где вы — не отслеживается.</span>
+        <span class="muted">Вернусь в отель до</span><div class="chips">${['21:00', '22:00', '23:00', '00:00'].map((t) => `<button type="button" class="pick" data-act="sheetSet" data-arg="back|${t}" aria-pressed="${sh.back === t}">${t}</button>`).join('')}</div>
+        <div class="btns split">${btn('closeSheet', 'Отмена', 'ghost')}${btn('saveOut', 'Отметиться')}</div>`;
     } else if (sh.type === 'diet') {
       inner = `<h3>Предпочтения в еде</h3><span class="muted">Координатор передаст их во все забронированные рестораны.</span>
         <div class="chips">${DIETS.map((d) => `<button type="button" class="pick" data-act="sheetSet" data-arg="pick|${d}" aria-pressed="${sh.pick === d}">${esc(d)}</button>`).join('')}</div>
@@ -967,7 +1063,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     const scroller = screenEl.querySelector('.scroll');
     const keepScroll = scroller && key === lastKey ? scroller.scrollTop : 0;
     const views = {
-      delegate: { today: dToday, plan: dPlan, library: dLibrary, people: dPeople, trip: dTrip },
+      delegate: { today: dToday, plan: dPlan, library: dLibrary, people: dPeople, trip: dTrip, city: dCity },
       coordinator: { center: kCenter, visits: kVisits, group: kGroup, announce: kAnnounce },
       host: { visit: hVisit, delegation: hDelegation, prep: hPrep, after: hAfter },
     };
@@ -988,7 +1084,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
 
   const ROLE_INFO = {
-    delegate: { name: `Делегат · ${me.ru}`, text: 'Участник экспедиции. Видит свою поездку: что сегодня, план по дням с погодой, отелями, ресторанами и культурной программой, материалы, людей группы и подготовку. Отели, рестораны, погода и телефоны в прототипе — примеры.', tips: ['Нажмите «Я в автобусе» — у координатора счётчик станет 15/18.', 'Кнопка «Контакты» на «Сегодня» — телефоны координатора, переводчика, отеля и экстренные номера.', 'В «Плане» у дня — погода и отель; нажмите на обед, ужин или культурную программу.', 'В «Материалах» закреплены презентации; в «Поездке» → «До» укажите предпочтения в еде.', 'В «Поездке» → «После» оставьте отзыв текстом или видео.', 'На «Сегодня» попробуйте «Переводчик» и «Слушать гида»; адреса отелей — на китайском, русском и английском.'] },
+    delegate: { name: `Делегат · ${me.ru}`, text: 'Участник экспедиции. Видит свою поездку: что сегодня, план по дням с погодой, отелями, ресторанами и культурной программой, материалы, людей группы и подготовку. Отели, рестораны, погода и телефоны в прототипе — примеры.', tips: ['Нажмите «Я в автобусе» — у координатора счётчик станет 15/18.', 'Кнопка «Контакты» на «Сегодня» — телефоны координатора, переводчика, отеля и экстренные номера.', 'В «Плане» у дня — погода и отель; нажмите на обед, ужин или культурную программу.', 'В «Материалах» закреплены презентации; в «Поездке» → «До» укажите предпочтения в еде.', 'В «Поездке» → «После» оставьте отзыв текстом или видео.', 'На «Сегодня» попробуйте «Переводчик» и «Слушать гида»; адреса отелей — на китайском, русском и английском.', 'Кнопка «Город»: шопинг, ночная жизнь, магазины 24/7, туалеты на карте, «Иду гулять»; «Такси» — DiDi с адресом по-китайски.'] },
     coordinator: { name: 'Координатор · Остап Доценко', text: 'Видит и меняет всё. Ведёт группу и визиты, отвечает на запросы компаний и делегатов, может открыть любой экран глазами делегата или JD.com.', tips: ['На «Пульте» примите перенос Hema — у делегата обновится план.', 'Нажмите «Автобус выехал» — JD.com узнает в WeChat, если включила напоминания.', 'Откройте презентацию JD.com делегатам или переведите вопросы.', 'Переключите «Как делегат» / «Как JD.com» в шапке.', 'На «Пульте» начните «Радиогид» — делегат услышит переводчика в наушниках.'] },
     host: { name: 'Компания · JD.com в WeChat', text: 'Менеджер компании, куда едет группа. Открывает мини-программу по QR-коду в WeChat, без установки. Видит только свой визит; телефонов делегатов не видит.', tips: ['Нажмите «接收提醒» (напоминания), потом у координатора «Автобус выехал».', 'Предложите другое время — запрос уйдёт координатору.', 'Загрузите файл во вкладке «问题与资料» — он попадёт на проверку.', 'Переключите 中文 / EN и ответьте делегатам во вкладке «访问后».'] },
   };
@@ -1003,7 +1099,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
 
   // ——— Действия ———
-  const NAV = new Set(['tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet', 'openHotel', 'openCulture', 'contacts', 'reviewMode', 'translator', 'guide', 'driverCard', 'openMaps', 'copyAddr']);
+  const NAV = new Set(['tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet', 'openHotel', 'openCulture', 'contacts', 'reviewMode', 'translator', 'guide', 'driverCard', 'openMaps', 'copyAddr', 'cityCat', 'pickPlace', 'findMore', 'taxi2']);
   const now = () => '09:05';
   const A = {
     tab: (k) => { const who = S.role === 'coordinator' && S.viewAs ? S.viewAs : S.role; S.tab[who] = k; if (who === 'host' && k === 'after') setTimeout(() => { S.requests.forEach((r) => { r.isNew = false; }); save(); }, 0); },
@@ -1047,6 +1143,18 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       try { navigator.clipboard.writeText(text).then(done, done); } catch (e) { done(); }
     },
     translator: () => { S.sheet = { type: 'translator' }; },
+    cityCat: (k) => { S.cityCat = k; S.place = null; },
+    pickPlace: (id) => { S.place = id; S.sheet = { type: 'place', id }; },
+    findMore: (cat) => toast(cat === 'wc' ? 'В приложении: все туалеты рядом с вами на карте Amap' : 'В приложении: все круглосуточные магазины рядом с вами на карте Amap'),
+    taxi2: (dest) => { S.sheet = { type: 'taxi2', dest: dest || 'hotel' }; },
+    callDidi: (zh) => {
+      try { navigator.clipboard.writeText(zh).catch(() => {}); } catch (e) { /* без буфера обмена */ }
+      log('delegate', `${me.ru} вызывает такси DiDi — адрес по-китайски подставлен.`);
+      toast('В приложении откроется DiDi с этим адресом; адрес уже скопирован');
+    },
+    goOut: () => { S.sheet = { type: 'out', back: '23:00' }; },
+    saveOut: () => { S.out = { back: S.sheet.back }; S.sheet = null; log('delegate', `${me.ru}: «Иду гулять» до ${S.out.back} → координатор видит в «Группе».`); toast('Координатор знает, что вы гуляете'); },
+    backHome: () => { S.out = null; log('delegate', `${me.ru}: «Я в отеле» → координатор видит, что все вернулись.`); toast('Отлично, координатор видит, что вы в отеле'); },
     guide: () => { S.sheet = { type: 'guide' }; },
     speak: (lang) => {
       const list = PHRASES[lang];
