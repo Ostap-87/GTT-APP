@@ -97,6 +97,19 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
 .field select { width: 100%; border: 1px solid #d5dbe6; border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 14px; color: var(--a-ink); background: var(--a-card); }
 .cos { display: flex; flex-wrap: wrap; gap: 6px; }
 .cos span { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 8px; background: var(--a-line2); color: var(--a-ink); }
+.kvr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 6px 0; border-top: 1px dashed var(--a-line); font-size: 13.5px; }
+.kvr.first { border-top: 0; }
+.kvr .empty { color: var(--a-muted); font-style: italic; }
+.blk-n { display: inline-flex; width: 22px; height: 22px; border-radius: 50%; background: var(--a-dark); color: #ffffff; font-size: 12px; font-weight: 700; align-items: center; justify-content: center; margin-right: 8px; flex: none; }
+.blk-h { display: flex; align-items: center; margin: 0; font-size: 15px; font-weight: 700; }
+.cit { display: grid; grid-template-columns: minmax(0, 1fr) 72px 34px; gap: 6px; align-items: center; }
+.cit select, .cit input { border: 1px solid #d5dbe6; border-radius: 10px; padding: 9px 10px; font: inherit; font-size: 14px; color: var(--a-ink); background: var(--a-card); width: 100%; }
+.tz { background: var(--a-bg); border: 1px solid var(--a-line); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; font-size: 13.5px; }
+.tz h4 { margin: 8px 0 2px; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; color: var(--a-muted); }
+.tz h4:first-child { margin-top: 0; }
+.tz table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tz td { padding: 4px 0; border-top: 1px solid var(--a-line2); vertical-align: top; }
+.tz td:last-child { text-align: right; }
 .log .empty { color: var(--page-muted); display: block; }
 .reset { align-self: flex-start; border: 1px solid var(--panel-line); background: transparent; color: var(--page-muted); border-radius: 10px; padding: 6px 12px; font-size: 13px; }
 .note-small { color: var(--page-muted); font-size: 12.5px; margin: 0; }
@@ -356,6 +369,18 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   const MONTHS = [['all', 'Все'], ['11', 'Ноябрь'], ['12', 'Декабрь'], ['01', 'Январь'], ['02', 'Февраль'], ['03', 'Март']];
   const MONTH_FULL = { '11': 'Ноябрь 2026', '12': 'Декабрь 2026', '01': 'Январь 2027', '02': 'Февраль 2027', '03': 'Март 2027' };
   const AGENCY = '«Пример Тревел»';
+  // Гражданство делегации: Россия и страны СНГ — чтобы сразу видеть, кому нужна виза
+  const CIS = [['ru', 'Россия'], ['by', 'Беларусь'], ['kz', 'Казахстан'], ['uz', 'Узбекистан'], ['kg', 'Кыргызстан'], ['tj', 'Таджикистан'], ['am', 'Армения'], ['az', 'Азербайджан'], ['md', 'Молдова'], ['tm', 'Туркменистан'], ['other', 'Другая страна']];
+  const CIS_RU = Object.fromEntries(CIS);
+  const SECTORS = ['Ритейл', 'Автопром', 'ИИ и IT', 'Роботы', 'Еда и напитки', 'Бьюти', 'Медицина и фарма', 'Финтех', 'Логистика', 'Производство', 'Энергетика', 'Недвижимость', 'Гостиничный бизнес'];
+  const GOALS = ['Поиск поставщиков', 'Партнёрство и дистрибуция', 'Опыт и технологии', 'Инвестиции', 'Нетворкинг'];
+  const LEVELS = ['Собственники', 'Топ-менеджмент', 'Специалисты', 'Смешанная'];
+  const FROM_CITY = ['Москва', 'Санкт-Петербург', 'Алматы', 'Ташкент', 'Минск', 'Другой'];
+  const INCL = [['visa', 'Визовая поддержка'], ['transfer', 'Трансферы'], ['meals', 'Питание'], ['interp', 'Переводчик'], ['culture', 'Культурная программа'], ['ins', 'Страховка'], ['media', 'Фото и видео'], ['b2b', 'B2B-встречи']];
+  const INCL_RU = Object.fromEntries(INCL);
+  const DUE = ['1–2 дня', '3–5 дней', 'Неделя'];
+  const CALC_ST = { new: ['info', 'отправлен'], calc: ['warn', 'считаем'], done: ['ok', 'расчёт готов'] };
+  const freshCalc = () => ({ mode: 'ready', tour: '', dep: '', country: 'cn', sectors: [], goals: [], companies: [], pickCos: true, level: 'Топ-менеджмент', lang: 'Русский', from: 'Москва', flight: true, hotel: '5★', room: 'Одноместное', incl: ['visa', 'transfer', 'meals', 'interp'], due: '3–5 дней', file: false, cit: [{ c: 'ru', n: '' }] });
   const OTHER_LEADS = [
     { id: 'o1', agency: '«Восток Тур»', tour: 'china-ai-expedition', dates: '7–11 декабря 2026', people: 6, client: 'IT-интегратор · Москва', status: 'work' },
     { id: 'o2', agency: 'Сайт globaltechtour.ru', tour: 'china-tech-giants-expedition', dates: 'даты под группу', people: 10, client: 'Заявка с формы сайта', status: 'new' },
@@ -526,6 +551,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     inbox: '<path d="M3 13h5l1.5 3h5l1.5-3h5"/><path d="M5.5 5h13L21 13v6H3v-6z"/>',
     globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>',
     send: '<path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4z"/>',
+    calc: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h1M12 11h1M16 11h0M8 15h1M12 15h1M16 11v6"/>',
   };
   const icon = (name, size = 22) => `<svg class="ico" width="${size}" height="${size}" style="width:${size}px;height:${size}px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -534,7 +560,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   const addHours = (t, h) => { const [hh, mm] = t.split(':').map(Number); return `${String(hh + h).padStart(2, '0')}:${String(mm).padStart(2, '0')}`; };
 
   // ——— Состояние ———
-  const KEY = 'gtt-proto-v5';
+  const KEY = 'gtt-proto-v6';
   function fresh() {
     return {
       role: 'delegate', viewAs: null,
@@ -561,6 +587,10 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       guideLive: false, listening: false, subtitles: true, voiceOut: true, chat: [], tIdx: { ru: 0, zh: 0 },
       cityCat: 'shop', place: null, out: null,
       ag: { country: 'all', month: 'all' }, depTaken: {},
+      calc: freshCalc(), calcSeq: 15,
+      calcReqs: [
+        { id: 'R-014', mode: 'custom', tour: '', country: 'cn', sectors: ['Медицина и фарма'], goals: ['Опыт и технологии'], companies: ['Mindray', 'United Imaging'], pickCos: true, people: 9, cit: [{ c: 'ru', n: 7 }, { c: 'kz', n: 2 }], level: 'Собственники', lang: 'Русский', dates: 'март 2027', days: '6', from: 'Москва', flight: true, hotel: '5★', room: 'Одноместное', incl: ['visa', 'transfer', 'meals', 'interp', 'b2b'], client: 'Сеть клиник · Самара', budget: '', due: 'Неделя', note: 'Интересуют производство оборудования и частные клиники', file: true, status: 'done', time: '08.10', upd: false },
+      ],
       agentApps: [
         { id: 'ap0', tour: 'korea-tech-internet-giants-expedition', dep: null, dates: '12–16 апреля 2027 · под группу', people: 12, client: 'Сеть магазинов электроники · Казань', status: 'confirmed', note: 'Даты согласованы, договор отправлен на почту агентства', time: '02.10', upd: false },
         { id: 'ap1', tour: 'china-auto-plants-expedition', dep: 'dep2', dates: '23–27 ноября 2026', people: 4, client: 'Автодилер · Екатеринбург', status: 'work', note: 'Остап Доценко: проверяю места в автобусе, отвечу сегодня', time: 'вчера', upd: false },
@@ -620,6 +650,12 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   const depFree = (d) => Math.max(0, d.total - d.taken - (S.depTaken[d.id] || 0));
   const depsOf = (tourId) => DEPS.filter((d) => d.tour === tourId);
   const AG_ST = { new: ['info', 'отправлена'], work: ['warn', 'в работе'], confirmed: ['ok', 'подтверждена'] };
+  const citLine = (cit) => (cit || []).filter((r) => r.c).map((r) => `${CIS_RU[r.c]}${r.n ? ` ${r.n}` : ''}`).join(', ') || 'гражданство не указано';
+  const calcTitle = (r) => (r.mode === 'ready' && r.tour ? tourById[r.tour][2] : `Своя программа: ${COUNTRY_RU[r.country]}${r.sectors.length ? ` · ${r.sectors.slice(0, 2).join(', ')}` : ''}`);
+  // Поля для агента подготовлены, значения пока не заданы (решение пользователя 16.10.2026)
+  const AGENT_PRICE = null;
+  const AGENT_FEE = null;
+  const agentTerms = (price, fee) => `<div class="kvr first"><span>Стоимость для агента</span>${price ? `<b>${esc(price)}</b>` : '<span class="empty">не указана</span>'}</div><div class="kvr"><span>Комиссия агента</span>${fee ? `<b>${esc(fee)}</b>` : '<span class="empty">не указана</span>'}</div>`;
   const pendingQ = () => S.basePendingQ + S.questions.filter((q) => q.status === 'pending').length;
   function attention() {
     const a = [];
@@ -632,6 +668,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     S.followups.filter((f) => f.status === 'new').forEach((f) => a.push({ title: `${me.ru} хочет продолжить с ${f.company}`, sub: f.typeRu, btns: [['sendFollowup', 'Отправить компании', 'primary', f.id]] }));
     S.reviews.filter((r) => r.status === 'new').forEach((r) => a.push({ title: `Отзыв о поездке от ${ME_GEN} · ${r.video ? 'видео 0:48' : 'текст'}`, sub: r.text ? `«${r.text}»` : 'Видеоотзыв с телефона', btns: [['thankReview', 'Поблагодарить', 'primary', r.id]].concat(r.consent ? [['shareReview', 'В соцсети GTT', 'ghost', r.id]] : []) }));
     S.agentApps.filter((x) => x.status === 'new').forEach((x) => a.push({ title: `Заявка агента ${AGENCY}: ${tourById[x.tour][2]}`, sub: `${x.dates} · ${x.people} чел. · ${x.client}`, btns: [['agTake', 'Взять в работу', 'primary', x.id], ['agConfirm', 'Подтвердить', 'ghost', x.id]] }));
+    S.calcReqs.filter((x) => x.status === 'new').forEach((x) => a.push({ title: `Запрос на расчёт ${x.id} от ${AGENCY}`, sub: `${calcTitle(x)} · ${x.people} чел. · ${citLine(x.cit)}`, btns: [['calcOpen', 'Открыть ТЗ', 'primary', x.id], ['calcTake', 'Взять в расчёт', 'ghost', x.id]] }));
     if (!S.pddReminded) a.push({ title: 'Pinduoduo не открыла ссылку визита · 3 дня', btns: [['remindPdd', 'Напомнить', 'ghost']] });
     if (!S.igorReminded) a.push({ title: 'Игорь Белов · нет билета', btns: [['remindIgor', 'Напомнить', 'ghost']] });
     return a;
@@ -647,7 +684,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     delegate: [['today', 'Сегодня', 'sun'], ['plan', 'План', 'cal'], ['library', 'Материалы', 'book'], ['people', 'Люди', 'people'], ['trip', 'Поездка', 'suitcase']],
     coordinator: [['center', 'Пульт', 'grid'], ['visits', 'Визиты', 'building'], ['group', 'Группа', 'people'], ['leads', 'Заявки', 'inbox'], ['announce', 'Объявление', 'megaphone']],
     host: [['visit', 0, 'home'], ['delegation', 1, 'people'], ['prep', 2, 'doc'], ['after', 3, 'chat']],
-    agent: [['catalog', 'Каталог', 'globe'], ['dates', 'Даты', 'cal'], ['apps', 'Заявки', 'send'], ['kit', 'Материалы', 'book']],
+    agent: [['catalog', 'Каталог', 'globe'], ['dates', 'Даты', 'cal'], ['calc', 'Расчёт', 'calc'], ['apps', 'Заявки', 'send'], ['kit', 'Материалы', 'book']],
   };
   function tabbar(who) {
     const list = tabsOf[who];
@@ -656,8 +693,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       if (who === 'coordinator' && key === 'center') return attention().length;
       if (who === 'delegate' && key === 'today') return S.dNotices.filter((n) => !n.seen).length;
       if (who === 'host' && key === 'after') return S.requests.filter((r) => r.isNew).length;
-      if (who === 'coordinator' && key === 'leads') return S.agentApps.filter((x) => x.status === 'new').length + OTHER_LEADS.filter((x) => x.status === 'new').length;
-      if (who === 'agent' && key === 'apps') return S.agentApps.filter((x) => x.upd).length;
+      if (who === 'coordinator' && key === 'leads') return S.agentApps.filter((x) => x.status === 'new').length + S.calcReqs.filter((x) => x.status === 'new').length + OTHER_LEADS.filter((x) => x.status === 'new').length;
+      if (who === 'agent' && key === 'apps') return S.agentApps.filter((x) => x.upd).length + S.calcReqs.filter((x) => x.upd).length;
       return 0;
     };
     return `<nav class="tabbar" style="grid-template-columns:repeat(${list.length},minmax(0,1fr))" aria-label="Разделы">${list.map(([key, label, ic]) => {
@@ -897,11 +934,13 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       const st = AG_ST[x.status];
       const acts = !mine ? '' : x.status === 'new' ? `<div class="btns">${btn('agTake', 'Взять в работу', 'primary small', x.id)}${btn('agConfirm', 'Подтвердить', 'ghost small', x.id)}</div>`
         : x.status === 'work' ? `<div class="btns">${btn('agConfirm', 'Подтвердить', 'primary small', x.id)}</div>` : '';
-      return `<div class="li two"><div style="display:flex;flex-direction:column;gap:4px"><div class="t">${esc(t[2])}</div><div class="s">${esc(agency)} · ${esc(x.dates)} · ${x.people} чел.</div><div class="s">${esc(x.client)}</div>${acts}</div><span class="chip ${st[0]}">${st[1]}</span></div>`;
+      return `<div class="li two"><div style="display:flex;flex-direction:column;gap:4px"><div class="t">${esc(t[2])}</div><div class="s">${esc(agency)} · ${esc(x.dates)} · ${x.people} чел.${x.cit ? ` · ${esc(CIS_RU[x.cit])}` : ''}</div><div class="s">${esc(x.client)}</div>${acts}</div><span class="chip ${st[0]}">${st[1]}</span></div>`;
     };
     const all = S.agentApps.map((x) => row(x, AGENCY, true)).join('') + OTHER_LEADS.map((x) => row(x, x.agency, false)).join('');
     const n = S.agentApps.filter((x) => x.status !== 'confirmed').length + OTHER_LEADS.filter((x) => x.status !== 'confirmed').length;
-    return `${coordHead(`Заявки · ${n} в работе`)}<div class="body">
+    const calcRows = S.calcReqs.map((r) => { const st = CALC_ST[r.status]; return `<div class="li two tap" data-act="calcOpen" data-arg="${r.id}"><div><div class="t">${r.id} · ${esc(calcTitle(r))}</div><div class="s">${AGENCY} · ${r.people} чел. · ${esc(citLine(r.cit))}</div><div class="s">${esc(r.dates || 'даты не указаны')} · ответ: ${esc(r.due)}</div></div><span class="chip ${st[0]}">${st[1]}</span></div>`; }).join('');
+    return `${coordHead(`Заявки · ${n + S.calcReqs.filter((r) => r.status !== 'done').length} в работе`)}<div class="body">
+      <section class="card"><div class="title-row"><h3>Запросы на расчёт</h3><span class="chip info">${S.calcReqs.length}</span></div><div class="list">${calcRows}</div><span class="muted">Нажмите — откроется ТЗ, собранное из блоков агента.</span></section>
       <section class="card"><div class="title-row"><h3>Агенты и сайт</h3><span class="chip info">${S.agentApps.length + OTHER_LEADS.length}</span></div><div class="list">${all}</div></section>
       <p class="muted">Заявки агентов и с формы сайта — в одном списке; о новой приходит сообщение в Telegram. Подтверждённая заявка занимает места в выезде.</p></div>`;
   }
@@ -942,7 +981,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       <section class="card"><div class="chips">${chips}</div></section>
       ${withDates.length ? `<section class="card"><div class="title-row"><h3>С ближайшими выездами</h3><span class="chip ok">${withDates.length}</span></div><div class="list">${withDates.map(tourRow).join('')}</div></section>` : ''}
       <section class="card"><div class="title-row"><h3>${c === 'all' ? 'Все программы' : COUNTRY_RU[c]}</h3><span class="chip info">${list.length}</span></div><div class="list">${list.filter((t) => !depsOf(t[0]).length).map(tourRow).join('')}</div></section>
-      <p class="muted">Программы, маршруты и компании — с сайта globaltechtour.ru. Цены и комиссия агента — у координатора [уточнить].</p></div>`;
+      <p class="muted">Программы, маршруты и компании — с сайта globaltechtour.ru. Стоимость для агента и комиссия — в карточке программы (пока не указаны).</p></div>`;
   }
   function aDates() {
     const m = S.ag.month;
@@ -961,6 +1000,53 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       <section class="card info"><div class="t" style="font-weight:700">Нужны другие даты?</div><span>Отправьте заявку с желаемыми датами и числом участников — координатор проверит, можно ли собрать программу под вашу группу.</span>${btn('agApply', 'Заявка на свои даты', 'primary full', '')}</section>
       <p class="muted">Даты и места в прототипе — пример; в приложении их ведёт координатор.</p></div>`;
   }
+  function aCalc() {
+    const c = S.calc;
+    const f = S.form;
+    const pick = (act, key, v, on) => `<button type="button" class="pick" data-act="${act}" data-arg="${key}|${esc(v)}" aria-pressed="${on}">${esc(v)}</button>`;
+    const multi = (key, list) => list.map((v) => pick('calcToggle', key, v, c[key].includes(v))).join('');
+    const one = (key, list) => list.map((v) => pick('calcSet', key, v, c[key] === v)).join('');
+    const blk = (n, title, body, sub) => `<section class="card"><h3 class="blk-h"><span class="blk-n">${n}</span>${title}</h3>${sub ? `<span class="muted">${sub}</span>` : ''}${body}</section>`;
+    const t = c.tour ? tourById[c.tour] : null;
+    const opts = COUNTRY_ORDER.map((k) => `<optgroup label="${COUNTRY_RU[k]}">${TOURS.filter((x) => x[1] === k).map((x) => `<option value="${x[0]}" ${c.tour === x[0] ? 'selected' : ''}>${esc(x[2])}</option>`).join('')}</optgroup>`).join('');
+    const b1 = c.mode === 'ready'
+      ? blk(1, 'Готовая экспедиция', `<label class="field" for="cTour">Программа из каталога<select id="cTour" data-field="cTour"><option value="">Выберите программу</option>${opts}</select></label>
+        ${t ? `<span class="muted">${COUNTRY_RU[t[1]]} · ${t[3]} ${plural(t[3], 'день', 'дня', 'дней')} · ${esc(t[5].join(' → '))} · ${t[4]} ${plural(t[4], 'компания', 'компании', 'компаний')}</span>` : ''}
+        <label class="field" for="cChanges">Что поменять в программе (необязательно)<input id="cChanges" data-field="c_changes" value="${esc(f.c_changes || '')}" placeholder="Например: добавить завод BYD, убрать Шанхай"></label>`)
+      : blk(1, 'Своя программа: направление', `<div class="s" style="font-weight:600;color:var(--a-muted)">Страна поездки</div><div class="chips">${COUNTRY_ORDER.map((k) => `<button type="button" class="pick" data-act="calcSet" data-arg="country|${k}" aria-pressed="${c.country === k}">${COUNTRY_RU[k]}</button>`).join('')}</div>
+        <label class="field" for="cCities">Города (необязательно)<input id="cCities" data-field="c_cities" value="${esc(f.c_cities || '')}" placeholder="Например: Шанхай, Шэньчжэнь"></label>`);
+    const b2 = c.mode === 'ready' ? '' : blk(2, 'Отрасли и компании', `<div class="s" style="font-weight:600;color:var(--a-muted)">Отрасли</div><div class="chips">${multi('sectors', SECTORS)}</div>
+        <div class="s" style="font-weight:600;color:var(--a-muted)">Компании, которые хотят посетить</div>
+        <div class="cit" style="grid-template-columns:minmax(0,1fr) auto"><input id="cCo" data-field="c_co" value="${esc(f.c_co || '')}" placeholder="Название компании" aria-label="Название компании">${btn('calcAddCo', 'Добавить', 'light small')}</div>
+        ${c.companies.length ? `<div class="chips">${c.companies.map((n, i) => `<button type="button" class="pick" data-act="calcDelCo" data-arg="${i}" aria-label="Убрать ${esc(n)}" aria-pressed="true">${esc(n)} ×</button>`).join('')}</div>` : ''}
+        <label style="display:flex;gap:8px;align-items:center;font-size:13.5px"><input type="checkbox" data-check="pickCos" ${c.pickCos ? 'checked' : ''}> Подберите компании за нас — по отраслям и целям</label>
+        <div class="s" style="font-weight:600;color:var(--a-muted)">Цели поездки</div><div class="chips">${multi('goals', GOALS)}</div>`);
+    const nB = c.mode === 'ready' ? 2 : 3;
+    const citRows = c.cit.map((r, i) => `<div class="cit"><select data-field="cit_c_${i}" aria-label="Гражданство, строка ${i + 1}">${CIS.map(([k, l]) => `<option value="${k}" ${r.c === k ? 'selected' : ''}>${l}</option>`).join('')}</select><input type="number" min="1" data-field="cit_n_${i}" value="${esc(r.n)}" placeholder="чел." aria-label="Сколько человек"><button type="button" class="icon-btn" data-act="calcDelCit" data-arg="${i}" aria-label="Убрать строку" ${c.cit.length < 2 ? 'disabled' : ''}>×</button></div>`).join('');
+    const b3 = blk(nB, 'Группа', `<label class="field" for="cPeople">Участников<input id="cPeople" type="number" min="1" data-field="c_people" value="${esc(f.c_people || '')}" placeholder="Например: 12"></label>
+        <div class="s" style="font-weight:600;color:var(--a-muted)">Из какой страны делегация (гражданство)</div>${citRows}${btn('calcAddCit', '+ Ещё страна', 'ghost small')}
+        <span class="muted">По гражданству видно, кому нужна виза в страну поездки. Смешанная группа — несколько строк.</span>
+        <div class="s" style="font-weight:600;color:var(--a-muted)">Кто едет</div><div class="chips">${one('level', LEVELS)}</div>
+        <div class="s" style="font-weight:600;color:var(--a-muted)">Язык группы</div><div class="chips">${one('lang', ['Русский', 'Английский'])}</div>`);
+    const deps = t ? depsOf(t[0]).filter((d) => depFree(d) > 0) : [];
+    const b4 = blk(nB + 1, 'Даты', `${deps.length ? `<div class="chips">${deps.map((d) => `<button type="button" class="pick" data-act="calcSet" data-arg="dep|${d.id}" aria-pressed="${c.dep === d.id}">${d.short} · ${depFree(d)} мест</button>`).join('')}<button type="button" class="pick" data-act="calcSet" data-arg="dep|" aria-pressed="${!c.dep}">Свои даты</button></div>` : ''}
+        ${!c.dep ? `<label class="field" for="cDates">Даты или месяц<input id="cDates" data-field="c_dates" value="${esc(f.c_dates || '')}" placeholder="Например: 12–17 апреля или «апрель 2027»"></label>` : ''}
+        ${c.mode === 'custom' ? `<label class="field" for="cDays">Сколько дней<input id="cDays" type="number" min="2" max="21" data-field="c_days" value="${esc(f.c_days || '')}" placeholder="5–7"></label>` : ''}`);
+    const b5 = blk(nB + 2, 'Перелёт и проживание', `<div class="s" style="font-weight:600;color:var(--a-muted)">Город вылета</div><div class="chips">${one('from', FROM_CITY)}</div>
+        <label style="display:flex;gap:8px;align-items:center;font-size:13.5px"><input type="checkbox" data-check="flight" ${c.flight ? 'checked' : ''}> Включить перелёт в расчёт</label>
+        <div class="s" style="font-weight:600;color:var(--a-muted)">Отели</div><div class="chips">${one('hotel', ['4★', '5★'])}${one('room', ['Одноместное', 'Двухместное'])}</div>`);
+    const b6 = blk(nB + 3, 'Что включить', `<div class="chips">${INCL.map(([k, l]) => `<button type="button" class="pick" data-act="calcToggle" data-arg="incl|${k}" aria-pressed="${c.incl.includes(k)}">${l}</button>`).join('')}</div>`);
+    const b7 = blk(nB + 4, 'Клиент и сроки', `<label class="field" for="cClient">Клиент<input id="cClient" data-field="c_client" value="${esc(f.c_client || '')}" placeholder="Компания или отрасль, город"></label>
+        <label class="field" for="cBudget">Бюджет на человека (необязательно)<input id="cBudget" data-field="c_budget" value="${esc(f.c_budget || '')}" placeholder="Если клиент назвал"></label>
+        <div class="s" style="font-weight:600;color:var(--a-muted)">Когда нужен расчёт</div><div class="chips">${one('due', DUE)}</div>
+        <label class="field" for="cNote">Комментарий<textarea id="cNote" rows="2" data-field="c_note" placeholder="Интересы группы, особые пожелания">${esc(f.c_note || '')}</textarea></label>
+        ${c.file ? '<span class="chip ok" style="align-self:flex-start">ТЗ клиента прикреплено · tz-klienta.pdf</span>' : btn('calcFile', `${icon('doc', 18)} Прикрепить ТЗ клиента`, 'ghost small')}`);
+    return `${agentHead('Запрос на расчёт')}<div class="body">
+      <div class="seg light" role="group" aria-label="Что считать"><button type="button" data-act="calcSet" data-arg="mode|ready" aria-pressed="${c.mode === 'ready'}">Готовая экспедиция</button><button type="button" data-act="calcSet" data-arg="mode|custom" aria-pressed="${c.mode === 'custom'}">Своя программа (ТЗ)</button></div>
+      ${b1}${b2}${b3}${b4}${b5}${b6}${b7}
+      ${btn('calcSubmit', `${icon('send', 18)} Отправить на расчёт`, 'primary full')}
+      <p class="muted">Координатор получит запрос как готовое ТЗ, в приложении и в Telegram.</p></div>`;
+  }
   function aApps() {
     const apps = S.agentApps;
     const by = (st) => apps.filter((x) => x.status === st).length;
@@ -969,11 +1055,13 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       const st = AG_ST[x.status];
       return `<div class="li two"><div style="display:flex;flex-direction:column;gap:3px"><div class="t">${esc(t[2])}</div><div class="s">${esc(x.dates)} · ${x.people} чел. · отправлена ${esc(x.time)}</div><div class="s">${esc(x.client)}</div>${x.note ? `<div style="font-size:13px">${x.upd ? '<span class="chip new" style="margin-right:6px">новое</span>' : ''}${esc(x.note)}</div>` : ''}</div><span class="chip ${st[0]}">${st[1]}</span></div>`;
     }).join('');
-    setTimeout(() => { if (S.role === 'agent' && S.tab.agent === 'apps') { S.agentApps.forEach((x) => { x.upd = false; }); save(); } }, 0);
+    setTimeout(() => { if (S.role === 'agent' && S.tab.agent === 'apps') { S.agentApps.forEach((x) => { x.upd = false; }); S.calcReqs.forEach((x) => { x.upd = false; }); save(); } }, 0);
+    const calcRows = S.calcReqs.map((r) => { const st = CALC_ST[r.status]; return `<div class="li two tap" data-act="calcOpen" data-arg="${r.id}"><div><div class="t">${r.id} · ${esc(calcTitle(r))}</div><div class="s">${r.people} чел. · ${esc(citLine(r.cit))} · отправлен ${esc(r.time)}</div>${r.upd ? '<span class="chip new" style="align-self:flex-start">новое</span>' : ''}</div><span class="chip ${st[0]}">${st[1]}</span></div>`; }).join('');
     return `${agentHead('Мои заявки')}<div class="body">
       ${btn('agApply', `${icon('send', 18)} Новая заявка`, 'primary full', '')}
       <div class="stat-grid"><div class="stat"><span class="muted">В работе</span><span class="v">${by('new') + by('work')}</span><span class="muted">${by('new')} ждут ответа</span></div><div class="stat"><span class="muted">Подтверждено</span><span class="v">${by('confirmed')}</span><span class="muted">участников: ${apps.filter((x) => x.status === 'confirmed').reduce((n, x) => n + x.people, 0)}</span></div></div>
-      <section class="card"><div class="list">${rows}</div></section>
+      <section class="card"><h3>Заявки на места</h3><div class="list">${rows}</div></section>
+      <section class="card"><div class="title-row"><h3>Запросы на расчёт</h3>${btn('tab', 'Новый', 'light small', 'calc')}</div><div class="list">${calcRows || '<span class="muted">Пока нет</span>'}</div></section>
       <section class="card"><h3>Как это работает</h3><span class="muted">Заявка уходит координатору GTT в приложение и в Telegram. Статус меняется здесь: отправлена → в работе → подтверждена. Паспорта и телефоны участников — только после подтверждения, хранятся на сервере в России.</span></section></div>`;
   }
   function aKit() {
@@ -982,7 +1070,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     return `${agentHead('Материалы')}<div class="body">
       <section class="card"><div class="title-row"><h3>Презентации для клиентов</h3><span class="chip info">76</span></div><div class="list">${pres}</div><span class="muted">Презентация есть у каждой программы — кнопка в её карточке в «Каталоге».</span></section>
       <section class="card"><h3>Ролики и фото для ваших соцсетей</h3><div class="list">${reels}</div><span class="muted">Правила использования и отметка GTT — [уточнить].</span></section>
-      <section class="card"><h3>Условия сотрудничества</h3><span class="muted">Цены для агентов, комиссия и договор — [уточнить у Остапа Доценко].</span></section>
+      <section class="card"><h3>Условия сотрудничества</h3>${agentTerms(AGENT_PRICE, AGENT_FEE)}<span class="muted">Поля подготовлены: стоимость и комиссию для агентов координатор укажет позже. Договор — [уточнить].</span></section>
       <section class="card"><div class="li"><span class="avatar">ОД</span><div><div class="t">Остап Доценко</div><div class="s">Координатор · заявки агентов</div></div>${btn('agWrite', 'Написать', 'light small')}</div></section></div>`;
   }
 
@@ -1062,7 +1150,34 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
         <div class="card" style="background:var(--a-bg)"><div class="s" style="font-weight:700">Маршрут</div><div>${esc(t[5].join(' → '))}</div>
           <div class="s" style="font-weight:700;margin-top:6px">Компании (с сайта)</div><div class="cos">${t[6].map((n) => `<span>${esc(n)}</span>`).join('')}${t[4] > t[6].length ? `<span>ещё ${t[4] - t[6].length}</span>` : ''}</div></div>
         <div class="card" style="background:var(--a-bg)"><div class="s" style="font-weight:700">Ближайшие выезды</div>${deps.length ? `<div class="list">${deps.map((d) => { const s2 = seatsLine(d); return `<div class="li two"><div style="display:flex;flex-direction:column;gap:6px"><div class="t">${d.dates}</div>${s2.bar}</div>${s2.free ? btn('agApply', 'Заявка', 'primary small', `dep:${d.id}`) : s2.chip}</div>`; }).join('')}</div>` : '<span>Дат пока нет — соберём под вашу группу по заявке.</span>'}</div>
-        <div class="btns split">${btn('agPdf', `${icon('down', 18)} Презентация`, 'ghost', t[0])}${btn('agApply', 'Отправить заявку', 'primary', `t:${t[0]}`)}</div>`;
+        <div class="card" style="background:var(--a-bg)"><div class="s" style="font-weight:700">Для агента</div>${agentTerms(AGENT_PRICE, AGENT_FEE)}</div>
+        <div class="btns split">${btn('agPdf', `${icon('down', 18)} Презентация`, 'ghost', t[0])}${btn('calcFrom', `${icon('calc', 18)} Расчёт`, 'ghost', t[0])}</div>
+        ${btn('agApply', 'Отправить заявку на места', 'primary full', `t:${t[0]}`)}`;
+    } else if (sh.type === 'calcTz') {
+      const r = S.calcReqs.find((x) => x.id === sh.id);
+      const st = CALC_ST[r.status];
+      const t = r.tour ? tourById[r.tour] : null;
+      const isK = S.role === 'coordinator' && !S.viewAs;
+      const dest = COUNTRY_RU[t ? t[1] : r.country];
+      const row = (k, v) => `<tr><td>${k}</td><td>${v}</td></tr>`;
+      const cit = r.cit.map((x) => `<tr><td>${esc(CIS_RU[x.c])}</td><td>${x.n || '—'} чел. · виза в ${dest}: <span class="chip warn">проверить</span></td></tr>`).join('');
+      inner = `<div class="row-between" style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h3>ТЗ на расчёт ${r.id}</h3><span class="chip ${st[0]}">${st[1]}</span></div>
+        <span class="muted">${AGENCY} · Ирина Миронова · отправлено ${esc(r.time)} · ответ нужен: ${esc(r.due)}</span>
+        <div class="tz">
+          <h4>1. Программа</h4><div>${r.mode === 'ready' && t ? `Готовая экспедиция: <b>${esc(t[2])}</b> · ${t[3]} ${plural(t[3], 'день', 'дня', 'дней')} · ${esc(t[5].join(' → '))}` : `Своя программа: <b>${esc(COUNTRY_RU[r.country])}</b>${r.cities ? ` · ${esc(r.cities)}` : ''}`}</div>
+          ${r.changes ? `<div>Изменения: ${esc(r.changes)}</div>` : ''}
+          ${r.mode === 'custom' ? `<h4>2. Отрасли, компании, цели</h4><div>Отрасли: ${esc(r.sectors.join(', ') || '—')}</div><div>Компании: ${esc(r.companies.join(', ') || '—')}${r.pickCos ? ' · подобрать за нас' : ''}</div><div>Цели: ${esc(r.goals.join(', ') || '—')}</div>` : ''}
+          <h4>Группа</h4><table>${row('Участников', `<b>${r.people}</b>`)}${row('Кто едет', esc(r.level))}${row('Язык', esc(r.lang))}</table>
+          <h4>Гражданство и визы</h4><table>${cit}</table><span class="muted" style="font-size:12px">Правила въезда (страна поездки × гражданство) ведёт координатор; в приложении отметка подставится сама.</span>
+          <h4>Даты</h4><div>${esc(r.dates || '—')}${r.days ? ` · ${esc(r.days)} ${plural(Number(r.days), 'день', 'дня', 'дней')}` : ''}</div>
+          <h4>Перелёт и проживание</h4><div>Вылет: ${esc(r.from)} · перелёт ${r.flight ? 'включить' : 'не включать'} · отели ${esc(r.hotel)}, ${esc(r.room.toLowerCase())}</div>
+          <h4>Включить</h4><div>${esc(r.incl.map((k) => INCL_RU[k]).join(', ') || '—')}</div>
+          <h4>Клиент</h4><div>${esc(r.client)}${r.budget ? ` · бюджет: ${esc(r.budget)}` : ''}</div>${r.note ? `<div>«${esc(r.note)}»</div>` : ''}${r.file ? '<div>Вложение: tz-klienta.pdf</div>' : ''}
+          ${r.status === 'done' ? `<h4>Расчёт</h4>${agentTerms(null, null)}<div class="kvr"><span>Стоимость на участника</span><span class="empty">не указана</span></div><span class="muted" style="font-size:12px">Суммы появятся, когда координатор заполнит поля; файл расчёта — PDF.</span>` : ''}
+        </div>
+        ${isK ? (r.status === 'new' ? `<div class="btns split">${btn('calcPdf', 'Скачать ТЗ (PDF)', 'ghost', r.id)}${btn('calcTake', 'Взять в расчёт', 'primary', r.id)}</div>`
+          : r.status === 'calc' ? `<div class="btns split">${btn('calcPdf', 'Скачать ТЗ (PDF)', 'ghost', r.id)}${btn('calcDone', 'Отправить расчёт', 'primary', r.id)}</div>` : btn('calcPdf', 'Скачать ТЗ (PDF)', 'ghost full', r.id))
+          : `${r.status === 'done' ? btn('calcPdf', 'Скачать расчёт (PDF)', 'primary full', r.id) : ''}${btn('closeSheet', 'Закрыть', 'ghost full')}`}`;
     } else if (sh.type === 'agApp') {
       const t = sh.tour ? tourById[sh.tour] : null;
       const deps = t ? depsOf(t[0]).filter((d) => depFree(d) > 0) : [];
@@ -1072,6 +1187,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
         ${t ? `<div class="s" style="font-weight:600;color:var(--a-muted)">Даты</div><div class="chips">${deps.map((d) => `<button type="button" class="pick" data-act="sheetSet" data-arg="dep|${d.id}" aria-pressed="${sh.dep === d.id}">${d.short} · ${depFree(d)} мест</button>`).join('')}<button type="button" class="pick" data-act="sheetSet" data-arg="dep|other" aria-pressed="${sh.dep === 'other'}">Свои даты</button></div>` : ''}
         ${sh.dep === 'other' ? `<label class="field" for="agDates">Желаемые даты<input id="agDates" data-field="agDates" value="${esc(S.form.agDates || '')}" placeholder="Например: вторая половина апреля"></label>` : ''}
         <label class="field" for="agPeople">Участников<input id="agPeople" type="number" min="1" max="40" data-field="agPeople" value="${esc(S.form.agPeople || '')}"></label>
+        <label class="field" for="agCit">Из какой страны делегация<select id="agCit" data-field="agCit">${CIS.map(([k, l]) => `<option value="${k}" ${(S.form.agCit || 'ru') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
         <label class="field" for="agClient">Клиент<input id="agClient" data-field="agClient" value="${esc(S.form.agClient || '')}" placeholder="Компания или отрасль, город"></label>
         <label class="field" for="agNote">Комментарий<textarea id="agNote" rows="2" data-field="agNote" placeholder="Интересы группы, пожелания по отелям">${esc(S.form.agNote || '')}</textarea></label>
         <span class="muted">Имена, паспорта и телефоны участников — после подтверждения заявки.</span>
@@ -1221,7 +1337,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       delegate: { today: dToday, plan: dPlan, library: dLibrary, people: dPeople, trip: dTrip, city: dCity },
       coordinator: { center: kCenter, visits: kVisits, group: kGroup, leads: kLeads, announce: kAnnounce },
       host: { visit: hVisit, delegation: hDelegation, prep: hPrep, after: hAfter },
-      agent: { catalog: aCatalog, dates: aDates, apps: aApps, kit: aKit },
+      agent: { catalog: aCatalog, dates: aDates, calc: aCalc, apps: aApps, kit: aKit },
     };
     const isHost = who === 'host';
     const banner = S.viewAs ? `<div class="viewas"><span>Вы смотрите как ${S.viewAs === 'delegate' ? `делегат ${me.ru}` : S.viewAs === 'agent' ? `агент ${AGENCY}` : 'JD.com'} · только просмотр</span><button type="button" data-act="viewAs" data-arg="">Вернуться</button></div>` : '';
@@ -1241,8 +1357,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
 
   const ROLE_INFO = {
     delegate: { name: `Делегат · ${me.ru}`, text: 'Участник экспедиции. Видит свою поездку: что сегодня, план по дням с погодой, отелями, ресторанами и культурной программой, материалы, людей группы и подготовку. Отели, рестораны, погода и телефоны в прототипе — примеры.', tips: ['Нажмите «Я в автобусе» — у координатора счётчик станет 15/18.', 'Кнопка «Контакты» на «Сегодня» — телефоны координатора, переводчика, отеля и экстренные номера.', 'В «Плане» у дня — погода и отель; нажмите на обед, ужин или культурную программу.', 'В «Материалах» закреплены презентации; в «Поездке» → «До» укажите предпочтения в еде.', 'В «Поездке» → «После» оставьте отзыв текстом или видео.', 'На «Сегодня» попробуйте «Переводчик» и «Слушать гида»; адреса отелей — на китайском, русском и английском.', 'Кнопка «Город»: шопинг, ночная жизнь, магазины 24/7, туалеты на карте, «Иду гулять»; «Такси» — DiDi с адресом по-китайски.'] },
-    coordinator: { name: 'Координатор · Остап Доценко', text: 'Видит и меняет всё. Ведёт группу и визиты, отвечает на запросы компаний и делегатов, может открыть любой экран глазами делегата или JD.com.', tips: ['На «Пульте» примите перенос Hema — у делегата обновится план.', 'Нажмите «Автобус выехал» — JD.com узнает в WeChat, если включила напоминания.', 'Откройте презентацию JD.com делегатам или переведите вопросы.', 'Переключите «Как делегат» / «Как JD.com» в шапке.', 'На «Пульте» начните «Радиогид» — делегат услышит переводчика в наушниках.', 'Вкладка «Заявки» — заявки агентов и с сайта: «Взять в работу», «Подтвердить». В шапке «Агент» — экран глазами агентства.'] },
-    agent: { name: `Агент · Ирина Миронова, ${AGENCY}`, text: 'Турагентство или агент-партнёр GTT (в прототипе — вымышленное агентство). Видит каталог программ по странам, ближайшие выезды и свободные места, отправляет заявки за своих клиентов и следит за статусом. Не видит делегатов, поездку изнутри и других агентов. Каталог — 76 программ с сайта; даты и места — пример.', tips: ['В «Каталоге» выберите страну и откройте программу: маршрут, компании, ближайшие выезды.', 'Нажмите «Отправить заявку» — заявка появится у координатора на «Пульте» и во вкладке «Заявки».', 'В «Датах» — выезды по месяцам и свободные места.', 'Переключитесь на координатора: «Взять в работу» → «Подтвердить» — у агента сменится статус, места в выезде уменьшатся.', 'В «Материалах» — презентации программ без цен для ваших клиентов и ролики.'] },
+    coordinator: { name: 'Координатор · Остап Доценко', text: 'Видит и меняет всё. Ведёт группу и визиты, отвечает на запросы компаний и делегатов, может открыть любой экран глазами делегата или JD.com.', tips: ['На «Пульте» примите перенос Hema — у делегата обновится план.', 'Нажмите «Автобус выехал» — JD.com узнает в WeChat, если включила напоминания.', 'Откройте презентацию JD.com делегатам или переведите вопросы.', 'Переключите «Как делегат» / «Как JD.com» в шапке.', 'На «Пульте» начните «Радиогид» — делегат услышит переводчика в наушниках.', 'Вкладка «Заявки» — заявки агентов и с сайта: «Взять в работу», «Подтвердить»; запросы на расчёт открываются как ТЗ. В шапке «Агент» — экран глазами агентства.'] },
+    agent: { name: `Агент · Ирина Миронова, ${AGENCY}`, text: 'Турагентство или агент-партнёр GTT (в прототипе — вымышленное агентство). Видит каталог программ по странам, ближайшие выезды и свободные места, отправляет заявки за своих клиентов и следит за статусом. Не видит делегатов, поездку изнутри и других агентов. Каталог — 76 программ с сайта; даты и места — пример.', tips: ['В «Каталоге» выберите страну и откройте программу: маршрут, компании, ближайшие выезды.', 'Нажмите «Отправить заявку» — заявка появится у координатора на «Пульте» и во вкладке «Заявки».', 'В «Датах» — выезды по месяцам и свободные места.', 'Переключитесь на координатора: «Взять в работу» → «Подтвердить» — у агента сменится статус, места в выезде уменьшатся.', 'Вкладка «Расчёт»: готовая экспедиция или своя программа по блокам, гражданство группы (РФ и СНГ) — у координатора откроется ТЗ.', 'В «Материалах» — презентации программ без цен для ваших клиентов и ролики; поля «Стоимость для агента» и «Комиссия» пока пустые.'] },
     host: { name: 'Компания · JD.com в WeChat', text: 'Менеджер компании, куда едет группа. Открывает мини-программу по QR-коду в WeChat, без установки. Видит только свой визит; телефонов делегатов не видит.', tips: ['Нажмите «接收提醒» (напоминания), потом у координатора «Автобус выехал».', 'Предложите другое время — запрос уйдёт координатору.', 'Загрузите файл во вкладке «问题与资料» — он попадёт на проверку.', 'Переключите 中文 / EN и ответьте делегатам во вкладке «访问后».'] },
   };
   function renderSide() {
@@ -1256,7 +1372,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
 
   // ——— Действия ———
-  const NAV = new Set(['tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet', 'openHotel', 'openCulture', 'contacts', 'reviewMode', 'translator', 'guide', 'driverCard', 'openMaps', 'copyAddr', 'cityCat', 'pickPlace', 'findMore', 'taxi2', 'agCountry', 'agMonth', 'agTour']);
+  const NAV = new Set(['tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet', 'openHotel', 'openCulture', 'contacts', 'reviewMode', 'translator', 'guide', 'driverCard', 'openMaps', 'copyAddr', 'cityCat', 'pickPlace', 'findMore', 'taxi2', 'agCountry', 'agMonth', 'agTour', 'calcOpen']);
   const now = () => '09:05';
   const A = {
     tab: (k) => { const who = S.role === 'coordinator' && S.viewAs ? S.viewAs : S.role; S.tab[who] = k; if (who === 'host' && k === 'after') setTimeout(() => { S.requests.forEach((r) => { r.isNew = false; }); save(); }, 0); },
@@ -1273,6 +1389,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     agMonth: (m) => { S.ag.month = m; },
     agTour: (id) => { S.sheet = { type: 'agTour', id }; },
     agApply: (arg) => {
+      S.form.agCit = S.form.agCit || 'ru';
       let tour = '';
       let dep = null;
       if (arg.startsWith('dep:')) { dep = arg.slice(4); tour = depById[dep].tour; } else if (arg.startsWith('t:')) tour = arg.slice(2);
@@ -1289,7 +1406,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       if (dep && people > depFree(dep)) return toast(`В этом выезде свободно ${depFree(dep)} мест — уменьшите группу или выберите свои даты`);
       const dates = dep ? dep.dates : (S.form.agDates || '').trim() || 'даты под группу';
       const client = (S.form.agClient || '').trim() || 'Клиент не указан';
-      S.agentApps.unshift({ id: nid(), tour: sh.tour, dep: dep ? dep.id : null, dates, people, client, status: 'new', note: (S.form.agNote || '').trim() ? `Комментарий: ${S.form.agNote.trim()}` : '', time: 'сегодня 09:05', upd: false });
+      S.agentApps.unshift({ id: nid(), tour: sh.tour, dep: dep ? dep.id : null, dates, people, client, cit: S.form.agCit || 'ru', status: 'new', note: (S.form.agNote || '').trim() ? `Комментарий: ${S.form.agNote.trim()}` : '', time: 'сегодня 09:05', upd: false });
       S.sheet = null; S.tab.agent = 'apps';
       log('agent', `${AGENCY} отправило заявку: ${tourById[sh.tour][2]} · ${dates} · ${people} чел. → у координатора на «Пульте», во вкладке «Заявки» и в Telegram.`);
       toast('Заявка отправлена координатору GTT', 'Агент');
@@ -1311,6 +1428,36 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     agPdf: (id) => { log('agent', `${AGENCY} скачало презентацию «${tourById[id][2]}» (PDF без цен).`); toast('Презентация скачана · PDF без цен'); },
     agReel: (n) => toast(`Ролик «${n}» скачан`),
     agWrite: () => toast('Открываем чат с координатором в Telegram'),
+    calcSet: (arg) => { const [k, v] = arg.split('|'); S.calc[k] = v; if (k === 'mode') S.calc.dep = ''; },
+    calcToggle: (arg) => { const [k, v] = arg.split('|'); const l = S.calc[k]; S.calc[k] = l.includes(v) ? l.filter((x) => x !== v) : l.concat(v); },
+    calcAddCo: () => { const n = (S.form.c_co || '').trim(); if (!n) return toast('Впишите название компании'); S.calc.companies.push(n); S.form.c_co = ''; },
+    calcDelCo: (i) => { S.calc.companies.splice(Number(i), 1); },
+    calcAddCit: () => { S.calc.cit.push({ c: 'kz', n: '' }); },
+    calcDelCit: (i) => { if (S.calc.cit.length > 1) S.calc.cit.splice(Number(i), 1); },
+    calcFile: () => { S.calc.file = true; toast('Файл прикреплён: tz-klienta.pdf'); },
+    calcFrom: (id) => { S.calc = freshCalc(); S.calc.tour = id; const d = depsOf(id).find((x) => depFree(x) > 0); S.calc.dep = d ? d.id : ''; S.sheet = null; S.tab.agent = 'calc'; },
+    calcSubmit: () => {
+      const c = S.calc;
+      const f = S.form;
+      if (c.mode === 'ready' && !c.tour) return toast('Выберите программу из каталога');
+      if (c.mode === 'custom' && !c.sectors.length && !c.companies.length) return toast('Укажите отрасль или компании');
+      const people = Number(f.c_people || 0);
+      if (!people) return toast('Укажите число участников');
+      const sum = c.cit.reduce((n, r) => n + Number(r.n || 0), 0);
+      if (c.cit.length === 1 && !sum) c.cit[0].n = people;
+      else if (sum !== people) return toast(`Гражданство: указано ${sum} из ${people} участников`);
+      const dep = c.dep ? depById[c.dep] : null;
+      const id = `R-0${S.calcSeq++}`;
+      S.calcReqs.unshift({ id, mode: c.mode, tour: c.mode === 'ready' ? c.tour : '', country: c.country, cities: (f.c_cities || '').trim(), changes: c.mode === 'ready' ? (f.c_changes || '').trim() : '', sectors: c.sectors.slice(), goals: c.goals.slice(), companies: c.companies.slice(), pickCos: c.pickCos, people, cit: c.cit.map((r) => ({ c: r.c, n: Number(r.n) })), level: c.level, lang: c.lang, dates: dep ? dep.dates : (f.c_dates || '').trim(), days: c.mode === 'custom' ? (f.c_days || '') : '', from: c.from, flight: c.flight, hotel: c.hotel, room: c.room, incl: c.incl.slice(), client: (f.c_client || '').trim() || 'Клиент не указан', budget: (f.c_budget || '').trim(), due: c.due, note: (f.c_note || '').trim(), file: c.file, status: 'new', time: 'сегодня 09:05', upd: false });
+      ['c_people', 'c_dates', 'c_days', 'c_cities', 'c_changes', 'c_co', 'c_client', 'c_budget', 'c_note'].forEach((k) => { delete f[k]; });
+      S.calc = freshCalc(); S.tab.agent = 'apps';
+      log('agent', `${AGENCY} отправило запрос на расчёт ${id}: ${calcTitle(S.calcReqs[0])} · ${people} чел. (${citLine(S.calcReqs[0].cit)}) → у координатора ТЗ на «Пульте» и во вкладке «Заявки».`);
+      toast(`Запрос ${id} отправлен на расчёт`, 'Агент');
+    },
+    calcOpen: (id) => { S.sheet = { type: 'calcTz', id }; },
+    calcTake: (id) => { const r = S.calcReqs.find((x) => x.id === id); if (!r) return; r.status = 'calc'; r.upd = true; log('coordinator', `Взял в расчёт ${id} → агент видит статус «считаем».`); toast('Агент видит: считаем'); },
+    calcDone: (id) => { const r = S.calcReqs.find((x) => x.id === id); if (!r) return; r.status = 'done'; r.upd = true; S.sheet = null; log('coordinator', `Отправил расчёт ${id} агенту (суммы — после заполнения полей стоимости и комиссии).`); toast('Расчёт отправлен агенту'); },
+    calcPdf: (id) => toast(`${id}: PDF скачан`),
 
     // делегат
     busToggle: () => {
@@ -1537,6 +1684,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   document.addEventListener('input', (e) => {
     const f = e.target.dataset.field;
     if (!f) return;
+    if (f === 'cTour') { S.calc.tour = e.target.value; const d = depsOf(e.target.value).find((x) => depFree(x) > 0); S.calc.dep = d ? d.id : ''; render(); return; }
+    if (f.startsWith('cit_')) { const [, k, i] = f.split('_'); S.calc.cit[Number(i)][k === 'c' ? 'c' : 'n'] = e.target.value; save(); return; }
     if (f === 'agTour') { S.sheet.tour = e.target.value; const d = depsOf(e.target.value).find((x) => depFree(x) > 0); S.sheet.dep = d ? d.id : 'other'; render(); return; }
     if (f === 'annText') { S.annText = e.target.value; S.annTpl = null; } else S.form[f] = e.target.value;
     save();
@@ -1545,6 +1694,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     const c = e.target.dataset.check;
     if (!c) return;
     if (c === 'consent') { S.sheet.consent = e.target.checked; return; }
+    if (c === 'pickCos' || c === 'flight') { S.calc[c] = e.target.checked; save(); return; }
     if (c === 'reviewConsent') { S.reviewConsent = e.target.checked; save(); return; }
     if (c === 'voiceOut') { S.voiceOut = e.target.checked; render(); return; }
     if (c === 'subtitles') { S.subtitles = e.target.checked; render(); return; }
