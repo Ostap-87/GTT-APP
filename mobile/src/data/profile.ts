@@ -36,18 +36,25 @@ export type Profile = {
   health: string[];
   healthNote: string;
   consent: boolean;
+  /** «Сохранить профиль для следующих поездок» (решение 16.10.2026); без галочки здоровье удаляем через 30 дней после поездки. */
+  keep: boolean;
   saved: boolean;
 };
 
 export const freshProfile = (): Profile => ({
   diets: [], algOn: false, alg: [], algOther: '', severe: false, room: 'double', mate: 'd7', eng: 'basic', msg: 'Telegram',
-  interests: ['Собственные марки', 'Доставка'], health: [], healthNote: '', consent: false, saved: false,
+  interests: ['Собственные марки', 'Доставка'], health: [], healthNote: '', consent: false, keep: false, saved: false,
 });
 
 export const dietNames = (p: Profile) => p.diets.map((k) => DIET_BY[k][1]);
 export const algNames = (p: Profile) => (p.algOn ? p.alg.map((k) => ALG_BY[k][1] as string).concat(p.algOther.trim() ? [p.algOther.trim()] : []) : []);
+export const algGiven = (p: Profile) => p.algOn && (p.alg.length > 0 || p.algOther.trim() !== '');
+export const healthOnlyGiven = (p: Profile) => p.health.length > 0 || p.healthNote.trim() !== '';
 /** Сведения о здоровье — особая категория персональных данных (152-ФЗ): без согласия не сохраняем. */
-export const healthGiven = (p: Profile) => (p.algOn && (p.alg.length > 0 || p.algOther.trim() !== '')) || p.health.length > 0 || p.healthNote.trim() !== '';
+export const healthGiven = (p: Profile) => algGiven(p) || healthOnlyGiven(p);
+
+/** Анкета при первом заполнении — 4 шага по очереди (решение 16.10.2026). */
+export const PSTEPS = ['О себе', 'Питание и аллергия', 'Проживание и здоровье', 'Цели поездки'] as const;
 
 export function foodLine(p: Profile) {
   const a = algNames(p);

@@ -181,6 +181,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
 .btn[disabled] { opacity: .5; cursor: default; }
 .btns { display: flex; gap: 8px; flex-wrap: wrap; }
 .btns.split > * { flex: 1 1 0; }
+.btns.pnav > :last-child { flex-grow: 2; }
 .icon-btn { width: 38px; height: 38px; border-radius: 19px; border: 0; background: var(--a-blue-soft); color: var(--a-blue-ink); display: inline-flex; align-items: center; justify-content: center; flex: none; }
 .list { display: flex; flex-direction: column; }
 .li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--a-line2); }
@@ -494,9 +495,9 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   const HEALTH_OPTS = ['Тяжело долго ходить', 'Укачивает в транспорте', 'Нужен холодильник для лекарств', 'Нужен номер на нижнем этаже'];
   const INTERESTS = ['Собственные марки', 'Доставка', 'Логистика и склады', 'Автоматизация', 'Поставщики', 'Маркетинг', 'Инвестиции', 'Технологии'];
   const ENG = { no: 'Не говорю', basic: 'Базовый', fluent: 'Свободно' };
-  const freshProfile = () => ({ diets: [], algOn: false, alg: [], algOther: '', severe: false, room: 'double', mate: 'd7', eng: 'basic', msg: 'Telegram', interests: ['Собственные марки', 'Доставка'], health: [], healthNote: '', consent: false, saved: false });
+  const freshProfile = () => ({ diets: [], algOn: false, alg: [], algOther: '', severe: false, room: 'double', mate: 'd7', eng: 'basic', msg: 'Telegram', interests: ['Собственные марки', 'Доставка'], health: [], healthNote: '', consent: false, keep: false, saved: false });
   // Профили остальных делегатов — вымышленные; у d16 и d17 профиль ещё не заполнен (видно «Напомнить»)
-  const PF = (diets, alg, severe, room, mate, eng, msg, interests, health, healthNote) => ({ diets, algOn: alg.length > 0, alg, algOther: '', severe, room, mate, eng, msg, interests, health: health || [], healthNote: healthNote || '', consent: true, saved: true });
+  const PF = (diets, alg, severe, room, mate, eng, msg, interests, health, healthNote) => ({ diets, algOn: alg.length > 0, alg, algOther: '', severe, room, mate, eng, msg, interests, health: health || [], healthNote: healthNote || '', consent: true, keep: true, saved: true });
   const PROFILES = {
     d2: PF(['none'], [], false, 'single', '', 'fluent', 'Telegram', ['Доставка', 'Технологии']),
     d3: PF(['veg'], [], false, 'double', 'd13', 'basic', 'WhatsApp', ['Поставщики', 'Собственные марки']),
@@ -627,7 +628,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   const addHours = (t, h) => { const [hh, mm] = t.split(':').map(Number); return `${String(hh + h).padStart(2, '0')}:${String(mm).padStart(2, '0')}`; };
 
   // ——— Состояние ———
-  const KEY = 'gtt-proto-v8';
+  const KEY = 'gtt-proto-v9';
   function fresh() {
     return {
       role: 'delegate', viewAs: null,
@@ -650,7 +651,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       downloaded: { memo: true, program: true, companies: false, jd: false },
       checklist: { passport: true, tickets: true, interests: true, memo: false },
       intros: {}, hostSubscribed: false, hostNotice: null, dNotices: [],
-      profile: freshProfile(), cnotes: {}, legs: {}, kSel: null, gTab: 'people', gFilter: 'all', pHist: [], reminded: {},
+      profile: freshProfile(), cnotes: {}, legs: {}, kSel: null, pStep: 0, gTab: 'people', gFilter: 'all', pHist: [], reminded: {},
       checked: Object.fromEntries(Object.keys(PROFILES).filter((x) => x !== 'd18').map((x) => [x, true])), foodSent: { at: 'вчера, 18:20', sig: null }, reviews: [], reviewMode: 'text', videoAttached: false, reviewConsent: true,
       guideLive: false, listening: false, subtitles: true, voiceOut: true, chat: [], tIdx: { ru: 0, zh: 0 },
       cityCat: 'shop', place: null, out: null,
@@ -967,33 +968,54 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
   function profileCard() {
     const p = S.profile;
-    return `<section class="card tap" data-act="openProfile" style="flex-direction:row;align-items:center;gap:10px"><span class="avatar blue">${initials(me.lat)}</span><div style="flex:1;min-width:0"><div class="t" style="font-weight:700">Мой профиль</div><div class="muted">${p.saved ? esc(foodLine(p)) : 'Питание, аллергии, номер, интересы — заполните до поездки'}</div></div><span class="chip ${p.saved ? 'ok' : 'warn'}">${p.saved ? 'заполнен' : 'заполнить'}</span></section>`;
+    return `<section class="card tap" data-act="openProfile" style="flex-direction:row;align-items:center;gap:10px"><span class="avatar blue">${initials(me.lat)}</span><div style="flex:1;min-width:0"><div class="t" style="font-weight:700">Мой профиль</div><div class="muted">${p.saved ? esc(foodLine(p)) : S.pStep ? `Анкета: шаг ${S.pStep + 1} из 4 — продолжите` : 'Анкета из 4 шагов, около 3 минут — заполните до 26 октября'}</div></div><span class="chip ${p.saved ? 'ok' : 'warn'}">${p.saved ? 'заполнен' : 'заполнить'}</span></section>`;
   }
   const pickBtn = (act, key, label, on) => `<button type="button" class="pick" data-act="${act}" data-arg="${esc(key)}" aria-pressed="${on}">${esc(label)}</button>`;
   const segBtns = (act, opts, cur) => `<div class="seg light">${opts.map(([k, l]) => `<button type="button" data-act="${act}" data-arg="${k}" aria-pressed="${cur === k}">${l}</button>`).join('')}</div>`;
   const healthGiven = (p) => (p.algOn && (p.alg.length > 0 || p.algOther.trim() !== '')) || p.health.length > 0 || p.healthNote.trim() !== '';
-  function dProfile() {
-    const p = S.profile;
-    const mates = D.filter((d) => d.id !== 'd1').map((d) => `<option value="${d.id}" ${p.mate === d.id ? 'selected' : ''}>${esc(d.ru)}</option>`).join('');
-    return `${delegateHead(`${me.ru} · делегат`, 'Мой профиль')}<div class="body">
-      <section class="card" style="flex-direction:row;align-items:center;gap:12px"><span class="avatar blue" style="width:48px;height:48px;font-size:16px">${initials(me.lat)}</span><div style="flex:1;min-width:0"><div class="t" style="font-weight:700">${me.ru}</div><div class="muted">${me.roleRu} · ${me.coRu} · ${me.cityRu}</div></div></section>
-      <p class="muted" style="margin:0">Профиль целиком видит координатор — так он сразу понимает, кто есть кто. Компании видят только имя, должность и компанию; рестораны — питание и аллергии группы без имён.</p>
-      <section class="card"><h3>Питание</h3><span class="muted">Можно выбрать несколько вариантов</span><div class="chips">${DIET_OPTS.map(([k, l]) => pickBtn('pDiet', k, l, p.diets.includes(k))).join('')}</div></section>
+  const PSTEPS = ['О себе', 'Питание и аллергия', 'Проживание и здоровье', 'Цели поездки'];
+  const algGiven = (p) => p.algOn && (p.alg.length > 0 || p.algOther.trim() !== '');
+  const healthOnlyGiven = (p) => p.health.length > 0 || p.healthNote.trim() !== '';
+  function pSecAbout() {
+    return `<section class="card" style="flex-direction:row;align-items:center;gap:12px"><span class="avatar blue" style="width:48px;height:48px;font-size:16px">${initials(me.lat)}</span><div style="flex:1;min-width:0"><div class="t" style="font-weight:700">${me.ru}</div><div class="muted">${me.roleRu} · ${me.coRu} · ${me.cityRu}</div></div></section>`;
+  }
+  const pSecContact = (p) => `<section class="card"><h3>Связь и языки</h3><span class="muted">Английский</span>${segBtns('pEng', Object.entries(ENG), p.eng)}
+      <span class="muted">Где удобнее писать</span>${segBtns('pMsg', [['Telegram', 'Telegram'], ['WhatsApp', 'WhatsApp'], ['WeChat', 'WeChat']], p.msg)}</section>`;
+  const pSecFood = (p) => `<section class="card"><h3>Питание</h3><span class="muted">Можно выбрать несколько вариантов</span><div class="chips">${DIET_OPTS.map(([k, l]) => pickBtn('pDiet', k, l, p.diets.includes(k))).join('')}</div></section>
       <section class="card"><h3>Аллергия</h3>${segBtns('pAlgOn', [['0', 'Нет'], ['1', 'Есть']], p.algOn ? '1' : '0')}
         ${p.algOn ? `<span class="muted">На что — отметьте всё</span><div class="chips">${ALLERGENS.map(([k, l]) => pickBtn('pAlg', k, l, p.alg.includes(k))).join('')}</div>
         <label class="field" for="p_algOther">Другое<input id="p_algOther" data-field="p_algOther" value="${esc(p.algOther)}" placeholder="Например: киви, клубника"></label>
         <span class="muted">Насколько серьёзно</span>${segBtns('pSev', [['0', 'Лёгкая'], ['1', 'Серьёзная, опасна для жизни']], p.severe ? '1' : '0')}
-        ${p.severe ? '<div class="card warn" style="padding:10px 12px">Координатор и гид будут знать; в ресторанах блюда для вас готовят отдельно. Лекарства возьмите с собой.</div>' : ''}
-        ${p.alg.length || p.algOther.trim() ? btn('waiterCard', `${icon('translate', 18)} Карточка для официанта по-китайски`, 'light full') : ''}` : ''}</section>
-      <section class="card"><h3>Проживание</h3>${segBtns('pRoom', [['single', 'Одноместный номер'], ['double', 'Двухместный']], p.room)}
-        ${p.room === 'double' ? `<label class="field" for="p_mate">С кем в номере<select id="p_mate" data-field="p_mate"><option value="" ${p.mate ? '' : 'selected'}>Подберите соседа</option>${mates}</select></label>` : ''}</section>
-      <section class="card"><h3>Здоровье и особенности</h3><span class="muted">Необязательно. Видит только координатор.</span><div class="chips">${HEALTH_OPTS.map((h) => pickBtn('pHealth', h, h, p.health.includes(h))).join('')}</div>
-        <label class="field" for="p_healthNote">Что ещё важно знать координатору<textarea id="p_healthNote" rows="2" data-field="p_healthNote" placeholder="Например: ношу с собой лекарства">${esc(p.healthNote)}</textarea></label></section>
-      <section class="card"><h3>Связь и языки</h3><span class="muted">Английский</span>${segBtns('pEng', Object.entries(ENG), p.eng)}
-        <span class="muted">Где удобнее писать</span>${segBtns('pMsg', [['Telegram', 'Telegram'], ['WhatsApp', 'WhatsApp'], ['WeChat', 'WeChat']], p.msg)}</section>
-      <section class="card"><h3>Что важно увидеть в поездке</h3><span class="muted">Координатор подберёт вопросы компаниям и знакомства в группе</span><div class="chips">${INTERESTS.map((x) => pickBtn('pInt', x, x, p.interests.includes(x))).join('')}</div></section>
-      <section class="card"><div class="toggle-row"><label><input id="pConsent" type="checkbox" data-check="pConsent" ${p.consent ? 'checked' : ''}> Согласен(на) на обработку сведений о здоровье (аллергия, особенности) для организации поездки</label></div><span class="muted">Нужно, если указаны аллергия или здоровье. Хранятся на сервере в России, удаляются через 30 дней после поездки.</span></section>
-      ${btn('saveProfile', p.saved ? 'Сохранить изменения' : 'Сохранить профиль', 'primary full')}
+        ${p.severe ? '<div class="card warn" style="padding:10px 12px">Координатор, гид и переводчик будут знать; в ресторанах блюда для вас готовят отдельно. Лекарства возьмите с собой.</div>' : ''}
+        ${algGiven(p) ? btn('waiterCard', `${icon('translate', 18)} Карточка для официанта по-китайски`, 'light full') : ''}` : ''}</section>`;
+  const pSecRoom = (p) => `<section class="card"><h3>Проживание</h3>${segBtns('pRoom', [['single', 'Одноместный номер'], ['double', 'Двухместный']], p.room)}
+        ${p.room === 'double' ? `<label class="field" for="p_mate">С кем в номере<select id="p_mate" data-field="p_mate"><option value="" ${p.mate ? '' : 'selected'}>Подберите соседа</option>${D.filter((d) => d.id !== 'd1').map((d) => `<option value="${d.id}" ${p.mate === d.id ? 'selected' : ''}>${esc(d.ru)}</option>`).join('')}</select></label>` : ''}</section>`;
+  const pSecHealth = (p) => `<section class="card"><h3>Здоровье и особенности</h3><span class="muted">Необязательно. Видит только координатор.</span><div class="chips">${HEALTH_OPTS.map((h) => pickBtn('pHealth', h, h, p.health.includes(h))).join('')}</div>
+        <label class="field" for="p_healthNote">Что ещё важно знать координатору<textarea id="p_healthNote" rows="2" data-field="p_healthNote" placeholder="Например: ношу с собой лекарства">${esc(p.healthNote)}</textarea></label></section>`;
+  const pSecGoals = (p) => `<section class="card"><h3>Что важно увидеть в поездке</h3><span class="muted">Координатор подберёт вопросы компаниям и знакомства в группе</span><div class="chips">${INTERESTS.map((x) => pickBtn('pInt', x, x, p.interests.includes(x))).join('')}</div></section>`;
+  const pSecConsent = (p) => `<section class="card"><div class="toggle-row"><label><input id="pConsent" type="checkbox" data-check="pConsent" ${p.consent ? 'checked' : ''}> Согласен(на) на обработку сведений о здоровье (аллергия, особенности) для организации поездки</label></div><span class="muted">Нужно, если указаны аллергия или здоровье. Хранятся на сервере в России.</span></section>`;
+  const pSecKeep = (p) => `<section class="card"><div class="toggle-row"><label><input id="pKeep" type="checkbox" data-check="pKeep" ${p.keep ? 'checked' : ''}> Сохранить профиль для следующих поездок</label></div><span class="muted">В следующий раз анкета уже будет заполнена — останется подтвердить. Без галочки сведения о здоровье удаляются через 30 дней после поездки. Отменить можно в любой момент.</span></section>`;
+  function dProfile() {
+    const p = S.profile;
+    const head = delegateHead(`${me.ru} · делегат`, 'Мой профиль');
+    if (!p.saved) {
+      const st = S.pStep;
+      const steps = [
+        () => `${pSecAbout()}<span class="muted">Данные из вашей заявки. Если что-то не так — напишите координатору.</span>${pSecContact(p)}`,
+        () => `${pSecFood(p)}${algGiven(p) ? pSecConsent(p) : ''}`,
+        () => `${pSecRoom(p)}${pSecHealth(p)}${healthOnlyGiven(p) ? pSecConsent(p) : ''}`,
+        () => `${pSecGoals(p)}${pSecKeep(p)}`,
+      ];
+      return `${head}<div class="body">
+        <section class="card" style="gap:8px"><div class="title-row"><h3>Шаг ${st + 1} из 4 · ${PSTEPS[st]}</h3><span class="muted">≈ 3 мин</span></div><div class="bar"><span style="width:${(st + 1) * 25}%"></span></div><span class="muted">Можно прерваться — ответы сохраняются. Срок — до 26 октября.</span></section>
+        ${steps[st]()}
+        <div class="btns split pnav">${st ? btn('pBack', 'Назад', 'ghost') : ''}${st < 3 ? btn('pNext', 'Далее') : btn('saveProfile', 'Готово — сохранить')}</div>
+      </div>`;
+    }
+    return `${head}<div class="body">${pSecAbout()}
+      <p class="muted" style="margin:0">Профиль целиком видит координатор — так он сразу понимает, кто есть кто. Компании видят только имя, должность и компанию; рестораны — питание и аллергии группы без имён.</p>
+      ${pSecFood(p)}${pSecRoom(p)}${pSecHealth(p)}${pSecContact(p)}${pSecGoals(p)}${pSecConsent(p)}${pSecKeep(p)}
+      ${btn('saveProfile', 'Сохранить изменения', 'primary full')}
     </div>`;
   }
   function waiterText(p) {
@@ -1076,7 +1098,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
   // ——— Профиль участника глазами координатора ———
   function pStage(id) {
-    if (id === 'd1') return S.profile.saved ? (S.checked.d1 ? ['checked', 'проверен', 'ok'] : ['ready', 'ждёт проверки', 'info']) : ['filling', 'заполняет · 3 из 4 шагов', 'warn'];
+    if (id === 'd1') return S.profile.saved ? (S.checked.d1 ? ['checked', 'проверен', 'ok'] : ['ready', 'ждёт проверки', 'info']) : ['filling', `заполняет · шаг ${S.pStep + 1} из 4`, 'warn'];
     if (NOT_READY[id]) return [NOT_READY[id].st, NOT_READY[id].text, 'warn'];
     return S.checked[id] ? ['checked', 'проверен', 'ok'] : ['ready', 'ждёт проверки', 'info'];
   }
@@ -1154,7 +1176,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     const meals = dayEvents(1).filter((e) => e.kind === 'meal').map((e) => `<div class="li two"><div><div class="t"><span class="time">${e.t}</span> ${esc(e.name)}</div><div class="s">${esc(e.place)} · ${dirty ? 'сводка устарела' : `сводка отправлена ${esc(S.foodSent.at)}`}</div></div><span class="chip ${dirty ? 'warn' : 'ok'}">${dirty ? 'обновить' : 'ресторан знает'}</span></div>`).join('');
     return `${dirty ? `<section class="card warn"><div class="t" style="font-weight:700">Питание изменилось после отправки</div><span>${esc(foodChanges().join('; '))}</span>${btn('foodSummary', 'Отправить обновление ресторанам', 'primary full')}</section>` : ''}
       <section class="card"><div class="title-row"><h3>Сегодня · Вт, 10 ноября</h3></div><div class="list">${meals}</div></section>
-      <section class="card"><div class="title-row"><h3>Серьёзные аллергии</h3><span class="chip new">${D.filter((d) => severeOf(d.id)).length}</span></div><span class="muted">Видите только вы и гид. Перед каждым приёмом пищи — напоминание.</span><div class="list">${sev || '<span class="muted">Нет.</span>'}</div></section>
+      <section class="card"><div class="title-row"><h3>Серьёзные аллергии</h3><span class="chip new">${D.filter((d) => severeOf(d.id)).length}</span></div><span class="muted">Видите вы, гид и переводчик. Перед каждым приёмом пищи — напоминание.</span><div class="list">${sev || '<span class="muted">Нет.</span>'}</div></section>
       <section class="card"><div class="title-row"><h3>Питание группы</h3><span class="chip ${g.filled === 18 ? 'ok' : 'warn'}">профили ${g.filled}/18</span></div>
         <div class="chips">${dChips || '<span class="muted">Ограничений нет</span>'}</div>${aChips ? `<div class="chips">${aChips}</div>` : ''}
         ${btn('foodSummary', `${icon('translate', 18)} Сводка для ресторана · 中文`, 'light full')}</section>`;
@@ -1186,7 +1208,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     if (!ok) {
       const nr = NOT_READY[id];
       return `${coordHead('Профиль участника')}<div class="body">${back}${head}
-        <section class="card warn"><div class="t" style="font-weight:700">Профиль ещё не готов</div><span>${esc(nr ? nr.sub : 'Заполняет профиль в приложении: 3 из 4 шагов')}</span>${S.reminded[id] ? '<span class="chip info" style="align-self:flex-start">напоминание отправлено</span>' : btn('remindProfile', 'Напомнить заполнить', 'primary full', id)}</section>
+        <section class="card warn"><div class="t" style="font-weight:700">Профиль ещё не готов</div><span>${esc(nr ? nr.sub : `Заполняет анкету в приложении: шаг ${S.pStep + 1} из 4 — ${PSTEPS[S.pStep].toLowerCase()}`)}</span>${S.reminded[id] ? '<span class="chip info" style="align-self:flex-start">напоминание отправлено</span>' : btn('remindProfile', 'Напомнить заполнить', 'primary full', id)}</section>
         <section class="card"><h3>Из заявки</h3>${row('Телефон', phoneOf(id))}${row('Компания', esc(d.coRu))}${row('Город', esc(d.cityRu))}<span class="muted">Эти данные пришли с заявкой — участник их только проверит.</span></section>
         ${kNotes(id)}</div>`;
     }
@@ -1197,8 +1219,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     const docs = [['Паспорт', !(S.docsMissing.includes(id) && id !== 'd4')], ['Билеты', !(S.docsMissing.includes(id) && id === 'd4')], ['Страховка', true], ['Оплата', true]];
     const hist = historyOf(id).map(([w, x]) => `<div class="li two"><div><div>${esc(x)}</div><div class="s">${esc(w)}</div></div></div>`).join('') || '<span class="muted">Пока нет.</span>';
     return `${coordHead('Профиль участника')}<div class="body">${back}${head}
-      ${important.length ? `<section class="card ${p.severe ? '' : 'warn'}" style="${p.severe ? 'background:#fdecea;border-color:#f5c2bb' : ''}"><div class="t" style="font-weight:700">Важно в поездке</div>${important.map((x) => `<div>${x}</div>`).join('')}${alg.length ? '<span class="muted">Ресторанам — в сводке без имени; за столом гид предупредит официанта.</span>' : ''}</section>` : ''}
-      <section class="card"><h3>Питание и проживание</h3>${row('Питание', esc(dietNames(p).join(', ') || '—'))}${row('Аллергия', alg.length ? esc(alg.join(', ')) + (p.severe ? ' · серьёзная' : ' · лёгкая') : 'нет')}${row('Номер', p.room === 'single' ? 'одноместный' : `двухместный · ${p.mate ? `с ${esc(byId[p.mate].ru)}` : 'соседа подобрать'}`)}</section>
+      ${important.length ? `<section class="card ${p.severe ? '' : 'warn'}" style="${p.severe ? 'background:#fdecea;border-color:#f5c2bb' : ''}"><div class="t" style="font-weight:700">Важно в поездке</div>${important.map((x) => `<div>${x}</div>`).join('')}${alg.length ? '<span class="muted">Ресторанам — в сводке без имени; гид и переводчик знают и предупредят официанта.</span>' : ''}</section>` : ''}
+      <section class="card"><h3>Питание и проживание</h3>${row('Питание', esc(dietNames(p).join(', ') || '—'))}${row('Аллергия', alg.length ? esc(alg.join(', ')) + (p.severe ? ' · серьёзная' : ' · лёгкая') : 'нет')}${row('Номер', p.room === 'single' ? 'одноместный' : `двухместный · ${p.mate ? `с ${esc(byId[p.mate].ru)}` : 'соседа подобрать'}`)}${row('На будущее', p.keep ? 'профиль сохранить для следующих поездок' : 'не сохранять — здоровье удалим через 30 дней после поездки')}</section>
       <section class="card"><h3>Связь и цели поездки</h3>${row('Телефон', phoneOf(id))}${row('Мессенджер', esc(p.msg))}${row('Английский', ENG[p.eng])}${row('Интересы', esc(p.interests.join(', ') || '—'))}
         ${mates.length ? `<span class="muted">Познакомить: ${mates.map((m) => `${esc(m.x.ru)} (${esc(m.common.join(', ').toLowerCase())})`).join('; ')}</span>` : ''}</section>
       <section class="card"><h3>Документы</h3><div class="chips">${docs.map(([k, v]) => `<span class="chip ${v ? 'ok' : 'warn'}">${k}${v ? ' ✓' : ' — нет'}</span>`).join('')}</div></section>
@@ -1652,7 +1674,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   let lastKey = '';
   function render() {
     const who = S.role === 'coordinator' && S.viewAs ? S.viewAs : S.role;
-    const key = `${S.role}:${who}:${S.tab[who]}`;
+    const key = `${S.role}:${who}:${S.tab[who]}:${S.tab[who] === 'profile' ? `${S.pStep}:${S.kSel}` : ''}`; // новый шаг анкеты или другой профиль — экран с начала
     const scroller = screenEl.querySelector('.scroll');
     const keepScroll = scroller && key === lastKey ? scroller.scrollTop : 0;
     const views = {
@@ -1678,7 +1700,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
 
   const ROLE_INFO = {
-    delegate: { name: `Делегат · ${me.ru}`, text: 'Участник экспедиции. Видит свою поездку: что сегодня, план по дням с погодой, отелями, ресторанами и культурной программой, материалы, людей группы и подготовку. Отели, рестораны, погода и телефоны в прототипе — примеры.', tips: ['Нажмите «Я в автобусе» — у координатора счётчик станет 15/18.', 'Кнопка «Контакты» на «Сегодня» — телефоны координатора, переводчика, отеля и экстренные номера.', 'В «Плане» у дня — погода и отель; нажмите на обед, ужин или культурную программу.', 'В «Поездке» откройте «Мой профиль»: питание (можно несколько вариантов), аллергия — на что именно, номер, интересы. При аллергии — карточка для официанта по-китайски.', 'В «Материалах» закреплены презентации.', 'В «Поездке» → «После» оставьте отзыв текстом или видео.', 'На «Сегодня» попробуйте «Переводчик» и «Слушать гида»; адреса отелей — на китайском, русском и английском.', 'Кнопка «Город»: шопинг, ночная жизнь, магазины 24/7, туалеты на карте, «Иду гулять»; «Такси» — DiDi с адресом по-китайски.'] },
+    delegate: { name: `Делегат · ${me.ru}`, text: 'Участник экспедиции. Видит свою поездку: что сегодня, план по дням с погодой, отелями, ресторанами и культурной программой, материалы, людей группы и подготовку. Отели, рестораны, погода и телефоны в прототипе — примеры.', tips: ['Нажмите «Я в автобусе» — у координатора счётчик станет 15/18.', 'Кнопка «Контакты» на «Сегодня» — телефоны координатора, переводчика, отеля и экстренные номера.', 'В «Плане» у дня — погода и отель; нажмите на обед, ужин или культурную программу.', 'В «Поездке» откройте «Мой профиль»: анкета из 4 шагов — о себе, питание и аллергия, проживание и здоровье, цели поездки; в конце — «Сохранить для следующих поездок». При аллергии — карточка для официанта по-китайски.', 'В «Материалах» закреплены презентации.', 'В «Поездке» → «После» оставьте отзыв текстом или видео.', 'На «Сегодня» попробуйте «Переводчик» и «Слушать гида»; адреса отелей — на китайском, русском и английском.', 'Кнопка «Город»: шопинг, ночная жизнь, магазины 24/7, туалеты на карте, «Иду гулять»; «Такси» — DiDi с адресом по-китайски.'] },
     coordinator: { name: 'Координатор · Остап Доценко', text: 'Видит и меняет всё. Ведёт группу и визиты, отвечает на запросы компаний и делегатов, может открыть любой экран глазами делегата или JD.com.', tips: ['На «Пульте» примите перенос Hema — у делегата обновится план.', 'На «Пульте» в «Переездах» нажмите «Выехали», потом «Прибыли» — время в пути запишется в журнал; первый выезд сообщит JD.com.', 'Вкладка «Группа»: «Люди» — этапы профилей и фильтры, нажмите на участника — его профиль целиком; «Питание» — серьёзные аллергии и сводка ресторанам; «Расселение» — пары и список для отеля.', 'Заполните «Мой профиль» за делегата, затем у координатора на «Пульте» появится «проверьте профиль» и «питание изменилось после отправки».', 'Откройте презентацию JD.com делегатам или переведите вопросы.', 'Переключите «Как делегат» / «Как JD.com» в шапке.', 'На «Пульте» начните «Радиогид» — делегат услышит переводчика в наушниках.', 'Вкладка «Заявки» — заявки агентов и с сайта: «Взять в работу», «Подтвердить»; запросы на расчёт открываются как ТЗ. В шапке «Агент» — экран глазами агентства.'] },
     agent: { name: `Агент · Ирина Миронова, ${AGENCY}`, text: 'Турагентство или агент-партнёр GTT (в прототипе — вымышленное агентство). Видит каталог программ по странам, ближайшие выезды и свободные места, отправляет заявки за своих клиентов и следит за статусом. Не видит делегатов, поездку изнутри и других агентов. Каталог — 76 программ с сайта; даты и места — пример.', tips: ['В «Каталоге» выберите страну и откройте программу: маршрут, компании, ближайшие выезды.', 'Нажмите «Отправить заявку» — заявка появится у координатора на «Пульте» и во вкладке «Заявки».', 'В «Датах» — выезды по месяцам и свободные места.', 'Переключитесь на координатора: «Взять в работу» → «Подтвердить» — у агента сменится статус, места в выезде уменьшатся.', 'Вкладка «Расчёт»: готовая экспедиция или своя программа по блокам, гражданство группы (РФ и СНГ) — у координатора откроется ТЗ.', 'В «Материалах» — презентации программ без цен для ваших клиентов и ролики; поля «Стоимость для агента» и «Комиссия» пока пустые.'] },
     host: { name: 'Компания · JD.com в WeChat', text: 'Менеджер компании, куда едет группа. Открывает мини-программу по QR-коду в WeChat, без установки. Видит только свой визит; телефонов делегатов не видит.', tips: ['Нажмите «接收提醒» (напоминания), потом у координатора на «Пульте» — «Выехали».', 'Предложите другое время — запрос уйдёт координатору.', 'Загрузите файл во вкладке «问题与资料» — он попадёт на проверку.', 'Переключите 中文 / EN и ответьте делегатам во вкладке «访问后».'] },
@@ -1803,6 +1825,18 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       if (k === 'none') p.diets = p.diets.includes('none') ? [] : ['none'];
       else { const rest = p.diets.filter((x) => x !== 'none'); p.diets = rest.includes(k) ? rest.filter((x) => x !== k) : rest.concat(k); }
     },
+    pNext: () => {
+      const p = S.profile;
+      if (S.pStep === 1) {
+        if (!p.diets.length) return toast('Выберите питание — хотя бы «Без ограничений»');
+        if (p.algOn && !p.alg.length && !p.algOther.trim()) return toast('Отметьте, на что аллергия');
+        if (algGiven(p) && !p.consent) return toast('Нужно согласие на обработку сведений о здоровье');
+      }
+      if (S.pStep === 2 && healthOnlyGiven(p) && !p.consent) return toast('Нужно согласие на обработку сведений о здоровье');
+      S.pStep = Math.min(3, S.pStep + 1);
+      if (S.pStep === 1) log('delegate', `${me.ru} начала анкету → у координатора «заполняет · шаг 2 из 4».`);
+    },
+    pBack: () => { S.pStep = Math.max(0, S.pStep - 1); },
     pAlgOn: (v) => { S.profile.algOn = v === '1'; },
     pAlg: (k) => { const p = S.profile; p.alg = p.alg.includes(k) ? p.alg.filter((x) => x !== k) : p.alg.concat(k); },
     pSev: (v) => { S.profile.severe = v === '1'; },
@@ -2072,6 +2106,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     if (!c) return;
     if (c === 'consent') { S.sheet.consent = e.target.checked; return; }
     if (c === 'pConsent') { S.profile.consent = e.target.checked; save(); return; }
+    if (c === 'pKeep') { S.profile.keep = e.target.checked; save(); return; }
     if (c === 'pickCos' || c === 'flight') { S.calc[c] = e.target.checked; save(); return; }
     if (c === 'reviewConsent') { S.reviewConsent = e.target.checked; save(); return; }
     if (c === 'voiceOut') { S.voiceOut = e.target.checked; render(); return; }

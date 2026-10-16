@@ -11,7 +11,7 @@ import { Avatar, Card, Chip, H3, Row, Screen, T, TitleRow, initials } from '@/ui
 import { C, F } from '@/ui/theme';
 
 export default function Prep() {
-  const { done, toggle, profile } = useTrip();
+  const { done, toggle, profile, pStep } = useTrip();
   const [stage, setStage] = useState<'before' | 'during' | 'after'>('before');
   const count = CHECKLIST.filter((c) => done[c.key]).length;
   return (
@@ -20,7 +20,7 @@ export default function Prep() {
         <Row
           left={<Avatar text={initials(ME.lat)} />}
           title="Мой профиль"
-          sub={profile.saved ? foodLine(profile) : 'Питание, аллергии, номер, интересы — заполните до поездки'}
+          sub={profile.saved ? foodLine(profile) : pStep ? `Анкета: шаг ${pStep + 1} из 4 — продолжите` : 'Анкета из 4 шагов, около 3 минут — заполните до 26 октября'}
           right={<Chip tone={profile.saved ? 'ok' : 'warn'}>{profile.saved ? 'заполнен' : 'заполнить'}</Chip>}
         />
       </Card>
