@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "Global Tech Tour",
-    "slug": "gtt-app",
+    "slug": "gttapp",
+    "owner": "ostap87s-team",
     "scheme": "gtt",
     "version": "0.1.0",
     "orientation": "portrait",
