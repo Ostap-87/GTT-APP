@@ -22,7 +22,10 @@
 
 ## Приложение (Expo) — `mobile/`
 
-- React Native + Expo SDK 58, Expo Router (`mobile/src/app/`); описание и команды — `mobile/README.md`.
+- React Native + Expo SDK 57, Expo Router (`mobile/src/app/`); описание и команды — `mobile/README.md`.
+- Версия SDK — та, что открывает Expo Go из App Store (16.10.2026 там 57.0.9, SDK 58 он не открывает).
+  Проверка: `curl -s 'https://itunes.apple.com/lookup?id=982107779&country=ru'`. Переход на новый SDK —
+  только когда Expo Go с ним вышел в App Store: `npx expo install expo@~<SDK>.0.0 && npx expo install --fix`.
 - Пакеты — только `npx expo install`; перед API Expo читать документацию своей версии (`docs.expo.dev/llms.txt`), не память.
 - Перед пушем: `npm run typecheck` и `npm run export:web` в `mobile/` — без ошибок; снимки экранов для чата — Playwright
   по веб-сборке (`dist/`), лист — `design/previews/_приложение.jpg`.

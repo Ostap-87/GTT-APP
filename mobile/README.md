@@ -2,7 +2,7 @@
 
 Шаг 1 из [`docs/architecture.md`](../docs/architecture.md): экраны делегата на тестовой поездке «Новый ритейл Китая»
 (9–14 ноября, участники вымышленные) и открытый каталог 76 программ с сайта. Одно приложение для iPhone, Android
-и веб-версии: React Native + Expo SDK 58, навигация — Expo Router (`src/app/`).
+и веб-версии: React Native + Expo SDK 57, навигация — Expo Router (`src/app/`).
 
 ## Как открыть на телефоне
 
@@ -10,6 +10,10 @@
    в GitHub: Settings → Secrets and variables → Actions → New repository secret `EXPO_TOKEN`.
 2. Каждый пуш в `mobile/` публикует обновление (Actions → «Приложение — Expo Go»), в сводке прогона — QR-код.
 3. На телефоне: Expo Go из App Store или Google Play, вход тем же аккаунтом Expo, QR-код камерой.
+
+Expo Go открывает только проекты своей версии SDK. Сообщение «Project is incompatible with this version of Expo Go»
+значит, что проект новее Expo Go в магазине: SDK проекта держим равным версии Expo Go в App Store (сейчас 57;
+проверка — `curl -s 'https://itunes.apple.com/lookup?id=982107779&country=ru'`, поле `version`).
 
 ## Команды (из папки `mobile/`)
 
@@ -35,4 +39,4 @@
 - `src/state/` — состояние делегата в памяти (шаг 1) и всплывающие сообщения.
 
 Expo меняется от версии к версии: перед работой с API смотрите документацию своей версии
-(`https://docs.expo.dev/versions/v58.0.0/`, указатель — `https://docs.expo.dev/llms.txt`), а не память.
+(`https://docs.expo.dev/versions/v57.0.0/`, указатель — `https://docs.expo.dev/llms.txt`), а не память.
