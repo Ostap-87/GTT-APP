@@ -1,7 +1,7 @@
 # Global Tech Tour — приложение
 
 Мобильное приложение (iOS и Android) и веб-панель для бизнес-экспедиций Global Tech Tour
-([globaltechtour.ru](https://globaltechtour.ru)): одна поездка — три роли.
+([globaltechtour.ru](https://globaltechtour.ru)): одна поездка — три роли, плюс кабинет агентов и турагентств.
 
 | Роль | Где работает | Что делает |
 | --- | --- | --- |
@@ -31,7 +31,7 @@
 | [`CLAUDE.md`](CLAUDE.md) | Правила работы с репозиторием для сессий Claude |
 
 Рабочие версии с комментариями:
-- **кликабельный прототип** (три роли, кнопки работают) — https://claude.ai/artifact/WqVbtPczcM5Vny7N5f1Jym, исходник `design/prototype/index.html`
+- **кликабельный прототип** (четыре роли, кнопки работают) — https://claude.ai/artifact/WqVbtPczcM5Vny7N5f1Jym, исходник `design/prototype/index.html`
 - документ архитектуры — Claude Docs, https://claude.ai/artifact/6nudCcLPP5eTTKeu6WhLGp
 - холст с экранами — Claude Design, https://claude.ai/artifact/8Tw2bADzTCNwschFSXRMAy
 

@@ -91,6 +91,12 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
 .tag.delegate { background: var(--accent-soft); color: var(--accent-ink); }
 .tag.coordinator { background: var(--page-fg); color: var(--page-bg); }
 .tag.host { background: #e3f3ea; color: #1e6b45; }
+.tag.agent { background: #f1e8fd; color: #6b2fa3; }
+.seats { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--a-muted); }
+.seats .bar { flex: 1; height: 6px; }
+.field select { width: 100%; border: 1px solid #d5dbe6; border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 14px; color: var(--a-ink); background: var(--a-card); }
+.cos { display: flex; flex-wrap: wrap; gap: 6px; }
+.cos span { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 8px; background: var(--a-line2); color: var(--a-ink); }
 .log .empty { color: var(--page-muted); display: block; }
 .reset { align-self: flex-start; border: 1px solid var(--panel-line); background: transparent; color: var(--page-muted); border-radius: 10px; padding: 6px 12px; font-size: 13px; }
 .note-small { color: var(--page-muted); font-size: 12.5px; margin: 0; }
@@ -249,12 +255,13 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   <header class="top">
     <div class="brand">
       <span class="eyebrow">GLOBAL TECH TOUR</span>
-      <h1>Прототип приложения: одна поездка, три роли</h1>
+      <h1>Прототип приложения: одна поездка, четыре роли</h1>
     </div>
     <div class="roles" role="group" aria-label="Чьими глазами смотреть">
       <button type="button" data-role="delegate">Делегат</button>
       <button type="button" data-role="coordinator">Координатор</button>
       <button type="button" data-role="host">Компания · WeChat</button>
+      <button type="button" data-role="agent">Агент</button>
     </div>
   </header>
 
@@ -327,6 +334,33 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     { ru: 'Можно ли посмотреть работу склада вживую?', zh: '能否参观仓库的实际运作？', en: 'Could we see the warehouse in operation?' },
     { ru: 'Как вы работаете с иностранными поставщиками?', zh: '你们如何与外国供应商合作？', en: 'How do you work with foreign suppliers?' },
   ];
+  // Каталог для агентов: 76 программ с сайта globaltechtour.ru (SINOTECH src/data/tours.json):
+  // [id, страна, название, дней, компаний, города, компании (до 6), позиционирование]
+  const TOURS = [["robotics-expedition","cn","Robotics Expedition",5,12,["Пекин","Шанхай","Шэньчжэнь"],["Galbot","Robotera","AgiBot","Kepler","DroidUp","Fourier"],"Закрытые визиты на производства лидеров робототехники Китая. Прямой доступ к компаниям, куда не попасть самостоятельно."],["china-tech-giants-expedition","cn","China Tech Giants Expedition",5,9,["Пекин","Ханчжоу","Шанхай","Шэньчжэнь"],["Baidu","Xiaomi","Alibaba","Unitree","Meituan","Xiaohongshu (RED)"],"Визиты к девяти технологическим гигантам Китая в четырёх городах — от поиска и ИИ до e-commerce, смартфонов и телекома."],["china-tea-coffee-retail-expedition","cn","Новый чайно-кофейный ретейл Китая",5,9,["Шанхай","Сямынь","Шэньчжэнь","Гуанчжоу"],["Chagee","Manner Coffee","M Stand","CoCo","ALittle Tea","Luckin Coffee"],"Визиты к девяти лидерам нового чая и спешелти-кофе в четырёх городах — от штаб-квартир до публичных флагманов."],["china-beauty-antiage-expedition","cn","Индустрия красоты и anti-age Китая",5,10,["Шанхай","Ханчжоу","Гуанчжоу"],["Pechoin","CHANDO (Jala)","Linqingxuan","KANS (Shangmei)","PROYA","Florasis"],"Визиты к десяти лидерам индустрии красоты и anti-age в трёх городах — от наследных травяных брендов до люксового макияжа и R&D новых технологий."],["china-auto-plants-expedition","cn","Автопром и электромобили Китая",5,6,["Пекин","Хэфэй","Шанхай","Гуанчжоу"],["Xiaomi","NIO","Maextro","SAIC Motor","GAC Aion","Xpeng"],"Визиты на шесть автозаводов в четырёх городах — от смартфон-гиганта в автопроме до люксовых EV Huawei и умных заводов юга Китая."],["china-appliances-expedition","cn","Бытовая техника и умный дом Китая",5,9,["Пекин","Циндао","Ханчжоу","Фошань","Чжухай","Шэньчжэнь"],["Xiaomi","Haier","Hisense","Robam","Supor","Midea"],"Визиты на девять заводов бытовой техники и умного дома в пяти городах — от Циндао, национального инновационного центра отрасли, на севере до Шуньдэ, южного столпа индустрии."],["shenzhen-moscow-industrial-mission-2026","cn","Индустриально-технологическая миссия «Шэньчжэнь — Москва»",7,34,["Шэньчжэнь"],["UBTech","Intellifusion","Mindray","Orbbec","Grandland Group","China Construction Science & Industry"],"Государственная индустриально-технологическая миссия в Шэньчжэне: конференция, визиты на производства и подготовленные B2B-переговоры с 35 китайскими компаниями в биомедицине, модульном строительстве, промышленной робототехнике и ИИ."],["china-tech-parks-expedition","cn","Технопарки и зоны инноваций Китая",6,9,["Пекин","Шанхай","Шэньчжэнь"],["Baidu","Xiaomi","SMIC","WuXi AppTec","Tesla","DeepBlue Technology"],"Закрытые визиты в управляющие компании и на площадки флагманских технопарков и зон инноваций Китая — брифинги по экосистеме, встречи с отобранными резидентами и R&D-центрами."],["china-retail-showrooms-expedition","cn","Продуктовый ритейл и мгновенная доставка Китая: тур по флагманским шоурумам",6,9,["Пекин","Шанхай","Ханчжоу","Шэньчжэнь"],["JD.com","Meituan","Hema/Freshippo","Pinduoduo","RT-Mart (Sun Art)","Ele.me / Taobao Instant"],"Тур строго по компаниям с эффектными шоурумами, флагманами и корпоративными展厅 — делегация не только слушает, но и видит «вау». Пекин → Шанхай → Ханчжоу → Шэньчжэнь, с фокусом на новый ритейл, свежие продукты и мгновенную доставку."],["china-ticketing-travel-expedition","cn","Билетинг, лайв-ивенты и онлайн-тревел Китая",5,7,["Пекин","Шанхай","Ханчжоу","Шэньчжэнь"],["Damai","Maoyan","Meituan","Tongcheng","Ctrip/Trip.com","Fliggy"],"Тур по штаб-квартирам лидеров билетинга, лайв-ивентов и онлайн-тревела Китая — от продажи билета до монетизации лайв-музыки, одной цепочкой. Формат: посещение + профильная сессия + Q&A на каждой площадке. Рекомендуемая группа — 10–20 человек, синхронный перевод RU↔中文."],["korea-industry-manufacturing-expedition","kr","Промышленность и производство Кореи",6,6,["Сеул","Пхаджу","Сувон","Ульсан","Пхохан"],["Samsung d'light","LG Display — Paju","Samsung Innovation Museum","Hyundai Motor — Ulsan Plant","Hyundai Heavy Industries — Ulsan Shipyard","POSCO"],"От дисплеев и полупроводников до автозаводов и металлургии — маршрут по производственным флагманам Южной Кореи."],["korea-tech-internet-giants-expedition","kr","Технологии и интернет-гиганты Кореи",5,8,["Сеул","Соннам","Сувон","Йонъин"],["Coupang","Woowa Brothers (Baemin)","SK Telecom — T.um","Naver","Kakao","NCSoft"],"E-commerce, доставка еды, поиск, мессенджеры, игры и гуманоидная робототехника — интернет-экосистема Кореи изнутри."],["korea-beauty-industry-expedition","kr","K-Beauty индустрия Кореи",5,10,["Сеул","Осан","Соннам","Анъян"],["Amorepacific","Innisfree","Kolmar Korea","Cosmax","Amorepacific Beauty Park (Factory Tour)","Sulwhasoo House"],"От брендовых холдингов до незаметных ODM-фабрик, производящих K-beauty для всего мира, и longevity-биотеха."],["korea-foodtech-smart-farming-expedition","kr","Высокотехнологичное производство продуктов питания Кореи",6,9,["Сеул","Кимпхо","Янджу","Вонджу","Йонъин","Пхёнтхэк"],["CJ CheilJedang","CJ Freshway","Market Kurly","Nongshim Farm","Seoul Milk","Samyang Foods — Buldak Plant"],"От биотех-холдингов и «рассветной доставки» до крупнейшего молочного завода Азии и культового острого рамёна."],["japan-retail-expedition","jp","Ритейл Японии: от конбини до tech-дискаунтеров",6,10,["Токио","Фукуока"],["Seven-Eleven Japan","Lawson","FamilyMart","AEON — Regi Go smart store","UNIQLO (Fast Retailing)","MUJI"],"Полный срез японского ритейла: конбини-гиганты, SPA-бренды с автоматизированной логистикой и tech-дискаунтер Trial с AI-камерами — плюс однодневный перелёт в Фукуоку к штаб-квартире Trial Holdings."],["japan-food-dairy-expedition","jp","Продукты питания и молочная промышленность Японии",6,9,["Токио","Нода","Осака","Кобе"],["Yakult Honsha","Meiji Holdings","Kikkoman","Kewpie","Ajinomoto","Fuji Oil"],"От пробиотиков Yakult и ферментации Kikkoman в Токио до биотехнологий аминокислот Ajinomoto и молочных технологий Кансая — с переездом на Синкансэне Токио→Осака."],["japan-dark-kitchen-delivery-expedition","jp","Central/Dark Kitchen и быстрая доставка еды в Японии",6,10,["Токио"],["Demae-can","Uber Eats Japan","Connected Robotics","TechMagic","SoftBank Robotics","ZMP"],"Доставка еды и робототехника кухни в одном маршруте: от штаб-квартиры Demae-can до сервисных роботов SoftBank Robotics и роботов доставки ZMP — всё в пределах Большого Токио, без перелётов."],["japan-tech-internet-giants-expedition","jp","Интернет-гиганты Японии: ИИ, мессенджеры, e-commerce",6,10,["Токио","Тиба"],["Preferred Networks","Sakana AI","LY Corporation (LINE + Yahoo! Japan)","PayPay","Rakuten Crimson House","Mercari"],"От фронтир-лабораторий Preferred Networks и Sakana AI до доминирующего мессенджера LY Corporation и суперкомпьютера Fugaku — маршрут целиком в Токио, без перелётов."],["japan-beauty-industry-expedition","jp","Косметика и бьюти-технологии Японии",6,10,["Иокогама","Токио","Осака","Нагоя"],["Shiseido","Fancl","Kao","Kanebo (Kao)","Pola Orbis","Kosé"],"От Global Innovation Center Shiseido в Иокогаме до бьюти-девайсов MTG (ReFa) в Нагое — J-beauty индустрия целиком, через три региона на Синкансэне."],["japan-longevity-biotech-expedition","jp","Лонгевити и anti-aging биотех Японии",6,9,["Токио","Осака","Киото"],["FUJIFILM","Healios K.K.","Eisai","Shiseido","Kaneka","Rohto"],"От iPSC-технологий FUJIFILM до мирового хаба клеточного репрограммирования CiRA в Киото и исследований генов долголетия RIKEN — токийско-кансайский маршрут биотеха старения."],["japan-bubble-tea-coffee-expedition","jp","Бабл-ти и кофейная индустрия Японии",6,8,["Кобе","Осака","Киото","Токио"],["UCC Ueshima Coffee","Suntory / BOSS Coffee","% Arabica","Ogawa Coffee","Starbucks Reserve Roastery Nakameguro","Blue Bottle Japan"],"От музея кофе UCC в Кобе и специализированной обжарки %Arabica в Киото до флагманской Starbucks Reserve Roastery в Токио — кофейная культура Японии от завода до чашки."],["thailand-retail-expedition","th","Ритейл Таиланда: конвиниенс, phygital и B2B-опт",6,9,["Бангкок"],["CP All","Central Retail Corporation","Siam Piwat (ICONSIAM)","The Mall Group / Siam Paragon","Makro (CP Axtra)","Lotus's (CP Axtra)"],"От крупнейшей сети 7-Eleven после Японии до phygital-ритейла ICONSIAM и цифровизации гипермаркетов Big C — весь тайский ритейл в пределах Бангкока."],["thailand-food-dairy-expedition","th","Продукты питания и молочная промышленность Таиланда",6,9,["Бангкок","Самутсакхон"],["Charoen Pokphand Foods (CPF)","Thai Union Group","SPACE-F","Betagro","Dutch Mill","NR Instant Produce (NRF)"],"От штаб-квартиры CPF и крупнейшего в мире переработчика тунца Thai Union до альт-протеиновых стартапов Таиланда — с однодневным выездом в Самутсакхон."],["thailand-dark-kitchen-delivery-expedition","th","Central/Dark Kitchen и быстрая доставка еды в Таиланде",6,9,["Бангкок"],["LINE MAN Wongnai","Grab Thailand (GrabFood)","foodpanda Thailand","Robinhood (SCB)","Freshket","CloudEats"],"От доминирующего супер-приложения LINE MAN Wongnai до облачных кухонь CP Group — вся доставка еды Бангкока в одном маршруте, без перелётов."],["thailand-tech-internet-giants-expedition","th","Интернет-гиганты Таиланда: ИИ, мессенджеры, e-commerce",6,10,["Бангкок"],["SCB 10X / SCB Abacus","Sertis","LINE Thailand","Amity Solutions","Lazada Thailand","Shopee Thailand"],"От тайской LLM Typhoon (SCB 10X) до платежей TrueMoney и голосового AI Botnoi — весь тайский tech-стек в Бангкоке."],["thailand-beauty-industry-expedition","th","Косметика и бьюти-технологии Таиланда",6,10,["Бангкок"],["Better Way (Mistine)","Karmarts","Srichand (SNP)","Beauty Buffet","HARNN","Divana"],"От крупнейшего масс-бренда Mistine до премиального спа-бренда HARNN и производства Eucerin — тайская бьюти-индустрия целиком, в пределах Бангкока."],["thailand-longevity-biotech-expedition","th","Лонгевити Таиланда — региональный лидер ЮВА",6,8,["Бангкок","Накхонпатхом"],["BDMS Wellness Clinic","VitalLife Scientific Wellness Center (Bumrungrad)","MEDEZE Group","VAANAA Longevity Clinic","RAKxa Integrative Wellness","Mousai Wellness Center"],"От научного wellness BDMS (биовозраст, эпигенетика) до крупнейшего в Таиланде банка стволовых клеток MEDEZE — региональный лидер лонгевити-индустрии ЮВА."],["thailand-bubble-tea-coffee-expedition","th","Бабл-ти и кофейная индустрия Таиланда",6,10,["Бангкок"],["Café Amazon (PTT OR)","Inthanin (Bangchak)","ChaTraMue","Karun Thai Tea","Pacamara","Roots Coffee"],"От штаб-квартиры Café Amazon (5000+ точек в мире) до культового тайского чая ChaTraMue и сетей бабл-ти — тайская культура напитков в Бангкоке."],["vietnam-retail-expedition","vn","Ритейл Вьетнама: от MWG до WinCommerce",6,8,["Хошимин","Ханой"],["Thế Giới Di Động / MWG","FPT Retail / Long Châu","Saigon Co.op","Central Retail Vietnam (GO!/Tops)","AEON Vietnam","WinCommerce"],"От омниканальной сети MWG (Bách Hóa Xanh, Điện Máy Xanh) в Хошимине до штаб-квартиры WinCommerce (WinMart/WinMart+) в Ханое — вьетнамский ритейл через два города."],["vietnam-food-dairy-expedition","vn","Продукты питания и молочная промышленность Вьетнама",6,7,["Хошимин","Виня","Ханой"],["Vinamilk","Nutifood","Masan Consumer","Vissan","Dutch Lady (FrieslandCampina)","TH True Milk"],"От мега-завода Vinamilk Industry 4.0 в Бинь Зыонге до высокотехнологичных ферм TH True Milk в Нгеане — молочная промышленность Вьетнама через три региона."],["vietnam-dark-kitchen-delivery-expedition","vn","Central/Dark Kitchen и быстрая доставка еды во Вьетнаме",6,6,["Хошимин","Ханой"],["GrabFood Vietnam","ShopeeFood","Be (beGroup)","Loship","Xanh SM (GSM/VinFast)","Ahamove"],"От лидера рынка GrabFood Vietnam до EV-доставки Xanh SM — сегмент, прошедший через уход Baemin (2023) и Gojek (2024), с фокусом на выживших игроках."],["vietnam-tech-internet-giants-expedition","vn","Интернет-гиганты Вьетнама: ИИ, мессенджеры, e-commerce",6,10,["Хошимин","Ханой"],["VNG Corporation","Tiki","MoMo","Trusting Social","VinAI","FPT AI / FPT Software"],"От кампуса Zalo (VNG, 79,6 млн MAU) в Хошимине до автомобильного AI VinAI и медицинского AI VinBrain (приобретён NVIDIA) в Ханое."],["vietnam-beauty-industry-expedition","vn","Косметика и бьюти-технологии Вьетнама",6,8,["Хошимин","Ханой"],["Cocoon Vietnam","Hasaki","Thorakao (Lan Hảo)","Saigon Cosmetics (SCC)","M.O.I Cosmetics","Lemonade Cosmetics"],"От веганского skincare Cocoon и бьюти-e-commerce Hasaki в Хошимине до космецевтики Sao Thái Dương в Ханое — развивающийся, но быстрорастущий сегмент."],["vietnam-longevity-biotech-expedition","vn","Лонгевити Вьетнама (anti-aging биотех) — тонкий сегмент",6,4,["Ханой","Хошимин"],["Vinmec Research Institute of Stem Cell & Gene Technology (VRISG)","Vinmec Center of Regenerative Medicine & Cell Therapy","VinUniversity","Medeze Vietnam"],"Единственный в стране институт стволовых клеток и генной терапии Vinmec (партнёрства со Stanford/Karolinska) — тонкий, но академически серьёзный сегмент; рекомендуется сочетать с модулем 'Продукты питания' или 'Интернет-гиганты'."],["vietnam-bubble-tea-coffee-expedition","vn","Бабл-ти и кофейная индустрия Вьетнама",6,9,["Хошимин","Буонматхуот","Ханой"],["Phúc Long (Masan)","The Coffee House","Highlands Coffee","Katinat","Trung Nguyên Legend","Cộng Cà Phê"],"От штаб-квартиры Highlands Coffee (≈928 точек) в Хошимине до 'Coffee City' Trung Nguyên Legend в Буонматхуоте — самый логистически сложный вьетнамский модуль, три города и два перелёта."],["indonesia-retail-expedition","id","Ритейл Индонезии: от Indomaret до Blibli",6,10,["Джакарта"],["Indomaret","Alfamart","MAP (Mitra Adiperkasa)","Erajaya (Erafone)","Transmart (CT Corp)","Matahari Department Store"],"От крупнейшей сети минимаркетов Indomaret (20 000+ точек) до O2O-интеграции Blibli — индонезийский ритейл целиком в Джакарте."],["indonesia-food-dairy-expedition","id","Продукты питания и молочная промышленность Индонезии",6,8,["Джакарта","Чикаранг","Семаранг","Бандунг"],["Indofood","Frisian Flag Indonesia","Kalbe Nutritionals","Cimory","Ultrajaya","Mayora Indah"],"От автоматизации Indomie (Indofood) до 'Cimory Dairyland' в Семаранге и пионера UHT-упаковки Ultrajaya в Бандунге — через четыре региона Явы."],["indonesia-dark-kitchen-delivery-expedition","id","Central/Dark Kitchen и быстрая доставка еды в Индонезии",6,10,["Джакарта"],["GoTo (GoFood/GoKitchen)","Grab Indonesia","Yummy Corp","Everplate","Hangry","Legit Group"],"От штаб-квартиры GoTo (GoFood/GoKitchen) до крупнейшего оператора облачных кухонь Yummy Corp — вся доставка еды Джакарты, без перелётов."],["indonesia-tech-internet-giants-expedition","id","Интернет-гиганты Индонезии: ИИ, мессенджеры, e-commerce",6,9,["Джакарта"],["GoTo (Gojek + Tokopedia + GoPay)","Grab Indonesia","Blibli","Kata.ai","Nodeflux","Prosa.ai"],"От единого кампуса GoTo (Gojek+Tokopedia+GoPay) до индонезийской LLM Sahabat-AI (консорциум Indosat/GoTo) — весь tech-стек Индонезии в Джакарте."],["indonesia-beauty-industry-expedition","id","Косметика и бьюти-технологии Индонезии",6,10,["Тангеранг","Джакарта","Джокьякарта"],["Paragon Technology & Innovation (Wardah/Emina/Make Over)","Kahf (Paragon)","Martha Tilaar Group","Mustika Ratu","Somethinc (Beauty Haul)","Base"],"От halal-tech инновационного центра Paragon (Wardah/Emina/Make Over) в Тангеранге до tech-driven skincare Avoskin в Джокьякарте."],["indonesia-longevity-biotech-expedition","id","Лонгевити Индонезии — корпоративная регенеративная медицина",6,8,["Джакарта","Бали"],["Kalbe Farma — KBIC Campus","Prodia StemCell Indonesia (ProSTEM)","KalGen DNA (Kalbe)","KG Bio (Kalbe)","Prodia","Biothera Stem Cell Clinic (PIK2)"],"От инновационного кампуса KBIC Kalbe Farma (первое GMP-производство стволовых клеток в Индонезии) до опциональной клиники Regeneratia на Бали — сила сегмента в корпоративном производстве."],["indonesia-bubble-tea-coffee-expedition","id","Бабл-ти и кофейная индустрия Индонезии",6,9,["Джакарта"],["Kopi Kenangan","Fore Coffee","Kopi Janji Jiwa","Tomoro Coffee","Chatime Indonesia (F&B Indonesia/Kawan Lama)","Esteh Indonesia"],"От первого фудтех-единорога ЮВА Kopi Kenangan до лидера бабл-ти Chatime Indonesia — кофейная и чайная культура Джакарты в одном маршруте."],["india-retail-expedition","in","Ритейл Индии: от Reliance до quick-commerce",6,9,["Мумбаи","Бенгалуру","Гуруграм","Дели-NCR"],["Reliance Retail","DMart (Avenue Supermarts)","Zepto","Nykaa","Flipkart (Walmart)","BigBasket (Tata)"],"От штаб-квартиры Reliance Retail (JioMart) в Мумбаи до 10-минутной quick-commerce Zepto и Blinkit в Дели-NCR — три города, взрывной рост q-commerce."],["india-food-dairy-expedition","in","Продукты питания и молочная промышленность Индии",6,9,["Ананд","Ахмадабад","Гандинагар","Дели-NCR","Бенгалуру"],["Amul (GCMMF)","Amul Fed Dairy","Mother Dairy","Nestlé India","Nandini (KMF)","ITC Foods"],"От завода и музея Amul в Ананде до кооператива Nandini в Бенгалуру — самый сложный по логистике модуль Индии, три региона и три перелёта; упрощённая версия (только Гуджарат+Дели) доступна по запросу."],["india-dark-kitchen-delivery-expedition","in","Central/Dark Kitchen и быстрая доставка еды в Индии",6,10,["Мумбаи","Бенгалуру","Гуруграм","Дели-NCR"],["Rebel Foods","EatClub (Box8)","Swiggy Instamart","Curefoods (EatFit)","Licious","FreshMenu"],"От штаб-квартиры и кухни Rebel Foods — крупнейшего в мире оператора dark kitchen — до Hyperpure B2B-поставок Zomato/Blinkit в Гуруграме."],["india-tech-internet-giants-expedition","in","Интернет-гиганты Индии: ИИ, мессенджеры, e-commerce",6,10,["Бенгалуру","Мумбаи"],["Sarvam AI","Krutrim (Ola)","Flipkart (Walmart)","Meesho","Yellow.ai","Mad Street Den"],"От суверенных индийских LLM Sarvam AI и Krutrim (Ola) в Бенгалуру до листинговой AI-компании Fractal Analytics в Мумбаи — один перелёт, две tech-столицы."],["india-beauty-industry-expedition","in","Косметика и бьюти-технологии Индии",6,9,["Мумбаи","Дели-NCR"],["Nykaa","Sugar Cosmetics","Purplle","Plum Goodness","Mamaearth (Honasa)","Forest Essentials"],"От крупнейшего бьюти-маркетплейса Nykaa (AI-рекомендации, AR-примерка) в Мумбаи до листингового digital-first D2C Mamaearth в Дели-NCR."],["india-longevity-biotech-expedition","in","Лонгевити и anti-aging биотех Индии",6,9,["Бенгалуру","Мумбаи","Дели-NCR"],["GIOSTAR","Decode Age","Biocon / Syngene","StemRx (Navi Mumbai)","Reliance Life Sciences","Artemis Hospitals"],"От стволовых клеток GIOSTAR и биомаркеров Decode Age в Бенгалуру до JCI-аккредитованных регенеративных программ Artemis Hospitals в Дели-NCR; упрощённая версия (Бенгалуру+Мумбаи) доступна по запросу."],["india-bubble-tea-coffee-expedition","in","Бабл-ти и кофейная индустрия Индии",6,8,["Дели","Гуруграм","Бенгалуру","Мумбаи"],["Blue Tokai Coffee Roasters","Sleepy Owl / Rage Coffee","Chaayos","AbCoffee","Third Wave Coffee","Araku Coffee"],"От обжарочного производства Blue Tokai и farm-to-cup прослеживаемости в Дели до single-origin Araku Coffee и бабл-ти стартапа Boba Bhai в Бенгалуру."],["malaysia-retail-expedition","my","Ритейл Малайзии: от Senheng до роботизированных складов",6,10,["Куала-Лумпур"],["Senheng New Retail Berhad","MR D.I.Y. Group — Robotic Warehouse","7-Eleven Malaysia — CloudPick Smart Store","AEON Co. (M) Bhd","99 Speed Mart Retail Holdings","KK Super Mart (KK Group)"],"От флагманских шоурумов Senheng New Retail и роботизированного склада MR DIY до первого в стране безкассового магазина 7-Eleven на технологии CloudPick — весь малазийский tech-ритейл в Клэнг-Вэлли, без перелётов."],["malaysia-food-dairy-expedition","my","Продукты питания и молочная промышленность Малайзии",6,8,["Куала-Лумпур","Кулаи"],["Ajinomoto (Malaysia) Berhad","Dutch Lady Milk Industries Berhad","Nestlé (Malaysia) Berhad","Sime Darby Oils / Sime Darby Plantation","Phuture Foods Sdn Bhd","Mamee-Double Decker (M) Berhad"],"От халяль-смарт-заводов Ajinomoto и Nestlé в Клэнг-Вэлли до Farm Fresh — крупнейшего производителя молока в стране с собственным агро/образовательным туристическим центром совместно с UPM в Джохоре."],["malaysia-dark-kitchen-delivery-expedition","my","Central/Dark Kitchen и быстрая доставка еды в Малайзии",6,8,["Куала-Лумпур"],["Grab (GrabFood / GrabKitchen)","foodpanda Malaysia","Pop Meals (formerly Dahmakan)","Cookhouse","GrabKitchen","KyoChon Malaysia"],"От GrabFood и GrabKitchen до локального пионера облачных кухонь Pop Meals (экс-Dahmakan) с AI/ML-операционной системой — один из самых сильных блоков Малайзии благодаря региональной штаб-квартире Grab."],["malaysia-tech-internet-giants-expedition","my","Интернет-гиганты Малайзии: суверенный ИИ, супер-приложения, e-commerce",6,10,["Куала-Лумпур","Кулаи"],["Grab — Regional Centre of Excellence","Touch 'n Go eWallet (TNG Digital)","Carsome Group","GXBank (Grab-led digital bank)","Aerodyne Group","Mindvalley"],"Флагманский блок страны: региональная штаб-квартира Grab, суверенный AI-дата-центр YTL на чипах Nvidia Grace Blackwell (GB200) в Джохоре — марка программы, требует заблаговременного запроса допуска по безопасности."],["malaysia-beauty-industry-expedition","my","Косметика и бьюти-технологии Малайзии",6,7,["Куала-Лумпур","Пенанг"],["Wipro Unza (Malaysia)","Elken Sdn Bhd (Elysyle/LUMIGEN)","Intercosmetic Asia Pacific Sdn Bhd","Furley Bioextracts Sdn Bhd","Global Cosmetics (Malaysia)","Eng Kah Corporation Berhad"],"Малайзия — глобальный халяль-косметический хаб: от флагманского Wipro Skin Research & Innovation Centre в Клэнг-Вэлли до крупнейшего контрактного производителя парфюмерии Eng Kah в Пенанге."],["malaysia-longevity-biotech-expedition","my","Малайзия: регенеративная медицина, банкинг стволовых клеток и геномика",6,8,["Куала-Лумпур"],["CryoCord Sdn Bhd","Cytopeutics Sdn Bhd","StemLife Berhad","Malaysian Genomics Resource Centre (MGRC)","Codon Genomics Sdn Bhd","Synamatix Sdn Bhd"],"Малайзия — не западная longevity-биотех сцена, а сильный кластер банкинга стволовых клеток и геномики в Cyberjaya/Клэнг-Вэлли: CryoCord, Cytopeutics, StemLife и единственная частная BSL-2 + cGMP лаборатория страны MGRC. Программа честно позиционируется как 'регенеративная медицина и геномика', а не 'лонгевити-биотех'."],["malaysia-bubble-tea-coffee-expedition","my","Бабл-ти и кофейная индустрия Малайзии",6,8,["Куала-Лумпур"],["ZUS Coffee","Tealive (Loob Holding)","Bask Bear Coffee (Loob Holding)","Chatime Malaysia (La Kaffa)","Gigi Coffee","Luckin Coffee (Malaysia entry)"],"Малайзия — региональный законодатель мод в tech-driven напитках: ZUS Coffee обогнала Starbucks по числу точек (743 против 320) благодаря приложению, дающему 70% продаж, а Tealive — крупнейшая сеть бабл-ти страны с 2017 года."],["uae-fintech-expedition","ae","Финтех и цифровой банкинг ОАЭ: от Mashreq Neo до Wio Bank",5,11,["Дубай","Абу-Даби"],["Mashreq Bank","Emirates NBD","Visa Middle East & Central Asia","Mastercard Middle East & Africa","Astra Tech / Careem Pay","Bayzat"],"От пионеров цифрового банкинга Дубая (DIFC) до независимого финансового регулятора и цифровых банков Абу-Даби (ADGM) — вся финтех-инфраструктура ОАЭ за одну поездку."],["uae-ai-tech-expedition","ae","ИИ и технологии в ОАЭ: от G42 до региональных штаб-квартир Big Tech",5,11,["Абу-Даби","Дубай"],["G42","Hub71","Technology Innovation Institute (TII)","Google MENA","AWS (Amazon Web Services) MENA","Meta MENA"],"От государственного ИИ-чемпиона G42 и технохаба Hub71 в Абу-Даби до региональных штаб-квартир Google, AWS, Meta, Microsoft и TikTok в Dubai Internet City — вся ИИ- и tech-инфраструктура региона MENA в одной поездке."],["uae-logistics-ports-expedition","ae","Логистика и порты ОАЭ: DP World, Jebel Ali и грузовая авиация Дубая",5,10,["Дубай"],["DP World","Jebel Ali Free Zone (JAFZA)","Maersk Middle East","DHL Express MENA","FedEx Middle East","Aramex"],"От крупнейшего портового оператора DP World и свободной зоны Jebel Ali до региональных штаб-квартир Maersk, DHL, FedEx и грузового флота Emirates SkyCargo — вся логистическая инфраструктура Дубая без единого перелёта."],["uae-aviation-expedition","ae","Авиация ОАЭ: от Emirates Engineering до Etihad и аэропортов Дубая и Абу-Даби",5,11,["Дубай","Абу-Даби"],["Emirates Group","Emirates Engineering","flydubai","Dubai Airports (DXB)","Airbus Middle East","Boeing Middle East"],"От технического обслуживания флота Emirates и одного из самых загруженных аэропортов мира (DXB) до национального перевозчика Абу-Даби Etihad и его инженерного подразделения — вся авиационная экосистема ОАЭ за одну поездку."],["uae-realestate-expedition","ae","Недвижимость и девелопмент ОАЭ: от Emaar и Palm Jumeirah до острова Яс",5,9,["Дубай","Абу-Даби"],["Emaar Properties","DAMAC Properties","Nakheel","Dubai Holding","Meraas","JLL MENA"],"От застройщика Burj Khalifa Emaar Properties и создателя искусственных островов Nakheel до крупнейших международных консалтинговых компаний по недвижимости и девелопера острова Яс в Абу-Даби — вся индустрия недвижимости ОАЭ в одной поездке."],["uae-energy-green-tech-expedition","ae","Энергетика и зелёные технологии ОАЭ: от ADNOC и Masdar до крупнейшего солнечного парка",5,9,["Абу-Даби","Дубай"],["ADNOC","Masdar","Siemens Energy Middle East","TAQA (Abu Dhabi National Energy Company)","bp Middle East","DEWA (Dubai Electricity & Water Authority)"],"От государственной нефтегазовой ADNOC и разработчика Masdar City до крупнейшего в мире единого солнечного парка Mohammed bin Rashid Al Maktoum — весь энергопереход ОАЭ, от нефти до солнца, в одной поездке."],["uae-retail-ecommerce-expedition","ae","Ритейл и e-commerce ОАЭ: от Noon до люксовых конгломератов Дубая",5,10,["Дубай"],["Noon","Amazon.ae","Apple Middle East","Majid Al Futtaim","IKEA Middle East (Al-Futtaim)","Landmark Group"],"От «арабского Amazon» Noon и крупнейшего оператора торговых центров Majid Al Futtaim до люксовых ритейл-конгломератов — партнёров LVMH, Chanel и Dior — весь ритейл-ландшафт Дубая, от масс-маркета до люкса, без единого перелёта."],["china-logistics-top10-expedition","cn","Топ-10 логистических компаний Китая",5,10,["Пекин","Шанхай","Ханчжоу","Шэньчжэнь"],["Sinotrans","JD Logistics","China Railway Express (CRE)","COSCO Shipping","ZTO Express","YTO Express"],"От крупнейшего в мире портового оператора COSCO Shipping и собственного грузового авиапарка SF Express до автоматизированных складов JD Logistics и логистической платформы Alibaba Cainiao — десять лидеров китайской логистики в четырёх городах."],["china-petrochemicals-guangdong-expedition","cn","Нефтехимия Китая: 6 крупнейших комплексов Гуандуна",5,6,["Чжаньцзян","Маомин","Гуанчжоу","Хуэйчжоу"],["Sinopec Zhongke (Guangdong) Refining","BASF Zhanjiang Verbund","Sinopec Maoming","Guangzhou Petrochemical (Sinopec)","CSPC (CNOOC and Shell Petrochemicals)","ExxonMobil Huizhou"],"Шесть крупнейших и наиболее технологичных нефтехимических комплексов провинции Гуандун — от нового поколения интегрированного НПЗ Sinopec Zhongke до новейшего западного Steam Cracker BASF (пуск январь 2026) и стомиллиардного проекта ExxonMobil. Весь маршрут — в пределах одного кластера, без внутренних перелётов."],["china-waste-management-expedition","cn","Обращение с отходами Китая: Гуандун, Шанхай, Цзянсу",5,6,["Шэньчжэнь","Фошань","Гуандун","Шанхай","Хайань","Наньтун"],["GEM Co., Ltd.","Shenzhen Energy Environmental","Grandblue Environment","China Everbright Environment","Shanghai Environment Group","China Tianying"],"Шесть крупнейших и наиболее технологичных компаний отрасли обращения с отходами — от переработки батарей NEV у GEM и архитектурной витрины отрасли Shenzhen Energy до крупнейшего в мире моно-завода энергоутилизации «Лаоган» в Шанхае и международной сети China Tianying/Urbaser в 30+ странах."],["china-film-industry-expedition","cn","Киноиндустрия Китая: госгиганты, частные студии, tech-платформы",5,8,["Пекин","Шанхай","Ханчжоу"],["China Film Group Corporation (CFGC)","Youku","Bona Film Group","Huayi Brothers","iQiyi","Shanghai Film Group (SFG)"],"Восемь ведущих компаний китайской киноиндустрии в трёх городах — от главной государственной киностудии страны China Film Group Corporation и крупнейшего частного производителя сериалов Zhejiang Huace до контент-подразделений Alibaba (Youku), Baidu (iQiyi) и Tencent (Penguin Pictures)."],["china-global-brands-expedition","cn","Китайские бренды, покорившие мир",5,6,["Пекин","Шанхай","Чаншу","Ханчжоу","Нинбо","Гуанчжоу"],["Li-Ning","Anta Sports","Bosideng","JNBY (Just Naturally Be Yourself)","Peacebird","Urban Revivo (UR)"],"Шесть ведущих компаний китайской fashion-индустрии — от Anta Sports (№3 в мире после Nike и Adidas, владелец Salomon и Wilson) и технологичных пуховиков Bosideng до «азиатского ответа Zara» Urban Revivo. Ядро маршрута — дельта реки Янцзы, связанная скоростными поездами без внутренних перелётов."],["china-fintech-giants-expedition","cn","Финтех-гиганты Китая",5,8,["Пекин","Шэньчжэнь","Ханчжоу","Шанхай"],["JD Digits (JD Technology)","Du Xiaoman Financial","Tencent","OneConnect","LexinFintech","Ant Group"],"Восемь ведущих компаний финтех-индустрии Китая в четырёх городах — все пять «финтех-гигантов» (Ant Group, Tencent, JD Digits, Du Xiaoman, Lufax) плюс три значимые специализированные платформы (OneConnect, LexinFintech, East Money Information): платежи, цифровой банкинг, кредитование."],["hotel-giants-china","cn","Китайские гостиничные гиганты",5,7,["Шанхай","Ханчжоу","Гуанчжоу","Пекин"],["Jin Jiang International","H World Group","GreenTree Hospitality Group","Atour (Yaduo Group)","Kaiyuan Hotel Group","Dossen Group"],"Визиты к семи крупнейшим гостиничным операторам Китая в четырёх городах — от государственных гигантов до биржевых лидеров нового формата."],["global-hospitality-china","cn","Глобальные гостиничные сети в Китае",5,8,["Шанхай"],["Marriott International (China)","Hilton (China)","IHG Hotels & Resorts (Greater China)","Accor (China)","Hyatt (Greater China)","Wyndham Hotels & Resorts (China)"],"Визиты к региональным офисам шести крупнейших мировых гостиничных сетей в Шанхае, дополненные кейс-визитами двух знаковых отелей и круглым столом о локализации глобального стандарта для китайского рынка."],["hongkong-luxury-legacy","cn","Гонконгская школа отельного люкса",5,8,["Гонконг"],["Hongkong and Shanghai Hotels, Limited (The Peninsula)","Mandarin Oriental Hotel Group","Rosewood Hotel Group","Shangri-La Asia Limited","Langham Hospitality Group (Great Eagle Holdings)","Wharf Hotels"],"Визиты к семейным гостиничным конгломератам Гонконга — наследие, частный капитал и клубное позиционирование вместо массового франчайзинга: контраст с масштабной франчайзинговой моделью материковых гостиничных гигантов Китая."],["confectionery-expedition","cn","Confectionery Expedition",5,8,["Пекин","Шанхай","Шэньчжэнь","Цзянмэнь"],["Holiland","Wedome","21Cake","Ganso","LeCake","85°C"],"Визиты в ведущие сети тортов и десертов Китая и на производство Maxim's. Прямой доступ к брендам, куда не попасть самостоятельно."],["china-ai-expedition","cn","China AI Expedition",5,10,["Пекин","Шанхай","Ханчжоу","Шэньчжэнь"],["Zhipu AI","Moonshot AI (Kimi)","Kuaishou","ByteDance","Baidu","SenseTime"],"Закрытые визиты в ведущие ИИ-компании Китая: от разработчиков LLM до технологических гигантов. Прямой доступ к компаниям, куда не попасть самостоятельно."],["china-dairy-smart-factories-expedition","cn","Умные молочные заводы Китая",5,4,["Хух-Хото","Иньчуань","Ухань","Нанкин","Шанхай"],["Yili","Mengniu","Weigang Dairy","Bright Dairy"],"Визиты на пять самых автоматизированных молочных производств Китая и роботизированную ферму в пяти городах — от «маяковой фабрики» WEF Mengniu в Нинся до крупнейшего в мире завода охлаждённой продукции Bright Dairy в Шанхае. Маршрут «Север → Восток»: от сырья к потребителю."],["china-glp1-peptides-expedition","cn","Китайский Ozempic: GLP-1 и пептидная фарма Китая",5,6,["Шанхай","Чанчжоу","Сучжоу","Ханчжоу","Тайчжоу"],["WuXi AppTec","Innovent","Huadong Medicine","Jiuyuan Gene","Langhua","Sciwind"],"Визиты к шести ключевым игрокам китайского рынка GLP-1 в дельте Янцзы — от собственных разработчиков препаратов и первых производителей дженериков семаглутида до CDMO-гигантов, которые производят пептиды для мировых брендов. Фон тура: в марте 2026 года в Китае истёк патент на семаглутид, и вокруг препарата началась гонка."]];
+  const tourById = Object.fromEntries(TOURS.map((t) => [t[0], t]));
+  const COUNTRY_RU = { cn: 'Китай', jp: 'Япония', kr: 'Корея', th: 'Таиланд', vn: 'Вьетнам', id: 'Индонезия', in: 'Индия', my: 'Малайзия', ae: 'ОАЭ' };
+  const COUNTRY_ORDER = ['cn', 'jp', 'kr', 'th', 'vn', 'id', 'in', 'my', 'ae'];
+  // Ближайшие выезды и места — пример для прототипа (в приложении их ведёт координатор)
+  const DEPS = [
+    { id: 'dep1', tour: 'china-retail-showrooms-expedition', dates: '9–14 ноября 2026', short: '9–14 ноя', month: '11', total: 18, taken: 18 },
+    { id: 'dep2', tour: 'china-auto-plants-expedition', dates: '23–27 ноября 2026', short: '23–27 ноя', month: '11', total: 20, taken: 13 },
+    { id: 'dep3', tour: 'china-ai-expedition', dates: '7–11 декабря 2026', short: '7–11 дек', month: '12', total: 20, taken: 8 },
+    { id: 'dep4', tour: 'robotics-expedition', dates: '14–18 декабря 2026', short: '14–18 дек', month: '12', total: 20, taken: 16 },
+    { id: 'dep5', tour: 'china-beauty-antiage-expedition', dates: '18–22 января 2027', short: '18–22 янв', month: '01', total: 20, taken: 5 },
+    { id: 'dep6', tour: 'korea-beauty-industry-expedition', dates: '1–5 февраля 2027', short: '1–5 фев', month: '02', total: 20, taken: 6 },
+    { id: 'dep7', tour: 'thailand-retail-expedition', dates: '22–27 февраля 2027', short: '22–27 фев', month: '02', total: 20, taken: 4 },
+    { id: 'dep8', tour: 'uae-fintech-expedition', dates: '9–13 марта 2027', short: '9–13 мар', month: '03', total: 20, taken: 2 },
+    { id: 'dep9', tour: 'japan-retail-expedition', dates: '15–20 марта 2027', short: '15–20 мар', month: '03', total: 20, taken: 0 },
+  ];
+  const depById = Object.fromEntries(DEPS.map((d) => [d.id, d]));
+  const MONTHS = [['all', 'Все'], ['11', 'Ноябрь'], ['12', 'Декабрь'], ['01', 'Январь'], ['02', 'Февраль'], ['03', 'Март']];
+  const MONTH_FULL = { '11': 'Ноябрь 2026', '12': 'Декабрь 2026', '01': 'Январь 2027', '02': 'Февраль 2027', '03': 'Март 2027' };
+  const AGENCY = '«Пример Тревел»';
+  const OTHER_LEADS = [
+    { id: 'o1', agency: '«Восток Тур»', tour: 'china-ai-expedition', dates: '7–11 декабря 2026', people: 6, client: 'IT-интегратор · Москва', status: 'work' },
+    { id: 'o2', agency: 'Сайт globaltechtour.ru', tour: 'china-tech-giants-expedition', dates: 'даты под группу', people: 10, client: 'Заявка с формы сайта', status: 'new' },
+  ];
+
   const TEMPLATES = [
     { key: 'late', label: 'Задержка 10 мин', ru: 'Автобус задерживается на 10 минут: выезд в 09:40.', zh: '大巴推迟10分钟，09:40出发。', en: 'The bus is 10 minutes late: departure at 09:40.' },
     { key: 'lobby', label: 'Сбор в лобби', ru: 'Сбор в лобби отеля в 09:20, не опаздывайте.', zh: '代表团09:20在酒店大堂集合。', en: 'The group meets in the hotel lobby at 09:20.' },
@@ -489,6 +523,9 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     map: '<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
     car: '<path d="M4 16v-4l2-5h12l2 5v4z"/><path d="M4 12h16"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/>',
     star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
+    inbox: '<path d="M3 13h5l1.5 3h5l1.5-3h5"/><path d="M5.5 5h13L21 13v6H3v-6z"/>',
+    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>',
+    send: '<path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4z"/>',
   };
   const icon = (name, size = 22) => `<svg class="ico" width="${size}" height="${size}" style="width:${size}px;height:${size}px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -497,11 +534,11 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   const addHours = (t, h) => { const [hh, mm] = t.split(':').map(Number); return `${String(hh + h).padStart(2, '0')}:${String(mm).padStart(2, '0')}`; };
 
   // ——— Состояние ———
-  const KEY = 'gtt-proto-v4';
+  const KEY = 'gtt-proto-v5';
   function fresh() {
     return {
       role: 'delegate', viewAs: null,
-      tab: { delegate: 'today', coordinator: 'center', host: 'visit' },
+      tab: { delegate: 'today', coordinator: 'center', host: 'visit', agent: 'catalog' },
       day: 1, tripStage: 'before', lang: 'zh', hostFilter: 'all', coordFocus: null,
       missing: ['d1', 'd4', 'd2', 'd3'], departed: false,
       hema: 'pending', pddReminded: false, igorReminded: false, docsMissing: ['d4', 'd15'],
@@ -523,6 +560,11 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       diet: null, reviews: [], reviewMode: 'text', videoAttached: false, reviewConsent: true,
       guideLive: false, listening: false, subtitles: true, voiceOut: true, chat: [], tIdx: { ru: 0, zh: 0 },
       cityCat: 'shop', place: null, out: null,
+      ag: { country: 'all', month: 'all' }, depTaken: {},
+      agentApps: [
+        { id: 'ap0', tour: 'korea-tech-internet-giants-expedition', dep: null, dates: '12–16 апреля 2027 · под группу', people: 12, client: 'Сеть магазинов электроники · Казань', status: 'confirmed', note: 'Даты согласованы, договор отправлен на почту агентства', time: '02.10', upd: false },
+        { id: 'ap1', tour: 'china-auto-plants-expedition', dep: 'dep2', dates: '23–27 ноября 2026', people: 4, client: 'Автодилер · Екатеринбург', status: 'work', note: 'Остап Доценко: проверяю места в автобусе, отвечу сегодня', time: 'вчера', upd: false },
+      ],
       form: {}, annText: TEMPLATES[0].ru, annTpl: 'late', annTo: { d: true, h: true, tg: true },
       log: [], toast: null, sheet: null, seq: 1,
     };
@@ -533,7 +575,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   const save = () => { try { const { toast, sheet, ...rest } = S; localStorage.setItem(KEY, JSON.stringify(rest)); } catch (e) { /* хранилище недоступно — демо работает и без него */ } };
   const nid = () => `x${S.seq++}`;
 
-  const ROLE_RU = { delegate: 'Делегат', coordinator: 'Координатор', host: 'Компания' };
+  const ROLE_RU = { delegate: 'Делегат', coordinator: 'Координатор', host: 'Компания', agent: 'Агент' };
   function log(role, text) { S.log.unshift({ role, text, id: nid() }); S.log = S.log.slice(0, 40); }
   let toastTimer = null;
   function toast(text, from) {
@@ -575,6 +617,9 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       { id: 'yonghui', name: 'Yonghui', when: 'Сб 14 · 14:00', st: ok('подтверждено') },
     ];
   }
+  const depFree = (d) => Math.max(0, d.total - d.taken - (S.depTaken[d.id] || 0));
+  const depsOf = (tourId) => DEPS.filter((d) => d.tour === tourId);
+  const AG_ST = { new: ['info', 'отправлена'], work: ['warn', 'в работе'], confirmed: ['ok', 'подтверждена'] };
   const pendingQ = () => S.basePendingQ + S.questions.filter((q) => q.status === 'pending').length;
   function attention() {
     const a = [];
@@ -586,6 +631,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     S.replies.filter((r) => !r.forwarded).forEach((r) => a.push({ title: `JD.com ответила${r.toName ? ` · для ${r.toName}` : ' группе'}`, sub: `«${r.text}»`, btns: [['forwardReply', 'Переслать делегатам', 'primary', r.id]] }));
     S.followups.filter((f) => f.status === 'new').forEach((f) => a.push({ title: `${me.ru} хочет продолжить с ${f.company}`, sub: f.typeRu, btns: [['sendFollowup', 'Отправить компании', 'primary', f.id]] }));
     S.reviews.filter((r) => r.status === 'new').forEach((r) => a.push({ title: `Отзыв о поездке от ${ME_GEN} · ${r.video ? 'видео 0:48' : 'текст'}`, sub: r.text ? `«${r.text}»` : 'Видеоотзыв с телефона', btns: [['thankReview', 'Поблагодарить', 'primary', r.id]].concat(r.consent ? [['shareReview', 'В соцсети GTT', 'ghost', r.id]] : []) }));
+    S.agentApps.filter((x) => x.status === 'new').forEach((x) => a.push({ title: `Заявка агента ${AGENCY}: ${tourById[x.tour][2]}`, sub: `${x.dates} · ${x.people} чел. · ${x.client}`, btns: [['agTake', 'Взять в работу', 'primary', x.id], ['agConfirm', 'Подтвердить', 'ghost', x.id]] }));
     if (!S.pddReminded) a.push({ title: 'Pinduoduo не открыла ссылку визита · 3 дня', btns: [['remindPdd', 'Напомнить', 'ghost']] });
     if (!S.igorReminded) a.push({ title: 'Игорь Белов · нет билета', btns: [['remindIgor', 'Напомнить', 'ghost']] });
     return a;
@@ -599,8 +645,9 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   // ——— Общие куски ———
   const tabsOf = {
     delegate: [['today', 'Сегодня', 'sun'], ['plan', 'План', 'cal'], ['library', 'Материалы', 'book'], ['people', 'Люди', 'people'], ['trip', 'Поездка', 'suitcase']],
-    coordinator: [['center', 'Пульт', 'grid'], ['visits', 'Визиты', 'building'], ['group', 'Группа', 'people'], ['announce', 'Объявление', 'megaphone']],
+    coordinator: [['center', 'Пульт', 'grid'], ['visits', 'Визиты', 'building'], ['group', 'Группа', 'people'], ['leads', 'Заявки', 'inbox'], ['announce', 'Объявление', 'megaphone']],
     host: [['visit', 0, 'home'], ['delegation', 1, 'people'], ['prep', 2, 'doc'], ['after', 3, 'chat']],
+    agent: [['catalog', 'Каталог', 'globe'], ['dates', 'Даты', 'cal'], ['apps', 'Заявки', 'send'], ['kit', 'Материалы', 'book']],
   };
   function tabbar(who) {
     const list = tabsOf[who];
@@ -609,6 +656,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       if (who === 'coordinator' && key === 'center') return attention().length;
       if (who === 'delegate' && key === 'today') return S.dNotices.filter((n) => !n.seen).length;
       if (who === 'host' && key === 'after') return S.requests.filter((r) => r.isNew).length;
+      if (who === 'coordinator' && key === 'leads') return S.agentApps.filter((x) => x.status === 'new').length + OTHER_LEADS.filter((x) => x.status === 'new').length;
+      if (who === 'agent' && key === 'apps') return S.agentApps.filter((x) => x.upd).length;
       return 0;
     };
     return `<nav class="tabbar" style="grid-template-columns:repeat(${list.length},minmax(0,1fr))" aria-label="Разделы">${list.map(([key, label, ic]) => {
@@ -804,7 +853,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   function coordHead(title) {
     const va = S.viewAs;
     return `<header class="head dark"><div class="row-between"><span class="eyebrow">Координатор · полный доступ</span><span class="muted" style="color:var(--a-on-dark)">09:05</span></div><h2>${title}</h2>
-      <div class="seg" role="group" aria-label="Смотреть как"><button type="button" data-act="viewAs" data-arg="" aria-pressed="${!va}">Я</button><button type="button" data-act="viewAs" data-arg="delegate" aria-pressed="${va === 'delegate'}">Как делегат</button><button type="button" data-act="viewAs" data-arg="host" aria-pressed="${va === 'host'}">Как JD.com</button></div></header>`;
+      <div class="seg" role="group" aria-label="Смотреть как"><button type="button" data-act="viewAs" data-arg="" aria-pressed="${!va}">Я</button><button type="button" data-act="viewAs" data-arg="delegate" aria-pressed="${va === 'delegate'}" aria-label="Как делегат">Делегат</button><button type="button" data-act="viewAs" data-arg="host" aria-pressed="${va === 'host'}" aria-label="Как JD.com">JD.com</button><button type="button" data-act="viewAs" data-arg="agent" aria-pressed="${va === 'agent'}" aria-label="Как агент">Агент</button></div></header>`;
   }
   function kCenter() {
     const c = companies();
@@ -842,6 +891,20 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     }).join('');
     return `${coordHead('Группа · 18')}<div class="body"><section class="card"><div class="list">${rows}</div></section></div>`;
   }
+  function kLeads() {
+    const row = (x, agency, mine) => {
+      const t = tourById[x.tour];
+      const st = AG_ST[x.status];
+      const acts = !mine ? '' : x.status === 'new' ? `<div class="btns">${btn('agTake', 'Взять в работу', 'primary small', x.id)}${btn('agConfirm', 'Подтвердить', 'ghost small', x.id)}</div>`
+        : x.status === 'work' ? `<div class="btns">${btn('agConfirm', 'Подтвердить', 'primary small', x.id)}</div>` : '';
+      return `<div class="li two"><div style="display:flex;flex-direction:column;gap:4px"><div class="t">${esc(t[2])}</div><div class="s">${esc(agency)} · ${esc(x.dates)} · ${x.people} чел.</div><div class="s">${esc(x.client)}</div>${acts}</div><span class="chip ${st[0]}">${st[1]}</span></div>`;
+    };
+    const all = S.agentApps.map((x) => row(x, AGENCY, true)).join('') + OTHER_LEADS.map((x) => row(x, x.agency, false)).join('');
+    const n = S.agentApps.filter((x) => x.status !== 'confirmed').length + OTHER_LEADS.filter((x) => x.status !== 'confirmed').length;
+    return `${coordHead(`Заявки · ${n} в работе`)}<div class="body">
+      <section class="card"><div class="title-row"><h3>Агенты и сайт</h3><span class="chip info">${S.agentApps.length + OTHER_LEADS.length}</span></div><div class="list">${all}</div></section>
+      <p class="muted">Заявки агентов и с формы сайта — в одном списке; о новой приходит сообщение в Telegram. Подтверждённая заявка занимает места в выезде.</p></div>`;
+  }
   function kAnnounce() {
     const tpl = TEMPLATES.map((t) => `<button type="button" class="pick" data-act="tpl" data-arg="${t.key}" aria-pressed="${S.annTpl === t.key}">${t.label}</button>`).join('');
     const sent = S.announcements.slice(0, 4).map((a) => `<div class="li two"><div><div>${esc(a.ru)}</div><div class="s">${a.time} · ${[a.toD && 'делегатам', a.toH && 'JD.com по-китайски', a.tg && 'Telegram'].filter(Boolean).join(', ')}</div></div></div>`).join('');
@@ -851,6 +914,76 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
         <div class="toggle-row"><label><input id="toD" type="checkbox" data-check="d" ${S.annTo.d ? 'checked' : ''}> Делегатам (18)</label><label><input id="toH" type="checkbox" data-check="h" ${S.annTo.h ? 'checked' : ''}> JD.com (中文)</label><label><input id="toTg" type="checkbox" data-check="tg" ${S.annTo.tg ? 'checked' : ''}> Telegram</label></div>
         ${btn('sendAnn', 'Отправить', 'primary full')}</section>
       <section class="card"><h3>Отправлено</h3><div class="list">${sent}</div></section></div>`;
+  }
+
+  // ——— Агент (турагентства и агенты-партнёры) ———
+  function agentHead(title) {
+    return `<header class="head"><span class="eyebrow">Ирина Миронова · агентство ${AGENCY}</span><h2>${title}</h2></header>`;
+  }
+  function seatsLine(d) {
+    const free = depFree(d);
+    const chip = free === 0 ? '<span class="chip dark">группа набрана</span>' : free <= 4 ? `<span class="chip warn">осталось ${free}</span>` : `<span class="chip ok">${free} мест</span>`;
+    return { free, chip, bar: `<div class="seats"><div class="bar"><span style="width:${(d.total - free) / d.total * 100}%"></span></div>${d.total - free} из ${d.total}</div>` };
+  }
+  function tourRow(t) {
+    const deps = depsOf(t[0]).filter((d) => depFree(d) > 0);
+    const next = deps[0];
+    return `<div class="li two tap" data-act="agTour" data-arg="${t[0]}"><div><div class="t">${esc(t[2])}</div><div class="s">${COUNTRY_RU[t[1]]} · ${t[3]} ${plural(t[3], 'день', 'дня', 'дней')} · ${t[4]} ${plural(t[4], 'компания', 'компании', 'компаний')} · ${esc(t[5].slice(0, 4).join(' → '))}</div></div>${next ? `<span class="chip ok">${next.short}</span>` : '<span class="chip info">под группу</span>'}</div>`;
+  }
+  function aCatalog() {
+    const c = S.ag.country;
+    const counts = {};
+    TOURS.forEach((t) => { counts[t[1]] = (counts[t[1]] || 0) + 1; });
+    const chips = [['all', `Все · ${TOURS.length}`]].concat(COUNTRY_ORDER.map((k) => [k, `${COUNTRY_RU[k]} · ${counts[k] || 0}`]))
+      .map(([k, l]) => `<button type="button" class="pick" data-act="agCountry" data-arg="${k}" aria-pressed="${c === k}">${l}</button>`).join('');
+    const list = TOURS.filter((t) => c === 'all' || t[1] === c);
+    const withDates = list.filter((t) => depsOf(t[0]).length);
+    return `${agentHead('Каталог программ')}<div class="body">
+      <section class="card"><div class="chips">${chips}</div></section>
+      ${withDates.length ? `<section class="card"><div class="title-row"><h3>С ближайшими выездами</h3><span class="chip ok">${withDates.length}</span></div><div class="list">${withDates.map(tourRow).join('')}</div></section>` : ''}
+      <section class="card"><div class="title-row"><h3>${c === 'all' ? 'Все программы' : COUNTRY_RU[c]}</h3><span class="chip info">${list.length}</span></div><div class="list">${list.filter((t) => !depsOf(t[0]).length).map(tourRow).join('')}</div></section>
+      <p class="muted">Программы, маршруты и компании — с сайта globaltechtour.ru. Цены и комиссия агента — у координатора [уточнить].</p></div>`;
+  }
+  function aDates() {
+    const m = S.ag.month;
+    const chips = MONTHS.map(([k, l]) => `<button type="button" class="pick" data-act="agMonth" data-arg="${k}" aria-pressed="${m === k}">${l}</button>`).join('');
+    const months = Object.keys(MONTH_FULL).filter((k) => m === 'all' || m === k);
+    const blocks = months.map((k) => {
+      const rows = DEPS.filter((d) => d.month === k).map((d) => {
+        const t = tourById[d.tour];
+        const s = seatsLine(d);
+        return `<div class="li two"><div style="display:flex;flex-direction:column;gap:6px;min-width:0"><div class="tap" data-act="agTour" data-arg="${t[0]}"><div class="t">${esc(t[2])}</div><div class="s">${d.dates} · ${COUNTRY_RU[t[1]]} · ${t[3]} ${plural(t[3], 'день', 'дня', 'дней')}</div></div>${s.bar}</div><div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">${s.chip}${s.free ? btn('agApply', 'Заявка', 'primary small', `dep:${d.id}`) : ''}</div></div>`;
+      }).join('');
+      return rows ? `<section class="card"><h3>${MONTH_FULL[k]}</h3><div class="list">${rows}</div></section>` : '';
+    }).join('');
+    return `${agentHead('Выезды и места')}<div class="body">
+      <section class="card"><div class="chips">${chips}</div></section>${blocks}
+      <section class="card info"><div class="t" style="font-weight:700">Нужны другие даты?</div><span>Отправьте заявку с желаемыми датами и числом участников — координатор проверит, можно ли собрать программу под вашу группу.</span>${btn('agApply', 'Заявка на свои даты', 'primary full', '')}</section>
+      <p class="muted">Даты и места в прототипе — пример; в приложении их ведёт координатор.</p></div>`;
+  }
+  function aApps() {
+    const apps = S.agentApps;
+    const by = (st) => apps.filter((x) => x.status === st).length;
+    const rows = apps.map((x) => {
+      const t = tourById[x.tour];
+      const st = AG_ST[x.status];
+      return `<div class="li two"><div style="display:flex;flex-direction:column;gap:3px"><div class="t">${esc(t[2])}</div><div class="s">${esc(x.dates)} · ${x.people} чел. · отправлена ${esc(x.time)}</div><div class="s">${esc(x.client)}</div>${x.note ? `<div style="font-size:13px">${x.upd ? '<span class="chip new" style="margin-right:6px">новое</span>' : ''}${esc(x.note)}</div>` : ''}</div><span class="chip ${st[0]}">${st[1]}</span></div>`;
+    }).join('');
+    setTimeout(() => { if (S.role === 'agent' && S.tab.agent === 'apps') { S.agentApps.forEach((x) => { x.upd = false; }); save(); } }, 0);
+    return `${agentHead('Мои заявки')}<div class="body">
+      ${btn('agApply', `${icon('send', 18)} Новая заявка`, 'primary full', '')}
+      <div class="stat-grid"><div class="stat"><span class="muted">В работе</span><span class="v">${by('new') + by('work')}</span><span class="muted">${by('new')} ждут ответа</span></div><div class="stat"><span class="muted">Подтверждено</span><span class="v">${by('confirmed')}</span><span class="muted">участников: ${apps.filter((x) => x.status === 'confirmed').reduce((n, x) => n + x.people, 0)}</span></div></div>
+      <section class="card"><div class="list">${rows}</div></section>
+      <section class="card"><h3>Как это работает</h3><span class="muted">Заявка уходит координатору GTT в приложение и в Telegram. Статус меняется здесь: отправлена → в работе → подтверждена. Паспорта и телефоны участников — только после подтверждения, хранятся на сервере в России.</span></section></div>`;
+  }
+  function aKit() {
+    const pres = DEPS.slice(1, 6).map((d) => tourById[d.tour]).map((t) => `<div class="li two"><div><div class="t">${esc(t[2])}</div><div class="s">PDF · без цен · можно отправлять клиенту</div></div><button type="button" class="icon-btn" data-act="agPdf" data-arg="${t[0]}" aria-label="Скачать презентацию: ${esc(t[2])}">${icon('down', 18)}</button></div>`).join('');
+    const reels = [['Автопром и электромобили Китая', '1:48'], ['Чай и кофе Китая', '1:31'], ['Косметика и anti-age', '1:35']].map(([n, d]) => `<div class="li two"><div style="display:flex;gap:10px;align-items:center">${icon('video', 22)}<div><div class="t">${n}</div><div class="s">Reels · ${d}</div></div></div><button type="button" class="icon-btn" data-act="agReel" data-arg="${esc(n)}" aria-label="Скачать ролик: ${esc(n)}">${icon('down', 18)}</button></div>`).join('');
+    return `${agentHead('Материалы')}<div class="body">
+      <section class="card"><div class="title-row"><h3>Презентации для клиентов</h3><span class="chip info">76</span></div><div class="list">${pres}</div><span class="muted">Презентация есть у каждой программы — кнопка в её карточке в «Каталоге».</span></section>
+      <section class="card"><h3>Ролики и фото для ваших соцсетей</h3><div class="list">${reels}</div><span class="muted">Правила использования и отметка GTT — [уточнить].</span></section>
+      <section class="card"><h3>Условия сотрудничества</h3><span class="muted">Цены для агентов, комиссия и договор — [уточнить у Остапа Доценко].</span></section>
+      <section class="card"><div class="li"><span class="avatar">ОД</span><div><div class="t">Остап Доценко</div><div class="s">Координатор · заявки агентов</div></div>${btn('agWrite', 'Написать', 'light small')}</div></section></div>`;
   }
 
   // ——— Компания (мини-программа WeChat) ———
@@ -921,7 +1054,29 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     if (!sh) return '';
     const L = H[S.lang];
     let inner = '';
-    if (sh.type === 'taxi') {
+    if (sh.type === 'agTour') {
+      const t = tourById[sh.id];
+      const deps = depsOf(t[0]);
+      inner = `<span class="muted">${COUNTRY_RU[t[1]]} · ${t[3]} ${plural(t[3], 'день', 'дня', 'дней')} · ${t[4]} ${plural(t[4], 'компания', 'компании', 'компаний')}</span><h3>${esc(t[2])}</h3>
+        <span>${esc(t[7])}</span>
+        <div class="card" style="background:var(--a-bg)"><div class="s" style="font-weight:700">Маршрут</div><div>${esc(t[5].join(' → '))}</div>
+          <div class="s" style="font-weight:700;margin-top:6px">Компании (с сайта)</div><div class="cos">${t[6].map((n) => `<span>${esc(n)}</span>`).join('')}${t[4] > t[6].length ? `<span>ещё ${t[4] - t[6].length}</span>` : ''}</div></div>
+        <div class="card" style="background:var(--a-bg)"><div class="s" style="font-weight:700">Ближайшие выезды</div>${deps.length ? `<div class="list">${deps.map((d) => { const s2 = seatsLine(d); return `<div class="li two"><div style="display:flex;flex-direction:column;gap:6px"><div class="t">${d.dates}</div>${s2.bar}</div>${s2.free ? btn('agApply', 'Заявка', 'primary small', `dep:${d.id}`) : s2.chip}</div>`; }).join('')}</div>` : '<span>Дат пока нет — соберём под вашу группу по заявке.</span>'}</div>
+        <div class="btns split">${btn('agPdf', `${icon('down', 18)} Презентация`, 'ghost', t[0])}${btn('agApply', 'Отправить заявку', 'primary', `t:${t[0]}`)}</div>`;
+    } else if (sh.type === 'agApp') {
+      const t = sh.tour ? tourById[sh.tour] : null;
+      const deps = t ? depsOf(t[0]).filter((d) => depFree(d) > 0) : [];
+      const opts = COUNTRY_ORDER.map((c) => `<optgroup label="${COUNTRY_RU[c]}">${TOURS.filter((x) => x[1] === c).map((x) => `<option value="${x[0]}" ${sh.tour === x[0] ? 'selected' : ''}>${esc(x[2])}</option>`).join('')}</optgroup>`).join('');
+      inner = `<h3>Заявка в GTT</h3>
+        <label class="field" for="agTourSel">Программа<select id="agTourSel" data-field="agTour"><option value="" ${!sh.tour ? 'selected' : ''}>Выберите программу</option>${opts}</select></label>
+        ${t ? `<div class="s" style="font-weight:600;color:var(--a-muted)">Даты</div><div class="chips">${deps.map((d) => `<button type="button" class="pick" data-act="sheetSet" data-arg="dep|${d.id}" aria-pressed="${sh.dep === d.id}">${d.short} · ${depFree(d)} мест</button>`).join('')}<button type="button" class="pick" data-act="sheetSet" data-arg="dep|other" aria-pressed="${sh.dep === 'other'}">Свои даты</button></div>` : ''}
+        ${sh.dep === 'other' ? `<label class="field" for="agDates">Желаемые даты<input id="agDates" data-field="agDates" value="${esc(S.form.agDates || '')}" placeholder="Например: вторая половина апреля"></label>` : ''}
+        <label class="field" for="agPeople">Участников<input id="agPeople" type="number" min="1" max="40" data-field="agPeople" value="${esc(S.form.agPeople || '')}"></label>
+        <label class="field" for="agClient">Клиент<input id="agClient" data-field="agClient" value="${esc(S.form.agClient || '')}" placeholder="Компания или отрасль, город"></label>
+        <label class="field" for="agNote">Комментарий<textarea id="agNote" rows="2" data-field="agNote" placeholder="Интересы группы, пожелания по отелям">${esc(S.form.agNote || '')}</textarea></label>
+        <span class="muted">Имена, паспорта и телефоны участников — после подтверждения заявки.</span>
+        <div class="btns split">${btn('closeSheet', 'Отмена', 'ghost')}${btn('agSubmit', 'Отправить')}</div>`;
+    } else if (sh.type === 'taxi') {
       inner = `<h3>Адрес для такси</h3>${addr3('京东集团总部', 'Штаб-квартира JD.com, Пекин', 'JD.com headquarters, Beijing', 'Точный адрес добавит координатор · [уточнить]')}${btn('closeSheet', 'Готово', 'ghost full')}`;
     } else if (sh.type === 'event') {
       const isCo = ['JD.com', 'Meituan', 'Hema (Freshippo)', 'Pinduoduo', 'RT-Mart', 'Ele.me', 'Alibaba', "Sam's Club", 'Yonghui'].includes(sh.name);
@@ -1064,11 +1219,12 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     const keepScroll = scroller && key === lastKey ? scroller.scrollTop : 0;
     const views = {
       delegate: { today: dToday, plan: dPlan, library: dLibrary, people: dPeople, trip: dTrip, city: dCity },
-      coordinator: { center: kCenter, visits: kVisits, group: kGroup, announce: kAnnounce },
+      coordinator: { center: kCenter, visits: kVisits, group: kGroup, leads: kLeads, announce: kAnnounce },
       host: { visit: hVisit, delegation: hDelegation, prep: hPrep, after: hAfter },
+      agent: { catalog: aCatalog, dates: aDates, apps: aApps, kit: aKit },
     };
     const isHost = who === 'host';
-    const banner = S.viewAs ? `<div class="viewas"><span>Вы смотрите как ${S.viewAs === 'delegate' ? `делегат ${me.ru}` : 'JD.com'} · только просмотр</span><button type="button" data-act="viewAs" data-arg="">Вернуться</button></div>` : '';
+    const banner = S.viewAs ? `<div class="viewas"><span>Вы смотрите как ${S.viewAs === 'delegate' ? `делегат ${me.ru}` : S.viewAs === 'agent' ? `агент ${AGENCY}` : 'JD.com'} · только просмотр</span><button type="button" data-act="viewAs" data-arg="">Вернуться</button></div>` : '';
     const top = isHost
       ? `<div class="statusbar"><span>09:05</span><span class="icons">●●● <span class="bat"></span></span></div><div class="wxbar">Global Tech Tour<span class="capsule" aria-hidden="true"><span>•••</span><span>◎</span></span></div>`
       : `<div class="statusbar ${who === 'coordinator' ? 'dark' : ''}"><span>09:05</span><span class="icons">●●● <span class="bat"></span></span></div>`;
@@ -1085,7 +1241,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
 
   const ROLE_INFO = {
     delegate: { name: `Делегат · ${me.ru}`, text: 'Участник экспедиции. Видит свою поездку: что сегодня, план по дням с погодой, отелями, ресторанами и культурной программой, материалы, людей группы и подготовку. Отели, рестораны, погода и телефоны в прототипе — примеры.', tips: ['Нажмите «Я в автобусе» — у координатора счётчик станет 15/18.', 'Кнопка «Контакты» на «Сегодня» — телефоны координатора, переводчика, отеля и экстренные номера.', 'В «Плане» у дня — погода и отель; нажмите на обед, ужин или культурную программу.', 'В «Материалах» закреплены презентации; в «Поездке» → «До» укажите предпочтения в еде.', 'В «Поездке» → «После» оставьте отзыв текстом или видео.', 'На «Сегодня» попробуйте «Переводчик» и «Слушать гида»; адреса отелей — на китайском, русском и английском.', 'Кнопка «Город»: шопинг, ночная жизнь, магазины 24/7, туалеты на карте, «Иду гулять»; «Такси» — DiDi с адресом по-китайски.'] },
-    coordinator: { name: 'Координатор · Остап Доценко', text: 'Видит и меняет всё. Ведёт группу и визиты, отвечает на запросы компаний и делегатов, может открыть любой экран глазами делегата или JD.com.', tips: ['На «Пульте» примите перенос Hema — у делегата обновится план.', 'Нажмите «Автобус выехал» — JD.com узнает в WeChat, если включила напоминания.', 'Откройте презентацию JD.com делегатам или переведите вопросы.', 'Переключите «Как делегат» / «Как JD.com» в шапке.', 'На «Пульте» начните «Радиогид» — делегат услышит переводчика в наушниках.'] },
+    coordinator: { name: 'Координатор · Остап Доценко', text: 'Видит и меняет всё. Ведёт группу и визиты, отвечает на запросы компаний и делегатов, может открыть любой экран глазами делегата или JD.com.', tips: ['На «Пульте» примите перенос Hema — у делегата обновится план.', 'Нажмите «Автобус выехал» — JD.com узнает в WeChat, если включила напоминания.', 'Откройте презентацию JD.com делегатам или переведите вопросы.', 'Переключите «Как делегат» / «Как JD.com» в шапке.', 'На «Пульте» начните «Радиогид» — делегат услышит переводчика в наушниках.', 'Вкладка «Заявки» — заявки агентов и с сайта: «Взять в работу», «Подтвердить». В шапке «Агент» — экран глазами агентства.'] },
+    agent: { name: `Агент · Ирина Миронова, ${AGENCY}`, text: 'Турагентство или агент-партнёр GTT (в прототипе — вымышленное агентство). Видит каталог программ по странам, ближайшие выезды и свободные места, отправляет заявки за своих клиентов и следит за статусом. Не видит делегатов, поездку изнутри и других агентов. Каталог — 76 программ с сайта; даты и места — пример.', tips: ['В «Каталоге» выберите страну и откройте программу: маршрут, компании, ближайшие выезды.', 'Нажмите «Отправить заявку» — заявка появится у координатора на «Пульте» и во вкладке «Заявки».', 'В «Датах» — выезды по месяцам и свободные места.', 'Переключитесь на координатора: «Взять в работу» → «Подтвердить» — у агента сменится статус, места в выезде уменьшатся.', 'В «Материалах» — презентации программ без цен для ваших клиентов и ролики.'] },
     host: { name: 'Компания · JD.com в WeChat', text: 'Менеджер компании, куда едет группа. Открывает мини-программу по QR-коду в WeChat, без установки. Видит только свой визит; телефонов делегатов не видит.', tips: ['Нажмите «接收提醒» (напоминания), потом у координатора «Автобус выехал».', 'Предложите другое время — запрос уйдёт координатору.', 'Загрузите файл во вкладке «问题与资料» — он попадёт на проверку.', 'Переключите 中文 / EN и ответьте делегатам во вкладке «访问后».'] },
   };
   function renderSide() {
@@ -1099,17 +1256,61 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
 
   // ——— Действия ———
-  const NAV = new Set(['tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet', 'openHotel', 'openCulture', 'contacts', 'reviewMode', 'translator', 'guide', 'driverCard', 'openMaps', 'copyAddr', 'cityCat', 'pickPlace', 'findMore', 'taxi2']);
+  const NAV = new Set(['tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet', 'openHotel', 'openCulture', 'contacts', 'reviewMode', 'translator', 'guide', 'driverCard', 'openMaps', 'copyAddr', 'cityCat', 'pickPlace', 'findMore', 'taxi2', 'agCountry', 'agMonth', 'agTour']);
   const now = () => '09:05';
   const A = {
     tab: (k) => { const who = S.role === 'coordinator' && S.viewAs ? S.viewAs : S.role; S.tab[who] = k; if (who === 'host' && k === 'after') setTimeout(() => { S.requests.forEach((r) => { r.isNew = false; }); save(); }, 0); },
     day: (i) => { S.day = Number(i); },
     stage: (k) => { S.tripStage = k; },
-    viewAs: (v) => { S.viewAs = v || null; S.sheet = null; if (v) log('coordinator', `Включил «Смотреть как ${v === 'delegate' ? 'делегат' : 'JD.com'}» — экран ровно такой, как у них.`); },
+    viewAs: (v) => { S.viewAs = v || null; S.sheet = null; if (v) log('coordinator', `Включил «Смотреть как ${v === 'delegate' ? 'делегат' : v === 'agent' ? 'агент' : 'JD.com'}» — экран ровно такой, как у них.`); },
     closeSheet: () => { S.sheet = null; },
     sheetSet: (arg) => { const [k, v] = arg.split('|'); S.sheet[k] = k === 'pick' && S.sheet.type === 'question' ? Number(v) : v; },
     lang: (l) => { S.lang = l; },
     hostFilter: (k) => { S.hostFilter = k; },
+
+    // агент
+    agCountry: (c) => { S.ag.country = c; },
+    agMonth: (m) => { S.ag.month = m; },
+    agTour: (id) => { S.sheet = { type: 'agTour', id }; },
+    agApply: (arg) => {
+      let tour = '';
+      let dep = null;
+      if (arg.startsWith('dep:')) { dep = arg.slice(4); tour = depById[dep].tour; } else if (arg.startsWith('t:')) tour = arg.slice(2);
+      if (tour && !dep) { const d = depsOf(tour).find((x) => depFree(x) > 0); dep = d ? d.id : 'other'; }
+      S.form.agPeople = S.form.agPeople || '6'; S.form.agClient = ''; S.form.agNote = ''; S.form.agDates = '';
+      S.sheet = { type: 'agApp', tour, dep };
+    },
+    agSubmit: () => {
+      const sh = S.sheet;
+      if (!sh.tour) return toast('Выберите программу');
+      const people = Number(S.form.agPeople || 0);
+      if (!people) return toast('Укажите число участников');
+      const dep = sh.dep && sh.dep !== 'other' ? depById[sh.dep] : null;
+      if (dep && people > depFree(dep)) return toast(`В этом выезде свободно ${depFree(dep)} мест — уменьшите группу или выберите свои даты`);
+      const dates = dep ? dep.dates : (S.form.agDates || '').trim() || 'даты под группу';
+      const client = (S.form.agClient || '').trim() || 'Клиент не указан';
+      S.agentApps.unshift({ id: nid(), tour: sh.tour, dep: dep ? dep.id : null, dates, people, client, status: 'new', note: (S.form.agNote || '').trim() ? `Комментарий: ${S.form.agNote.trim()}` : '', time: 'сегодня 09:05', upd: false });
+      S.sheet = null; S.tab.agent = 'apps';
+      log('agent', `${AGENCY} отправило заявку: ${tourById[sh.tour][2]} · ${dates} · ${people} чел. → у координатора на «Пульте», во вкладке «Заявки» и в Telegram.`);
+      toast('Заявка отправлена координатору GTT', 'Агент');
+    },
+    agTake: (id) => {
+      const x = S.agentApps.find((a) => a.id === id); if (!x) return;
+      x.status = 'work'; x.note = 'Остап Доценко взял заявку в работу'; x.upd = true;
+      log('coordinator', `Взял в работу заявку ${AGENCY}: ${tourById[x.tour][2]} → агент видит статус «в работе».`);
+      toast('Агент видит: заявка в работе');
+    },
+    agConfirm: (id) => {
+      const x = S.agentApps.find((a) => a.id === id); if (!x) return;
+      x.status = 'confirmed'; x.upd = true;
+      if (x.dep) { S.depTaken[x.dep] = (S.depTaken[x.dep] || 0) + x.people; x.note = `Места забронированы: ${x.people} в выезде ${x.dates}. Дальше — договор и список участников`; }
+      else x.note = 'Даты согласованы — договор придёт на почту агентства';
+      log('coordinator', `Подтвердил заявку ${AGENCY}: ${tourById[x.tour][2]} · ${x.people} чел.${x.dep ? ' → свободных мест в выезде стало меньше' : ''}.`);
+      toast('Агент получил подтверждение');
+    },
+    agPdf: (id) => { log('agent', `${AGENCY} скачало презентацию «${tourById[id][2]}» (PDF без цен).`); toast('Презентация скачана · PDF без цен'); },
+    agReel: (n) => toast(`Ролик «${n}» скачан`),
+    agWrite: () => toast('Открываем чат с координатором в Telegram'),
 
     // делегат
     busToggle: () => {
@@ -1327,7 +1528,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     if (!el || !screenEl.contains(el)) return;
     const act = el.dataset.act;
     if (el.classList.contains('shade') && act === 'closeSheet') { S.sheet = null; render(); return; }
-    if (S.viewAs && !NAV.has(act)) { toast('Режим просмотра: действие делает сам ' + (S.viewAs === 'delegate' ? 'делегат' : 'JD.com')); render(); return; }
+    if (S.viewAs && !NAV.has(act)) { toast('Режим просмотра: действие делает сам ' + (S.viewAs === 'delegate' ? 'делегат' : S.viewAs === 'agent' ? 'агент' : 'JD.com')); render(); return; }
     const fn = A[act];
     if (!fn) return;
     fn(el.dataset.arg || '');
@@ -1336,6 +1537,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   document.addEventListener('input', (e) => {
     const f = e.target.dataset.field;
     if (!f) return;
+    if (f === 'agTour') { S.sheet.tour = e.target.value; const d = depsOf(e.target.value).find((x) => depFree(x) > 0); S.sheet.dep = d ? d.id : 'other'; render(); return; }
     if (f === 'annText') { S.annText = e.target.value; S.annTpl = null; } else S.form[f] = e.target.value;
     save();
   });
