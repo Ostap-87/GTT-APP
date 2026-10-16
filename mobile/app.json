@@ -34,6 +34,19 @@
     ],
     "runtimeVersion": {
       "policy": "sdkVersion"
+    },
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "6278a801-0230-42b8-82bc-40928acebfb5"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/6278a801-0230-42b8-82bc-40928acebfb5"
     }
   }
 }
