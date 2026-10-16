@@ -1,0 +1,2106 @@
+[
+ {
+  "id": "robotics-expedition",
+  "country": "cn",
+  "sector": "robotics",
+  "title": "Robotics Expedition",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Закрытые визиты на производства лидеров робототехники Китая. Прямой доступ к компаниям, куда не попасть самостоятельно.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 12,
+  "cities": [
+   "Пекин",
+   "Шанхай",
+   "Шэньчжэнь"
+  ],
+  "companies": [
+   "Galbot",
+   "Robotera",
+   "AgiBot",
+   "Kepler",
+   "DroidUp",
+   "Fourier",
+   "Seer Robotics",
+   "UBTech",
+   "Leju Robotics",
+   "LimX Dynamics",
+   "EngineAI",
+   "Pudu Robotics"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-tech-giants-expedition",
+  "country": "cn",
+  "sector": "flagship",
+  "title": "China Tech Giants Expedition",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Визиты к девяти технологическим гигантам Китая в четырёх городах — от поиска и ИИ до e-commerce, смартфонов и телекома.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Пекин",
+   "Ханчжоу",
+   "Шанхай",
+   "Шэньчжэнь"
+  ],
+  "companies": [
+   "Baidu",
+   "Xiaomi",
+   "Alibaba",
+   "Unitree",
+   "Meituan",
+   "Xiaohongshu (RED)",
+   "Tencent",
+   "Huawei",
+   "UBTech"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-tea-coffee-retail-expedition",
+  "country": "cn",
+  "sector": "food",
+  "title": "Новый чайно-кофейный ретейл Китая",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Визиты к девяти лидерам нового чая и спешелти-кофе в четырёх городах — от штаб-квартир до публичных флагманов.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Шанхай",
+   "Сямынь",
+   "Шэньчжэнь",
+   "Гуанчжоу"
+  ],
+  "companies": [
+   "Chagee",
+   "Manner Coffee",
+   "M Stand",
+   "CoCo",
+   "ALittle Tea",
+   "Luckin Coffee",
+   "HeyTea",
+   "Nayuki",
+   "Wang Lao Ji"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-beauty-antiage-expedition",
+  "country": "cn",
+  "sector": "consumer",
+  "title": "Индустрия красоты и anti-age Китая",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Визиты к десяти лидерам индустрии красоты и anti-age в трёх городах — от наследных травяных брендов до люксового макияжа и R&D новых технологий.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Шанхай",
+   "Ханчжоу",
+   "Гуанчжоу"
+  ],
+  "companies": [
+   "Pechoin",
+   "CHANDO (Jala)",
+   "Linqingxuan",
+   "KANS (Shangmei)",
+   "PROYA",
+   "Florasis",
+   "Mao Geping",
+   "Kylin Way",
+   "Yatsen (Perfect Diary)",
+   "Carslan"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-auto-plants-expedition",
+  "country": "cn",
+  "sector": "auto",
+  "title": "Автопром и электромобили Китая",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Визиты на шесть автозаводов в четырёх городах — от смартфон-гиганта в автопроме до люксовых EV Huawei и умных заводов юга Китая.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 6,
+  "cities": [
+   "Пекин",
+   "Хэфэй",
+   "Шанхай",
+   "Гуанчжоу"
+  ],
+  "companies": [
+   "Xiaomi",
+   "NIO",
+   "Maextro",
+   "SAIC Motor",
+   "GAC Aion",
+   "Xpeng"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-appliances-expedition",
+  "country": "cn",
+  "sector": "electronics",
+  "title": "Бытовая техника и умный дом Китая",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Визиты на девять заводов бытовой техники и умного дома в пяти городах — от Циндао, национального инновационного центра отрасли, на севере до Шуньдэ, южного столпа индустрии.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Пекин",
+   "Циндао",
+   "Ханчжоу",
+   "Фошань",
+   "Чжухай",
+   "Шэньчжэнь"
+  ],
+  "companies": [
+   "Xiaomi",
+   "Haier",
+   "Hisense",
+   "Robam",
+   "Supor",
+   "Midea",
+   "Galanz",
+   "Gree",
+   "Skyworth"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "shenzhen-moscow-industrial-mission-2026",
+  "country": "cn",
+  "sector": "government",
+  "title": "Индустриально-технологическая миссия «Шэньчжэнь — Москва»",
+  "eyebrow": "При поддержке государственных органов Гуандуна и Шэньчжэня",
+  "positioning": "Государственная индустриально-технологическая миссия в Шэньчжэне: конференция, визиты на производства и подготовленные B2B-переговоры с 35 китайскими компаниями в биомедицине, модульном строительстве, промышленной робототехнике и ИИ.",
+  "days": 7,
+  "nights": 6,
+  "companiesCount": 34,
+  "cities": [
+   "Шэньчжэнь"
+  ],
+  "companies": [
+   "UBTech",
+   "Intellifusion",
+   "Mindray",
+   "Orbbec",
+   "Grandland Group",
+   "China Construction Science & Industry",
+   "BGI",
+   "XtalPi",
+   "Edge Medical",
+   "Salubris Pharmaceuticals",
+   "SonoScape",
+   "Aosa Pharma",
+   "Lifotronic",
+   "Antaiwei Biopharma",
+   "Bauing Group",
+   "Jianyi Decoration Group",
+   "Huajian Holdings",
+   "Zhongtian Jingzhuang",
+   "Ruihe Construction Decoration",
+   "Mingdiao Decoration",
+   "Changjiang Tunnel Engineering",
+   "Leadshine",
+   "ZHAOWEI",
+   "Han's Laser",
+   "RoboSense",
+   "Chuangjie Zhilian",
+   "Topband",
+   "Shugu Intelligent Technology",
+   "RabbitPre",
+   "Insta360",
+   "Afirstsoft",
+   "Wanjiaan",
+   "SmartMore"
+  ],
+  "startDate": "2026-09-14"
+ },
+ {
+  "id": "china-tech-parks-expedition",
+  "country": "cn",
+  "sector": "government",
+  "title": "Технопарки и зоны инноваций Китая",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Закрытые визиты в управляющие компании и на площадки флагманских технопарков и зон инноваций Китая — брифинги по экосистеме, встречи с отобранными резидентами и R&D-центрами.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Пекин",
+   "Шанхай",
+   "Шэньчжэнь"
+  ],
+  "companies": [
+   "Baidu",
+   "Xiaomi",
+   "SMIC",
+   "WuXi AppTec",
+   "Tesla",
+   "DeepBlue Technology",
+   "Tencent",
+   "DJI",
+   "ZTE"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-retail-showrooms-expedition",
+  "country": "cn",
+  "sector": "internet",
+  "title": "Продуктовый ритейл и мгновенная доставка Китая: тур по флагманским шоурумам",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Тур строго по компаниям с эффектными шоурумами, флагманами и корпоративными展厅 — делегация не только слушает, но и видит «вау». Пекин → Шанхай → Ханчжоу → Шэньчжэнь, с фокусом на новый ритейл, свежие продукты и мгновенную доставку.",
+  "days": 6,
+  "nights": 5,
+  "companiesCount": 9,
+  "cities": [
+   "Пекин",
+   "Шанхай",
+   "Ханчжоу",
+   "Шэньчжэнь"
+  ],
+  "companies": [
+   "JD.com",
+   "Meituan",
+   "Hema/Freshippo",
+   "Pinduoduo",
+   "RT-Mart (Sun Art)",
+   "Ele.me / Taobao Instant",
+   "Alibaba",
+   "Sam's Club / Walmart China",
+   "Yonghui"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-ticketing-travel-expedition",
+  "country": "cn",
+  "sector": "internet",
+  "title": "Билетинг, лайв-ивенты и онлайн-тревел Китая",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Тур по штаб-квартирам лидеров билетинга, лайв-ивентов и онлайн-тревела Китая — от продажи билета до монетизации лайв-музыки, одной цепочкой. Формат: посещение + профильная сессия + Q&A на каждой площадке. Рекомендуемая группа — 10–20 человек, синхронный перевод RU↔中文.",
+  "days": 5,
+  "nights": 5,
+  "companiesCount": 7,
+  "cities": [
+   "Пекин",
+   "Шанхай",
+   "Ханчжоу",
+   "Шэньчжэнь"
+  ],
+  "companies": [
+   "Damai",
+   "Maoyan",
+   "Meituan",
+   "Tongcheng",
+   "Ctrip/Trip.com",
+   "Fliggy",
+   "TME (Tencent Music)"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "korea-industry-manufacturing-expedition",
+  "country": "kr",
+  "sector": "heavy",
+  "title": "Промышленность и производство Кореи",
+  "eyebrow": "Бизнес-делегации в Корею",
+  "positioning": "От дисплеев и полупроводников до автозаводов и металлургии — маршрут по производственным флагманам Южной Кореи.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 6,
+  "cities": [
+   "Сеул",
+   "Пхаджу",
+   "Сувон",
+   "Ульсан",
+   "Пхохан"
+  ],
+  "companies": [
+   "Samsung d'light",
+   "LG Display — Paju",
+   "Samsung Innovation Museum",
+   "Hyundai Motor — Ulsan Plant",
+   "Hyundai Heavy Industries — Ulsan Shipyard",
+   "POSCO"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "korea-tech-internet-giants-expedition",
+  "country": "kr",
+  "sector": "internet",
+  "title": "Технологии и интернет-гиганты Кореи",
+  "eyebrow": "Бизнес-делегации в Корею",
+  "positioning": "E-commerce, доставка еды, поиск, мессенджеры, игры и гуманоидная робототехника — интернет-экосистема Кореи изнутри.",
+  "days": 5,
+  "nights": 5,
+  "companiesCount": 8,
+  "cities": [
+   "Сеул",
+   "Соннам",
+   "Сувон",
+   "Йонъин"
+  ],
+  "companies": [
+   "Coupang",
+   "Woowa Brothers (Baemin)",
+   "SK Telecom — T.um",
+   "Naver",
+   "Kakao",
+   "NCSoft",
+   "Doosan Robotics",
+   "Rainbow Robotics"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "korea-beauty-industry-expedition",
+  "country": "kr",
+  "sector": "consumer",
+  "title": "K-Beauty индустрия Кореи",
+  "eyebrow": "Бизнес-делегации в Корею",
+  "positioning": "От брендовых холдингов до незаметных ODM-фабрик, производящих K-beauty для всего мира, и longevity-биотеха.",
+  "days": 5,
+  "nights": 5,
+  "companiesCount": 10,
+  "cities": [
+   "Сеул",
+   "Осан",
+   "Соннам",
+   "Анъян"
+  ],
+  "companies": [
+   "Amorepacific",
+   "Innisfree",
+   "Kolmar Korea",
+   "Cosmax",
+   "Amorepacific Beauty Park (Factory Tour)",
+   "Sulwhasoo House",
+   "LG H&H — The History of Whoo",
+   "Amore Seongsu",
+   "PharmaResearch",
+   "Caregen"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "korea-foodtech-smart-farming-expedition",
+  "country": "kr",
+  "sector": "food",
+  "title": "Высокотехнологичное производство продуктов питания Кореи",
+  "eyebrow": "Бизнес-делегации в Корею",
+  "positioning": "От биотех-холдингов и «рассветной доставки» до крупнейшего молочного завода Азии и культового острого рамёна.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Сеул",
+   "Кимпхо",
+   "Янджу",
+   "Вонджу",
+   "Йонъин",
+   "Пхёнтхэк"
+  ],
+  "companies": [
+   "CJ CheilJedang",
+   "CJ Freshway",
+   "Market Kurly",
+   "Nongshim Farm",
+   "Seoul Milk",
+   "Samyang Foods — Buldak Plant",
+   "Jungkwanjang (KGC)",
+   "Fresheasy",
+   "hy (Korea Yakult)"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "japan-retail-expedition",
+  "country": "jp",
+  "sector": "consumer",
+  "title": "Ритейл Японии: от конбини до tech-дискаунтеров",
+  "eyebrow": "Бизнес-делегации в Японию",
+  "positioning": "Полный срез японского ритейла: конбини-гиганты, SPA-бренды с автоматизированной логистикой и tech-дискаунтер Trial с AI-камерами — плюс однодневный перелёт в Фукуоку к штаб-квартире Trial Holdings.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Токио",
+   "Фукуока"
+  ],
+  "companies": [
+   "Seven-Eleven Japan",
+   "Lawson",
+   "FamilyMart",
+   "AEON — Regi Go smart store",
+   "UNIQLO (Fast Retailing)",
+   "MUJI",
+   "Don Quijote (PPIH)",
+   "Nitori",
+   "Trial Holdings",
+   "Rakuten Group"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "japan-food-dairy-expedition",
+  "country": "jp",
+  "sector": "food",
+  "title": "Продукты питания и молочная промышленность Японии",
+  "eyebrow": "Бизнес-делегации в Японию",
+  "positioning": "От пробиотиков Yakult и ферментации Kikkoman в Токио до биотехнологий аминокислот Ajinomoto и молочных технологий Кансая — с переездом на Синкансэне Токио→Осака.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Токио",
+   "Нода",
+   "Осака",
+   "Кобе"
+  ],
+  "companies": [
+   "Yakult Honsha",
+   "Meiji Holdings",
+   "Kikkoman",
+   "Kewpie",
+   "Ajinomoto",
+   "Fuji Oil",
+   "Nissin Foods",
+   "Morinaga Milk",
+   "Megmilk Snow Brand"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "japan-dark-kitchen-delivery-expedition",
+  "country": "jp",
+  "sector": "internet",
+  "title": "Central/Dark Kitchen и быстрая доставка еды в Японии",
+  "eyebrow": "Бизнес-делегации в Японию",
+  "positioning": "Доставка еды и робототехника кухни в одном маршруте: от штаб-квартиры Demae-can до сервисных роботов SoftBank Robotics и роботов доставки ZMP — всё в пределах Большого Токио, без перелётов.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Токио"
+  ],
+  "companies": [
+   "Demae-can",
+   "Uber Eats Japan",
+   "Connected Robotics",
+   "TechMagic",
+   "SoftBank Robotics",
+   "ZMP",
+   "Wolt Japan",
+   "Panasonic Robotics",
+   "Rakuten Delivery / Gurunavi",
+   "menu (KDDI)"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "japan-tech-internet-giants-expedition",
+  "country": "jp",
+  "sector": "internet",
+  "title": "Интернет-гиганты Японии: ИИ, мессенджеры, e-commerce",
+  "eyebrow": "Бизнес-делегации в Японию",
+  "positioning": "От фронтир-лабораторий Preferred Networks и Sakana AI до доминирующего мессенджера LY Corporation и суперкомпьютера Fugaku — маршрут целиком в Токио, без перелётов.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Токио",
+   "Тиба"
+  ],
+  "companies": [
+   "Preferred Networks",
+   "Sakana AI",
+   "LY Corporation (LINE + Yahoo! Japan)",
+   "PayPay",
+   "Rakuten Crimson House",
+   "Mercari",
+   "Fujitsu",
+   "NTT",
+   "ZOZO",
+   "Sony AI"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "japan-beauty-industry-expedition",
+  "country": "jp",
+  "sector": "consumer",
+  "title": "Косметика и бьюти-технологии Японии",
+  "eyebrow": "Бизнес-делегации в Японию",
+  "positioning": "От Global Innovation Center Shiseido в Иокогаме до бьюти-девайсов MTG (ReFa) в Нагое — J-beauty индустрия целиком, через три региона на Синкансэне.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Иокогама",
+   "Токио",
+   "Осака",
+   "Нагоя"
+  ],
+  "companies": [
+   "Shiseido",
+   "Fancl",
+   "Kao",
+   "Kanebo (Kao)",
+   "Pola Orbis",
+   "Kosé",
+   "Panasonic Beauty",
+   "Mandom",
+   "Rohto",
+   "MTG (ReFa)"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "japan-longevity-biotech-expedition",
+  "country": "jp",
+  "sector": "medtech",
+  "title": "Лонгевити и anti-aging биотех Японии",
+  "eyebrow": "Бизнес-делегации в Японию",
+  "positioning": "От iPSC-технологий FUJIFILM до мирового хаба клеточного репрограммирования CiRA в Киото и исследований генов долголетия RIKEN — токийско-кансайский маршрут биотеха старения.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Токио",
+   "Осака",
+   "Киото"
+  ],
+  "companies": [
+   "FUJIFILM",
+   "Healios K.K.",
+   "Eisai",
+   "Shiseido",
+   "Kaneka",
+   "Rohto",
+   "Kyoto University / CiRA",
+   "RIKEN Wako",
+   "Cellusion",
+   "Metcela"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "japan-bubble-tea-coffee-expedition",
+  "country": "jp",
+  "sector": "food",
+  "title": "Бабл-ти и кофейная индустрия Японии",
+  "eyebrow": "Бизнес-делегации в Японию",
+  "positioning": "От музея кофе UCC в Кобе и специализированной обжарки %Arabica в Киото до флагманской Starbucks Reserve Roastery в Токио — кофейная культура Японии от завода до чашки.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Кобе",
+   "Осака",
+   "Киото",
+   "Токио"
+  ],
+  "companies": [
+   "UCC Ueshima Coffee",
+   "Suntory / BOSS Coffee",
+   "% Arabica",
+   "Ogawa Coffee",
+   "Starbucks Reserve Roastery Nakameguro",
+   "Blue Bottle Japan",
+   "Doutor Coffee",
+   "Gong Cha Japan"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "thailand-retail-expedition",
+  "country": "th",
+  "sector": "consumer",
+  "title": "Ритейл Таиланда: конвиниенс, phygital и B2B-опт",
+  "eyebrow": "Бизнес-делегации в Таиланд",
+  "positioning": "От крупнейшей сети 7-Eleven после Японии до phygital-ритейла ICONSIAM и цифровизации гипермаркетов Big C — весь тайский ритейл в пределах Бангкока.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Бангкок"
+  ],
+  "companies": [
+   "CP All",
+   "Central Retail Corporation",
+   "Siam Piwat (ICONSIAM)",
+   "The Mall Group / Siam Paragon",
+   "Makro (CP Axtra)",
+   "Lotus's (CP Axtra)",
+   "Big C (BJC)",
+   "HomePro",
+   "CP Axtra — Technology Center"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "thailand-food-dairy-expedition",
+  "country": "th",
+  "sector": "food",
+  "title": "Продукты питания и молочная промышленность Таиланда",
+  "eyebrow": "Бизнес-делегации в Таиланд",
+  "positioning": "От штаб-квартиры CPF и крупнейшего в мире переработчика тунца Thai Union до альт-протеиновых стартапов Таиланда — с однодневным выездом в Самутсакхон.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Бангкок",
+   "Самутсакхон"
+  ],
+  "companies": [
+   "Charoen Pokphand Foods (CPF)",
+   "Thai Union Group",
+   "SPACE-F",
+   "Betagro",
+   "Dutch Mill",
+   "NR Instant Produce (NRF)",
+   "More Meat",
+   "Foremost / FrieslandCampina Thailand",
+   "Meiji Thailand"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "thailand-dark-kitchen-delivery-expedition",
+  "country": "th",
+  "sector": "internet",
+  "title": "Central/Dark Kitchen и быстрая доставка еды в Таиланде",
+  "eyebrow": "Бизнес-делегации в Таиланд",
+  "positioning": "От доминирующего супер-приложения LINE MAN Wongnai до облачных кухонь CP Group — вся доставка еды Бангкока в одном маршруте, без перелётов.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Бангкок"
+  ],
+  "companies": [
+   "LINE MAN Wongnai",
+   "Grab Thailand (GrabFood)",
+   "foodpanda Thailand",
+   "Robinhood (SCB)",
+   "Freshket",
+   "CloudEats",
+   "CP Cloud Kitchen",
+   "Shopee Food",
+   "True Digital"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "thailand-tech-internet-giants-expedition",
+  "country": "th",
+  "sector": "internet",
+  "title": "Интернет-гиганты Таиланда: ИИ, мессенджеры, e-commerce",
+  "eyebrow": "Бизнес-делегации в Таиланд",
+  "positioning": "От тайской LLM Typhoon (SCB 10X) до платежей TrueMoney и голосового AI Botnoi — весь тайский tech-стек в Бангкоке.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Бангкок"
+  ],
+  "companies": [
+   "SCB 10X / SCB Abacus",
+   "Sertis",
+   "LINE Thailand",
+   "Amity Solutions",
+   "Lazada Thailand",
+   "Shopee Thailand",
+   "Central JD",
+   "TikTok Shop Thailand",
+   "TrueMoney (Ascend Group)",
+   "Botnoi"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "thailand-beauty-industry-expedition",
+  "country": "th",
+  "sector": "consumer",
+  "title": "Косметика и бьюти-технологии Таиланда",
+  "eyebrow": "Бизнес-делегации в Таиланд",
+  "positioning": "От крупнейшего масс-бренда Mistine до премиального спа-бренда HARNN и производства Eucerin — тайская бьюти-индустрия целиком, в пределах Бангкока.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Бангкок"
+  ],
+  "companies": [
+   "Better Way (Mistine)",
+   "Karmarts",
+   "Srichand (SNP)",
+   "Beauty Buffet",
+   "HARNN",
+   "Divana",
+   "Provamed / Greater Pharma",
+   "Oriental Princess",
+   "Cute Press",
+   "Beiersdorf Thailand (Eucerin)"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "thailand-longevity-biotech-expedition",
+  "country": "th",
+  "sector": "medtech",
+  "title": "Лонгевити Таиланда — региональный лидер ЮВА",
+  "eyebrow": "Бизнес-делегации в Таиланд",
+  "positioning": "От научного wellness BDMS (биовозраст, эпигенетика) до крупнейшего в Таиланде банка стволовых клеток MEDEZE — региональный лидер лонгевити-индустрии ЮВА.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Бангкок",
+   "Накхонпатхом"
+  ],
+  "companies": [
+   "BDMS Wellness Clinic",
+   "VitalLife Scientific Wellness Center (Bumrungrad)",
+   "MEDEZE Group",
+   "VAANAA Longevity Clinic",
+   "RAKxa Integrative Wellness",
+   "Mousai Wellness Center",
+   "Boston Health Longevity",
+   "Vega Clinic"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "thailand-bubble-tea-coffee-expedition",
+  "country": "th",
+  "sector": "food",
+  "title": "Бабл-ти и кофейная индустрия Таиланда",
+  "eyebrow": "Бизнес-делегации в Таиланд",
+  "positioning": "От штаб-квартиры Café Amazon (5000+ точек в мире) до культового тайского чая ChaTraMue и сетей бабл-ти — тайская культура напитков в Бангкоке.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Бангкок"
+  ],
+  "companies": [
+   "Café Amazon (PTT OR)",
+   "Inthanin (Bangchak)",
+   "ChaTraMue",
+   "Karun Thai Tea",
+   "Pacamara",
+   "Roots Coffee",
+   "Class Café",
+   "True Coffee",
+   "Fire Tiger",
+   "KOI Thé Thailand",
+   "Gong Cha Thailand"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "vietnam-retail-expedition",
+  "country": "vn",
+  "sector": "consumer",
+  "title": "Ритейл Вьетнама: от MWG до WinCommerce",
+  "eyebrow": "Бизнес-делегации во Вьетнам",
+  "positioning": "От омниканальной сети MWG (Bách Hóa Xanh, Điện Máy Xanh) в Хошимине до штаб-квартиры WinCommerce (WinMart/WinMart+) в Ханое — вьетнамский ритейл через два города.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Хошимин",
+   "Ханой"
+  ],
+  "companies": [
+   "Thế Giới Di Động / MWG",
+   "FPT Retail / Long Châu",
+   "Saigon Co.op",
+   "Central Retail Vietnam (GO!/Tops)",
+   "AEON Vietnam",
+   "WinCommerce",
+   "Circle K / GS25 Vietnam",
+   "Con Cưng"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "vietnam-food-dairy-expedition",
+  "country": "vn",
+  "sector": "food",
+  "title": "Продукты питания и молочная промышленность Вьетнама",
+  "eyebrow": "Бизнес-делегации во Вьетнам",
+  "positioning": "От мега-завода Vinamilk Industry 4.0 в Бинь Зыонге до высокотехнологичных ферм TH True Milk в Нгеане — молочная промышленность Вьетнама через три региона.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 7,
+  "cities": [
+   "Хошимин",
+   "Виня",
+   "Ханой"
+  ],
+  "companies": [
+   "Vinamilk",
+   "Nutifood",
+   "Masan Consumer",
+   "Vissan",
+   "Dutch Lady (FrieslandCampina)",
+   "TH True Milk",
+   "Acecook Vietnam"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "vietnam-dark-kitchen-delivery-expedition",
+  "country": "vn",
+  "sector": "internet",
+  "title": "Central/Dark Kitchen и быстрая доставка еды во Вьетнаме",
+  "eyebrow": "Бизнес-делегации во Вьетнам",
+  "positioning": "От лидера рынка GrabFood Vietnam до EV-доставки Xanh SM — сегмент, прошедший через уход Baemin (2023) и Gojek (2024), с фокусом на выживших игроках.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 6,
+  "cities": [
+   "Хошимин",
+   "Ханой"
+  ],
+  "companies": [
+   "GrabFood Vietnam",
+   "ShopeeFood",
+   "Be (beGroup)",
+   "Loship",
+   "Xanh SM (GSM/VinFast)",
+   "Ahamove"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "vietnam-tech-internet-giants-expedition",
+  "country": "vn",
+  "sector": "internet",
+  "title": "Интернет-гиганты Вьетнама: ИИ, мессенджеры, e-commerce",
+  "eyebrow": "Бизнес-делегации во Вьетнам",
+  "positioning": "От кампуса Zalo (VNG, 79,6 млн MAU) в Хошимине до автомобильного AI VinAI и медицинского AI VinBrain (приобретён NVIDIA) в Ханое.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Хошимин",
+   "Ханой"
+  ],
+  "companies": [
+   "VNG Corporation",
+   "Tiki",
+   "MoMo",
+   "Trusting Social",
+   "VinAI",
+   "FPT AI / FPT Software",
+   "Viettel",
+   "VinBrain",
+   "Shopee/Lazada Vietnam",
+   "ELSA"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "vietnam-beauty-industry-expedition",
+  "country": "vn",
+  "sector": "consumer",
+  "title": "Косметика и бьюти-технологии Вьетнама",
+  "eyebrow": "Бизнес-делегации во Вьетнам",
+  "positioning": "От веганского skincare Cocoon и бьюти-e-commerce Hasaki в Хошимине до космецевтики Sao Thái Dương в Ханое — развивающийся, но быстрорастущий сегмент.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Хошимин",
+   "Ханой"
+  ],
+  "companies": [
+   "Cocoon Vietnam",
+   "Hasaki",
+   "Thorakao (Lan Hảo)",
+   "Saigon Cosmetics (SCC)",
+   "M.O.I Cosmetics",
+   "Lemonade Cosmetics",
+   "Sao Thái Dương",
+   "Milaganics"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "vietnam-longevity-biotech-expedition",
+  "country": "vn",
+  "sector": "medtech",
+  "title": "Лонгевити Вьетнама (anti-aging биотех) — тонкий сегмент",
+  "eyebrow": "Бизнес-делегации во Вьетнам",
+  "positioning": "Единственный в стране институт стволовых клеток и генной терапии Vinmec (партнёрства со Stanford/Karolinska) — тонкий, но академически серьёзный сегмент; рекомендуется сочетать с модулем 'Продукты питания' или 'Интернет-гиганты'.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 4,
+  "cities": [
+   "Ханой",
+   "Хошимин"
+  ],
+  "companies": [
+   "Vinmec Research Institute of Stem Cell & Gene Technology (VRISG)",
+   "Vinmec Center of Regenerative Medicine & Cell Therapy",
+   "VinUniversity",
+   "Medeze Vietnam"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "vietnam-bubble-tea-coffee-expedition",
+  "country": "vn",
+  "sector": "food",
+  "title": "Бабл-ти и кофейная индустрия Вьетнама",
+  "eyebrow": "Бизнес-делегации во Вьетнам",
+  "positioning": "От штаб-квартиры Highlands Coffee (≈928 точек) в Хошимине до 'Coffee City' Trung Nguyên Legend в Буонматхуоте — самый логистически сложный вьетнамский модуль, три города и два перелёта.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Хошимин",
+   "Буонматхуот",
+   "Ханой"
+  ],
+  "companies": [
+   "Phúc Long (Masan)",
+   "The Coffee House",
+   "Highlands Coffee",
+   "Katinat",
+   "Trung Nguyên Legend",
+   "Cộng Cà Phê",
+   "ToCoToCo",
+   "Phê La",
+   "King Coffee (TNI)"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "indonesia-retail-expedition",
+  "country": "id",
+  "sector": "consumer",
+  "title": "Ритейл Индонезии: от Indomaret до Blibli",
+  "eyebrow": "Бизнес-делегации в Индонезию",
+  "positioning": "От крупнейшей сети минимаркетов Indomaret (20 000+ точек) до O2O-интеграции Blibli — индонезийский ритейл целиком в Джакарте.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Джакарта"
+  ],
+  "companies": [
+   "Indomaret",
+   "Alfamart",
+   "MAP (Mitra Adiperkasa)",
+   "Erajaya (Erafone)",
+   "Transmart (CT Corp)",
+   "Matahari Department Store",
+   "AEON Indonesia",
+   "Ace Hardware (Kawan Lama)",
+   "Ranch Market",
+   "Blibli"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "indonesia-food-dairy-expedition",
+  "country": "id",
+  "sector": "food",
+  "title": "Продукты питания и молочная промышленность Индонезии",
+  "eyebrow": "Бизнес-делегации в Индонезию",
+  "positioning": "От автоматизации Indomie (Indofood) до 'Cimory Dairyland' в Семаранге и пионера UHT-упаковки Ultrajaya в Бандунге — через четыре региона Явы.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Джакарта",
+   "Чикаранг",
+   "Семаранг",
+   "Бандунг"
+  ],
+  "companies": [
+   "Indofood",
+   "Frisian Flag Indonesia",
+   "Kalbe Nutritionals",
+   "Cimory",
+   "Ultrajaya",
+   "Mayora Indah",
+   "Nestlé Indonesia",
+   "Garudafood"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "indonesia-dark-kitchen-delivery-expedition",
+  "country": "id",
+  "sector": "internet",
+  "title": "Central/Dark Kitchen и быстрая доставка еды в Индонезии",
+  "eyebrow": "Бизнес-делегации в Индонезию",
+  "positioning": "От штаб-квартиры GoTo (GoFood/GoKitchen) до крупнейшего оператора облачных кухонь Yummy Corp — вся доставка еды Джакарты, без перелётов.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Джакарта"
+  ],
+  "companies": [
+   "GoTo (GoFood/GoKitchen)",
+   "Grab Indonesia",
+   "Yummy Corp",
+   "Everplate",
+   "Hangry",
+   "Legit Group",
+   "Dailybox Group",
+   "ShopeeFood",
+   "Wahyoo"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "indonesia-tech-internet-giants-expedition",
+  "country": "id",
+  "sector": "internet",
+  "title": "Интернет-гиганты Индонезии: ИИ, мессенджеры, e-commerce",
+  "eyebrow": "Бизнес-делегации в Индонезию",
+  "positioning": "От единого кампуса GoTo (Gojek+Tokopedia+GoPay) до индонезийской LLM Sahabat-AI (консорциум Indosat/GoTo) — весь tech-стек Индонезии в Джакарте.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Джакарта"
+  ],
+  "companies": [
+   "GoTo (Gojek + Tokopedia + GoPay)",
+   "Grab Indonesia",
+   "Blibli",
+   "Kata.ai",
+   "Nodeflux",
+   "Prosa.ai",
+   "Sahabat-AI",
+   "Shopee Indonesia / TikTok Shop",
+   "Bukalapak"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "indonesia-beauty-industry-expedition",
+  "country": "id",
+  "sector": "consumer",
+  "title": "Косметика и бьюти-технологии Индонезии",
+  "eyebrow": "Бизнес-делегации в Индонезию",
+  "positioning": "От halal-tech инновационного центра Paragon (Wardah/Emina/Make Over) в Тангеранге до tech-driven skincare Avoskin в Джокьякарте.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Тангеранг",
+   "Джакарта",
+   "Джокьякарта"
+  ],
+  "companies": [
+   "Paragon Technology & Innovation (Wardah/Emina/Make Over)",
+   "Kahf (Paragon)",
+   "Martha Tilaar Group",
+   "Mustika Ratu",
+   "Somethinc (Beauty Haul)",
+   "Base",
+   "Avoskin (AVO Innovation)",
+   "ESQA Cosmetics",
+   "MS Glow",
+   "Rose All Day"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "indonesia-longevity-biotech-expedition",
+  "country": "id",
+  "sector": "medtech",
+  "title": "Лонгевити Индонезии — корпоративная регенеративная медицина",
+  "eyebrow": "Бизнес-делегации в Индонезию",
+  "positioning": "От инновационного кампуса KBIC Kalbe Farma (первое GMP-производство стволовых клеток в Индонезии) до опциональной клиники Regeneratia на Бали — сила сегмента в корпоративном производстве.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Джакарта",
+   "Бали"
+  ],
+  "companies": [
+   "Kalbe Farma — KBIC Campus",
+   "Prodia StemCell Indonesia (ProSTEM)",
+   "KalGen DNA (Kalbe)",
+   "KG Bio (Kalbe)",
+   "Prodia",
+   "Biothera Stem Cell Clinic (PIK2)",
+   "Bio Farma / Kimia Farma",
+   "Regeneratia Bali"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "indonesia-bubble-tea-coffee-expedition",
+  "country": "id",
+  "sector": "food",
+  "title": "Бабл-ти и кофейная индустрия Индонезии",
+  "eyebrow": "Бизнес-делегации в Индонезию",
+  "positioning": "От первого фудтех-единорога ЮВА Kopi Kenangan до лидера бабл-ти Chatime Indonesia — кофейная и чайная культура Джакарты в одном маршруте.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Джакарта"
+  ],
+  "companies": [
+   "Kopi Kenangan",
+   "Fore Coffee",
+   "Kopi Janji Jiwa",
+   "Tomoro Coffee",
+   "Chatime Indonesia (F&B Indonesia/Kawan Lama)",
+   "Esteh Indonesia",
+   "Haus!",
+   "Point Coffee (Indomaret)",
+   "Kenangan Coffee / Chigo"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "india-retail-expedition",
+  "country": "in",
+  "sector": "consumer",
+  "title": "Ритейл Индии: от Reliance до quick-commerce",
+  "eyebrow": "Бизнес-делегации в Индию",
+  "positioning": "От штаб-квартиры Reliance Retail (JioMart) в Мумбаи до 10-минутной quick-commerce Zepto и Blinkit в Дели-NCR — три города, взрывной рост q-commerce.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Мумбаи",
+   "Бенгалуру",
+   "Гуруграм",
+   "Дели-NCR"
+  ],
+  "companies": [
+   "Reliance Retail",
+   "DMart (Avenue Supermarts)",
+   "Zepto",
+   "Nykaa",
+   "Flipkart (Walmart)",
+   "BigBasket (Tata)",
+   "Swiggy Instamart",
+   "Blinkit (Eternal)",
+   "Vishal Mega Mart"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "india-food-dairy-expedition",
+  "country": "in",
+  "sector": "food",
+  "title": "Продукты питания и молочная промышленность Индии",
+  "eyebrow": "Бизнес-делегации в Индию",
+  "positioning": "От завода и музея Amul в Ананде до кооператива Nandini в Бенгалуру — самый сложный по логистике модуль Индии, три региона и три перелёта; упрощённая версия (только Гуджарат+Дели) доступна по запросу.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Ананд",
+   "Ахмадабад",
+   "Гандинагар",
+   "Дели-NCR",
+   "Бенгалуру"
+  ],
+  "companies": [
+   "Amul (GCMMF)",
+   "Amul Fed Dairy",
+   "Mother Dairy",
+   "Nestlé India",
+   "Nandini (KMF)",
+   "ITC Foods",
+   "Britannia",
+   "Hatsun Agro"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "india-dark-kitchen-delivery-expedition",
+  "country": "in",
+  "sector": "internet",
+  "title": "Central/Dark Kitchen и быстрая доставка еды в Индии",
+  "eyebrow": "Бизнес-делегации в Индию",
+  "positioning": "От штаб-квартиры и кухни Rebel Foods — крупнейшего в мире оператора dark kitchen — до Hyperpure B2B-поставок Zomato/Blinkit в Гуруграме.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Мумбаи",
+   "Бенгалуру",
+   "Гуруграм",
+   "Дели-NCR"
+  ],
+  "companies": [
+   "Rebel Foods",
+   "EatClub (Box8)",
+   "Swiggy Instamart",
+   "Curefoods (EatFit)",
+   "Licious",
+   "FreshMenu",
+   "Blinkit (Eternal)",
+   "Biryani By Kilo",
+   "Zepto Café"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "india-tech-internet-giants-expedition",
+  "country": "in",
+  "sector": "internet",
+  "title": "Интернет-гиганты Индии: ИИ, мессенджеры, e-commerce",
+  "eyebrow": "Бизнес-делегации в Индию",
+  "positioning": "От суверенных индийских LLM Sarvam AI и Krutrim (Ola) в Бенгалуру до листинговой AI-компании Fractal Analytics в Мумбаи — один перелёт, две tech-столицы.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Бенгалуру",
+   "Мумбаи"
+  ],
+  "companies": [
+   "Sarvam AI",
+   "Krutrim (Ola)",
+   "Flipkart (Walmart)",
+   "Meesho",
+   "Yellow.ai",
+   "Mad Street Den",
+   "Fractal Analytics",
+   "Qure.ai",
+   "Haptik (Reliance Jio)",
+   "Nykaa"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "india-beauty-industry-expedition",
+  "country": "in",
+  "sector": "consumer",
+  "title": "Косметика и бьюти-технологии Индии",
+  "eyebrow": "Бизнес-делегации в Индию",
+  "positioning": "От крупнейшего бьюти-маркетплейса Nykaa (AI-рекомендации, AR-примерка) в Мумбаи до листингового digital-first D2C Mamaearth в Дели-NCR.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Мумбаи",
+   "Дели-NCR"
+  ],
+  "companies": [
+   "Nykaa",
+   "Sugar Cosmetics",
+   "Purplle",
+   "Plum Goodness",
+   "Mamaearth (Honasa)",
+   "Forest Essentials",
+   "Swiss Beauty",
+   "Lakmé (HUL)",
+   "Good Glamm (MyGlamm)"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "india-longevity-biotech-expedition",
+  "country": "in",
+  "sector": "medtech",
+  "title": "Лонгевити и anti-aging биотех Индии",
+  "eyebrow": "Бизнес-делегации в Индию",
+  "positioning": "От стволовых клеток GIOSTAR и биомаркеров Decode Age в Бенгалуру до JCI-аккредитованных регенеративных программ Artemis Hospitals в Дели-NCR; упрощённая версия (Бенгалуру+Мумбаи) доступна по запросу.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 9,
+  "cities": [
+   "Бенгалуру",
+   "Мумбаи",
+   "Дели-NCR"
+  ],
+  "companies": [
+   "GIOSTAR",
+   "Decode Age",
+   "Biocon / Syngene",
+   "StemRx (Navi Mumbai)",
+   "Reliance Life Sciences",
+   "Artemis Hospitals",
+   "The Anti-Aging Centre (TAC)",
+   "Apollo/Nova — Regenerative Direction"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "india-bubble-tea-coffee-expedition",
+  "country": "in",
+  "sector": "food",
+  "title": "Бабл-ти и кофейная индустрия Индии",
+  "eyebrow": "Бизнес-делегации в Индию",
+  "positioning": "От обжарочного производства Blue Tokai и farm-to-cup прослеживаемости в Дели до single-origin Araku Coffee и бабл-ти стартапа Boba Bhai в Бенгалуру.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Дели",
+   "Гуруграм",
+   "Бенгалуру",
+   "Мумбаи"
+  ],
+  "companies": [
+   "Blue Tokai Coffee Roasters",
+   "Sleepy Owl / Rage Coffee",
+   "Chaayos",
+   "AbCoffee",
+   "Third Wave Coffee",
+   "Araku Coffee",
+   "Tata Coffee / Starbucks India JV",
+   "Boba Bhai"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "malaysia-retail-expedition",
+  "country": "my",
+  "sector": "consumer",
+  "title": "Ритейл Малайзии: от Senheng до роботизированных складов",
+  "eyebrow": "Бизнес-экспедиции в Малайзию",
+  "positioning": "От флагманских шоурумов Senheng New Retail и роботизированного склада MR DIY до первого в стране безкассового магазина 7-Eleven на технологии CloudPick — весь малазийский tech-ритейл в Клэнг-Вэлли, без перелётов.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Куала-Лумпур"
+  ],
+  "companies": [
+   "Senheng New Retail Berhad",
+   "MR D.I.Y. Group — Robotic Warehouse",
+   "7-Eleven Malaysia — CloudPick Smart Store",
+   "AEON Co. (M) Bhd",
+   "99 Speed Mart Retail Holdings",
+   "KK Super Mart (KK Group)",
+   "Lotus's Stores (Malaysia)",
+   "Jaya Grocer",
+   "Padini Holdings Berhad",
+   "Eco-Shop Marketing Berhad"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "malaysia-food-dairy-expedition",
+  "country": "my",
+  "sector": "food",
+  "title": "Продукты питания и молочная промышленность Малайзии",
+  "eyebrow": "Бизнес-экспедиции в Малайзию",
+  "positioning": "От халяль-смарт-заводов Ajinomoto и Nestlé в Клэнг-Вэлли до Farm Fresh — крупнейшего производителя молока в стране с собственным агро/образовательным туристическим центром совместно с UPM в Джохоре.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Куала-Лумпур",
+   "Кулаи"
+  ],
+  "companies": [
+   "Ajinomoto (Malaysia) Berhad",
+   "Dutch Lady Milk Industries Berhad",
+   "Nestlé (Malaysia) Berhad",
+   "Sime Darby Oils / Sime Darby Plantation",
+   "Phuture Foods Sdn Bhd",
+   "Mamee-Double Decker (M) Berhad",
+   "Farm Fresh Berhad",
+   "Jemaluang Dairy Valley (JDV)"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "malaysia-dark-kitchen-delivery-expedition",
+  "country": "my",
+  "sector": "internet",
+  "title": "Central/Dark Kitchen и быстрая доставка еды в Малайзии",
+  "eyebrow": "Бизнес-экспедиции в Малайзию",
+  "positioning": "От GrabFood и GrabKitchen до локального пионера облачных кухонь Pop Meals (экс-Dahmakan) с AI/ML-операционной системой — один из самых сильных блоков Малайзии благодаря региональной штаб-квартире Grab.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Куала-Лумпур"
+  ],
+  "companies": [
+   "Grab (GrabFood / GrabKitchen)",
+   "foodpanda Malaysia",
+   "Pop Meals (formerly Dahmakan)",
+   "Cookhouse",
+   "GrabKitchen",
+   "KyoChon Malaysia",
+   "MyBurgerLab",
+   "Inside Scoop"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "malaysia-tech-internet-giants-expedition",
+  "country": "my",
+  "sector": "ai",
+  "title": "Интернет-гиганты Малайзии: суверенный ИИ, супер-приложения, e-commerce",
+  "eyebrow": "Бизнес-экспедиции в Малайзию",
+  "positioning": "Флагманский блок страны: региональная штаб-квартира Grab, суверенный AI-дата-центр YTL на чипах Nvidia Grace Blackwell (GB200) в Джохоре — марка программы, требует заблаговременного запроса допуска по безопасности.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Куала-Лумпур",
+   "Кулаи"
+  ],
+  "companies": [
+   "Grab — Regional Centre of Excellence",
+   "Touch 'n Go eWallet (TNG Digital)",
+   "Carsome Group",
+   "GXBank (Grab-led digital bank)",
+   "Aerodyne Group",
+   "Mindvalley",
+   "Shopee (Sea Group) — Malaysia",
+   "Lazada Malaysia",
+   "YTL AI Cloud / YTL Power International",
+   "Homegrown Fintech Cluster (Jirnexu/CompareHero, iPay88, Funding Societies)"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "malaysia-beauty-industry-expedition",
+  "country": "my",
+  "sector": "consumer",
+  "title": "Косметика и бьюти-технологии Малайзии",
+  "eyebrow": "Бизнес-экспедиции в Малайзию",
+  "positioning": "Малайзия — глобальный халяль-косметический хаб: от флагманского Wipro Skin Research & Innovation Centre в Клэнг-Вэлли до крупнейшего контрактного производителя парфюмерии Eng Kah в Пенанге.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 7,
+  "cities": [
+   "Куала-Лумпур",
+   "Пенанг"
+  ],
+  "companies": [
+   "Wipro Unza (Malaysia)",
+   "Elken Sdn Bhd (Elysyle/LUMIGEN)",
+   "Intercosmetic Asia Pacific Sdn Bhd",
+   "Furley Bioextracts Sdn Bhd",
+   "Global Cosmetics (Malaysia)",
+   "Eng Kah Corporation Berhad",
+   "Halal OEM Cluster (CL Cosmetic / TCT Nutraceuticals / Sky Resources)"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "malaysia-longevity-biotech-expedition",
+  "country": "my",
+  "sector": "medtech",
+  "title": "Малайзия: регенеративная медицина, банкинг стволовых клеток и геномика",
+  "eyebrow": "Бизнес-экспедиции в Малайзию",
+  "positioning": "Малайзия — не западная longevity-биотех сцена, а сильный кластер банкинга стволовых клеток и геномики в Cyberjaya/Клэнг-Вэлли: CryoCord, Cytopeutics, StemLife и единственная частная BSL-2 + cGMP лаборатория страны MGRC. Программа честно позиционируется как 'регенеративная медицина и геномика', а не 'лонгевити-биотех'.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Куала-Лумпур"
+  ],
+  "companies": [
+   "CryoCord Sdn Bhd",
+   "Cytopeutics Sdn Bhd",
+   "StemLife Berhad",
+   "Malaysian Genomics Resource Centre (MGRC)",
+   "Codon Genomics Sdn Bhd",
+   "Synamatix Sdn Bhd",
+   "Elixir Biotech / StemTech",
+   "National Stem Cell Centre (NSCC) / UKM Tissue Engineering Centre"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "malaysia-bubble-tea-coffee-expedition",
+  "country": "my",
+  "sector": "food",
+  "title": "Бабл-ти и кофейная индустрия Малайзии",
+  "eyebrow": "Бизнес-экспедиции в Малайзию",
+  "positioning": "Малайзия — региональный законодатель мод в tech-driven напитках: ZUS Coffee обогнала Starbucks по числу точек (743 против 320) благодаря приложению, дающему 70% продаж, а Tealive — крупнейшая сеть бабл-ти страны с 2017 года.",
+  "days": 6,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Куала-Лумпур"
+  ],
+  "companies": [
+   "ZUS Coffee",
+   "Tealive (Loob Holding)",
+   "Bask Bear Coffee (Loob Holding)",
+   "Chatime Malaysia (La Kaffa)",
+   "Gigi Coffee",
+   "Luckin Coffee (Malaysia entry)",
+   "Inside Scoop"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "uae-fintech-expedition",
+  "country": "ae",
+  "sector": "finance",
+  "title": "Финтех и цифровой банкинг ОАЭ: от Mashreq Neo до Wio Bank",
+  "eyebrow": "Бизнес-экспедиции в ОАЭ",
+  "positioning": "От пионеров цифрового банкинга Дубая (DIFC) до независимого финансового регулятора и цифровых банков Абу-Даби (ADGM) — вся финтех-инфраструктура ОАЭ за одну поездку.",
+  "days": 5,
+  "nights": 5,
+  "companiesCount": 11,
+  "cities": [
+   "Дубай",
+   "Абу-Даби"
+  ],
+  "companies": [
+   "Mashreq Bank",
+   "Emirates NBD",
+   "Visa Middle East & Central Asia",
+   "Mastercard Middle East & Africa",
+   "Astra Tech / Careem Pay",
+   "Bayzat",
+   "NymCard",
+   "Abu Dhabi Commercial Bank (ADCB)",
+   "Wio Bank",
+   "Abu Dhabi Global Market (ADGM)",
+   "Hub71 FinTech Cluster"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "uae-ai-tech-expedition",
+  "country": "ae",
+  "sector": "ai",
+  "title": "ИИ и технологии в ОАЭ: от G42 до региональных штаб-квартир Big Tech",
+  "eyebrow": "Бизнес-экспедиции в ОАЭ",
+  "positioning": "От государственного ИИ-чемпиона G42 и технохаба Hub71 в Абу-Даби до региональных штаб-квартир Google, AWS, Meta, Microsoft и TikTok в Dubai Internet City — вся ИИ- и tech-инфраструктура региона MENA в одной поездке.",
+  "days": 5,
+  "nights": 5,
+  "companiesCount": 11,
+  "cities": [
+   "Абу-Даби",
+   "Дубай"
+  ],
+  "companies": [
+   "G42",
+   "Hub71",
+   "Technology Innovation Institute (TII)",
+   "Google MENA",
+   "AWS (Amazon Web Services) MENA",
+   "Meta MENA",
+   "Microsoft MEA",
+   "Alibaba Cloud Middle East",
+   "TikTok MENA",
+   "Careem",
+   "Dubai Future Foundation"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "uae-logistics-ports-expedition",
+  "country": "ae",
+  "sector": "logistics",
+  "title": "Логистика и порты ОАЭ: DP World, Jebel Ali и грузовая авиация Дубая",
+  "eyebrow": "Бизнес-экспедиции в ОАЭ",
+  "positioning": "От крупнейшего портового оператора DP World и свободной зоны Jebel Ali до региональных штаб-квартир Maersk, DHL, FedEx и грузового флота Emirates SkyCargo — вся логистическая инфраструктура Дубая без единого перелёта.",
+  "days": 5,
+  "nights": 5,
+  "companiesCount": 10,
+  "cities": [
+   "Дубай"
+  ],
+  "companies": [
+   "DP World",
+   "Jebel Ali Free Zone (JAFZA)",
+   "Maersk Middle East",
+   "DHL Express MENA",
+   "FedEx Middle East",
+   "Aramex",
+   "Emirates SkyCargo",
+   "dnata",
+   "Dubai Multi Commodities Centre (DMCC)",
+   "Amazon.ae"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "uae-aviation-expedition",
+  "country": "ae",
+  "sector": "aerospace",
+  "title": "Авиация ОАЭ: от Emirates Engineering до Etihad и аэропортов Дубая и Абу-Даби",
+  "eyebrow": "Бизнес-экспедиции в ОАЭ",
+  "positioning": "От технического обслуживания флота Emirates и одного из самых загруженных аэропортов мира (DXB) до национального перевозчика Абу-Даби Etihad и его инженерного подразделения — вся авиационная экосистема ОАЭ за одну поездку.",
+  "days": 5,
+  "nights": 5,
+  "companiesCount": 11,
+  "cities": [
+   "Дубай",
+   "Абу-Даби"
+  ],
+  "companies": [
+   "Emirates Group",
+   "Emirates Engineering",
+   "flydubai",
+   "Dubai Airports (DXB)",
+   "Airbus Middle East",
+   "Boeing Middle East",
+   "dnata",
+   "Emirates Flight Training Academy",
+   "Etihad Airways",
+   "Etihad Engineering",
+   "Zayed International Airport"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "uae-realestate-expedition",
+  "country": "ae",
+  "sector": "realestate",
+  "title": "Недвижимость и девелопмент ОАЭ: от Emaar и Palm Jumeirah до острова Яс",
+  "eyebrow": "Бизнес-экспедиции в ОАЭ",
+  "positioning": "От застройщика Burj Khalifa Emaar Properties и создателя искусственных островов Nakheel до крупнейших международных консалтинговых компаний по недвижимости и девелопера острова Яс в Абу-Даби — вся индустрия недвижимости ОАЭ в одной поездке.",
+  "days": 5,
+  "nights": 5,
+  "companiesCount": 9,
+  "cities": [
+   "Дубай",
+   "Абу-Даби"
+  ],
+  "companies": [
+   "Emaar Properties",
+   "DAMAC Properties",
+   "Nakheel",
+   "Dubai Holding",
+   "Meraas",
+   "JLL MENA",
+   "CBRE MENA",
+   "Knight Frank MENA",
+   "Aldar Properties"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "uae-energy-green-tech-expedition",
+  "country": "ae",
+  "sector": "energy",
+  "title": "Энергетика и зелёные технологии ОАЭ: от ADNOC и Masdar до крупнейшего солнечного парка",
+  "eyebrow": "Бизнес-экспедиции в ОАЭ",
+  "positioning": "От государственной нефтегазовой ADNOC и разработчика Masdar City до крупнейшего в мире единого солнечного парка Mohammed bin Rashid Al Maktoum — весь энергопереход ОАЭ, от нефти до солнца, в одной поездке.",
+  "days": 5,
+  "nights": 5,
+  "companiesCount": 9,
+  "cities": [
+   "Абу-Даби",
+   "Дубай"
+  ],
+  "companies": [
+   "ADNOC",
+   "Masdar",
+   "Siemens Energy Middle East",
+   "TAQA (Abu Dhabi National Energy Company)",
+   "bp Middle East",
+   "DEWA (Dubai Electricity & Water Authority)",
+   "Shell Middle East",
+   "TotalEnergies Middle East",
+   "Mohammed bin Rashid Al Maktoum Solar Park"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "uae-retail-ecommerce-expedition",
+  "country": "ae",
+  "sector": "consumer",
+  "title": "Ритейл и e-commerce ОАЭ: от Noon до люксовых конгломератов Дубая",
+  "eyebrow": "Бизнес-экспедиции в ОАЭ",
+  "positioning": "От «арабского Amazon» Noon и крупнейшего оператора торговых центров Majid Al Futtaim до люксовых ритейл-конгломератов — партнёров LVMH, Chanel и Dior — весь ритейл-ландшафт Дубая, от масс-маркета до люкса, без единого перелёта.",
+  "days": 5,
+  "nights": 5,
+  "companiesCount": 10,
+  "cities": [
+   "Дубай"
+  ],
+  "companies": [
+   "Noon",
+   "Amazon.ae",
+   "Apple Middle East",
+   "Majid Al Futtaim",
+   "IKEA Middle East (Al-Futtaim)",
+   "Landmark Group",
+   "Chalhoub Group",
+   "Careem",
+   "InstaShop",
+   "LVMH Middle East"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-logistics-top10-expedition",
+  "country": "cn",
+  "sector": "logistics",
+  "title": "Топ-10 логистических компаний Китая",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "От крупнейшего в мире портового оператора COSCO Shipping и собственного грузового авиапарка SF Express до автоматизированных складов JD Logistics и логистической платформы Alibaba Cainiao — десять лидеров китайской логистики в четырёх городах.",
+  "days": 5,
+  "nights": 5,
+  "companiesCount": 10,
+  "cities": [
+   "Пекин",
+   "Шанхай",
+   "Ханчжоу",
+   "Шэньчжэнь"
+  ],
+  "companies": [
+   "Sinotrans",
+   "JD Logistics",
+   "China Railway Express (CRE)",
+   "COSCO Shipping",
+   "ZTO Express",
+   "YTO Express",
+   "STO Express",
+   "Deppon Logistics",
+   "Cainiao",
+   "SF Express / S.F. Holding"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-petrochemicals-guangdong-expedition",
+  "country": "cn",
+  "sector": "heavy",
+  "title": "Нефтехимия Китая: 6 крупнейших комплексов Гуандуна",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Шесть крупнейших и наиболее технологичных нефтехимических комплексов провинции Гуандун — от нового поколения интегрированного НПЗ Sinopec Zhongke до новейшего западного Steam Cracker BASF (пуск январь 2026) и стомиллиардного проекта ExxonMobil. Весь маршрут — в пределах одного кластера, без внутренних перелётов.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 6,
+  "cities": [
+   "Чжаньцзян",
+   "Маомин",
+   "Гуанчжоу",
+   "Хуэйчжоу"
+  ],
+  "companies": [
+   "Sinopec Zhongke (Guangdong) Refining",
+   "BASF Zhanjiang Verbund",
+   "Sinopec Maoming",
+   "Guangzhou Petrochemical (Sinopec)",
+   "CSPC (CNOOC and Shell Petrochemicals)",
+   "ExxonMobil Huizhou"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-waste-management-expedition",
+  "country": "cn",
+  "sector": "heavy",
+  "title": "Обращение с отходами Китая: Гуандун, Шанхай, Цзянсу",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Шесть крупнейших и наиболее технологичных компаний отрасли обращения с отходами — от переработки батарей NEV у GEM и архитектурной витрины отрасли Shenzhen Energy до крупнейшего в мире моно-завода энергоутилизации «Лаоган» в Шанхае и международной сети China Tianying/Urbaser в 30+ странах.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 6,
+  "cities": [
+   "Шэньчжэнь",
+   "Фошань",
+   "Гуандун",
+   "Шанхай",
+   "Хайань",
+   "Наньтун"
+  ],
+  "companies": [
+   "GEM Co., Ltd.",
+   "Shenzhen Energy Environmental",
+   "Grandblue Environment",
+   "China Everbright Environment",
+   "Shanghai Environment Group",
+   "China Tianying"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-film-industry-expedition",
+  "country": "cn",
+  "sector": "internet",
+  "title": "Киноиндустрия Китая: госгиганты, частные студии, tech-платформы",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Восемь ведущих компаний китайской киноиндустрии в трёх городах — от главной государственной киностудии страны China Film Group Corporation и крупнейшего частного производителя сериалов Zhejiang Huace до контент-подразделений Alibaba (Youku), Baidu (iQiyi) и Tencent (Penguin Pictures).",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Пекин",
+   "Шанхай",
+   "Ханчжоу"
+  ],
+  "companies": [
+   "China Film Group Corporation (CFGC)",
+   "Youku",
+   "Bona Film Group",
+   "Huayi Brothers",
+   "iQiyi",
+   "Shanghai Film Group (SFG)",
+   "Tencent Penguin Pictures (Tencent Video)",
+   "Zhejiang Huace Film & TV"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-global-brands-expedition",
+  "country": "cn",
+  "sector": "consumer",
+  "title": "Китайские бренды, покорившие мир",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Шесть ведущих компаний китайской fashion-индустрии — от Anta Sports (№3 в мире после Nike и Adidas, владелец Salomon и Wilson) и технологичных пуховиков Bosideng до «азиатского ответа Zara» Urban Revivo. Ядро маршрута — дельта реки Янцзы, связанная скоростными поездами без внутренних перелётов.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 6,
+  "cities": [
+   "Пекин",
+   "Шанхай",
+   "Чаншу",
+   "Ханчжоу",
+   "Нинбо",
+   "Гуанчжоу"
+  ],
+  "companies": [
+   "Li-Ning",
+   "Anta Sports",
+   "Bosideng",
+   "JNBY (Just Naturally Be Yourself)",
+   "Peacebird",
+   "Urban Revivo (UR)"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-fintech-giants-expedition",
+  "country": "cn",
+  "sector": "finance",
+  "title": "Финтех-гиганты Китая",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Восемь ведущих компаний финтех-индустрии Китая в четырёх городах — все пять «финтех-гигантов» (Ant Group, Tencent, JD Digits, Du Xiaoman, Lufax) плюс три значимые специализированные платформы (OneConnect, LexinFintech, East Money Information): платежи, цифровой банкинг, кредитование.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Пекин",
+   "Шэньчжэнь",
+   "Ханчжоу",
+   "Шанхай"
+  ],
+  "companies": [
+   "JD Digits (JD Technology)",
+   "Du Xiaoman Financial",
+   "Tencent",
+   "OneConnect",
+   "LexinFintech",
+   "Ant Group",
+   "Lufax",
+   "East Money Information"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "hotel-giants-china",
+  "country": "cn",
+  "sector": "hospitality",
+  "title": "Китайские гостиничные гиганты",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Визиты к семи крупнейшим гостиничным операторам Китая в четырёх городах — от государственных гигантов до биржевых лидеров нового формата.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 7,
+  "cities": [
+   "Шанхай",
+   "Ханчжоу",
+   "Гуанчжоу",
+   "Пекин"
+  ],
+  "companies": [
+   "Jin Jiang International",
+   "H World Group",
+   "GreenTree Hospitality Group",
+   "Atour (Yaduo Group)",
+   "Kaiyuan Hotel Group",
+   "Dossen Group",
+   "BTG Hotels Group"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "global-hospitality-china",
+  "country": "cn",
+  "sector": "hospitality",
+  "title": "Глобальные гостиничные сети в Китае",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Визиты к региональным офисам шести крупнейших мировых гостиничных сетей в Шанхае, дополненные кейс-визитами двух знаковых отелей и круглым столом о локализации глобального стандарта для китайского рынка.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Шанхай"
+  ],
+  "companies": [
+   "Marriott International (China)",
+   "Hilton (China)",
+   "IHG Hotels & Resorts (Greater China)",
+   "Accor (China)",
+   "Hyatt (Greater China)",
+   "Wyndham Hotels & Resorts (China)",
+   "Waldorf Astoria Shanghai on the Bund",
+   "Tomorrow Square Shanghai (JW Marriott / Ritz-Carlton case)"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "hongkong-luxury-legacy",
+  "country": "cn",
+  "sector": "hospitality",
+  "title": "Гонконгская школа отельного люкса",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Визиты к семейным гостиничным конгломератам Гонконга — наследие, частный капитал и клубное позиционирование вместо массового франчайзинга: контраст с масштабной франчайзинговой моделью материковых гостиничных гигантов Китая.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Гонконг"
+  ],
+  "companies": [
+   "Hongkong and Shanghai Hotels, Limited (The Peninsula)",
+   "Mandarin Oriental Hotel Group",
+   "Rosewood Hotel Group",
+   "Shangri-La Asia Limited",
+   "Langham Hospitality Group (Great Eagle Holdings)",
+   "Wharf Hotels",
+   "The Murray, a Niccolo Hotel Hong Kong"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "confectionery-expedition",
+  "country": "cn",
+  "sector": "food",
+  "title": "Confectionery Expedition",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Визиты в ведущие сети тортов и десертов Китая и на производство Maxim's. Прямой доступ к брендам, куда не попасть самостоятельно.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 8,
+  "cities": [
+   "Пекин",
+   "Шанхай",
+   "Шэньчжэнь",
+   "Цзянмэнь"
+  ],
+  "companies": [
+   "Holiland",
+   "Wedome",
+   "21Cake",
+   "Ganso",
+   "LeCake",
+   "85°C",
+   "Xingfu Xibing",
+   "Maxim's Cakes"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-ai-expedition",
+  "country": "cn",
+  "sector": "ai",
+  "title": "China AI Expedition",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Закрытые визиты в ведущие ИИ-компании Китая: от разработчиков LLM до технологических гигантов. Прямой доступ к компаниям, куда не попасть самостоятельно.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 10,
+  "cities": [
+   "Пекин",
+   "Шанхай",
+   "Ханчжоу",
+   "Шэньчжэнь"
+  ],
+  "companies": [
+   "Zhipu AI",
+   "Moonshot AI (Kimi)",
+   "Kuaishou",
+   "ByteDance",
+   "Baidu",
+   "SenseTime",
+   "Alibaba",
+   "DeepSeek",
+   "Tencent",
+   "BrainCo"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-dairy-smart-factories-expedition",
+  "country": "cn",
+  "sector": "food",
+  "title": "Умные молочные заводы Китая",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Визиты на пять самых автоматизированных молочных производств Китая и роботизированную ферму в пяти городах — от «маяковой фабрики» WEF Mengniu в Нинся до крупнейшего в мире завода охлаждённой продукции Bright Dairy в Шанхае. Маршрут «Север → Восток»: от сырья к потребителю.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 4,
+  "cities": [
+   "Хух-Хото",
+   "Иньчуань",
+   "Ухань",
+   "Нанкин",
+   "Шанхай"
+  ],
+  "companies": [
+   "Yili",
+   "Mengniu",
+   "Weigang Dairy",
+   "Bright Dairy"
+  ],
+  "startDate": null
+ },
+ {
+  "id": "china-glp1-peptides-expedition",
+  "country": "cn",
+  "sector": "medtech",
+  "title": "Китайский Ozempic: GLP-1 и пептидная фарма Китая",
+  "eyebrow": "Бизнес-делегации в Китай",
+  "positioning": "Визиты к шести ключевым игрокам китайского рынка GLP-1 в дельте Янцзы — от собственных разработчиков препаратов и первых производителей дженериков семаглутида до CDMO-гигантов, которые производят пептиды для мировых брендов. Фон тура: в марте 2026 года в Китае истёк патент на семаглутид, и вокруг препарата началась гонка.",
+  "days": 5,
+  "nights": 6,
+  "companiesCount": 6,
+  "cities": [
+   "Шанхай",
+   "Чанчжоу",
+   "Сучжоу",
+   "Ханчжоу",
+   "Тайчжоу"
+  ],
+  "companies": [
+   "WuXi AppTec",
+   "Innovent",
+   "Huadong Medicine",
+   "Jiuyuan Gene",
+   "Langhua",
+   "Sciwind"
+  ],
+  "startDate": null
+ }
+]

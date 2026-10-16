@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "Global Tech Tour",
+    "slug": "gtt-app",
+    "scheme": "gtt",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "ru.globaltechtour.app"
+    },
+    "android": {
+      "package": "ru.globaltechtour.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#1a73e8",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "output": "single",
+      "name": "Global Tech Tour",
+      "themeColor": "#1a73e8"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    }
+  }
+}

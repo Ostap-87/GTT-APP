@@ -20,6 +20,17 @@
 - `design/previews/` — PNG экранов и листы-обзоры по ролям (`_делегат.jpg`, `_координатор.jpg`, `_компания.jpg`):
   их и показывай пользователю в чате после каждой правки.
 
+## Приложение (Expo) — `mobile/`
+
+- React Native + Expo SDK 58, Expo Router (`mobile/src/app/`); описание и команды — `mobile/README.md`.
+- Пакеты — только `npx expo install`; перед API Expo читать документацию своей версии (`docs.expo.dev/llms.txt`), не память.
+- Перед пушем: `npm run typecheck` и `npm run export:web` в `mobile/` — без ошибок; снимки экранов для чата — Playwright
+  по веб-сборке (`dist/`), лист — `design/previews/_приложение.jpg`.
+- Каталог — `node tools/sync-catalog.mjs` из клона SINOTECH (цен в каталоге нет); тестовая поездка — `src/data/trip*.ts`,
+  только вымышленные делегаты.
+- На телефон — GitHub Actions «Приложение — Expo Go» (секрет `EXPO_TOKEN`), QR-код в сводке прогона.
+- Места на диске мало: после установки пакетов `npm cache clean --force`.
+
 ## Мини-программа WeChat и сервер
 
 - `miniprogram/` — нативный WXML/WXSS/JS без сборщика (решение 15.10.2026: что в репозитории, то и в WeChat).

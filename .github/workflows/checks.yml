@@ -3,7 +3,7 @@ name: Проверки
 on:
   push:
     branches: [main]
-    paths: ['server/**', 'miniprogram/**', 'tools/mp-check.mjs', '.github/workflows/checks.yml']
+    paths: ['server/**', 'miniprogram/**', 'mobile/**', 'tools/mp-check.mjs', '.github/workflows/checks.yml']
   pull_request:
 
 jobs:
@@ -18,3 +18,22 @@ jobs:
         run: npm test --prefix server
       - name: Мини-программа — статика и сценарии
         run: node tools/mp-check.mjs
+
+  mobile:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - name: Зависимости
+        run: npm ci
+      - name: Приложение — типы
+        run: npx tsc --noEmit
+      - name: Приложение — сборка веб-версии
+        run: npx expo export --platform web
