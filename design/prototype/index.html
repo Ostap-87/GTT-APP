@@ -475,7 +475,65 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     ],
   };
   const placeById = (id) => Object.values(PLACES).flat().find((x) => x.id === id);
-  const DIETS = ['Без ограничений', 'Вегетарианское', 'Без свинины', 'Халяль', 'Без острого', 'Аллергия на морепродукты'];
+  // ——— Профиль делегата (решение пользователя 16.10.2026): питание — несколько вариантов, аллергия — на что именно ———
+  // [ключ, по-русски, по-китайски — для сводки ресторану и карточки официанту]; переводы проверит переводчик группы
+  const DIET_OPTS = [
+    ['none', 'Без ограничений', '没有饮食限制'], ['veg', 'Вегетарианское', '素食'], ['vegan', 'Веганское', '纯素'],
+    ['pork', 'Без свинины', '不吃猪肉'], ['beef', 'Без говядины', '不吃牛肉'], ['halal', 'Халяль', '清真'], ['kosher', 'Кошер', '犹太洁食'],
+    ['sea', 'Без рыбы и морепродуктов', '不吃鱼和海鲜'], ['spicy', 'Без острого', '不吃辣'], ['gluten', 'Без глютена', '无麸质'],
+    ['lactose', 'Без лактозы', '无乳糖'], ['sugar', 'Без сахара', '无糖'],
+  ];
+  const ALLERGENS = [
+    ['peanut', 'Арахис', '花生'], ['nuts', 'Орехи', '坚果'], ['shellfish', 'Креветки, крабы, моллюски', '虾、蟹和贝类'], ['fish', 'Рыба', '鱼'],
+    ['milk', 'Молоко', '牛奶和乳制品'], ['egg', 'Яйца', '鸡蛋'], ['wheat', 'Пшеница (глютен)', '小麦（麸质）'], ['soy', 'Соя', '大豆'],
+    ['sesame', 'Кунжут', '芝麻'], ['celery', 'Сельдерей', '芹菜'], ['mustard', 'Горчица', '芥末'], ['msg', 'Глутамат натрия', '味精'],
+    ['honey', 'Мёд', '蜂蜜'], ['citrus', 'Цитрусовые', '柑橘类水果'],
+  ];
+  const DIET_BY = Object.fromEntries(DIET_OPTS.map((x) => [x[0], x]));
+  const ALG_BY = Object.fromEntries(ALLERGENS.map((x) => [x[0], x]));
+  const HEALTH_OPTS = ['Тяжело долго ходить', 'Укачивает в транспорте', 'Нужен холодильник для лекарств', 'Нужен номер на нижнем этаже'];
+  const INTERESTS = ['Собственные марки', 'Доставка', 'Логистика и склады', 'Автоматизация', 'Поставщики', 'Маркетинг', 'Инвестиции', 'Технологии'];
+  const ENG = { no: 'Не говорю', basic: 'Базовый', fluent: 'Свободно' };
+  const freshProfile = () => ({ diets: [], algOn: false, alg: [], algOther: '', severe: false, room: 'double', mate: 'd7', eng: 'basic', msg: 'Telegram', interests: ['Собственные марки', 'Доставка'], health: [], healthNote: '', consent: false, saved: false });
+  // Профили остальных делегатов — вымышленные; у d16 и d17 профиль ещё не заполнен (видно «Напомнить»)
+  const PF = (diets, alg, severe, room, mate, eng, msg, interests, health, healthNote) => ({ diets, algOn: alg.length > 0, alg, algOther: '', severe, room, mate, eng, msg, interests, health: health || [], healthNote: healthNote || '', consent: true, saved: true });
+  const PROFILES = {
+    d2: PF(['none'], [], false, 'single', '', 'fluent', 'Telegram', ['Доставка', 'Технологии']),
+    d3: PF(['veg'], [], false, 'double', 'd13', 'basic', 'WhatsApp', ['Поставщики', 'Собственные марки']),
+    d4: PF(['pork'], ['shellfish'], false, 'single', '', 'fluent', 'Telegram', ['Инвестиции', 'Автоматизация']),
+    d5: PF(['spicy'], ['peanut', 'sesame'], true, 'double', 'd9', 'fluent', 'Telegram', ['Маркетинг', 'Доставка'], [], 'Ношу с собой адреналин (EpiPen)'),
+    d6: PF(['halal'], [], false, 'single', '', 'no', 'WhatsApp', ['Логистика и склады', 'Автоматизация']),
+    d7: PF(['none'], [], false, 'double', 'd1', 'basic', 'Telegram', ['Поставщики', 'Собственные марки']),
+    d8: PF(['none'], [], false, 'double', 'd14', 'basic', 'Telegram', ['Логистика и склады'], ['Укачивает в транспорте']),
+    d9: PF(['spicy', 'lactose'], [], false, 'double', 'd5', 'fluent', 'Telegram', ['Маркетинг', 'Технологии']),
+    d10: PF(['none'], [], false, 'single', '', 'basic', 'WhatsApp', ['Поставщики', 'Технологии']),
+    d11: PF(['vegan'], ['nuts'], false, 'double', 'd18', 'fluent', 'Telegram', ['Собственные марки', 'Поставщики']),
+    d12: PF(['pork', 'beef'], [], false, 'single', '', 'no', 'WhatsApp', ['Автоматизация', 'Поставщики'], ['Тяжело долго ходить']),
+    d13: PF(['veg'], ['shellfish'], false, 'double', 'd3', 'basic', 'Telegram', ['Логистика и склады', 'Поставщики']),
+    d14: PF(['spicy'], [], false, 'double', 'd8', 'basic', 'Telegram', ['Автоматизация', 'Технологии']),
+    d15: PF(['none'], [], false, 'single', '', 'fluent', 'Telegram', ['Инвестиции', 'Технологии']),
+    d18: PF(['sea'], [], false, 'double', 'd11', 'fluent', 'Telegram', ['Маркетинг', 'Технологии']),
+  };
+  const profileOf = (id) => (id === 'd1' ? S.profile : PROFILES[id] || null);
+  const dietNames = (p) => p.diets.map((k) => DIET_BY[k][1]);
+  const algNames = (p) => (p.algOn ? p.alg.map((k) => ALG_BY[k][1]).concat(p.algOther.trim() ? [p.algOther.trim()] : []) : []);
+
+  // ——— Переезды (решение пользователя 16.10.2026): координатор отмечает «Выехали» и «Прибыли», время в пути — в журнал ———
+  const LEGS = [
+    { id: 'l1', from: 'Отель', to: 'JD.com', plan: '09:30', min: 55 },
+    { id: 'l2', from: 'JD.com', to: 'Обед · кантонская кухня', plan: '12:40', min: 20 },
+    { id: 'l3', from: 'Обед', to: 'Meituan', plan: '14:45', min: 45 },
+    { id: 'l4', from: 'Meituan', to: 'Ужин · хого', plan: '18:15', min: 45 },
+    { id: 'l5', from: 'Ужин', to: 'Отель', plan: '21:00', min: 30 },
+  ];
+  const PAST_LEGS = [
+    { day: 'Пн, 9 ноября', from: 'Аэропорт', to: 'Отель', dep: '14:20', arr: '15:35', min: 60 },
+    { day: 'Пн, 9 ноября', from: 'Отель', to: 'Ужин · пекинская утка', dep: '19:02', arr: '19:24', min: 20 },
+  ];
+  const toMin = (s) => { const [h, m] = s.split(':').map(Number); return h * 60 + m; };
+  const fromMin = (n) => { const x = ((n % 1440) + 1440) % 1440; return `${String(Math.floor(x / 60)).padStart(2, '0')}:${String(x % 60).padStart(2, '0')}`; };
+  const dur = (m) => (m < 60 ? `${m} мин` : `${Math.floor(m / 60)} ч${m % 60 ? ` ${m % 60} мин` : ''}`);
+  const diffTxt = (fact, plan) => { const d = fact - plan; return d === 0 ? 'ровно по плану' : d > 0 ? `+${d} мин к плану` : `на ${-d} мин быстрее плана`; };
 
   // Тексты страницы компании (мини-программа WeChat)
   const H = {
@@ -560,7 +618,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   const addHours = (t, h) => { const [hh, mm] = t.split(':').map(Number); return `${String(hh + h).padStart(2, '0')}:${String(mm).padStart(2, '0')}`; };
 
   // ——— Состояние ———
-  const KEY = 'gtt-proto-v6';
+  const KEY = 'gtt-proto-v7';
   function fresh() {
     return {
       role: 'delegate', viewAs: null,
@@ -583,7 +641,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       downloaded: { memo: true, program: true, companies: false, jd: false },
       checklist: { passport: true, tickets: true, interests: true, memo: false },
       intros: {}, hostSubscribed: false, hostNotice: null, dNotices: [],
-      diet: null, reviews: [], reviewMode: 'text', videoAttached: false, reviewConsent: true,
+      profile: freshProfile(), cnotes: {}, legs: {}, reviews: [], reviewMode: 'text', videoAttached: false, reviewConsent: true,
       guideLive: false, listening: false, subtitles: true, voiceOut: true, chat: [], tIdx: { ru: 0, zh: 0 },
       cityCat: 'shop', place: null, out: null,
       ag: { country: 'all', month: 'all' }, depTaken: {},
@@ -740,7 +798,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     S.dNotices.forEach((n) => { n.seen = true; }); // экран «Сегодня» открыт — значок на вкладке гаснет
     const ann = S.announcements.find((a) => a.toD);
     const next = S.departed
-      ? `<section class="card dark"><span class="muted">Автобус №2 в пути</span><div class="big">JD.COM · ${S.jd.start}</div><span class="muted">Прибытие около 10:25 · компания знает, что вы едете</span>${btn('taxi', `${icon('pin', 18)} Адрес по-китайски`, 'white')}</section>`
+      ? `<section class="card dark"><span class="muted">Автобус №2 в пути · выехали в ${(S.legs.l1 || {}).dep || '09:30'}</span><div class="big">JD.COM · ${S.jd.start}</div><span class="muted">Прибытие около 10:25 · компания знает, что вы едете</span>${btn('taxi', `${icon('pin', 18)} Адрес по-китайски`, 'white')}</section>`
       : `<section class="card dark"><span class="muted">Через 25 минут</span><div class="big">ВЫЕЗД В 09:30</div><span class="muted">Лобби отеля · автобус №2 · затем JD.com в ${S.jd.start}</span>
         <div class="btns split">${inBus ? `<button type="button" class="btn done" data-act="busToggle">${icon('check', 18)} Вы в автобусе</button>` : btn('busToggle', `${icon('bus', 18)} Я в автобусе`)}${btn('taxi', 'Адрес для такси', 'white')}</div></section>`;
     const plan = dayEvents(1).map((e) => eventRow(1, e)).join('');
@@ -853,10 +911,10 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
         ['interests', 'Отрасль и интересы', 'Ритейл, собственные марки, доставка'],
         ['memo', 'Прочитать памятку по Китаю', 'Связь, оплата, этикет'],
       ].map(([k, t, sub]) => `<div class="check tap" data-act="tick" data-arg="${k}"><span class="box ${S.checklist[k] ? 'on' : ''}">${S.checklist[k] ? icon('check', 14) : ''}</span><div><div class="t">${t}</div><div class="s">${sub}</div></div><span></span></div>`).join('');
-      const done = Object.values(S.checklist).filter(Boolean).length + (myQ ? 1 : 0) + (S.diet ? 1 : 0);
+      const done = Object.values(S.checklist).filter(Boolean).length + (myQ ? 1 : 0) + (S.profile.saved ? 1 : 0);
       body = `<section class="card"><div class="title-row"><h3>Подготовка · ${done} из 6</h3></div><div class="bar"><span style="width:${Math.round(done / 6 * 100)}%"></span></div>
         <div class="list">${items}
-          <div class="check tap" data-act="diet"><span class="box ${S.diet ? 'on' : ''}">${S.diet ? icon('check', 14) : ''}</span><div><div class="t">Предпочтения в еде</div><div class="s">${S.diet ? `${esc(S.diet)} · рестораны предупреждены` : 'Учтём в забронированных ресторанах'}</div></div>${btn('diet', S.diet ? 'Изменить' : 'Указать', 'light small')}</div>
+          <div class="check tap" data-act="openProfile"><span class="box ${S.profile.saved ? 'on' : ''}">${S.profile.saved ? icon('check', 14) : ''}</span><div><div class="t">Мой профиль: питание, аллергии, номер</div><div class="s">${S.profile.saved ? `${esc(foodLine(S.profile))} · рестораны предупреждены` : 'Учтём в отеле и во всех забронированных ресторанах'}</div></div>${btn('openProfile', S.profile.saved ? 'Изменить' : 'Заполнить', 'light small')}</div>
           <div class="check tap" data-act="askQ"><span class="box ${myQ ? 'on' : ''}">${myQ ? icon('check', 14) : ''}</span><div><div class="t">Вопросы компаниям</div><div class="s">${myQ ? `Задано: ${myQ}. Координатор переведёт на китайский` : 'Компании получат их заранее, на китайском'}</div></div>${btn('askQ', myQ ? 'Ещё' : 'Задать', 'light small')}</div></div></section>`;
     } else if (stage === 'during') {
       body = `<section class="card"><h3>День 2 из 6</h3><div class="bar"><span style="width:33%"></span></div><span class="muted">Пройдено визитов: 0 из 9 · сегодня JD.com и Meituan</span></section>
@@ -883,10 +941,90 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
           ${S.followups.map((f) => `<div class="li two"><div><div class="t">${f.company} · ${esc(f.typeRu)}</div><div class="s">${f.status === 'new' ? 'у координатора' : 'передано компании'}</div></div></div>`).join('')}</section>
         <section class="card"><h3>Фото, видео и отчёт</h3><span class="muted">Откроются 14 ноября, после возвращения группы.</span></section>`;
     }
-    return `${delegateHead(`${me.ru} · делегат`, 'Моя поездка')}<div class="body">${seg}${body}</div>`;
+    return `${delegateHead(`${me.ru} · делегат`, 'Моя поездка')}<div class="body">${profileCard()}${seg}${body}</div>`;
+  }
+
+  // ——— Профиль делегата ———
+  function foodLine(p) {
+    const d = dietNames(p).join(', ');
+    const a = algNames(p);
+    return [d || 'питание не указано', a.length ? `аллергия: ${a.join(', ')}${p.severe ? ' (серьёзная)' : ''}` : ''].filter(Boolean).join(' · ');
+  }
+  function profileCard() {
+    const p = S.profile;
+    return `<section class="card tap" data-act="openProfile" style="flex-direction:row;align-items:center;gap:10px"><span class="avatar blue">${initials(me.lat)}</span><div style="flex:1;min-width:0"><div class="t" style="font-weight:700">Мой профиль</div><div class="muted">${p.saved ? esc(foodLine(p)) : 'Питание, аллергии, номер, интересы — заполните до поездки'}</div></div><span class="chip ${p.saved ? 'ok' : 'warn'}">${p.saved ? 'заполнен' : 'заполнить'}</span></section>`;
+  }
+  const pickBtn = (act, key, label, on) => `<button type="button" class="pick" data-act="${act}" data-arg="${esc(key)}" aria-pressed="${on}">${esc(label)}</button>`;
+  const segBtns = (act, opts, cur) => `<div class="seg light">${opts.map(([k, l]) => `<button type="button" data-act="${act}" data-arg="${k}" aria-pressed="${cur === k}">${l}</button>`).join('')}</div>`;
+  const healthGiven = (p) => (p.algOn && (p.alg.length > 0 || p.algOther.trim() !== '')) || p.health.length > 0 || p.healthNote.trim() !== '';
+  function dProfile() {
+    const p = S.profile;
+    const mates = D.filter((d) => d.id !== 'd1').map((d) => `<option value="${d.id}" ${p.mate === d.id ? 'selected' : ''}>${esc(d.ru)}</option>`).join('');
+    return `${delegateHead(`${me.ru} · делегат`, 'Мой профиль')}<div class="body">
+      <section class="card" style="flex-direction:row;align-items:center;gap:12px"><span class="avatar blue" style="width:48px;height:48px;font-size:16px">${initials(me.lat)}</span><div style="flex:1;min-width:0"><div class="t" style="font-weight:700">${me.ru}</div><div class="muted">${me.roleRu} · ${me.coRu} · ${me.cityRu}</div></div></section>
+      <p class="muted" style="margin:0">Профиль целиком видит координатор — так он сразу понимает, кто есть кто. Компании видят только имя, должность и компанию; рестораны — питание и аллергии группы без имён.</p>
+      <section class="card"><h3>Питание</h3><span class="muted">Можно выбрать несколько вариантов</span><div class="chips">${DIET_OPTS.map(([k, l]) => pickBtn('pDiet', k, l, p.diets.includes(k))).join('')}</div></section>
+      <section class="card"><h3>Аллергия</h3>${segBtns('pAlgOn', [['0', 'Нет'], ['1', 'Есть']], p.algOn ? '1' : '0')}
+        ${p.algOn ? `<span class="muted">На что — отметьте всё</span><div class="chips">${ALLERGENS.map(([k, l]) => pickBtn('pAlg', k, l, p.alg.includes(k))).join('')}</div>
+        <label class="field" for="p_algOther">Другое<input id="p_algOther" data-field="p_algOther" value="${esc(p.algOther)}" placeholder="Например: киви, клубника"></label>
+        <span class="muted">Насколько серьёзно</span>${segBtns('pSev', [['0', 'Лёгкая'], ['1', 'Серьёзная, опасна для жизни']], p.severe ? '1' : '0')}
+        ${p.severe ? '<div class="card warn" style="padding:10px 12px">Координатор и гид будут знать; в ресторанах блюда для вас готовят отдельно. Лекарства возьмите с собой.</div>' : ''}
+        ${p.alg.length || p.algOther.trim() ? btn('waiterCard', `${icon('translate', 18)} Карточка для официанта по-китайски`, 'light full') : ''}` : ''}</section>
+      <section class="card"><h3>Проживание</h3>${segBtns('pRoom', [['single', 'Одноместный номер'], ['double', 'Двухместный']], p.room)}
+        ${p.room === 'double' ? `<label class="field" for="p_mate">С кем в номере<select id="p_mate" data-field="p_mate"><option value="" ${p.mate ? '' : 'selected'}>Подберите соседа</option>${mates}</select></label>` : ''}</section>
+      <section class="card"><h3>Здоровье и особенности</h3><span class="muted">Необязательно. Видит только координатор.</span><div class="chips">${HEALTH_OPTS.map((h) => pickBtn('pHealth', h, h, p.health.includes(h))).join('')}</div>
+        <label class="field" for="p_healthNote">Что ещё важно знать координатору<textarea id="p_healthNote" rows="2" data-field="p_healthNote" placeholder="Например: ношу с собой лекарства">${esc(p.healthNote)}</textarea></label></section>
+      <section class="card"><h3>Связь и языки</h3><span class="muted">Английский</span>${segBtns('pEng', Object.entries(ENG), p.eng)}
+        <span class="muted">Где удобнее писать</span>${segBtns('pMsg', [['Telegram', 'Telegram'], ['WhatsApp', 'WhatsApp'], ['WeChat', 'WeChat']], p.msg)}</section>
+      <section class="card"><h3>Что важно увидеть в поездке</h3><span class="muted">Координатор подберёт вопросы компаниям и знакомства в группе</span><div class="chips">${INTERESTS.map((x) => pickBtn('pInt', x, x, p.interests.includes(x))).join('')}</div></section>
+      <section class="card"><div class="toggle-row"><label><input id="pConsent" type="checkbox" data-check="pConsent" ${p.consent ? 'checked' : ''}> Согласен(на) на обработку сведений о здоровье (аллергия, особенности) для организации поездки</label></div><span class="muted">Нужно, если указаны аллергия или здоровье. Хранятся на сервере в России, удаляются через 30 дней после поездки.</span></section>
+      ${btn('saveProfile', p.saved ? 'Сохранить изменения' : 'Сохранить профиль', 'primary full')}
+    </div>`;
+  }
+  function waiterText(p) {
+    const alg = p.algOn ? p.alg.map((k) => ALG_BY[k][2]).concat(p.algOther.trim() ? [p.algOther.trim()] : []) : [];
+    const diets = p.diets.filter((k) => k !== 'none');
+    const zh = [];
+    const ru = [];
+    if (alg.length) {
+      zh.push(`我对以下食物过敏：${alg.join('、')}。请不要在我的菜里放这些食物，也不要用接触过它们的锅和油。`);
+      ru.push(`У меня аллергия: ${algNames(p).join(', ')}. Пожалуйста, не добавляйте это в мои блюда и не готовьте в той же посуде и масле.`);
+      if (p.severe) { zh.push('我的过敏很严重，可能危及生命。'); ru.push('Аллергия серьёзная, опасна для жизни.'); }
+    }
+    if (diets.length) { zh.push(`饮食要求：${diets.map((k) => DIET_BY[k][2]).join('，')}。`); ru.push(`Питание: ${diets.map((k) => DIET_BY[k][1].toLowerCase()).join(', ')}.`); }
+    zh.push('谢谢！');
+    ru.push('Спасибо!');
+    return { zh: zh.join(''), ru: ru.join(' ') };
+  }
+  function groupFood() {
+    const ps = D.map((d) => profileOf(d.id)).filter((p) => p && p.saved);
+    const dc = {};
+    const ac = {};
+    const sev = {};
+    ps.forEach((p) => {
+      p.diets.filter((k) => k !== 'none').forEach((k) => { dc[k] = (dc[k] || 0) + 1; });
+      if (p.algOn) p.alg.forEach((k) => { ac[k] = (ac[k] || 0) + 1; if (p.severe) sev[k] = (sev[k] || 0) + 1; });
+    });
+    return { filled: ps.length, dc, ac, sev };
   }
 
   // ——— Координатор ———
+  function legsCard() {
+    const done = LEGS.filter((l) => S.legs[l.id] && S.legs[l.id].arr).length;
+    const cur = LEGS.find((l) => !(S.legs[l.id] && S.legs[l.id].arr));
+    const st = cur ? S.legs[cur.id] || {} : {};
+    const head = !cur ? '<span class="muted">Все переезды дня отмечены — они в журнале.</span>'
+      : st.dep
+        ? `<div class="card dark" style="padding:12px"><span class="muted">В пути с ${st.dep} · план ${dur(cur.min)}</span><div class="t" style="font-weight:700;font-size:16px">${esc(cur.from)} → ${esc(cur.to)}</div>${btn('legArr', `${icon('check', 18)} Прибыли`, 'white full', cur.id)}</div>`
+        : `<div class="card" style="background:var(--a-bg);padding:12px"><span class="muted">Дальше: выезд в ${cur.plan} · в пути ~${dur(cur.min)}</span><div class="t" style="font-weight:700;font-size:16px">${esc(cur.from)} → ${esc(cur.to)}</div>${btn('legDep', `${icon('bus', 18)} Выехали${cur.id === 'l1' ? ' — JD.com узнает' : ''}`, 'primary full', cur.id)}</div>`;
+    const rows = LEGS.map((l) => {
+      const s = S.legs[l.id] || {};
+      const m = s.arr ? toMin(s.arr) - toMin(s.dep) : 0;
+      const chip = s.arr ? `<span class="chip ${m - l.min > 5 ? 'warn' : 'ok'}">${dur(m)}</span>` : s.dep ? '<span class="chip info">в пути</span>' : `<span class="chip" style="background:var(--a-line2);color:var(--a-muted)">план ${dur(l.min)}</span>`;
+      return `<div class="li two"><div><div class="t"><span class="time">${s.dep || l.plan}</span> ${esc(l.from)} → ${esc(l.to)}</div><div class="s">${s.arr ? `выехали ${s.dep} · прибыли ${s.arr} · ${diffTxt(m, l.min)}` : s.dep ? `выехали ${s.dep}` : `план выезда ${l.plan}`}</div></div>${chip}</div>`;
+    }).join('');
+    return `<section class="card"><div class="title-row"><h3>Переезды сегодня</h3><span class="chip ${done === LEGS.length ? 'ok' : 'info'}">${done} из ${LEGS.length}</span></div>${head}<div class="list">${rows}</div>${btn('legLog', 'Журнал переездов', 'light small')}</section>`;
+  }
   function coordHead(title) {
     const va = S.viewAs;
     return `<header class="head dark"><div class="row-between"><span class="eyebrow">Координатор · полный доступ</span><span class="muted" style="color:var(--a-on-dark)">09:05</span></div><h2>${title}</h2>
@@ -906,7 +1044,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       </div>
       <section class="card"><div class="title-row"><h3>Сбор группы · автобус №2</h3><span class="big" style="font-size:28px">${busCount()}/18</span></div><div class="bar"><span style="width:${busCount() / 18 * 100}%"></span></div>
         ${S.missing.length ? `<div class="list">${missing}</div>` : '<span class="muted">Все в автобусе.</span>'}
-        ${S.departed ? '<span class="chip ok" style="align-self:flex-start">Автобус выехал · JD.com знает: прибытие ~10:25</span>' : btn('depart', 'Автобус выехал — сообщить JD.com', 'primary full')}</section>
+        ${S.departed ? `<span class="chip ok" style="align-self:flex-start">Выехали в ${(S.legs.l1 || {}).dep || '09:30'} · JD.com знает: прибытие ~10:25</span>` : ''}</section>
+      ${legsCard()}
       <section class="card"><div class="title-row"><h3 style="display:flex;gap:6px;align-items:center">${icon('headphones', 18)} Радиогид для группы</h3>${S.guideLive ? '<span class="chip new">в эфире</span>' : ''}</div>
         ${S.guideLive ? `<span class="muted">Говорит Ли Мэй · слушают ${11 + (S.listening ? 1 : 0)} из 18</span>${btn('stopBroadcast', 'Остановить трансляцию', 'ghost full')}` : `<span class="muted">Переводчик или гид говорит в свой телефон, группа слушает в своих наушниках.</span>${btn('startBroadcast', 'Начать трансляцию', 'primary full')}`}</section>
       ${S.out ? `<section class="card info"><div class="t" style="font-weight:700">Свободное время</div><span>Гуляет самостоятельно: ${me.ru}, вернётся до ${esc(S.out.back)}</span></section>` : ''}
@@ -921,12 +1060,25 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       <p class="muted">Нажмите на компанию: ссылка визита, QR-код приглашения, что она видит.</p></div>`;
   }
   function kGroup() {
+    const g = groupFood();
+    const dChips = Object.entries(g.dc).map(([k, n]) => `<span class="chip info">${esc(DIET_BY[k][1])} · ${n}</span>`).join('');
+    const aChips = Object.entries(g.ac).map(([k, n]) => `<span class="chip ${g.sev[k] ? 'new' : 'warn'}">${esc(ALG_BY[k][1])} · ${n}${g.sev[k] ? ` · серьёзная у ${g.sev[k]}` : ''}</span>`).join('');
     const rows = D.map((d) => {
       const inBus = !S.missing.includes(d.id);
       const doc = S.docsMissing.includes(d.id);
-      return `<div class="li"><span class="avatar">${initials(d.lat)}</span><div><div class="t">${d.ru}</div><div class="s">${d.roleRu} · ${d.coRu}</div></div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">${inBus ? '<span class="chip ok">в автобусе</span>' : '<span class="chip warn">нет в автобусе</span>'}${doc ? `<span class="chip warn">${d.id === 'd4' ? 'нет билета' : 'нет паспорта'}</span>` : ''}${d.id === 'd1' && S.diet ? `<span class="chip info">${esc(S.diet)}</span>` : ''}${d.id === 'd1' && S.out ? `<span class="chip dark">гуляет · до ${esc(S.out.back)}</span>` : ''}</div></div>`;
+      const p = profileOf(d.id);
+      const ok = !!(p && p.saved);
+      const food = ok ? dietNames(p).filter((x) => x !== 'Без ограничений') : [];
+      const alg = ok ? algNames(p) : [];
+      const line = ok && (food.length || alg.length) ? `<div class="s">${esc(food.join(', '))}${alg.length ? `${food.length ? ' · ' : ''}<b style="color:${p.severe ? 'var(--a-red)' : 'var(--a-warn)'}">аллергия: ${esc(alg.join(', '))}</b>` : ''}</div>` : '';
+      return `<div class="li tap" data-act="openDProfile" data-arg="${d.id}"><span class="avatar">${initials(d.lat)}</span><div><div class="t">${d.ru}</div><div class="s">${d.roleRu} · ${d.coRu}</div>${line}</div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">${inBus ? '<span class="chip ok">в автобусе</span>' : '<span class="chip warn">нет в автобусе</span>'}${doc ? `<span class="chip warn">${d.id === 'd4' ? 'нет билета' : 'нет паспорта'}</span>` : ''}${ok ? '' : '<span class="chip warn">нет профиля</span>'}${d.id === 'd1' && S.out ? `<span class="chip dark">гуляет · до ${esc(S.out.back)}</span>` : ''}</div></div>`;
     }).join('');
-    return `${coordHead('Группа · 18')}<div class="body"><section class="card"><div class="list">${rows}</div></section></div>`;
+    return `${coordHead('Группа · 18')}<div class="body">
+      <section class="card"><div class="title-row"><h3>Питание группы</h3><span class="chip ${g.filled === 18 ? 'ok' : 'warn'}">профили ${g.filled}/18</span></div>
+        <div class="chips">${dChips || '<span class="muted">Ограничений нет</span>'}</div>${aChips ? `<div class="chips">${aChips}</div>` : ''}
+        ${btn('foodSummary', `${icon('translate', 18)} Сводка для ресторана · 中文`, 'light full')}</section>
+      <section class="card"><div class="list">${rows}</div></section>
+      <p class="muted">Нажмите на делегата — профиль: питание, аллергии, номер, язык, интересы и ваша заметка.</p></div>`;
   }
   function kLeads() {
     const row = (x, agency, mine) => {
@@ -1247,8 +1399,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
         <div class="t" style="font-weight:700">${esc(m.place)}</div>${addr3(m.addrZh, MEAL_ADDR[sh.ref][0], MEAL_ADDR[sh.ref][1], 'Точный адрес — из брони')}
         <div><div class="t" style="font-weight:700">Кухня</div><div>${esc(m.cuisine)}</div></div>
         <div><div class="t" style="font-weight:700;margin-bottom:6px">Варианты меню</div><div class="chips">${m.options.map((o) => `<span class="pick" style="cursor:default">${esc(o)}</span>`).join('')}</div></div>
-        <div class="card ${S.diet ? 'info' : 'warn'}" style="padding:10px 12px">${S.diet ? `Ваше меню: ${esc(S.diet)} — ресторан предупреждён.` : 'Укажите предпочтения в еде — ресторан учтёт их.'}</div>
-        ${S.diet ? '' : btn('diet', 'Указать предпочтения', 'light full')}${btn('closeSheet', 'Закрыть', 'ghost full')}`;
+        <div class="card ${S.profile.saved ? 'info' : 'warn'}" style="padding:10px 12px">${S.profile.saved ? `Ваше меню: ${esc(foodLine(S.profile))} — ресторан предупреждён.` : 'Укажите питание и аллергии в профиле — ресторан учтёт их.'}</div>
+        ${S.profile.saved ? (algNames(S.profile).length ? btn('waiterCard', `${icon('translate', 18)} Карточка для официанта`, 'light full') : '') : btn('openProfile', 'Заполнить профиль', 'light full')}${btn('closeSheet', 'Закрыть', 'ghost full')}`;
     } else if (sh.type === 'culture') {
       const c = CULTURE[sh.ref];
       inner = `<h3>${esc(c.title)}</h3><span class="chip dark" style="align-self:flex-start">культурная программа</span><span class="muted">${esc(c.when)}</span><div>${esc(c.desc)}</div>
@@ -1304,10 +1456,56 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       inner = `<h3>Иду гулять</h3><span class="muted">Координатор увидит, что вы гуляете самостоятельно. Где вы — не отслеживается.</span>
         <span class="muted">Вернусь в отель до</span><div class="chips">${['21:00', '22:00', '23:00', '00:00'].map((t) => `<button type="button" class="pick" data-act="sheetSet" data-arg="back|${t}" aria-pressed="${sh.back === t}">${t}</button>`).join('')}</div>
         <div class="btns split">${btn('closeSheet', 'Отмена', 'ghost')}${btn('saveOut', 'Отметиться')}</div>`;
-    } else if (sh.type === 'diet') {
-      inner = `<h3>Предпочтения в еде</h3><span class="muted">Координатор передаст их во все забронированные рестораны.</span>
-        <div class="chips">${DIETS.map((d) => `<button type="button" class="pick" data-act="sheetSet" data-arg="pick|${d}" aria-pressed="${sh.pick === d}">${esc(d)}</button>`).join('')}</div>
-        <div class="btns split">${btn('closeSheet', 'Отмена', 'ghost')}${btn('saveDiet', 'Сохранить')}</div>`;
+    } else if (sh.type === 'waiter') {
+      const w = waiterText(S.profile);
+      inner = `<h3>Карточка для официанта</h3><span class="muted">Покажите экран официанту</span>
+        <div class="card" style="background:var(--a-bg)"><div lang="zh-CN" style="font-family:var(--font-ui),var(--font-cjk);font-size:22px;font-weight:700;line-height:1.45">${esc(w.zh)}</div></div>
+        <div><div class="t" style="font-weight:700">Перевод</div><div class="muted">${esc(w.ru)}</div></div>
+        <span class="muted">Китайский текст проверит переводчик группы${S.profile.algOther.trim() ? '; «Другое» он переведёт сам' : ''}.</span>${btn('closeSheet', 'Закрыть', 'ghost full')}`;
+    } else if (sh.type === 'foodSummary') {
+      const g = groupFood();
+      const dz = Object.entries(g.dc).map(([k, n]) => `${DIET_BY[k][2]} ${n}位`).join('；');
+      const az = Object.entries(g.ac).map(([k, n]) => `${ALG_BY[k][2]} ${n}位${g.sev[k] ? `（其中${g.sev[k]}位严重过敏）` : ''}`).join('；');
+      const zh = `客人共18位，另有2位组织者。${dz ? `饮食要求：${dz}。` : ''}${az ? `食物过敏：${az}。请为过敏的客人单独准备，上菜时告诉我们。` : ''}谢谢！`;
+      const dr = Object.entries(g.dc).map(([k, n]) => `${DIET_BY[k][1].toLowerCase()} — ${n}`).join(', ');
+      const ar = Object.entries(g.ac).map(([k, n]) => `${ALG_BY[k][1].toLowerCase()} — ${n}${g.sev[k] ? ` (серьёзная у ${g.sev[k]})` : ''}`).join(', ');
+      inner = `<h3>Сводка для ресторана</h3><span class="muted">Без имён · по профилям ${g.filled} из 18${g.filled < 18 ? ' — остальных уточните' : ''}</span>
+        <div class="card" style="background:var(--a-bg)"><div lang="zh-CN" style="font-family:var(--font-ui),var(--font-cjk);font-size:16px;font-weight:600;line-height:1.5">${esc(zh)}</div></div>
+        <div><div class="t" style="font-weight:700">По-русски</div><div>Гостей 18 + 2 организатора.${dr ? ` Питание: ${esc(dr)}.` : ''}${ar ? ` Аллергии: ${esc(ar)} — готовить отдельно, предупредить при подаче.` : ''}</div></div>
+        <span class="muted">Кто именно — видно в профилях; за столом гид подскажет официанту.</span>
+        <div class="btns split">${btn('copyText', 'Скопировать', 'ghost', zh)}${btn('sendFood', 'Отправить ресторану')}</div>${btn('closeSheet', 'Закрыть', 'ghost full')}`;
+    } else if (sh.type === 'dProfile') {
+      const d = byId[sh.id];
+      const p = profileOf(sh.id);
+      const row = (k, v) => `<div class="kv"><span class="k">${k}</span><span>${v}</span></div>`;
+      const body = !p || !p.saved
+        ? `<div class="card warn" style="padding:10px 12px">Профиль ещё не заполнен.</div>${btn('remindProfile', 'Напомнить заполнить', 'primary full', d.id)}`
+        : [row('Питание', esc(dietNames(p).join(', ') || '—')),
+          row('Аллергия', p.algOn ? `<b style="color:${p.severe ? 'var(--a-red)' : 'var(--a-warn)'}">${esc(algNames(p).join(', '))}${p.severe ? ' · серьёзная' : ''}</b>` : 'нет'),
+          row('Номер', p.room === 'single' ? 'одноместный' : `двухместный · ${p.mate ? `с ${esc(byId[p.mate].ru)}` : 'соседа подобрать'}`),
+          row('Английский', ENG[p.eng]), row('Связь', esc(p.msg)), row('Интересы', esc(p.interests.join(', ') || '—')),
+          p.health.length || p.healthNote.trim() ? row('Здоровье', esc(p.health.concat(p.healthNote.trim() ? [p.healthNote.trim()] : []).join('; '))) : ''].join('');
+      inner = `<div style="display:flex;gap:12px;align-items:center"><span class="avatar" style="width:48px;height:48px;font-size:16px">${initials(d.lat)}</span><div><h3 style="margin:0">${d.ru}</h3><span class="muted">${d.roleRu} · ${d.coRu} · ${d.cityRu}</span></div></div>
+        ${body}
+        <label class="field" for="cn_${d.id}">Заметка координатора · видите только вы<textarea id="cn_${d.id}" rows="2" data-field="cn_${d.id}" placeholder="Например: принимает решения о закупках">${esc(S.cnotes[d.id] || '')}</textarea></label>
+        <div class="btns split">${btn('fakeCall', `${icon('phone', 18)} Позвонить`, 'ghost', d.ru)}${btn('closeSheet', 'Готово')}</div>`;
+    } else if (sh.type === 'legTime') {
+      const L = LEGS.find((x) => x.id === sh.leg);
+      const isDep = sh.kind === 'dep';
+      const st = S.legs[L.id] || {};
+      const m = isDep ? 0 : toMin(sh.t) - toMin(st.dep);
+      inner = `<h3>${isDep ? 'Выехали' : 'Прибыли'} · ${esc(L.from)} → ${esc(L.to)}</h3><span class="muted">${isDep ? `План выезда ${L.plan}, в пути ~${dur(L.min)}` : `Выехали в ${st.dep}, план в пути ${dur(L.min)}`}. Время можно поправить.</span>
+        <div class="big" style="text-align:center;font-size:48px">${sh.t}</div>
+        <div class="btns split">${['-5', '-1', '+1', '+5'].map((x) => btn('legAdj', `${x} мин`, 'ghost small', x)).join('')}</div>
+        ${isDep && L.id === 'l1' && S.missing.length ? `<div class="card warn" style="padding:10px 12px">В автобусе ${busCount()} из 18 — отсутствующих можно отметить и после выезда.</div>` : ''}
+        ${isDep ? (L.id === 'l1' ? '<span class="muted">JD.com увидит «代表团已出发», делегаты — «в пути».</span>' : '') : `<div class="card info" style="padding:10px 12px">В пути ${dur(m)} · ${diffTxt(m, L.min)}</div>`}
+        <div class="btns split">${btn('closeSheet', 'Отмена', 'ghost')}${btn('legSave', isDep ? 'Отметить выезд' : 'Отметить прибытие')}</div>`;
+    } else if (sh.type === 'legLog') {
+      const rows = PAST_LEGS.concat(LEGS.filter((l) => S.legs[l.id] && S.legs[l.id].arr).map((l) => ({ day: 'Вт, 10 ноября', from: l.from, to: l.to, dep: S.legs[l.id].dep, arr: S.legs[l.id].arr, min: l.min })));
+      const items = rows.map((x) => { const m = toMin(x.arr) - toMin(x.dep); return `<div class="li two"><div><div class="t">${esc(x.from)} → ${esc(x.to)}</div><div class="s">${x.day} · ${x.dep} → ${x.arr} · ${diffTxt(m, x.min)}</div></div><span class="chip ${m - x.min > 5 ? 'warn' : 'ok'}">${dur(m)}</span></div>`; }).join('');
+      const avg = Math.round(rows.reduce((s, x) => s + (toMin(x.arr) - toMin(x.dep) - x.min), 0) / rows.length);
+      inner = `<h3>Журнал переездов</h3><span class="muted">Новый ритейл · ${rows.length} ${plural(rows.length, 'переезд', 'переезда', 'переездов')} · в среднем ${avg > 0 ? '+' : ''}${avg} мин к плану</span><div class="list">${items}</div>
+        <span class="muted">По журналу видно реальное время в пути — в следующих поездках закладываем его в план. Выгрузка в Excel — в веб-панели.</span>${btn('closeSheet', 'Закрыть', 'ghost full')}`;
     }
     return `<div class="shade" data-act="closeSheet"></div><div class="sheet" role="dialog" aria-modal="true"><span class="grip"></span>${inner}</div>`;
   }
@@ -1334,7 +1532,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     const scroller = screenEl.querySelector('.scroll');
     const keepScroll = scroller && key === lastKey ? scroller.scrollTop : 0;
     const views = {
-      delegate: { today: dToday, plan: dPlan, library: dLibrary, people: dPeople, trip: dTrip, city: dCity },
+      delegate: { today: dToday, plan: dPlan, library: dLibrary, people: dPeople, trip: dTrip, city: dCity, profile: dProfile },
       coordinator: { center: kCenter, visits: kVisits, group: kGroup, leads: kLeads, announce: kAnnounce },
       host: { visit: hVisit, delegation: hDelegation, prep: hPrep, after: hAfter },
       agent: { catalog: aCatalog, dates: aDates, calc: aCalc, apps: aApps, kit: aKit },
@@ -1356,10 +1554,10 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
 
   const ROLE_INFO = {
-    delegate: { name: `Делегат · ${me.ru}`, text: 'Участник экспедиции. Видит свою поездку: что сегодня, план по дням с погодой, отелями, ресторанами и культурной программой, материалы, людей группы и подготовку. Отели, рестораны, погода и телефоны в прототипе — примеры.', tips: ['Нажмите «Я в автобусе» — у координатора счётчик станет 15/18.', 'Кнопка «Контакты» на «Сегодня» — телефоны координатора, переводчика, отеля и экстренные номера.', 'В «Плане» у дня — погода и отель; нажмите на обед, ужин или культурную программу.', 'В «Материалах» закреплены презентации; в «Поездке» → «До» укажите предпочтения в еде.', 'В «Поездке» → «После» оставьте отзыв текстом или видео.', 'На «Сегодня» попробуйте «Переводчик» и «Слушать гида»; адреса отелей — на китайском, русском и английском.', 'Кнопка «Город»: шопинг, ночная жизнь, магазины 24/7, туалеты на карте, «Иду гулять»; «Такси» — DiDi с адресом по-китайски.'] },
-    coordinator: { name: 'Координатор · Остап Доценко', text: 'Видит и меняет всё. Ведёт группу и визиты, отвечает на запросы компаний и делегатов, может открыть любой экран глазами делегата или JD.com.', tips: ['На «Пульте» примите перенос Hema — у делегата обновится план.', 'Нажмите «Автобус выехал» — JD.com узнает в WeChat, если включила напоминания.', 'Откройте презентацию JD.com делегатам или переведите вопросы.', 'Переключите «Как делегат» / «Как JD.com» в шапке.', 'На «Пульте» начните «Радиогид» — делегат услышит переводчика в наушниках.', 'Вкладка «Заявки» — заявки агентов и с сайта: «Взять в работу», «Подтвердить»; запросы на расчёт открываются как ТЗ. В шапке «Агент» — экран глазами агентства.'] },
+    delegate: { name: `Делегат · ${me.ru}`, text: 'Участник экспедиции. Видит свою поездку: что сегодня, план по дням с погодой, отелями, ресторанами и культурной программой, материалы, людей группы и подготовку. Отели, рестораны, погода и телефоны в прототипе — примеры.', tips: ['Нажмите «Я в автобусе» — у координатора счётчик станет 15/18.', 'Кнопка «Контакты» на «Сегодня» — телефоны координатора, переводчика, отеля и экстренные номера.', 'В «Плане» у дня — погода и отель; нажмите на обед, ужин или культурную программу.', 'В «Поездке» откройте «Мой профиль»: питание (можно несколько вариантов), аллергия — на что именно, номер, интересы. При аллергии — карточка для официанта по-китайски.', 'В «Материалах» закреплены презентации.', 'В «Поездке» → «После» оставьте отзыв текстом или видео.', 'На «Сегодня» попробуйте «Переводчик» и «Слушать гида»; адреса отелей — на китайском, русском и английском.', 'Кнопка «Город»: шопинг, ночная жизнь, магазины 24/7, туалеты на карте, «Иду гулять»; «Такси» — DiDi с адресом по-китайски.'] },
+    coordinator: { name: 'Координатор · Остап Доценко', text: 'Видит и меняет всё. Ведёт группу и визиты, отвечает на запросы компаний и делегатов, может открыть любой экран глазами делегата или JD.com.', tips: ['На «Пульте» примите перенос Hema — у делегата обновится план.', 'На «Пульте» в «Переездах» нажмите «Выехали», потом «Прибыли» — время в пути запишется в журнал; первый выезд сообщит JD.com.', 'Вкладка «Группа»: нажмите на делегата — его профиль; «Сводка для ресторана» — питание и аллергии по-китайски, без имён.', 'Откройте презентацию JD.com делегатам или переведите вопросы.', 'Переключите «Как делегат» / «Как JD.com» в шапке.', 'На «Пульте» начните «Радиогид» — делегат услышит переводчика в наушниках.', 'Вкладка «Заявки» — заявки агентов и с сайта: «Взять в работу», «Подтвердить»; запросы на расчёт открываются как ТЗ. В шапке «Агент» — экран глазами агентства.'] },
     agent: { name: `Агент · Ирина Миронова, ${AGENCY}`, text: 'Турагентство или агент-партнёр GTT (в прототипе — вымышленное агентство). Видит каталог программ по странам, ближайшие выезды и свободные места, отправляет заявки за своих клиентов и следит за статусом. Не видит делегатов, поездку изнутри и других агентов. Каталог — 76 программ с сайта; даты и места — пример.', tips: ['В «Каталоге» выберите страну и откройте программу: маршрут, компании, ближайшие выезды.', 'Нажмите «Отправить заявку» — заявка появится у координатора на «Пульте» и во вкладке «Заявки».', 'В «Датах» — выезды по месяцам и свободные места.', 'Переключитесь на координатора: «Взять в работу» → «Подтвердить» — у агента сменится статус, места в выезде уменьшатся.', 'Вкладка «Расчёт»: готовая экспедиция или своя программа по блокам, гражданство группы (РФ и СНГ) — у координатора откроется ТЗ.', 'В «Материалах» — презентации программ без цен для ваших клиентов и ролики; поля «Стоимость для агента» и «Комиссия» пока пустые.'] },
-    host: { name: 'Компания · JD.com в WeChat', text: 'Менеджер компании, куда едет группа. Открывает мини-программу по QR-коду в WeChat, без установки. Видит только свой визит; телефонов делегатов не видит.', tips: ['Нажмите «接收提醒» (напоминания), потом у координатора «Автобус выехал».', 'Предложите другое время — запрос уйдёт координатору.', 'Загрузите файл во вкладке «问题与资料» — он попадёт на проверку.', 'Переключите 中文 / EN и ответьте делегатам во вкладке «访问后».'] },
+    host: { name: 'Компания · JD.com в WeChat', text: 'Менеджер компании, куда едет группа. Открывает мини-программу по QR-коду в WeChat, без установки. Видит только свой визит; телефонов делегатов не видит.', tips: ['Нажмите «接收提醒» (напоминания), потом у координатора на «Пульте» — «Выехали».', 'Предложите другое время — запрос уйдёт координатору.', 'Загрузите файл во вкладке «问题与资料» — он попадёт на проверку.', 'Переключите 中文 / EN и ответьте делегатам во вкладке «访问后».'] },
   };
   function renderSide() {
     document.querySelectorAll('[data-role]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.role === S.role)));
@@ -1372,7 +1570,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
 
   // ——— Действия ———
-  const NAV = new Set(['tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet', 'openHotel', 'openCulture', 'contacts', 'reviewMode', 'translator', 'guide', 'driverCard', 'openMaps', 'copyAddr', 'cityCat', 'pickPlace', 'findMore', 'taxi2', 'agCountry', 'agMonth', 'agTour', 'calcOpen']);
+  const NAV = new Set(['openProfile', 'waiterCard', 'openDProfile', 'foodSummary', 'legLog', 'tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet', 'openHotel', 'openCulture', 'contacts', 'reviewMode', 'translator', 'guide', 'driverCard', 'openMaps', 'copyAddr', 'cityCat', 'pickPlace', 'findMore', 'taxi2', 'agCountry', 'agMonth', 'agTour', 'calcOpen']);
   const now = () => '09:05';
   const A = {
     tab: (k) => { const who = S.role === 'coordinator' && S.viewAs ? S.viewAs : S.role; S.tab[who] = k; if (who === 'host' && k === 'after') setTimeout(() => { S.requests.forEach((r) => { r.isNew = false; }); save(); }, 0); },
@@ -1475,14 +1673,57 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     openHotel: (day) => { S.sheet = { type: 'hotel', day: Number(day) }; },
     openCulture: (ref) => { S.sheet = { type: 'culture', ref }; },
     contacts: () => { S.sheet = { type: 'contacts' }; },
-    diet: () => { S.sheet = { type: 'diet', pick: S.diet }; },
-    saveDiet: () => {
-      if (!S.sheet.pick) return toast('Выберите вариант');
-      S.diet = S.sheet.pick;
-      S.sheet = null;
-      log('delegate', `${me.ru} указала питание «${S.diet}» → у координатора в группе, рестораны предупреждены.`);
-      toast('Сохранено: рестораны учтут');
+    openProfile: () => { S.sheet = null; S.tab.delegate = 'profile'; },
+    pDiet: (k) => {
+      const p = S.profile;
+      if (k === 'none') p.diets = p.diets.includes('none') ? [] : ['none'];
+      else { const rest = p.diets.filter((x) => x !== 'none'); p.diets = rest.includes(k) ? rest.filter((x) => x !== k) : rest.concat(k); }
     },
+    pAlgOn: (v) => { S.profile.algOn = v === '1'; },
+    pAlg: (k) => { const p = S.profile; p.alg = p.alg.includes(k) ? p.alg.filter((x) => x !== k) : p.alg.concat(k); },
+    pSev: (v) => { S.profile.severe = v === '1'; },
+    pRoom: (v) => { S.profile.room = v; },
+    pEng: (v) => { S.profile.eng = v; },
+    pMsg: (v) => { S.profile.msg = v; },
+    pHealth: (h) => { const p = S.profile; p.health = p.health.includes(h) ? p.health.filter((x) => x !== h) : p.health.concat(h); },
+    pInt: (x) => { const p = S.profile; p.interests = p.interests.includes(x) ? p.interests.filter((y) => y !== x) : p.interests.concat(x); },
+    saveProfile: () => {
+      const p = S.profile;
+      if (!p.diets.length) return toast('Выберите питание — хотя бы «Без ограничений»');
+      if (p.algOn && !p.alg.length && !p.algOther.trim()) return toast('Отметьте, на что аллергия');
+      if (healthGiven(p) && !p.consent) return toast('Нужно согласие на обработку сведений о здоровье');
+      const first = !p.saved;
+      p.saved = true;
+      log('delegate', `${me.ru} ${first ? 'заполнила' : 'обновила'} профиль: ${foodLine(p)} → у координатора в «Группе»; в сводку для ресторанов — без имени.`);
+      toast('Профиль сохранён — координатор видит его');
+    },
+    waiterCard: () => { S.sheet = { type: 'waiter' }; },
+    openDProfile: (id) => { S.sheet = { type: 'dProfile', id }; },
+    remindProfile: (id) => { S.sheet = null; log('coordinator', `Напомнил ${byId[id].ru} заполнить профиль → push и Telegram.`); toast(`${byId[id].ru} получит напоминание`); },
+    foodSummary: () => { S.sheet = { type: 'foodSummary' }; },
+    sendFood: () => { S.sheet = null; log('coordinator', 'Отправил ресторану сводку питания и аллергий группы на китайском, без имён.'); toast('Сводка ушла ресторану в WeChat (в прототипе — без отправки)'); },
+    legDep: (id) => { const L = LEGS.find((x) => x.id === id); S.sheet = { type: 'legTime', leg: id, kind: 'dep', t: fromMin(toMin(L.plan) + 4) }; },
+    legArr: (id) => { const L = LEGS.find((x) => x.id === id); S.sheet = { type: 'legTime', leg: id, kind: 'arr', t: fromMin(toMin(S.legs[id].dep) + L.min - 8) }; },
+    legAdj: (x) => { S.sheet.t = fromMin(toMin(S.sheet.t) + Number(x)); },
+    legSave: () => {
+      const sh = S.sheet;
+      const L = LEGS.find((x) => x.id === sh.leg);
+      const st = S.legs[L.id] || (S.legs[L.id] = {});
+      if (sh.kind === 'dep') {
+        st.dep = sh.t;
+        S.sheet = null;
+        log('coordinator', `Переезд «${L.from} → ${L.to}»: выехали в ${sh.t}.`);
+        if (L.id === 'l1') A.depart(); else toast(`Выезд в ${sh.t} записан`);
+        return;
+      }
+      if (toMin(sh.t) <= toMin(st.dep)) return toast('Прибытие должно быть позже выезда');
+      st.arr = sh.t;
+      S.sheet = null;
+      const m = toMin(st.arr) - toMin(st.dep);
+      log('coordinator', `Переезд «${L.from} → ${L.to}»: прибыли в ${st.arr}, в пути ${dur(m)} (${diffTxt(m, L.min)}) → в журнале.`);
+      toast(`В пути ${dur(m)} — записано в журнал`);
+    },
+    legLog: () => { S.sheet = { type: 'legLog' }; },
     reviewMode: (k) => { S.reviewMode = k; },
     driverCard: (zh) => { S.sheet = { type: 'driver', zh }; },
     openMaps: () => toast('В приложении откроется карта Amap (高德) или Baidu: Google Карты в Китае не работают'),
@@ -1687,6 +1928,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     if (f === 'cTour') { S.calc.tour = e.target.value; const d = depsOf(e.target.value).find((x) => depFree(x) > 0); S.calc.dep = d ? d.id : ''; render(); return; }
     if (f.startsWith('cit_')) { const [, k, i] = f.split('_'); S.calc.cit[Number(i)][k === 'c' ? 'c' : 'n'] = e.target.value; save(); return; }
     if (f === 'agTour') { S.sheet.tour = e.target.value; const d = depsOf(e.target.value).find((x) => depFree(x) > 0); S.sheet.dep = d ? d.id : 'other'; render(); return; }
+    if (f.startsWith('p_')) { S.profile[f.slice(2)] = e.target.value; save(); return; }
+    if (f.startsWith('cn_')) { S.cnotes[f.slice(3)] = e.target.value; save(); return; }
     if (f === 'annText') { S.annText = e.target.value; S.annTpl = null; } else S.form[f] = e.target.value;
     save();
   });
@@ -1694,6 +1937,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     const c = e.target.dataset.check;
     if (!c) return;
     if (c === 'consent') { S.sheet.consent = e.target.checked; return; }
+    if (c === 'pConsent') { S.profile.consent = e.target.checked; save(); return; }
     if (c === 'pickCos' || c === 'flight') { S.calc[c] = e.target.checked; save(); return; }
     if (c === 'reviewConsent') { S.reviewConsent = e.target.checked; save(); return; }
     if (c === 'voiceOut') { S.voiceOut = e.target.checked; render(); return; }

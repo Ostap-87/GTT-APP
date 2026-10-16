@@ -131,6 +131,20 @@ export function Chips({ children }: { children: ReactNode }) {
   return <View style={s.chips}>{children}</View>;
 }
 
+/** Переключатель из 2–3 вариантов (как «До / В поездке / После»). */
+export function Seg<K extends string>({ options, value, onChange }: { options: readonly (readonly [K, string])[]; value: K; onChange: (k: K) => void }) {
+  return (
+    <View style={s.seg}>
+      {options.map(([k, l]) => (
+        <Pressable key={k} onPress={() => onChange(k)} accessibilityRole="button" accessibilityState={{ selected: value === k }}
+          style={[s.segBtn, value === k && s.segOn]}>
+          <Text style={{ fontFamily: value === k ? F.bold : F.medium, fontSize: 13, color: C.ink, textAlign: 'center' }}>{l}</Text>
+        </Pressable>
+      ))}
+    </View>
+  );
+}
+
 export const initials = (lat: string) => lat.split(' ').map((w) => w[0]).join('');
 
 export const s = StyleSheet.create({
@@ -163,4 +177,7 @@ export const s = StyleSheet.create({
   pickOn: { backgroundColor: C.dark, borderColor: C.dark },
   pickText: { fontFamily: F.medium, fontSize: 13, color: C.ink },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  seg: { flexDirection: 'row', backgroundColor: C.line2, borderRadius: 10, padding: 3 },
+  segBtn: { flex: 1, minHeight: 32, borderRadius: 8, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 },
+  segOn: { backgroundColor: C.card },
 });

@@ -39,6 +39,8 @@ export default function RootLayout() {
             <Stack.Screen name="culture/[id]" options={{ title: 'Культурная программа' }} />
             <Stack.Screen name="contacts" options={{ title: 'Контакты поездки', presentation: 'modal' }} />
             <Stack.Screen name="driver" options={{ title: 'Показать водителю', presentation: 'modal' }} />
+            <Stack.Screen name="profile" options={{ title: 'Мой профиль' }} />
+            <Stack.Screen name="waiter" options={{ title: 'Карточка для официанта', presentation: 'modal' }} />
           </Stack>
         </ToastProvider>
       </TripProvider>

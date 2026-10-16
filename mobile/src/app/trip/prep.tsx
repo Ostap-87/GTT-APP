@@ -1,21 +1,29 @@
-// «Поездка»: подготовка до выезда — документы, интересы, памятка, предпочтения в еде; после поездки — отзыв (шаг 2).
+// «Поездка»: мой профиль (питание, аллергии, номер), подготовка до выезда — документы, интересы, памятка; после поездки — отзыв (шаг 2).
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
-import { CHECKLIST, DIETS, ME } from '@/data/trip';
-import { useToast } from '@/state/toast';
+import { foodLine } from '@/data/profile';
+import { CHECKLIST, ME } from '@/data/trip';
 import { useTrip } from '@/state/trip';
 import { Icon } from '@/ui/Icon';
-import { Card, Chips, H3, Pick, Screen, T, TitleRow } from '@/ui/kit';
+import { Avatar, Card, Chip, H3, Row, Screen, T, TitleRow, initials } from '@/ui/kit';
 import { C, F } from '@/ui/theme';
 
 export default function Prep() {
-  const { done, toggle, diet, setDiet } = useTrip();
-  const toast = useToast();
+  const { done, toggle, profile } = useTrip();
   const [stage, setStage] = useState<'before' | 'during' | 'after'>('before');
   const count = CHECKLIST.filter((c) => done[c.key]).length;
   return (
     <Screen eyebrow={`${ME.ru} · делегат`} title="Моя поездка">
+      <Card onPress={() => router.push('/profile')} label="Мой профиль">
+        <Row
+          left={<Avatar text={initials(ME.lat)} />}
+          title="Мой профиль"
+          sub={profile.saved ? foodLine(profile) : 'Питание, аллергии, номер, интересы — заполните до поездки'}
+          right={<Chip tone={profile.saved ? 'ok' : 'warn'}>{profile.saved ? 'заполнен' : 'заполнить'}</Chip>}
+        />
+      </Card>
       <View style={{ flexDirection: 'row', backgroundColor: C.line2, borderRadius: 10, padding: 3 }}>
         {([['before', 'До'], ['during', 'В поездке'], ['after', 'После']] as const).map(([k, l]) => (
           <Pressable key={k} onPress={() => setStage(k)} accessibilityRole="button" accessibilityState={{ selected: stage === k }}
@@ -33,9 +41,9 @@ export default function Prep() {
             </View>
             {CHECKLIST.map((c) => {
               const on = !!done[c.key];
-              const sub = c.key === 'diet' && diet ? `Указано: ${diet}` : c.sub;
+              const sub = c.key === 'profile' && profile.saved ? foodLine(profile) : c.sub;
               return (
-                <Pressable key={c.key} onPress={() => (c.key === 'diet' ? null : toggle(c.key))} accessibilityRole="checkbox" accessibilityState={{ checked: on }}
+                <Pressable key={c.key} onPress={() => (c.key === 'profile' ? router.push('/profile') : toggle(c.key))} accessibilityRole="checkbox" accessibilityState={{ checked: on }}
                   style={{ flexDirection: 'row', gap: 12, alignItems: 'center', paddingVertical: 10, borderTopWidth: 1, borderTopColor: C.line2 }}>
                   <View style={{ width: 22, height: 22, borderRadius: 6, borderWidth: 1.5, borderColor: on ? C.green : '#c3cad6', backgroundColor: on ? C.green : C.card, alignItems: 'center', justifyContent: 'center' }}>
                     {on ? <Icon name="check" size={14} color="#fff" /> : null}
@@ -47,13 +55,6 @@ export default function Prep() {
                 </Pressable>
               );
             })}
-          </Card>
-          <Card>
-            <H3>Предпочтения в еде</H3>
-            <T muted>Координатор передаст их в забронированные рестораны.</T>
-            <Chips>
-              {DIETS.map((x) => <Pick key={x} title={x} on={diet === x} onPress={() => { setDiet(x); toast('Координатор учтёт в ресторанах'); }} />)}
-            </Chips>
           </Card>
         </>
       ) : stage === 'during' ? (
