@@ -515,6 +515,15 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     d18: PF(['sea'], [], false, 'double', 'd11', 'fluent', 'Telegram', ['Маркетинг', 'Технологии']),
   };
   const profileOf = (id) => (id === 'd1' ? S.profile : PROFILES[id] || null);
+  // Путь профиля (CJM): приглашён → заполняет → ждёт проверки → проверен координатором. d16 не открыл приглашение, d17 заполняет.
+  const NOT_READY = { d16: { st: 'invited', text: 'не открыл приглашение', sub: 'Ссылка отправлена 20.10 в WhatsApp, напоминание — 23.10' }, d17: { st: 'filling', text: 'заполняет · 2 из 4 шагов', sub: 'Начал 24.10, остановился на «Проживании»' } };
+  const HISTORY = {
+    d5: [['10.11, 21:40', 'Марина: добавила аллергию «кунжут», отметила «серьёзная»'], ['10.11, 21:45', 'Система: координатору — уведомление, сводка ресторанам устарела'], ['28.10', 'Остап: проверено'], ['24.10', 'Марина: заполнила профиль']],
+    d4: [['06.11', 'Остап: проверено'], ['05.11', 'Игорь: заполнил профиль']],
+  };
+  const fem = (id) => /[ая]$/.test(byId[id].ru.split(' ')[0]); // род для «заполнил / заполнила»
+  const historyOf = (id) => (id === 'd1' ? S.pHist : HISTORY[id] || [['27.10', 'Остап: проверено'], ['25.10', `${byId[id].ru.split(' ')[0]}: ${fem(id) ? 'заполнила' : 'заполнил'} профиль`]]);
+  const phoneOf = (id) => `+7 900 000-00-${String(Number(id.slice(1))).padStart(2, '0')} (пример)`;
   const dietNames = (p) => p.diets.map((k) => DIET_BY[k][1]);
   const algNames = (p) => (p.algOn ? p.alg.map((k) => ALG_BY[k][1]).concat(p.algOther.trim() ? [p.algOther.trim()] : []) : []);
 
@@ -618,7 +627,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   const addHours = (t, h) => { const [hh, mm] = t.split(':').map(Number); return `${String(hh + h).padStart(2, '0')}:${String(mm).padStart(2, '0')}`; };
 
   // ——— Состояние ———
-  const KEY = 'gtt-proto-v7';
+  const KEY = 'gtt-proto-v8';
   function fresh() {
     return {
       role: 'delegate', viewAs: null,
@@ -641,7 +650,8 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       downloaded: { memo: true, program: true, companies: false, jd: false },
       checklist: { passport: true, tickets: true, interests: true, memo: false },
       intros: {}, hostSubscribed: false, hostNotice: null, dNotices: [],
-      profile: freshProfile(), cnotes: {}, legs: {}, reviews: [], reviewMode: 'text', videoAttached: false, reviewConsent: true,
+      profile: freshProfile(), cnotes: {}, legs: {}, kSel: null, gTab: 'people', gFilter: 'all', pHist: [], reminded: {},
+      checked: Object.fromEntries(Object.keys(PROFILES).filter((x) => x !== 'd18').map((x) => [x, true])), foodSent: { at: 'вчера, 18:20', sig: null }, reviews: [], reviewMode: 'text', videoAttached: false, reviewConsent: true,
       guideLive: false, listening: false, subtitles: true, voiceOut: true, chat: [], tIdx: { ru: 0, zh: 0 },
       cityCat: 'shop', place: null, out: null,
       ag: { country: 'all', month: 'all' }, depTaken: {},
@@ -660,6 +670,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   let S;
   try { S = Object.assign(fresh(), JSON.parse(localStorage.getItem(KEY) || 'null') || {}); } catch (e) { S = fresh(); }
   S.sheet = null; S.toast = null;
+  if (S.foodSent && S.foodSent.sig === null) S.foodSent.sig = foodSig(); // ресторанам вчера ушла сводка по 16 профилям
   const save = () => { try { const { toast, sheet, ...rest } = S; localStorage.setItem(KEY, JSON.stringify(rest)); } catch (e) { /* хранилище недоступно — демо работает и без него */ } };
   const nid = () => `x${S.seq++}`;
 
@@ -728,6 +739,10 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     S.agentApps.filter((x) => x.status === 'new').forEach((x) => a.push({ title: `Заявка агента ${AGENCY}: ${tourById[x.tour][2]}`, sub: `${x.dates} · ${x.people} чел. · ${x.client}`, btns: [['agTake', 'Взять в работу', 'primary', x.id], ['agConfirm', 'Подтвердить', 'ghost', x.id]] }));
     S.calcReqs.filter((x) => x.status === 'new').forEach((x) => a.push({ title: `Запрос на расчёт ${x.id} от ${AGENCY}`, sub: `${calcTitle(x)} · ${x.people} чел. · ${citLine(x.cit)}`, btns: [['calcOpen', 'Открыть ТЗ', 'primary', x.id], ['calcTake', 'Взять в расчёт', 'ghost', x.id]] }));
     if (!S.pddReminded) a.push({ title: 'Pinduoduo не открыла ссылку визита · 3 дня', btns: [['remindPdd', 'Напомнить', 'ghost']] });
+    if (foodDirty()) a.push({ title: 'Питание изменилось после отправки ресторанам', sub: `Сводка ушла ${S.foodSent.at}; с тех пор: ${foodChanges().join('; ')}`, btns: [['foodSummary', 'Отправить обновление', 'primary']] });
+    D.filter((d) => pStage(d.id)[0] === 'ready').forEach((d) => a.push({ title: `${d.ru} ${fem(d.id) ? 'заполнила' : 'заполнил'} профиль — проверьте`, sub: foodLine(profileOf(d.id)), btns: [['openK', 'Открыть профиль', 'primary', d.id]] }));
+    const todo = D.filter((d) => ['invited', 'filling'].includes(pStage(d.id)[0]) && !S.reminded[d.id]);
+    if (todo.length) a.push({ title: `${todo.length} ${plural(todo.length, 'профиль не заполнен', 'профиля не заполнены', 'профилей не заполнены')}`, sub: todo.map((d) => d.ru).join(', '), btns: [['remindAll', 'Напомнить всем', 'ghost']] });
     if (!S.igorReminded) a.push({ title: 'Игорь Белов · нет билета', btns: [['remindIgor', 'Напомнить', 'ghost']] });
     return a;
   }
@@ -746,7 +761,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   };
   function tabbar(who) {
     const list = tabsOf[who];
-    const cur = S.tab[who];
+    const cur = S.tab[who] === 'profile' ? (who === 'coordinator' ? 'group' : 'trip') : S.tab[who];
     const badge = (key) => {
       if (who === 'coordinator' && key === 'center') return attention().length;
       if (who === 'delegate' && key === 'today') return S.dNotices.filter((n) => !n.seen).length;
@@ -1059,26 +1074,142 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     return `${coordHead(`Визиты · ${conf} из 9`)}<div class="body"><section class="card"><div class="list">${rows}</div></section>
       <p class="muted">Нажмите на компанию: ссылка визита, QR-код приглашения, что она видит.</p></div>`;
   }
+  // ——— Профиль участника глазами координатора ———
+  function pStage(id) {
+    if (id === 'd1') return S.profile.saved ? (S.checked.d1 ? ['checked', 'проверен', 'ok'] : ['ready', 'ждёт проверки', 'info']) : ['filling', 'заполняет · 3 из 4 шагов', 'warn'];
+    if (NOT_READY[id]) return [NOT_READY[id].st, NOT_READY[id].text, 'warn'];
+    return S.checked[id] ? ['checked', 'проверен', 'ok'] : ['ready', 'ждёт проверки', 'info'];
+  }
+  const ready = (id) => ['ready', 'checked'].includes(pStage(id)[0]);
+  const severeOf = (id) => { const p = profileOf(id); return !!(p && p.saved && p.algOn && p.severe && algNames(p).length); };
+  const attnOf = (id) => severeOf(id) || pStage(id)[0] !== 'checked';
+  function foodSig() { return JSON.stringify(groupFood()); }
+  const foodDirty = () => !!(S.foodSent && S.foodSent.sig && S.foodSent.sig !== foodSig());
+  function foodChanges() {
+    const was = JSON.parse(S.foodSent.sig);
+    const now = groupFood();
+    const out = [];
+    Object.entries(now.dc).forEach(([k, n]) => { if ((was.dc[k] || 0) !== n) out.push(`${DIET_BY[k][1].toLowerCase()} ${was.dc[k] || 0} → ${n}`); });
+    Object.entries(now.ac).forEach(([k, n]) => { if ((was.ac[k] || 0) !== n) out.push(`аллергия «${ALG_BY[k][1].toLowerCase()}» ${was.ac[k] || 0} → ${n}${now.sev[k] ? ' (есть серьёзная)' : ''}`); });
+    return out.length ? out : ['состав питания'];
+  }
+  function rooming() {
+    const pairs = [];
+    const singles = [];
+    const open = [];
+    const seen = new Set();
+    D.forEach((d) => {
+      if (seen.has(d.id)) return;
+      const p = profileOf(d.id);
+      if (!p || !p.saved) { open.push(d.id); return; }
+      if (p.room === 'single') { singles.push(d.id); return; }
+      const m = p.mate && profileOf(p.mate);
+      if (p.mate && m && m.saved && m.mate === d.id) { pairs.push([d.id, p.mate]); seen.add(p.mate); } else open.push(d.id);
+      seen.add(d.id);
+    });
+    return { pairs, singles, open };
+  }
   function kGroup() {
+    const seg = `<div class="seg light">${[['people', 'Люди'], ['food', 'Питание'], ['rooms', 'Расселение']].map(([k, l]) => `<button type="button" data-act="gTab" data-arg="${k}" aria-pressed="${S.gTab === k}">${l}</button>`).join('')}</div>`;
+    const body = S.gTab === 'food' ? groupFoodView() : S.gTab === 'rooms' ? groupRoomsView() : groupPeopleView();
+    return `${coordHead('Группа · 18')}<div class="body">${seg}${body}</div>`;
+  }
+  function groupPeopleView() {
+    const st = D.map((d) => pStage(d.id)[0]);
+    const n = (k) => st.filter((x) => x === k).length;
+    const done = n('checked') + n('ready');
+    const F = [['all', 'Все', D.length], ['attn', 'Требуют внимания', D.filter((d) => attnOf(d.id)).length], ['alg', 'Аллергии', D.filter((d) => { const p = profileOf(d.id); return p && p.saved && algNames(p).length; }).length],
+      ['diet', 'Особое питание', D.filter((d) => { const p = profileOf(d.id); return p && p.saved && p.diets.some((k) => k !== 'none'); }).length], ['todo', 'Не заполнили', n('invited') + n('filling')]];
+    const keep = (d) => {
+      const p = profileOf(d.id);
+      if (S.gFilter === 'attn') return attnOf(d.id);
+      if (S.gFilter === 'alg') return p && p.saved && algNames(p).length;
+      if (S.gFilter === 'diet') return p && p.saved && p.diets.some((k) => k !== 'none');
+      if (S.gFilter === 'todo') return !ready(d.id);
+      return true;
+    };
+    const rows = D.filter(keep).map((d) => {
+      const p = profileOf(d.id);
+      const s = pStage(d.id);
+      const ok = ready(d.id);
+      const food = ok ? dietNames(p).filter((x) => x !== 'Без ограничений') : [];
+      const alg = ok ? algNames(p) : [];
+      const line = !ok ? `<div class="s">${esc(NOT_READY[d.id] ? NOT_READY[d.id].sub : 'Заполняет профиль в приложении')}</div>`
+        : food.length || alg.length ? `<div class="s">${esc(food.join(', '))}${alg.length ? `${food.length ? ' · ' : ''}<b style="color:${p.severe ? 'var(--a-red)' : 'var(--a-warn)'}">аллергия: ${esc(alg.join(', '))}</b>` : ''}</div>` : '<div class="s">Без ограничений в питании</div>';
+      return `<div class="li tap" data-act="openK" data-arg="${d.id}"><span class="avatar" style="${severeOf(d.id) ? 'box-shadow:0 0 0 2px var(--a-red)' : ''}">${initials(d.lat)}</span><div><div class="t">${d.ru}</div><div class="s">${d.roleRu} · ${d.coRu}</div>${line}</div><span class="chip ${s[2]}">${s[1]}</span></div>`;
+    }).join('') || '<span class="muted">Никого по этому фильтру.</span>';
+    return `<section class="card"><div class="title-row"><h3>Профили участников</h3><span class="big" style="font-size:26px">${done}/18</span></div>
+        <div class="bar"><span style="width:${done / 18 * 100}%"></span></div>
+        <span class="muted">Проверены ${n('checked')} · ждут проверки ${n('ready')} · заполняют ${n('filling')} · не открыли приглашение ${n('invited')}. Срок — за 14 дней до вылета (26.10).</span></section>
+      <div class="chips">${F.map(([k, l, c]) => `<button type="button" class="pick" data-act="gFilter" data-arg="${k}" aria-pressed="${S.gFilter === k}">${l} · ${c}</button>`).join('')}</div>
+      <section class="card"><div class="list">${rows}</div></section>
+      <p class="muted">Нажмите на участника — его профиль: что важно в поездке, питание, номер, документы, история изменений и ваши заметки.</p>`;
+  }
+  function groupFoodView() {
     const g = groupFood();
     const dChips = Object.entries(g.dc).map(([k, n]) => `<span class="chip info">${esc(DIET_BY[k][1])} · ${n}</span>`).join('');
     const aChips = Object.entries(g.ac).map(([k, n]) => `<span class="chip ${g.sev[k] ? 'new' : 'warn'}">${esc(ALG_BY[k][1])} · ${n}${g.sev[k] ? ` · серьёзная у ${g.sev[k]}` : ''}</span>`).join('');
-    const rows = D.map((d) => {
-      const inBus = !S.missing.includes(d.id);
-      const doc = S.docsMissing.includes(d.id);
-      const p = profileOf(d.id);
-      const ok = !!(p && p.saved);
-      const food = ok ? dietNames(p).filter((x) => x !== 'Без ограничений') : [];
-      const alg = ok ? algNames(p) : [];
-      const line = ok && (food.length || alg.length) ? `<div class="s">${esc(food.join(', '))}${alg.length ? `${food.length ? ' · ' : ''}<b style="color:${p.severe ? 'var(--a-red)' : 'var(--a-warn)'}">аллергия: ${esc(alg.join(', '))}</b>` : ''}</div>` : '';
-      return `<div class="li tap" data-act="openDProfile" data-arg="${d.id}"><span class="avatar">${initials(d.lat)}</span><div><div class="t">${d.ru}</div><div class="s">${d.roleRu} · ${d.coRu}</div>${line}</div><div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">${inBus ? '<span class="chip ok">в автобусе</span>' : '<span class="chip warn">нет в автобусе</span>'}${doc ? `<span class="chip warn">${d.id === 'd4' ? 'нет билета' : 'нет паспорта'}</span>` : ''}${ok ? '' : '<span class="chip warn">нет профиля</span>'}${d.id === 'd1' && S.out ? `<span class="chip dark">гуляет · до ${esc(S.out.back)}</span>` : ''}</div></div>`;
-    }).join('');
-    return `${coordHead('Группа · 18')}<div class="body">
+    const sev = D.filter((d) => severeOf(d.id)).map((d) => { const p = profileOf(d.id); return `<div class="li two tap" data-act="openK" data-arg="${d.id}"><div><div class="t">${d.ru}</div><div class="s" style="color:var(--a-red);font-weight:700">${esc(algNames(p).join(', '))}</div>${p.healthNote.trim() ? `<div class="s">${esc(p.healthNote.trim())}</div>` : ''}</div><span class="chip new">серьёзная</span></div>`; }).join('');
+    const dirty = foodDirty();
+    const meals = dayEvents(1).filter((e) => e.kind === 'meal').map((e) => `<div class="li two"><div><div class="t"><span class="time">${e.t}</span> ${esc(e.name)}</div><div class="s">${esc(e.place)} · ${dirty ? 'сводка устарела' : `сводка отправлена ${esc(S.foodSent.at)}`}</div></div><span class="chip ${dirty ? 'warn' : 'ok'}">${dirty ? 'обновить' : 'ресторан знает'}</span></div>`).join('');
+    return `${dirty ? `<section class="card warn"><div class="t" style="font-weight:700">Питание изменилось после отправки</div><span>${esc(foodChanges().join('; '))}</span>${btn('foodSummary', 'Отправить обновление ресторанам', 'primary full')}</section>` : ''}
+      <section class="card"><div class="title-row"><h3>Сегодня · Вт, 10 ноября</h3></div><div class="list">${meals}</div></section>
+      <section class="card"><div class="title-row"><h3>Серьёзные аллергии</h3><span class="chip new">${D.filter((d) => severeOf(d.id)).length}</span></div><span class="muted">Видите только вы и гид. Перед каждым приёмом пищи — напоминание.</span><div class="list">${sev || '<span class="muted">Нет.</span>'}</div></section>
       <section class="card"><div class="title-row"><h3>Питание группы</h3><span class="chip ${g.filled === 18 ? 'ok' : 'warn'}">профили ${g.filled}/18</span></div>
         <div class="chips">${dChips || '<span class="muted">Ограничений нет</span>'}</div>${aChips ? `<div class="chips">${aChips}</div>` : ''}
-        ${btn('foodSummary', `${icon('translate', 18)} Сводка для ресторана · 中文`, 'light full')}</section>
-      <section class="card"><div class="list">${rows}</div></section>
-      <p class="muted">Нажмите на делегата — профиль: питание, аллергии, номер, язык, интересы и ваша заметка.</p></div>`;
+        ${btn('foodSummary', `${icon('translate', 18)} Сводка для ресторана · 中文`, 'light full')}</section>`;
+  }
+  function groupRoomsView() {
+    const r = rooming();
+    const h = hotelOf(1);
+    const pr = r.pairs.map(([a, b]) => `<div class="li two"><div><div class="t">${byId[a].ru} + ${byId[b].ru}</div><div class="s">двухместный · пожелания совпали</div></div><span class="chip ok">пара</span></div>`).join('');
+    const sg = r.singles.map((id) => `<div class="li two"><div><div class="t">${byId[id].ru}</div><div class="s">одноместный</div></div><span class="chip info">один</span></div>`).join('');
+    const op = r.open.map((id) => `<div class="li two tap" data-act="openK" data-arg="${id}"><div><div class="t">${byId[id].ru}</div><div class="s">${ready(id) ? 'двухместный — сосед не выбран или не совпал' : 'профиль не заполнен'}</div></div><span class="chip warn">решить</span></div>`).join('');
+    return `<section class="card"><div class="title-row"><h3>${esc(h.name)}</h3><span class="muted">${esc(h.nights)}</span></div>
+        <span>Номеров: ${r.pairs.length + r.singles.length + r.open.length} · двухместных ${r.pairs.length} · одноместных ${r.singles.length}${r.open.length ? ` · не решено ${r.open.length}` : ''}</span>
+        ${btn('roomingList', 'Список для отеля (латиницей)', 'light full')}</section>
+      ${op ? `<section class="card"><div class="title-row"><h3>Нужно решить</h3><span class="chip warn">${r.open.length}</span></div><div class="list">${op}</div></section>` : ''}
+      <section class="card"><h3>Двухместные</h3><div class="list">${pr}</div></section>
+      <section class="card"><h3>Одноместные</h3><div class="list">${sg}</div></section>`;
+  }
+  function kProfile() {
+    const id = S.kSel || 'd1';
+    const d = byId[id];
+    const p = profileOf(id);
+    const s = pStage(id);
+    const ok = ready(id);
+    const row = (k, v) => `<div class="kv"><span class="k">${k}</span><span>${v}</span></div>`;
+    const back = btn('tab', '← Группа', 'ghost small', 'group');
+    const head = `<section class="card" style="gap:10px"><div style="display:flex;gap:12px;align-items:center"><span class="avatar" style="width:56px;height:56px;font-size:18px;${severeOf(id) ? 'box-shadow:0 0 0 3px var(--a-red)' : ''}">${initials(d.lat)}</span><div style="flex:1;min-width:0"><div class="t" style="font-weight:700;font-size:17px">${d.ru}</div><div class="muted">${d.roleRu} · ${d.coRu} · ${d.cityRu}</div></div></div>
+      <div class="chips"><span class="chip ${s[2]}">${s[1]}</span>${S.missing.includes(id) ? '<span class="chip warn">нет в автобусе</span>' : '<span class="chip ok">в автобусе</span>'}${S.docsMissing.includes(id) ? `<span class="chip warn">${id === 'd4' ? 'нет билета' : 'нет паспорта'}</span>` : ''}</div>
+      <div class="btns split">${btn('fakeCall', `${icon('phone', 18)} Позвонить`, 'ghost small', d.ru)}${btn('kMsg', `${icon('msg', 18)} Написать`, 'ghost small', id)}</div></section>`;
+    if (!ok) {
+      const nr = NOT_READY[id];
+      return `${coordHead('Профиль участника')}<div class="body">${back}${head}
+        <section class="card warn"><div class="t" style="font-weight:700">Профиль ещё не готов</div><span>${esc(nr ? nr.sub : 'Заполняет профиль в приложении: 3 из 4 шагов')}</span>${S.reminded[id] ? '<span class="chip info" style="align-self:flex-start">напоминание отправлено</span>' : btn('remindProfile', 'Напомнить заполнить', 'primary full', id)}</section>
+        <section class="card"><h3>Из заявки</h3>${row('Телефон', phoneOf(id))}${row('Компания', esc(d.coRu))}${row('Город', esc(d.cityRu))}<span class="muted">Эти данные пришли с заявкой — участник их только проверит.</span></section>
+        ${kNotes(id)}</div>`;
+    }
+    const alg = algNames(p);
+    const health = p.health.concat(p.healthNote.trim() ? [p.healthNote.trim()] : []);
+    const important = [alg.length ? `<b style="color:${p.severe ? 'var(--a-red)' : 'var(--a-warn)'}">Аллергия: ${esc(alg.join(', '))}${p.severe ? ' — серьёзная, опасна для жизни' : ''}</b>` : '', health.length ? esc(health.join('; ')) : ''].filter(Boolean);
+    const mates = D.filter((x) => x.id !== id).map((x) => ({ x, common: (profileOf(x.id) && profileOf(x.id).saved ? profileOf(x.id).interests : []).filter((y) => p.interests.includes(y)) })).filter((m) => m.common.length).sort((a, b) => b.common.length - a.common.length).slice(0, 2);
+    const docs = [['Паспорт', !(S.docsMissing.includes(id) && id !== 'd4')], ['Билеты', !(S.docsMissing.includes(id) && id === 'd4')], ['Страховка', true], ['Оплата', true]];
+    const hist = historyOf(id).map(([w, x]) => `<div class="li two"><div><div>${esc(x)}</div><div class="s">${esc(w)}</div></div></div>`).join('') || '<span class="muted">Пока нет.</span>';
+    return `${coordHead('Профиль участника')}<div class="body">${back}${head}
+      ${important.length ? `<section class="card ${p.severe ? '' : 'warn'}" style="${p.severe ? 'background:#fdecea;border-color:#f5c2bb' : ''}"><div class="t" style="font-weight:700">Важно в поездке</div>${important.map((x) => `<div>${x}</div>`).join('')}${alg.length ? '<span class="muted">Ресторанам — в сводке без имени; за столом гид предупредит официанта.</span>' : ''}</section>` : ''}
+      <section class="card"><h3>Питание и проживание</h3>${row('Питание', esc(dietNames(p).join(', ') || '—'))}${row('Аллергия', alg.length ? esc(alg.join(', ')) + (p.severe ? ' · серьёзная' : ' · лёгкая') : 'нет')}${row('Номер', p.room === 'single' ? 'одноместный' : `двухместный · ${p.mate ? `с ${esc(byId[p.mate].ru)}` : 'соседа подобрать'}`)}</section>
+      <section class="card"><h3>Связь и цели поездки</h3>${row('Телефон', phoneOf(id))}${row('Мессенджер', esc(p.msg))}${row('Английский', ENG[p.eng])}${row('Интересы', esc(p.interests.join(', ') || '—'))}
+        ${mates.length ? `<span class="muted">Познакомить: ${mates.map((m) => `${esc(m.x.ru)} (${esc(m.common.join(', ').toLowerCase())})`).join('; ')}</span>` : ''}</section>
+      <section class="card"><h3>Документы</h3><div class="chips">${docs.map(([k, v]) => `<span class="chip ${v ? 'ok' : 'warn'}">${k}${v ? ' ✓' : ' — нет'}</span>`).join('')}</div></section>
+      ${kNotes(id)}
+      <section class="card"><h3>История изменений</h3><div class="list">${hist}</div></section>
+      ${s[0] === 'ready' ? btn('kCheck', `${icon('check', 18)} Проверено — всё понятно`, 'primary full', id) : `<span class="muted" style="text-align:center">Проверено координатором. Если участник что-то поменяет — вы получите уведомление.</span>`}
+      ${id === 'd1' ? btn('viewAs', 'Смотреть как этот участник', 'ghost full', 'delegate') : ''}
+    </div>`;
+  }
+  function kNotes(id) {
+    return `<section class="card"><h3>Заметки координатора</h3><span class="muted">Видите только вы и ваша команда — участник их не видит.</span><label class="field" for="cn_${id}"><textarea id="cn_${id}" rows="2" data-field="cn_${id}" placeholder="Например: принимает решения о закупках; интересна встреча с Meituan">${esc(S.cnotes[id] || '')}</textarea></label></section>`;
   }
   function kLeads() {
     const row = (x, agency, mine) => {
@@ -1474,21 +1605,14 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
         <div><div class="t" style="font-weight:700">По-русски</div><div>Гостей 18 + 2 организатора.${dr ? ` Питание: ${esc(dr)}.` : ''}${ar ? ` Аллергии: ${esc(ar)} — готовить отдельно, предупредить при подаче.` : ''}</div></div>
         <span class="muted">Кто именно — видно в профилях; за столом гид подскажет официанту.</span>
         <div class="btns split">${btn('copyText', 'Скопировать', 'ghost', zh)}${btn('sendFood', 'Отправить ресторану')}</div>${btn('closeSheet', 'Закрыть', 'ghost full')}`;
-    } else if (sh.type === 'dProfile') {
-      const d = byId[sh.id];
-      const p = profileOf(sh.id);
-      const row = (k, v) => `<div class="kv"><span class="k">${k}</span><span>${v}</span></div>`;
-      const body = !p || !p.saved
-        ? `<div class="card warn" style="padding:10px 12px">Профиль ещё не заполнен.</div>${btn('remindProfile', 'Напомнить заполнить', 'primary full', d.id)}`
-        : [row('Питание', esc(dietNames(p).join(', ') || '—')),
-          row('Аллергия', p.algOn ? `<b style="color:${p.severe ? 'var(--a-red)' : 'var(--a-warn)'}">${esc(algNames(p).join(', '))}${p.severe ? ' · серьёзная' : ''}</b>` : 'нет'),
-          row('Номер', p.room === 'single' ? 'одноместный' : `двухместный · ${p.mate ? `с ${esc(byId[p.mate].ru)}` : 'соседа подобрать'}`),
-          row('Английский', ENG[p.eng]), row('Связь', esc(p.msg)), row('Интересы', esc(p.interests.join(', ') || '—')),
-          p.health.length || p.healthNote.trim() ? row('Здоровье', esc(p.health.concat(p.healthNote.trim() ? [p.healthNote.trim()] : []).join('; '))) : ''].join('');
-      inner = `<div style="display:flex;gap:12px;align-items:center"><span class="avatar" style="width:48px;height:48px;font-size:16px">${initials(d.lat)}</span><div><h3 style="margin:0">${d.ru}</h3><span class="muted">${d.roleRu} · ${d.coRu} · ${d.cityRu}</span></div></div>
-        ${body}
-        <label class="field" for="cn_${d.id}">Заметка координатора · видите только вы<textarea id="cn_${d.id}" rows="2" data-field="cn_${d.id}" placeholder="Например: принимает решения о закупках">${esc(S.cnotes[d.id] || '')}</textarea></label>
-        <div class="btns split">${btn('fakeCall', `${icon('phone', 18)} Позвонить`, 'ghost', d.ru)}${btn('closeSheet', 'Готово')}</div>`;
+    } else if (sh.type === 'rooming') {
+      const r = rooming();
+      const name = (id) => byId[id].lat.split(' ').reverse().map((w, i) => (i === 0 ? w.toUpperCase() : w)).join(' ');
+      const lines = r.pairs.map(([a, b], i) => `${i + 1}. ${name(a)} / ${name(b)} — twin`).concat(r.singles.map((id, i) => `${r.pairs.length + i + 1}. ${name(id)} — single`));
+      inner = `<h3>Список для отеля</h3><span class="muted">${esc(hotelOf(1).name)} · ${esc(hotelOf(1).nights)} · латиницей, как в паспортах</span>
+        <div class="card" style="background:var(--a-bg)"><div style="font-family:ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.6;white-space:pre-wrap">${esc(lines.join('\n'))}</div></div>
+        ${r.open.length ? `<div class="card warn" style="padding:10px 12px">Ещё не решено: ${r.open.map((id) => esc(byId[id].ru)).join(', ')} — допишем, когда заполнят профиль или вы назначите номер.</div>` : ''}
+        <div class="btns split">${btn('copyText', 'Скопировать', 'ghost', lines.join('\n'))}${btn('sendRooming', 'Отправить отелю')}</div>${btn('closeSheet', 'Закрыть', 'ghost full')}`;
     } else if (sh.type === 'legTime') {
       const L = LEGS.find((x) => x.id === sh.leg);
       const isDep = sh.kind === 'dep';
@@ -1533,7 +1657,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
     const keepScroll = scroller && key === lastKey ? scroller.scrollTop : 0;
     const views = {
       delegate: { today: dToday, plan: dPlan, library: dLibrary, people: dPeople, trip: dTrip, city: dCity, profile: dProfile },
-      coordinator: { center: kCenter, visits: kVisits, group: kGroup, leads: kLeads, announce: kAnnounce },
+      coordinator: { center: kCenter, visits: kVisits, group: kGroup, leads: kLeads, announce: kAnnounce, profile: kProfile },
       host: { visit: hVisit, delegation: hDelegation, prep: hPrep, after: hAfter },
       agent: { catalog: aCatalog, dates: aDates, calc: aCalc, apps: aApps, kit: aKit },
     };
@@ -1555,7 +1679,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
 
   const ROLE_INFO = {
     delegate: { name: `Делегат · ${me.ru}`, text: 'Участник экспедиции. Видит свою поездку: что сегодня, план по дням с погодой, отелями, ресторанами и культурной программой, материалы, людей группы и подготовку. Отели, рестораны, погода и телефоны в прототипе — примеры.', tips: ['Нажмите «Я в автобусе» — у координатора счётчик станет 15/18.', 'Кнопка «Контакты» на «Сегодня» — телефоны координатора, переводчика, отеля и экстренные номера.', 'В «Плане» у дня — погода и отель; нажмите на обед, ужин или культурную программу.', 'В «Поездке» откройте «Мой профиль»: питание (можно несколько вариантов), аллергия — на что именно, номер, интересы. При аллергии — карточка для официанта по-китайски.', 'В «Материалах» закреплены презентации.', 'В «Поездке» → «После» оставьте отзыв текстом или видео.', 'На «Сегодня» попробуйте «Переводчик» и «Слушать гида»; адреса отелей — на китайском, русском и английском.', 'Кнопка «Город»: шопинг, ночная жизнь, магазины 24/7, туалеты на карте, «Иду гулять»; «Такси» — DiDi с адресом по-китайски.'] },
-    coordinator: { name: 'Координатор · Остап Доценко', text: 'Видит и меняет всё. Ведёт группу и визиты, отвечает на запросы компаний и делегатов, может открыть любой экран глазами делегата или JD.com.', tips: ['На «Пульте» примите перенос Hema — у делегата обновится план.', 'На «Пульте» в «Переездах» нажмите «Выехали», потом «Прибыли» — время в пути запишется в журнал; первый выезд сообщит JD.com.', 'Вкладка «Группа»: нажмите на делегата — его профиль; «Сводка для ресторана» — питание и аллергии по-китайски, без имён.', 'Откройте презентацию JD.com делегатам или переведите вопросы.', 'Переключите «Как делегат» / «Как JD.com» в шапке.', 'На «Пульте» начните «Радиогид» — делегат услышит переводчика в наушниках.', 'Вкладка «Заявки» — заявки агентов и с сайта: «Взять в работу», «Подтвердить»; запросы на расчёт открываются как ТЗ. В шапке «Агент» — экран глазами агентства.'] },
+    coordinator: { name: 'Координатор · Остап Доценко', text: 'Видит и меняет всё. Ведёт группу и визиты, отвечает на запросы компаний и делегатов, может открыть любой экран глазами делегата или JD.com.', tips: ['На «Пульте» примите перенос Hema — у делегата обновится план.', 'На «Пульте» в «Переездах» нажмите «Выехали», потом «Прибыли» — время в пути запишется в журнал; первый выезд сообщит JD.com.', 'Вкладка «Группа»: «Люди» — этапы профилей и фильтры, нажмите на участника — его профиль целиком; «Питание» — серьёзные аллергии и сводка ресторанам; «Расселение» — пары и список для отеля.', 'Заполните «Мой профиль» за делегата, затем у координатора на «Пульте» появится «проверьте профиль» и «питание изменилось после отправки».', 'Откройте презентацию JD.com делегатам или переведите вопросы.', 'Переключите «Как делегат» / «Как JD.com» в шапке.', 'На «Пульте» начните «Радиогид» — делегат услышит переводчика в наушниках.', 'Вкладка «Заявки» — заявки агентов и с сайта: «Взять в работу», «Подтвердить»; запросы на расчёт открываются как ТЗ. В шапке «Агент» — экран глазами агентства.'] },
     agent: { name: `Агент · Ирина Миронова, ${AGENCY}`, text: 'Турагентство или агент-партнёр GTT (в прототипе — вымышленное агентство). Видит каталог программ по странам, ближайшие выезды и свободные места, отправляет заявки за своих клиентов и следит за статусом. Не видит делегатов, поездку изнутри и других агентов. Каталог — 76 программ с сайта; даты и места — пример.', tips: ['В «Каталоге» выберите страну и откройте программу: маршрут, компании, ближайшие выезды.', 'Нажмите «Отправить заявку» — заявка появится у координатора на «Пульте» и во вкладке «Заявки».', 'В «Датах» — выезды по месяцам и свободные места.', 'Переключитесь на координатора: «Взять в работу» → «Подтвердить» — у агента сменится статус, места в выезде уменьшатся.', 'Вкладка «Расчёт»: готовая экспедиция или своя программа по блокам, гражданство группы (РФ и СНГ) — у координатора откроется ТЗ.', 'В «Материалах» — презентации программ без цен для ваших клиентов и ролики; поля «Стоимость для агента» и «Комиссия» пока пустые.'] },
     host: { name: 'Компания · JD.com в WeChat', text: 'Менеджер компании, куда едет группа. Открывает мини-программу по QR-коду в WeChat, без установки. Видит только свой визит; телефонов делегатов не видит.', tips: ['Нажмите «接收提醒» (напоминания), потом у координатора на «Пульте» — «Выехали».', 'Предложите другое время — запрос уйдёт координатору.', 'Загрузите файл во вкладке «问题与资料» — он попадёт на проверку.', 'Переключите 中文 / EN и ответьте делегатам во вкладке «访问后».'] },
   };
@@ -1570,7 +1694,7 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
   }
 
   // ——— Действия ———
-  const NAV = new Set(['openProfile', 'waiterCard', 'openDProfile', 'foodSummary', 'legLog', 'tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet', 'openHotel', 'openCulture', 'contacts', 'reviewMode', 'translator', 'guide', 'driverCard', 'openMaps', 'copyAddr', 'cityCat', 'pickPlace', 'findMore', 'taxi2', 'agCountry', 'agMonth', 'agTour', 'calcOpen']);
+  const NAV = new Set(['openProfile', 'waiterCard', 'openDProfile', 'openK', 'gTab', 'gFilter', 'roomingList', 'foodSummary', 'legLog', 'tab', 'day', 'stage', 'viewAs', 'closeSheet', 'lang', 'hostFilter', 'openEvent', 'openCompany', 'showQr', 'sheetSet', 'openHotel', 'openCulture', 'contacts', 'reviewMode', 'translator', 'guide', 'driverCard', 'openMaps', 'copyAddr', 'cityCat', 'pickPlace', 'findMore', 'taxi2', 'agCountry', 'agMonth', 'agTour', 'calcOpen']);
   const now = () => '09:05';
   const A = {
     tab: (k) => { const who = S.role === 'coordinator' && S.viewAs ? S.viewAs : S.role; S.tab[who] = k; if (who === 'host' && k === 'after') setTimeout(() => { S.requests.forEach((r) => { r.isNew = false; }); save(); }, 0); },
@@ -1694,14 +1818,24 @@ button:focus-visible, [data-act]:focus-visible, input:focus-visible, textarea:fo
       if (healthGiven(p) && !p.consent) return toast('Нужно согласие на обработку сведений о здоровье');
       const first = !p.saved;
       p.saved = true;
+      S.checked.d1 = false;
+      S.pHist.unshift([`сегодня, ${now()}`, `Анна: ${first ? 'заполнила профиль' : 'изменила профиль'} — ${foodLine(p)}`]);
       log('delegate', `${me.ru} ${first ? 'заполнила' : 'обновила'} профиль: ${foodLine(p)} → у координатора в «Группе»; в сводку для ресторанов — без имени.`);
       toast('Профиль сохранён — координатор видит его');
     },
     waiterCard: () => { S.sheet = { type: 'waiter' }; },
-    openDProfile: (id) => { S.sheet = { type: 'dProfile', id }; },
-    remindProfile: (id) => { S.sheet = null; log('coordinator', `Напомнил ${byId[id].ru} заполнить профиль → push и Telegram.`); toast(`${byId[id].ru} получит напоминание`); },
+    openDProfile: (id) => { S.sheet = null; S.kSel = id; S.tab.coordinator = 'profile'; },
+    openK: (id) => { S.sheet = null; S.kSel = id; S.tab.coordinator = 'profile'; },
+    gTab: (k) => { S.gTab = k; },
+    gFilter: (k) => { S.gFilter = k; },
+    kCheck: (id) => { S.checked[id] = true; if (id === 'd1') S.pHist.unshift([`сегодня, ${now()}`, 'Остап: проверено']); log('coordinator', `Проверил профиль: ${byId[id].ru} → «проверен».`); toast('Отмечено: профиль проверен'); },
+    kMsg: (id) => toast(`Откроется чат с ${byId[id].ru} в ${(profileOf(id) && profileOf(id).saved && profileOf(id).msg) || 'приложении'} (в прототипе без отправки)`),
+    remindProfile: (id) => { S.sheet = null; S.reminded[id] = true; log('coordinator', `Напомнил ${byId[id].ru} заполнить профиль → push и ${NOT_READY[id] && NOT_READY[id].st === 'invited' ? 'WhatsApp' : 'Telegram'}.`); toast(`${byId[id].ru} получит напоминание`); },
+    remindAll: () => { D.filter((d) => !ready(d.id)).forEach((d) => { S.reminded[d.id] = true; }); log('coordinator', 'Напомнил всем, кто не заполнил профиль → push и мессенджер.'); toast('Напоминания отправлены'); },
+    roomingList: () => { S.sheet = { type: 'rooming' }; },
+    sendRooming: () => { S.sheet = null; log('coordinator', 'Отправил отелю список расселения латиницей.'); toast('Список ушёл отелю на почту (в прототипе — без отправки)'); },
     foodSummary: () => { S.sheet = { type: 'foodSummary' }; },
-    sendFood: () => { S.sheet = null; log('coordinator', 'Отправил ресторану сводку питания и аллергий группы на китайском, без имён.'); toast('Сводка ушла ресторану в WeChat (в прототипе — без отправки)'); },
+    sendFood: () => { S.sheet = null; S.foodSent = { at: `сегодня, ${now()}`, sig: foodSig() }; log('coordinator', 'Отправил ресторанам сводку питания и аллергий группы на китайском, без имён.'); toast('Сводка ушла ресторанам в WeChat (в прототипе — без отправки)'); },
     legDep: (id) => { const L = LEGS.find((x) => x.id === id); S.sheet = { type: 'legTime', leg: id, kind: 'dep', t: fromMin(toMin(L.plan) + 4) }; },
     legArr: (id) => { const L = LEGS.find((x) => x.id === id); S.sheet = { type: 'legTime', leg: id, kind: 'arr', t: fromMin(toMin(S.legs[id].dep) + L.min - 8) }; },
     legAdj: (x) => { S.sheet.t = fromMin(toMin(S.sheet.t) + Number(x)); },
