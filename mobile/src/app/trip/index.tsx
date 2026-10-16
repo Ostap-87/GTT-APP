@@ -2,7 +2,8 @@
 import { router } from 'expo-router';
 import { Text, View } from 'react-native';
 
-import { ANNOUNCEMENT, CITY, DAYS, TRIP, WEATHER, dayEvents, hotelOf } from '@/data/trip';
+import { CITY, DAYS, TRIP, WEATHER, dayEvents, hotelOf } from '@/data/trip';
+import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
 import { Icon } from '@/ui/Icon';
@@ -17,7 +18,8 @@ export default function Today() {
   const h = hotelOf(i);
   const { inBus, setInBus } = useTrip();
   const toast = useToast();
-  const busCount = 14 + (inBus ? 1 : 0);
+  const k = useCoord();
+  const ann = k.anns.find((a) => a.toD); // последнее объявление координатора делегатам
   return (
     <Screen eyebrow={`${d.wd}, ${d.n} ноября · ${CITY[i]} · ${w.max}`} title="Сегодня">
       <Card tone="dark">
@@ -30,7 +32,7 @@ export default function Today() {
               title={inBus ? 'В автобусе' : 'Я в автобусе'}
               icon={inBus ? 'check' : 'bus'}
               kind={inBus ? 'light' : 'primary'}
-              onPress={() => { setInBus(!inBus); if (!inBus) toast(`Координатор видит: в автобусе ${busCount + 1} из 18`); }}
+              onPress={() => { setInBus(!inBus); if (!inBus) toast(`Координатор видит: в автобусе ${k.busCount + 1} из 18`); }}
             />
           </View>
           <View style={{ flex: 1 }}>
@@ -49,8 +51,8 @@ export default function Today() {
       </Card>
 
       <Card tone="warn">
-        <TitleRow title="Объявление координатора" right={<T muted>{ANNOUNCEMENT.time}</T>} />
-        <T>{ANNOUNCEMENT.text}</T>
+        <TitleRow title="Объявление координатора" right={<T muted>{ann?.time}</T>} />
+        <T>{ann?.ru}</T>
       </Card>
 
       <Card>

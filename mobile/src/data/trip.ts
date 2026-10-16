@@ -30,8 +30,6 @@ export const hotelOf = (i: number) => {
   return key ? { key, ...HOTELS[key] } : null;
 };
 
-export const ANNOUNCEMENT = { time: '08:40', text: 'Встреча в Meituan перенесена на 15:30. Автобус от JD.com — в 14:50.' };
-
 export const CONTACTS = [
   { name: 'Остап Доценко', role: 'Координатор · круглосуточно', phones: ['+86 138 0000 0000', '+7 900 000-00-00'], im: 'WeChat · Telegram · WhatsApp' },
   { name: 'Ли Мэй', role: 'Переводчик', phones: ['+86 139 0000 0000'], im: 'WeChat' },
