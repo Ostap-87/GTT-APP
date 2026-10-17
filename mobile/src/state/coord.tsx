@@ -10,6 +10,8 @@ import { useTrip } from '@/state/trip';
 export type Stage = ['invited' | 'filling' | 'ready' | 'checked', string, 'ok' | 'warn' | 'info'];
 type LegMark = { dep?: string; arr?: string };
 type Ann = { id: string; ru: string; zh: string; toD: boolean; toH: boolean; tg: boolean; time: string };
+export type Followup = { id: string; company: string; typeRu: string; zh: string; consent: boolean; status: 'new' | 'sent' };
+export type Review = { id: string; text: string; video: boolean; consent: boolean; status: 'new' | 'thanked' | 'shared' };
 type FoodSum = { filled: number; dc: Record<string, number>; ac: Record<string, number>; sev: Record<string, number> };
 
 function groupFoodOf(ps: Profile[]): FoodSum {
@@ -38,6 +40,13 @@ function useCoordState() {
   const [igorReminded, setIgorReminded] = useState(false);
   const [pddReminded, setPddReminded] = useState(false);
   const [viewing, setViewing] = useState(false);
+  // Радиогид, прогулка, отзывы и «Хочу продолжить» — общие для делегата и координатора
+  const [guideLive, setGuideLive] = useState(false);
+  const [out, setOut] = useState<string | null>(null); // делегат гуляет сам — вернуться до …
+  const [followups, setFollowups] = useState<Followup[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [rating, setRating] = useState(0);
+  const [hema, setHema] = useState<'pending' | 'accepted' | 'discuss'>('pending');
   const docsMissing = ['d4', 'd15'];
 
   return useMemo(() => {
@@ -107,9 +116,14 @@ function useCoordState() {
       remindIgor: () => setIgorReminded(true),
       remindPdd: () => setPddReminded(true),
       setViewing,
+      guideLive, setGuideLive, out, setOut, followups, reviews, rating, setRating, hema, setHema,
+      addFollowup: (f: Omit<Followup, 'id' | 'status'>) => setFollowups((x) => [...x, { ...f, id: `f${x.length}`, status: 'new' }]),
+      sendFollowup: (id: string) => setFollowups((x) => x.map((f) => (f.id === id ? { ...f, status: 'sent' } : f))),
+      addReview: (r: Omit<Review, 'id' | 'status'>) => setReviews((x) => [{ ...r, id: `r${x.length}`, status: 'new' }, ...x]),
+      markReview: (id: string, status: Review['status']) => setReviews((x) => x.map((r) => (r.id === id ? { ...r, status } : r))),
       foodLineOf: (id: string) => { const p = profileOf(id); return p ? foodLine(p) : ''; },
     };
-  }, [trip, missing, legs, checked, d1Checked, reminded, notes, foodSent, anns, igorReminded, pddReminded, viewing]);
+  }, [trip, missing, legs, checked, d1Checked, reminded, notes, foodSent, anns, igorReminded, pddReminded, viewing, guideLive, out, followups, reviews, rating, hema]);
 }
 
 type Coord = ReturnType<typeof useCoordState>;

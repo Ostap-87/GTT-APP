@@ -41,6 +41,19 @@ export default function Today() {
         </View>
       </Card>
 
+      {k.guideLive ? (
+        <Card tone="info" onPress={() => router.push('/guide')} label="Гид в эфире — слушать">
+          <Row left={<Icon name="headphones" size={24} color={C.blueInk} />} title="Гид в эфире" sub="Ли Мэй · нажмите, чтобы слушать в наушниках" />
+        </Card>
+      ) : null}
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+        {([['Переводчик', 'translate', '/translator'], ['Слушать гида', 'headphones', '/guide'], ['Город', 'map', '/city'], ['Такси', 'car', 'taxi']] as const).map(([title, icon, to]) => (
+          <View key={title} style={{ flexBasis: '47%', flexGrow: 1 }}>
+            <Button title={title} icon={icon} kind="ghost" onPress={() => (to === 'taxi' ? router.push({ pathname: '/driver', params: { zh: h ? h.addrZh : '', ru: h ? h.addrRu : '' } }) : router.push(to))} />
+          </View>
+        ))}
+      </View>
+
       <Card>
         <Row
           left={<Avatar text="ОД" />}

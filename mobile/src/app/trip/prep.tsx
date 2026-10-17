@@ -4,11 +4,97 @@ import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { foodLine } from '@/data/profile';
-import { CHECKLIST, ME } from '@/data/trip';
+import { CHECKLIST, CULTURE, ME } from '@/data/trip';
+import { useCoord } from '@/state/coord';
+import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
 import { Icon } from '@/ui/Icon';
-import { Avatar, Card, Chip, H3, Row, Screen, T, TitleRow, initials } from '@/ui/kit';
+import { Avatar, Button, Card, Check, Chip, Field, H3, Row, Screen, Seg, T, TitleRow, initials } from '@/ui/kit';
 import { C, F } from '@/ui/theme';
+
+/** «В поездке»: прогресс поездки, культурная программа и инструменты дня. */
+function During() {
+  return (
+    <>
+      <Card>
+        <TitleRow title="День 2 из 6" right={<Chip tone="info">Пекин</Chip>} />
+        <View style={{ height: 8, borderRadius: 4, backgroundColor: C.line2, overflow: 'hidden' }}>
+          <View style={{ width: '33%', height: '100%', backgroundColor: C.blue }} />
+        </View>
+        <T muted>Пройдено визитов: 0 из 9 · сегодня JD.com и Meituan</T>
+      </Card>
+      <Card>
+        <H3>Культурная программа</H3>
+        {Object.entries(CULTURE).map(([key, c]) => (
+          <Row key={key} title={c.title} sub={c.when} right={<Chip tone="dark">культура</Chip>} onPress={() => router.push(`/culture/${key}`)} label={c.title} />
+        ))}
+      </Card>
+      <Card>
+        <H3>В дороге пригодится</H3>
+        <Row title="Переводчик" sub="Говорите по-русски — собеседник слышит по-китайски" left={<Icon name="translate" size={22} color={C.blueInk} />} onPress={() => router.push('/translator')} label="Переводчик" />
+        <Row title="Слушать гида" sub="Радиогид в наушниках, субтитры на русском" left={<Icon name="headphones" size={22} color={C.blueInk} />} onPress={() => router.push('/guide')} label="Слушать гида" />
+        <Row title="Город" sub="Шопинг, вечер, магазины 24/7 и туалеты рядом с отелем" left={<Icon name="map" size={22} color={C.blueInk} />} onPress={() => router.push('/city')} label="Город" />
+      </Card>
+    </>
+  );
+}
+
+/** «После»: отзыв текстом или видео, оценка визита, «Хочу продолжить» с компаниями. */
+function After() {
+  const k = useCoord();
+  const toast = useToast();
+  const [mode, setMode] = useState<'text' | 'video'>('text');
+  const [text, setText] = useState('');
+  const [video, setVideo] = useState(false);
+  const [consent, setConsent] = useState(true);
+  const sent = k.reviews[0];
+  const send = () => {
+    if (mode === 'text' && !text.trim()) return toast('Напишите пару слов о поездке');
+    if (mode === 'video' && !video) return toast('Сначала запишите видео');
+    k.addReview({ text: mode === 'text' ? text.trim() : '', video: mode === 'video', consent });
+    toast('Спасибо! Отзыв у координатора');
+  };
+  return (
+    <>
+      <Card>
+        <H3>Отзыв о поездке</H3>
+        {sent ? <Card tone="info"><T>{`Спасибо! Отзыв${sent.video ? ' (видео)' : ''} у координатора.`}</T></Card> : (
+          <>
+            <Seg options={[['text', 'Текстом'], ['video', 'Видео']] as const} value={mode} onChange={setMode} />
+            {mode === 'text'
+              ? <Field label="Ваш отзыв" value={text} onChangeText={setText} placeholder="Что было самым полезным? Что улучшить?" multiline />
+              : video
+                ? <Row left={<Icon name="video" size={24} color={C.ink} />} title="Видео 0:48 записано" sub="Можно переснять" right={<Button title="Переснять" kind="ghost" small onPress={() => toast('Камера откроется в приложении')} />} />
+                : <Button title="Записать видео до 2 минут" icon="video" kind="ghost" onPress={() => { setVideo(true); toast('Видео 0:48 записано (в демо — без камеры)'); }} />}
+            <Check on={consent} onPress={() => setConsent(!consent)}>Разрешаю Global Tech Tour опубликовать отзыв на сайте и в соцсетях</Check>
+            <Button title="Отправить отзыв" onPress={send} />
+          </>
+        )}
+      </Card>
+      <Card>
+        <H3>Оцените визит в JD.com</H3>
+        <View style={{ flexDirection: 'row', gap: 6 }}>
+          {[1, 2, 3, 4, 5].map((n) => (
+            <Pressable key={n} onPress={() => k.setRating(n)} accessibilityRole="button" accessibilityLabel={`${n} из 5`} hitSlop={6}>
+              <Text style={{ fontSize: 32, color: n <= k.rating ? '#f5a623' : C.line }}>★</Text>
+            </Pressable>
+          ))}
+        </View>
+        <T muted>{k.rating ? 'Спасибо! Компания увидит общую оценку группы, без имён.' : 'Компания видит только общую оценку группы.'}</T>
+      </Card>
+      <Card>
+        <H3>Хочу продолжить</H3>
+        <T muted>Образцы, переговоры, повторная встреча — координатор передаст компании.</T>
+        <Button title="Оставить запрос" onPress={() => router.push('/followup')} />
+        {k.followups.map((f) => <Row key={f.id} title={`${f.company} · ${f.typeRu}`} sub={f.status === 'new' ? 'у координатора' : 'передано компании'} right={<Chip tone={f.status === 'new' ? 'info' : 'ok'}>{f.status === 'new' ? 'отправлено' : 'передано'}</Chip>} />)}
+      </Card>
+      <Card>
+        <H3>Фото, видео и отчёт</H3>
+        <T muted>Откроются 14 ноября, после возвращения группы.</T>
+      </Card>
+    </>
+  );
+}
 
 export default function Prep() {
   const { done, toggle, profile, pStep } = useTrip();
@@ -58,17 +144,9 @@ export default function Prep() {
           </Card>
         </>
       ) : stage === 'during' ? (
-        <Card>
-          <H3>В поездке</H3>
-          <T>Главное — на вкладке «Сегодня»: выезд, «Я в автобусе», адрес для такси по-китайски, план дня и связь с координатором.</T>
-          <T muted>Переводчик, радиогид и раздел «Город» появятся на следующих шагах — они уже есть в кликабельном прототипе.</T>
-        </Card>
+<During />
       ) : (
-        <Card>
-          <H3>После поездки</H3>
-          <T>Фото и видео, итоговый отчёт, «Хочу продолжить» с компаниями и отзыв текстом или видео откроются после возвращения.</T>
-          <T muted>В шаге 1 этот раздел показан как заглушка.</T>
-        </Card>
+<After />
       )}
     </Screen>
   );

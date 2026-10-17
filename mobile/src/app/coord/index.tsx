@@ -19,7 +19,7 @@ export default function Center() {
   const ag = useAgent();
   const toast = useToast();
   const ready = DELEGATES.filter((d) => k.ready(d.id)).length;
-  const conf = VISITS.filter((v) => v.st[0] === 'ok').length;
+  const conf = VISITS.filter((v) => v.st[0] === 'ok').length + (k.hema === 'accepted' ? 1 : 0);
   const todo = k.notReady.filter((d) => !k.reminded[d.id]);
 
   const items: Item[] = [];
@@ -40,6 +40,17 @@ export default function Center() {
     key: `c-${r.id}`, title: `Запрос на расчёт ${r.id} от ${AGENCY}`, sub: `${calcTitle(r)} · ${r.people} чел. · ${citLine(r.cit)}`,
     btns: [['Открыть ТЗ', 'primary', () => router.push({ pathname: '/calc/[id]', params: { id: r.id, as: 'coord' } })]],
   }));
+  if (k.hema === 'pending') items.push({ key: 'hema', title: 'Hema предлагает 14:00 вместо 13:30', sub: 'Ср, 11 ноября · написали на странице визита',
+    btns: [['Принять и сообщить группе', 'primary', () => { k.setHema('accepted'); toast('Принято: делегаты и автобус узнают о 14:00'); }], ['Открыть визит', 'ghost', () => router.push('/visit/hema')]] });
+  k.followups.filter((f) => f.status === 'new').forEach((f) => items.push({
+    key: `f-${f.id}`, title: `Анна Смирнова хочет продолжить с ${f.company}`, sub: `${f.typeRu}${f.consent ? ' · контакты передать можно' : ' · без контактов'}`,
+    btns: [['Отправить компании', 'primary', () => { k.sendFollowup(f.id); toast(`${f.company} получит запрос по-китайски`); }]],
+  }));
+  k.reviews.filter((r) => r.status === 'new').forEach((r) => items.push({
+    key: `r-${r.id}`, title: `Отзыв о поездке от Анны Смирновой · ${r.video ? 'видео 0:48' : 'текст'}`, sub: r.text ? `«${r.text}»` : 'Видеоотзыв с телефона',
+    btns: ([['Поблагодарить', 'primary', () => { k.markReview(r.id, 'thanked'); toast('Анна получит благодарность'); }]] as Item['btns'])
+      .concat(r.consent ? [['В соцсети GTT', 'ghost', () => { k.markReview(r.id, 'shared'); toast('Отзыв в очереди публикаций GTT — выйдет после вашего «утверждаю»'); }]] : []),
+  }));
   if (!k.pddReminded) items.push({ key: 'pdd', title: 'Pinduoduo не открыла ссылку визита · 3 дня', btns: [['Напомнить', 'ghost', () => { k.remindPdd(); toast('Pinduoduo получит напоминание в WeChat'); }]] });
   if (!k.igorReminded) items.push({ key: 'igor', title: 'Игорь Белов · нет билета', btns: [['Напомнить', 'ghost', () => { k.remindIgor(); toast('Игорь получит напоминание в Telegram'); }]] });
 
@@ -48,7 +59,7 @@ export default function Center() {
     <CoordScreen title="Новый ритейл · день 2">
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
         <Stat dark label="В автобусе" value={`${k.busCount} / 18`} sub={dep ? `выехали в ${dep}` : 'выезд в 09:30'} />
-        <Stat label="Визиты подтверждены" value={`${conf} / ${VISITS.length}`} sub={VISITS.filter((v) => v.st[0] !== 'ok').map((v) => v.name.split(' ')[0]).join(', ')} />
+        <Stat label="Визиты подтверждены" value={`${conf} / ${VISITS.length}`} sub={VISITS.filter((v) => v.st[0] !== 'ok' && !(v.id === 'hema' && k.hema === 'accepted')).map((v) => v.name.split(' ')[0]).join(', ')} />
         <Stat label="Профили готовы" value={`${ready} / 18`} sub={k.notReady.length ? `${k.notReady.length} ждём` : 'все заполнены'} />
         <Stat label="Документы" value={`${18 - k.docsMissing.length} / 18`} sub={`${k.docsMissing.length} ждём`} />
       </View>
@@ -71,6 +82,22 @@ export default function Center() {
       </Card>
 
       <LegsCard />
+
+      <Card>
+        <TitleRow title="Радиогид для группы" right={k.guideLive ? <Chip tone="new">в эфире</Chip> : null} />
+        {k.guideLive ? (
+          <>
+            <T muted>Говорит Ли Мэй · слушают 11 из 18</T>
+            <Button title="Остановить трансляцию" kind="ghost" onPress={() => { k.setGuideLive(false); toast('Трансляция остановлена'); }} />
+          </>
+        ) : (
+          <>
+            <T muted>Переводчик или гид говорит в свой телефон, группа слушает в своих наушниках.</T>
+            <Button title="Начать трансляцию" icon="headphones" onPress={() => { k.setGuideLive(true); toast('Делегаты видят «Гид в эфире»'); }} />
+          </>
+        )}
+      </Card>
+      {k.out ? <Card tone="info"><T bold>Свободное время</T><T>{`Гуляет самостоятельно: Анна Смирнова, вернётся до ${k.out}`}</T></Card> : null}
 
       <Card>
         <TitleRow title="Требует внимания" right={<Chip tone={items.length ? 'warn' : 'ok'}>{items.length ? String(items.length) : 'всё решено'}</Chip>} />

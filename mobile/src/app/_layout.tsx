@@ -56,6 +56,12 @@ export default function RootLayout() {
             <Stack.Screen name="agent-tour/[id]" options={{ title: 'Программа' }} />
             <Stack.Screen name="agent-apply" options={{ title: 'Заявка в GTT', presentation: 'modal' }} />
             <Stack.Screen name="calc/[id]" options={{ title: 'ТЗ на расчёт' }} />
+            <Stack.Screen name="translator" options={{ title: 'Переводчик', presentation: 'modal' }} />
+            <Stack.Screen name="guide" options={{ title: 'Слушать гида', presentation: 'modal' }} />
+            <Stack.Screen name="city" options={{ title: 'Город · Пекин' }} />
+            <Stack.Screen name="place/[id]" options={{ title: 'Место', presentation: 'modal' }} />
+            <Stack.Screen name="followup" options={{ title: 'Хочу продолжить', presentation: 'modal' }} />
+            <Stack.Screen name="visit/[id]" options={{ title: 'Визит компании' }} />
           </Stack>
         </ToastProvider>
         </AgentProvider>
