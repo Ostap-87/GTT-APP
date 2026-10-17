@@ -9,6 +9,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { AgentProvider } from '@/state/agent';
 import { CoordProvider } from '@/state/coord';
 import { TripProvider } from '@/state/trip';
 import { ToastProvider } from '@/state/toast';
@@ -21,6 +22,7 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <TripProvider>
         <CoordProvider>
+        <AgentProvider>
         <ToastProvider>
           <StatusBar style="dark" />
           <Stack
@@ -49,8 +51,14 @@ export default function RootLayout() {
             <Stack.Screen name="legs" options={{ title: 'Журнал переездов', presentation: 'modal' }} />
             <Stack.Screen name="food-summary" options={{ title: 'Сводка для ресторана', presentation: 'modal' }} />
             <Stack.Screen name="rooming" options={{ title: 'Список для отеля', presentation: 'modal' }} />
+            <Stack.Screen name="view-as" options={{ title: 'Смотреть как…', presentation: 'modal' }} />
+            <Stack.Screen name="agent" options={{ headerShown: false }} />
+            <Stack.Screen name="agent-tour/[id]" options={{ title: 'Программа' }} />
+            <Stack.Screen name="agent-apply" options={{ title: 'Заявка в GTT', presentation: 'modal' }} />
+            <Stack.Screen name="calc/[id]" options={{ title: 'ТЗ на расчёт' }} />
           </Stack>
         </ToastProvider>
+        </AgentProvider>
         </CoordProvider>
       </TripProvider>
     </SafeAreaProvider>

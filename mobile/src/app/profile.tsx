@@ -3,29 +3,16 @@
 // Первый раз — анкета из 4 шагов по очереди, потом — всё на одном экране; профиль можно сохранить для следующих поездок.
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 
 import { ALLERGENS, DIET_OPTS, ENG, HEALTH_OPTS, INTERESTS, MESSENGERS, PSTEPS, algGiven, foodLine, healthOnlyGiven } from '@/data/profile';
 import { DELEGATES, ME } from '@/data/trip';
 import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
-import { Icon } from '@/ui/Icon';
-import { Avatar, Button, Card, Chips, H3, Pick, Plain, Row, Seg, T, initials } from '@/ui/kit';
+import { Avatar, Button, Card, Check, Chips, H3, Pick, Plain, Row, Seg, T, initials, inputStyle as input } from '@/ui/kit';
 import { C, F } from '@/ui/theme';
 
-const input = { borderWidth: 1, borderColor: '#d5dbe6', borderRadius: 10, padding: 10, minHeight: 44, fontFamily: F.regular, fontSize: 14, color: C.ink } as const;
 const toggle = (list: string[], x: string) => (list.includes(x) ? list.filter((y) => y !== x) : list.concat(x));
-
-function Check({ on, onPress, children }: { on: boolean; onPress: () => void; children: string }) {
-  return (
-    <Pressable onPress={onPress} accessibilityRole="checkbox" accessibilityState={{ checked: on }} style={{ flexDirection: 'row', gap: 12, alignItems: 'flex-start' }}>
-      <View style={{ width: 22, height: 22, borderRadius: 6, borderWidth: 1.5, borderColor: on ? C.blue : '#c3cad6', backgroundColor: on ? C.blue : C.card, alignItems: 'center', justifyContent: 'center', marginTop: 1 }}>
-        {on ? <Icon name="check" size={14} color="#fff" /> : null}
-      </View>
-      <Text style={{ flex: 1, fontFamily: F.regular, fontSize: 14, lineHeight: 20, color: C.ink }}>{children}</Text>
-    </Pressable>
-  );
-}
 
 export default function ProfileScreen() {
   const { profile: p, editProfile, saveProfile, pStep: step, setPStep } = useTrip();

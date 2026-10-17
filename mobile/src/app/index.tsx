@@ -1,4 +1,4 @@
-// Стартовый экран: вход делегата по приглашению (в демо — сразу), вход координатора и открытый каталог программ.
+// Стартовый экран: вход делегата по приглашению (в демо — сразу), вход координатора и агента, открытый каталог программ.
 import { router } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -25,7 +25,10 @@ export default function Welcome() {
           <T style={{ color: C.onDark }}>Вы входите как {ME.ru} — участник вымышленный.</T>
           <Button title="Войти в поездку" onPress={() => router.replace('/trip')} />
         </Card>
-        <Button title="Войти как координатор" kind="dark" icon="grid" onPress={() => router.replace('/coord')} />
+        <View style={{ flexDirection: 'row', gap: 8 }}>
+          <View style={{ flex: 1 }}><Button title="Координатор" kind="dark" icon="grid" label="Войти как координатор" onPress={() => router.replace('/coord')} /></View>
+          <View style={{ flex: 1 }}><Button title="Агент" kind="dark" icon="send" label="Войти как агент" onPress={() => router.replace('/agent')} /></View>
+        </View>
         <Button title={`Программы GTT · ${catalog.length}`} kind="ghost" icon="globe" onPress={() => router.push('/catalog')} />
         <T muted style={{ textAlign: 'center' }}>Шаг 1: данные поездки тестовые, вход по ссылке-приглашению и роли по доступу появятся на шаге 2.</T>
       </View>

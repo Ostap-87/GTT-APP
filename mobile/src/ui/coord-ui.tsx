@@ -1,22 +1,23 @@
-// Общие куски режима координатора: тёмная шапка с «Смотреть как делегат», плитки цифр, полоса прогресса,
-// карточка «Переезды сегодня».
+// Общие куски режима координатора: тёмная шапка со «Смотреть как…», плитки цифр, полоса прогресса,
+// карточка «Переезды сегодня», кнопка возврата к пульту.
 import { router } from 'expo-router';
 import type { ReactNode } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LEGS, diffTxt, dur, toMin } from '@/data/group';
 import { useCoord } from '@/state/coord';
+import { Icon } from './Icon';
 import { Button, Card, Chip, Row, Screen, T, TitleRow } from './kit';
 import { C, F } from './theme';
 
 export function CoordScreen({ title, children }: { title: string; children: ReactNode }) {
-  const { setViewing } = useCoord();
   return (
     <Screen
       dark
-      eyebrow="Координатор · полный доступ"
+      eyebrow="Координатор"
       title={title}
-      right={<Button title="Как делегат" kind="dark" small label="Смотреть как делегат" onPress={() => { setViewing(true); router.push('/trip'); }} />}
+      right={<Button title="Смотреть как…" kind="dark" small label="Смотреть глазами делегата, компании или агента" onPress={() => router.push('/view-as')} />}
     >
       {children}
     </Screen>
@@ -77,5 +78,23 @@ export function LegsCard() {
       })}
       <Button title="Журнал переездов" kind="light" small onPress={() => router.push('/legs')} />
     </Card>
+  );
+}
+
+/** Координатор смотрит глазами делегата или агента — кнопка возврата к пульту поверх вкладок. */
+export function BackToCoord() {
+  const { viewing, setViewing } = useCoord();
+  const insets = useSafeAreaInsets();
+  if (!viewing) return null;
+  return (
+    <Pressable
+      onPress={() => { setViewing(false); router.replace('/coord'); }}
+      accessibilityRole="button"
+      accessibilityLabel="Вернуться к пульту координатора"
+      style={{ position: 'absolute', right: 14, bottom: insets.bottom + 62, flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: C.dark, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 10 }}
+    >
+      <Icon name="grid" size={16} color="#fff" />
+      <Text style={{ fontFamily: F.bold, fontSize: 13, color: '#fff' }}>Пульт координатора</Text>
+    </Pressable>
   );
 }

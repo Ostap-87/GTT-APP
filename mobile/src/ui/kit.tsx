@@ -1,6 +1,6 @@
 // Общие элементы экранов: шапка, карточка, строка списка, кнопка, метка. Внешний вид — как в прототипе.
 import type { ReactNode } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View, type KeyboardTypeOptions, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon } from './Icon';
@@ -145,6 +145,34 @@ export function Seg<K extends string>({ options, value, onChange }: { options: r
   );
 }
 
+/** Галочка: согласие, «сохранить», «кому отправить». */
+export function Check({ on, onPress, children }: { on: boolean; onPress: () => void; children: string }) {
+  return (
+    <Pressable onPress={onPress} accessibilityRole="checkbox" accessibilityState={{ checked: on }} style={{ flexDirection: 'row', gap: 12, alignItems: 'flex-start', paddingVertical: 2 }}>
+      <View style={{ width: 22, height: 22, borderRadius: 6, borderWidth: 1.5, borderColor: on ? C.blue : '#c3cad6', backgroundColor: on ? C.blue : C.card, alignItems: 'center', justifyContent: 'center', marginTop: 1 }}>
+        {on ? <Icon name="check" size={14} color="#fff" /> : null}
+      </View>
+      <Text style={{ flex: 1, fontFamily: F.regular, fontSize: 14, lineHeight: 20, color: C.ink }}>{children}</Text>
+    </Pressable>
+  );
+}
+
+export const inputStyle = { borderWidth: 1, borderColor: '#d5dbe6', borderRadius: 10, padding: 10, minHeight: 44, fontFamily: F.regular, fontSize: 14, color: C.ink, backgroundColor: C.card } as const;
+
+/** Поле ввода с подписью сверху. */
+export function Field({ label, value, onChangeText, placeholder, multiline, keyboardType }: { label?: string; value: string; onChangeText: (v: string) => void; placeholder?: string; multiline?: boolean; keyboardType?: KeyboardTypeOptions }) {
+  return (
+    <View style={{ gap: 4 }}>
+      {label ? <Text style={{ fontFamily: F.semibold, fontSize: 12.5, color: C.muted }}>{label}</Text> : null}
+      <TextInput value={value} onChangeText={onChangeText} placeholder={placeholder} placeholderTextColor={C.muted} multiline={multiline} keyboardType={keyboardType}
+        accessibilityLabel={label || placeholder} style={[inputStyle, multiline && { minHeight: 64, textAlignVertical: 'top' }]} />
+    </View>
+  );
+}
+
+/** Подпись над группой вариантов («Страна поездки», «Кто едет»). */
+export const Label = ({ children }: { children: string }) => <Text style={{ fontFamily: F.semibold, fontSize: 12.5, color: C.muted }}>{children}</Text>;
+
 export const initials = (lat: string) => lat.split(' ').map((w) => w[0]).join('');
 
 export const s = StyleSheet.create({
@@ -173,7 +201,7 @@ export const s = StyleSheet.create({
   rowSub: { fontFamily: F.regular, fontSize: 12.5, color: C.muted, marginTop: 2 },
   avatar: { backgroundColor: C.blueSoft, alignItems: 'center', justifyContent: 'center' },
   avatarText: { fontFamily: F.bold, fontSize: 12, color: C.blueInk },
-  pick: { borderWidth: 1, borderColor: '#d5dbe6', backgroundColor: C.card, borderRadius: 999, paddingHorizontal: 12, paddingVertical: 7 },
+  pick: { borderWidth: 1, borderColor: '#d5dbe6', backgroundColor: C.card, borderRadius: 999, paddingHorizontal: 12, paddingVertical: 7, maxWidth: '100%' },
   pickOn: { backgroundColor: C.dark, borderColor: C.dark },
   pickText: { fontFamily: F.medium, fontSize: 13, color: C.ink },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },

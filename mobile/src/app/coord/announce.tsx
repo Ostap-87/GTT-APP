@@ -1,25 +1,13 @@
 // «Объявление»: шаблон или свой текст → делегатам (push), компании по-китайски, в Telegram группы.
 import { useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { TextInput } from 'react-native';
 
 import { TEMPLATES } from '@/data/group';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
-import { Icon } from '@/ui/Icon';
-import { Button, Card, Chips, H3, Pick, Row, T } from '@/ui/kit';
+import { Button, Card, Check, Chips, H3, Pick, Row, T } from '@/ui/kit';
 import { CoordScreen } from '@/ui/coord-ui';
 import { C, F } from '@/ui/theme';
-
-function Check({ on, onPress, children }: { on: boolean; onPress: () => void; children: string }) {
-  return (
-    <Pressable onPress={onPress} accessibilityRole="checkbox" accessibilityState={{ checked: on }} style={{ flexDirection: 'row', gap: 10, alignItems: 'center', paddingVertical: 4 }}>
-      <View style={{ width: 22, height: 22, borderRadius: 6, borderWidth: 1.5, borderColor: on ? C.blue : '#c3cad6', backgroundColor: on ? C.blue : C.card, alignItems: 'center', justifyContent: 'center' }}>
-        {on ? <Icon name="check" size={14} color="#fff" /> : null}
-      </View>
-      <Text style={{ fontFamily: F.regular, fontSize: 14, color: C.ink }}>{children}</Text>
-    </Pressable>
-  );
-}
 
 export default function Announce() {
   const k = useCoord();

@@ -2,8 +2,10 @@
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
+import { AGENCY, calcTitle, citLine, tourById } from '@/data/agent';
 import { VISITS, byId, fem, plural } from '@/data/group';
 import { DELEGATES } from '@/data/trip';
+import { useAgent } from '@/state/agent';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
 import { Avatar, Button, Card, Chip, Row, T, TitleRow, initials } from '@/ui/kit';
@@ -14,6 +16,7 @@ type Item = { key: string; title: string; sub?: string; btns: [string, 'primary'
 
 export default function Center() {
   const k = useCoord();
+  const ag = useAgent();
   const toast = useToast();
   const ready = DELEGATES.filter((d) => k.ready(d.id)).length;
   const conf = VISITS.filter((v) => v.st[0] === 'ok').length;
@@ -29,6 +32,14 @@ export default function Center() {
     key: 'todo', title: `${todo.length} ${plural(todo.length, 'профиль не заполнен', 'профиля не заполнены', 'профилей не заполнены')}`, sub: todo.map((d) => d.ru).join(', '),
     btns: [['Напомнить всем', 'ghost', () => { k.remindAll(); toast('Напоминания отправлены: push и мессенджер'); }]],
   });
+  ag.apps.filter((x) => x.status === 'new').forEach((x) => items.push({
+    key: `a-${x.id}`, title: `${x.mine ? `Заявка агента ${AGENCY}` : x.agency.startsWith('Сайт') ? 'Заявка с сайта' : `Заявка агента ${x.agency}`}: ${tourById[x.tour].title}`, sub: `${x.dates} · ${x.people} чел. · ${x.client}`,
+    btns: [['Взять в работу', 'primary', () => { ag.takeApp(x.id); toast(x.mine ? 'Агент видит: заявка в работе' : 'Заявка в работе'); }], ['Все заявки', 'ghost', () => router.navigate('/coord/leads')]],
+  }));
+  ag.calcs.filter((r) => r.status === 'new').forEach((r) => items.push({
+    key: `c-${r.id}`, title: `Запрос на расчёт ${r.id} от ${AGENCY}`, sub: `${calcTitle(r)} · ${r.people} чел. · ${citLine(r.cit)}`,
+    btns: [['Открыть ТЗ', 'primary', () => router.push({ pathname: '/calc/[id]', params: { id: r.id, as: 'coord' } })]],
+  }));
   if (!k.pddReminded) items.push({ key: 'pdd', title: 'Pinduoduo не открыла ссылку визита · 3 дня', btns: [['Напомнить', 'ghost', () => { k.remindPdd(); toast('Pinduoduo получит напоминание в WeChat'); }]] });
   if (!k.igorReminded) items.push({ key: 'igor', title: 'Игорь Белов · нет билета', btns: [['Напомнить', 'ghost', () => { k.remindIgor(); toast('Игорь получит напоминание в Telegram'); }]] });
 
