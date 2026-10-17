@@ -56,7 +56,8 @@ https://claude.ai/artifact/WqVbtPczcM5Vny7N5f1Jym — исходник [`prototy
 Доделано в приложении 17.10: переводчик, радиогид, «Город», «После поездки», визит компании у координатора —
 [`previews/_приложение-доделано.jpg`](previews/_приложение-доделано.jpg). Стартовый экран — три варианта с 3D:
 [`start-screen/index.html`](start-screen/index.html) (артефакт https://claude.ai/artifact/8kDnqVXJZ8s4MbTvyFiMGu),
-кадры — [`previews/_стартовый-экран-варианты.jpg`](previews/_стартовый-экран-варианты.jpg).
+кадры — [`previews/_стартовый-экран-варианты.jpg`](previews/_стартовый-экран-варианты.jpg). Вариант B по правке 17.10 (светлый глобус,
+счётчик стран, сборка в буквы GTT) — [`previews/_стартовый-экран-B.jpg`](previews/_стартовый-экран-B.jpg).
 
 Все 20 экранов прототипа одним листом — [`previews/_прототип.jpg`](previews/_прототип.jpg) (снимки из `prototype/index.html`, четыре роли).
 

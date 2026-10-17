@@ -70,16 +70,21 @@ h1 { font-family: var(--font-display); font-weight: 800; text-transform: upperca
 .screen[data-v="a"] { background: #f6f8fb; color: #0f1b2d; }
 .screen[data-v="a"] .brand, .screen[data-v="a"] .count { color: #1a73e8; }
 .screen[data-v="a"] .sub { color: #5b6576; }
-.screen[data-v="b"] { background: radial-gradient(120% 80% at 50% 38%, #16294a 0%, #0a1426 60%, #060c18 100%); color: #ffffff; }
-.screen[data-v="b"] .brand, .screen[data-v="b"] .count { color: #ffb27a; }
-.screen[data-v="b"] .sub { color: #b9c6dc; }
-.screen[data-v="b"] .lbl { background: rgba(10, 20, 38, .8); color: #fff; border: 1px solid rgba(255, 178, 122, .5); }
+.screen[data-v="b"] { background: radial-gradient(110% 70% at 50% 45%, #ffffff 0%, #f1f6ff 55%, #e3edfd 100%); color: #0f1b2d; }
+.screen[data-v="b"] .brand, .screen[data-v="b"] .count { color: #1a73e8; }
+.screen[data-v="b"] .sub { color: #5b6576; }
+.screen[data-v="b"] .lbl { background: #ffffff; color: #1558b8; box-shadow: 0 4px 12px -4px rgba(26, 115, 232, .45); }
+.bstage .s1, .bstage .s2 { transition: opacity .6s; }
+.bstage[data-stage="gtt"] .s2 { transition-delay: 1.6s; }
+.bstage .s2 { opacity: 0; position: absolute; left: 20px; right: 20px; top: 56%; text-align: center; }
+.bstage[data-stage="gtt"] .s1 { opacity: 0; }
+.bstage[data-stage="gtt"] .s2 { opacity: 1; }
+.bstage .num { font-family: var(--font-display); font-weight: 800; font-size: 64px; line-height: .9; font-variant-numeric: tabular-nums; }
 .screen[data-v="c"] { background: linear-gradient(180deg, #eaf2ff 0%, #f7f9fc 55%, #ffffff 100%); color: #0f1b2d; }
 .screen[data-v="c"] .brand, .screen[data-v="c"] .count { color: #1a73e8; }
 .screen[data-v="c"] .sub { color: #5b6576; }
 .screen[data-v="c"] .lbl { background: #ffffff; color: #0f1b2d; box-shadow: 0 4px 12px -4px rgba(15, 27, 45, .35); }
 .screen .primary { background: #1a73e8; color: #fff; }
-.screen[data-v="b"] .ghost { background: rgba(255, 255, 255, .1); color: #fff; }
 .screen .ghost { background: rgba(255, 255, 255, .85); color: #0f1b2d; box-shadow: inset 0 0 0 1px #d5dbe6; }
 .about { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 .about h2 { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 36px; line-height: 1; margin: 0; }
@@ -103,7 +108,7 @@ h1 { font-family: var(--font-display); font-weight: 800; text-transform: upperca
 
   <nav class="tabs" role="tablist" aria-label="Вариант стартового экрана">
     <button class="tab" role="tab" id="tab-a" data-v="a" aria-selected="true"><span class="k">A</span><span>Карта из частиц<small>как на главной сайта</small></span></button>
-    <button class="tab" role="tab" id="tab-b" data-v="b" aria-selected="false"><span class="k">B</span><span>Глобус маршрутов<small>Москва → 9 стран</small></span></button>
+    <button class="tab" role="tab" id="tab-b" data-v="b" aria-selected="false"><span class="k">B</span><span>Глобус → GTT<small>светлый, по вашей правке</small></span></button>
     <button class="tab" role="tab" id="tab-c" data-v="c" aria-selected="false"><span class="k">C</span><span>Твоя поездка<small>после ссылки-приглашения</small></span></button>
   </nav>
 
@@ -147,11 +152,11 @@ const ABOUT = {
     minus: ['Не про поездку конкретного человека.'],
   },
   b: {
-    title: 'B · Глобус маршрутов', tag: 'масштаб',
-    idea: 'Тёмный глобус из точек. Из Москвы одна за другой летят дуги-маршруты в 9 стран, страны подсвечиваются и подписываются.',
-    steps: ['Глобус проявляется и поворачивается к Азии.', 'Из Москвы вылетают 9 маршрутов — по одному каждые 0,3 секунды.', 'Страны загораются и получают подписи.', 'Глобус медленно вращается, его можно крутить пальцем.'],
-    plus: ['Сразу видно масштаб: 9 стран, экспедиции из России.', 'Самый эффектный из трёх.'],
-    minus: ['Тёмный стиль отличается от остального приложения и сайта.', 'Тяжелее для старых телефонов (для них — упрощённый режим).'],
+    title: 'B · Глобус → GTT', tag: 'по вашей правке',
+    idea: 'Светлый глобус из точек в фирменных цветах GTT. Из Москвы летят маршруты в 9 стран, счётчик стран растёт, а в конце все точки глобуса слетаются в буквы GTT.',
+    steps: ['Глобус проявляется на светлом фоне и поворачивается к Азии.', 'Из Москвы вылетают 9 маршрутов, страны загораются синим, счётчик идёт от 1 до 9 стран.', 'Маршруты и подписи гаснут, точки глобуса слетаются в объёмные буквы GTT.', 'Под буквами — «Global Tech Tour», внизу — «Войти в поездку». Буквы можно крутить пальцем.'],
+    plus: ['Фирменные цвета и светлый фон — легко и в стиле сайта.', 'Сначала масштаб (9 стран), потом бренд: человек запоминает GTT.', 'Анимация около 8 секунд, пропускается касанием.'],
+    minus: ['Самая длинная из трёх анимаций — при повторных входах лучше показывать короткую версию или сразу готовый кадр.'],
   },
   c: {
     title: 'C · Твоя поездка', tag: 'личное',
@@ -164,7 +169,8 @@ const ABOUT = {
 const UI = {
   a: `<div><div class="brand">GLOBAL TECH TOUR</div><div class="big" id="cname">Китай</div><div class="sub">Полезные экспедиции, где вы уже не просто турист, а исследователь.</div><div class="count" id="ccount">1 / 9 · 76 программ</div></div>
       <div class="bottom"><button class="sbtn primary" tabindex="-1">Войти в поездку</button><button class="sbtn ghost" tabindex="-1">Программы GTT · 76</button></div>`,
-  b: `<div><div class="brand">GLOBAL TECH TOUR</div><div class="big">9 стран Азии</div><div class="sub">Экспедиции к лидерам технологий — с выездом из Москвы.</div><div class="count">76 программ · 9 стран</div></div>
+  b: `<div class="bstage" id="bstage"><div class="s1"><div class="brand">GLOBAL TECH TOUR</div><div class="big"><span class="num" id="bcount">0</span> <span id="bword">стран</span></div><div class="sub">Экспедиции к лидерам технологий — с выездом из Москвы.</div></div>
+      <div class="s2"><div class="brand">GLOBAL TECH TOUR</div><div class="sub" style="margin:8px auto 0">Экспедиции в будущее<br>9 стран · 76 программ</div></div></div>
       <div class="bottom"><button class="sbtn primary" tabindex="-1">Войти в поездку</button><button class="sbtn ghost" tabindex="-1">Программы GTT · 76</button></div>`,
   c: `<div><div class="brand">ПРИГЛАШЕНИЕ · GLOBAL TECH TOUR</div><div class="big">Новый ритейл Китая</div><div class="sub">9–14 ноября · 4 города · 9 компаний</div></div>
       <div class="bottom"><div class="count" style="text-align:center;margin:0 0 4px">Анна, вас ждут 18 участников</div><button class="sbtn primary" tabindex="-1">Войти в поездку</button></div>`,
@@ -177,7 +183,7 @@ function renderAbout(v) {
     <p>${a.idea}</p>
     <h3>Что происходит на экране</h3><ol>${a.steps.map((s) => `<li>${s}</li>`).join('')}</ol>
     <div class="pc"><div><h3>Плюсы</h3><ul>${a.plus.map((s) => `<li>${s}</li>`).join('')}</ul></div><div><h3>Минусы</h3><ul>${a.minus.map((s) => `<li>${s}</li>`).join('')}</ul></div></div>
-    <p class="rec">Предлагаю совместить: <b>A</b> — стартовый экран для всех, <b>C</b> — первый вход по ссылке-приглашению в конкретную поездку.</p>
+    <p class="rec">${v === 'b' ? 'Вариант по вашей правке: светлый глобус в цветах GTT, счётчик стран и сборка в буквы GTT. Если подходит — ставлю его стартовым экраном приложения.' : 'Для сравнения. Основной кандидат по вашей правке — вариант <b>B</b>.'}</p>
     <div class="row"><button class="btn" id="replay" type="button">Повторить анимацию</button></div>`;
   document.getElementById('replay').onclick = () => start(current);
 }
@@ -312,54 +318,143 @@ function makeA() {
 // ——— B: глобус маршрутов ———
 const MOSCOW = [37.62, 55.75];
 function toSphere(lng, lat, r) { const la = lat * Math.PI / 180, lo = lng * Math.PI / 180; return new THREE.Vector3(r * Math.cos(la) * Math.sin(lo), r * Math.sin(la), r * Math.cos(la) * Math.cos(lo)); }
+// Мягкая круглая точка для частиц (рисуется на холсте, без внешних файлов)
+function dotTexture() {
+  const c = document.createElement('canvas'); c.width = c.height = 64;
+  const g = c.getContext('2d'); const gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.55, 'rgba(255,255,255,1)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+// Точки букв: текст рисуется на скрытом холсте шрифтом заголовков GTT, из закрашенных пикселей берутся точки
+function textTargets(text, count, maxW, maxH, cy) {
+  const W = 700, H = 300; const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d'); g.fillStyle = '#000'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.font = '800 290px "Sofia Sans Extra Condensed", "Arial Narrow", "Roboto Condensed", sans-serif';
+  g.fillText(text, W / 2, H / 2 + 10);
+  const d = g.getImageData(0, 0, W, H).data; const px = []; let x0 = W, x1 = 0, y0 = H, y1 = 0;
+  for (let y = 0; y < H; y += 2) for (let x = 0; x < W; x += 2) if (d[(y * W + x) * 4 + 3] > 140) { px.push([x, y]); x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
+  const s = Math.min(maxW / (x1 - x0 || 1), maxH / (y1 - y0 || 1)); const out = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    const [x, y] = px[Math.floor(Math.random() * px.length)];
+    out[i * 3] = (x - (x0 + x1) / 2 + Math.random() * 2) * s;
+    out[i * 3 + 1] = -(y - (y0 + y1) / 2 + Math.random() * 2) * s + cy;
+    out[i * 3 + 2] = (Math.random() - 0.5) * 0.32;
+  }
+  return out;
+}
+const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? b : c; };
+// Подписи стран Юго-Восточной Азии стоят тесно — разводим их в стороны
+const B_LABEL = { korea: 'translate(14%, 10%)', vietnam: 'translate(12%, -105%)', thailand: 'translate(-112%, -55%)', malaysia: 'translate(-110%, -15%)', indonesia: 'translate(-25%, 45%)' };
 function makeB() {
-  const R = 1.55;
-  const globe = new THREE.Group(); globe.position.y = -0.45; scene.add(globe);
-  // точки-сфера (форма глобуса)
-  const M = 2600, base = [];
-  for (let i = 0; i < M; i++) { const y = 1 - (i / (M - 1)) * 2, r = Math.sqrt(1 - y * y), th = i * Math.PI * (3 - Math.sqrt(5)); base.push(Math.cos(th) * r * R, y * R, Math.sin(th) * r * R); }
-  const bg = new THREE.BufferGeometry(); bg.setAttribute('position', new THREE.Float32BufferAttribute(base, 3));
-  const bgMat = new THREE.PointsMaterial({ color: 0x3d5a86, size: 0.028, transparent: true, opacity: 0 });
-  globe.add(new THREE.Points(bg, bgMat));
-  globe.add(new THREE.Mesh(new THREE.SphereGeometry(R * 0.985, 48, 32), new THREE.MeshBasicMaterial({ color: 0x0b1830, transparent: true, opacity: 0.85 })));
-  // страны — яркие точки внутри контуров
+  const R = 1.5, MORPH_AT = 5.4, MORPH = 2.6;
+  const globe = new THREE.Group(); globe.position.y = -0.35; scene.add(globe);
+  const tex = dotTexture();
+  // Все точки одним облаком: сначала «форма» глобуса (светлые), потом страны (фирменный синий)
+  const pos = [], col = [], isCountry = [];
+  const cBg = new THREE.Color('#c2cee0'), cCountry = new THREE.Color('#1a73e8');
+  const M = 2300;
+  for (let i = 0; i < M; i++) { const y = 1 - (i / (M - 1)) * 2, r = Math.sqrt(1 - y * y), th = i * Math.PI * (3 - Math.sqrt(5)); pos.push(Math.cos(th) * r * R, y * R, Math.sin(th) * r * R); col.push(cBg.r, cBg.g, cBg.b); isCountry.push(0); }
   const arcs = [];
+  const countryRange = [];
   COUNTRIES.forEach(([key, name], ci) => {
-    const [x0, y0, x1, y1] = bbox(key); const step = key === 'korea' || key === 'uae' ? 0.35 : 0.7; const pts = []; let cx = 0, cy = 0, n = 0;
-    for (let x = x0; x <= x1; x += step) for (let y = y0; y <= y1; y += step) if (inCountry(x, y, key)) { const v = toSphere(x, y, R * 1.005); pts.push(v.x, v.y, v.z); cx += x; cy += y; n++; }
-    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-    const mat = new THREE.PointsMaterial({ color: 0x5b9dff, size: 0.04, transparent: true, opacity: 0 });
-    globe.add(new THREE.Points(g, mat));
+    const [x0, y0, x1, y1] = bbox(key); const step = key === 'korea' || key === 'uae' ? 0.25 : 0.45; let cx = 0, cy = 0, n = 0; const start = pos.length / 3;
+    for (let x = x0; x <= x1; x += step) for (let y = y0; y <= y1; y += step) if (inCountry(x, y, key)) { const v = toSphere(x, y, R * 1.006); pos.push(v.x, v.y, v.z); col.push(cBg.r, cBg.g, cBg.b); isCountry.push(1); cx += x; cy += y; n++; }
+    countryRange.push([start, pos.length / 3]);
     const target = toSphere(cx / n, cy / n, R);
-    // дуга из Москвы
     const a = toSphere(MOSCOW[0], MOSCOW[1], R), curve = [];
-    for (let i = 0; i <= 64; i++) { const t = i / 64; const v = a.clone().lerp(target, t).normalize().multiplyScalar(R * (1 + 0.28 * Math.sin(Math.PI * t))); curve.push(v); }
+    for (let i = 0; i <= 64; i++) { const t = i / 64; curve.push(a.clone().lerp(target, t).normalize().multiplyScalar(R * (1 + 0.26 * Math.sin(Math.PI * t)))); }
     const lg = new THREE.BufferGeometry().setFromPoints(curve); lg.setDrawRange(0, 0);
-    const line = new THREE.Line(lg, new THREE.LineBasicMaterial({ color: 0xffb27a, transparent: true, opacity: 0.9 })); globe.add(line);
-    const head = new THREE.Mesh(new THREE.SphereGeometry(0.03, 12, 8), new THREE.MeshBasicMaterial({ color: 0xffd2b0 })); head.visible = false; globe.add(head);
-    arcs.push({ line, lg, head, curve, mat, target, el: label(name), delay: 1.1 + ci * 0.3 });
+    const lmat = new THREE.LineBasicMaterial({ color: 0x1a73e8, transparent: true, opacity: 0.7 });
+    globe.add(new THREE.Line(lg, lmat));
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.032, 12, 8), new THREE.MeshBasicMaterial({ color: 0x0ea5e9 })); head.visible = false; globe.add(head);
+    const el = label(name); if (B_LABEL[key]) el.style.transform = B_LABEL[key];
+    arcs.push({ lg, lmat, head, curve, target, el, delay: 1.0 + ci * 0.3, ci });
   });
-  const mos = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 12), new THREE.MeshBasicMaterial({ color: 0xff8a3d })); mos.position.copy(toSphere(MOSCOW[0], MOSCOW[1], R * 1.01)); globe.add(mos);
+  const N = pos.length / 3;
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  const pmat = new THREE.PointsMaterial({ size: 0.05, map: tex, vertexColors: true, transparent: true, depthWrite: false, opacity: 0 });
+  const points = new THREE.Points(geo, pmat); globe.add(points);
+  // Шар рисуется первым (renderOrder −1) и закрывает точки обратной стороны; при сборке depthWrite выключается,
+  // иначе прозрачный шар закрывает нижнюю половину букв
+  const sphereMat = new THREE.MeshBasicMaterial({ color: 0xeef4ff, transparent: true, opacity: 0 });
+  const sphere = new THREE.Mesh(new THREE.SphereGeometry(R * 0.985, 48, 32), sphereMat); sphere.renderOrder = -1; globe.add(sphere);
+  const mos = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 12), new THREE.MeshBasicMaterial({ color: 0x0f4fa8 })); mos.position.copy(toSphere(MOSCOW[0], MOSCOW[1], R * 1.01)); globe.add(mos);
   const mosEl = label('Москва');
+  // Облако букв GTT — появляется в момент сборки
+  const fly = { pts: null, from: null, to: null, seed: null };
   const camDir = new THREE.Vector3();
+  const palette = ['#1a73e8', '#1a73e8', '#1a73e8', '#0ea5e9', '#0ea5e9', '#7fb2ff', '#7fb2ff', '#94a3b8'].map((c) => new THREE.Color(c));
+  const setCounter = (n) => {
+    const big = document.getElementById('bcount'); const word = document.getElementById('bword');
+    if (big && big.textContent !== String(n)) { big.textContent = String(n); if (word) word.textContent = plural(n, 'страна', 'страны', 'стран'); }
+  };
+  let phase = 'globe';
+  const startMorph = () => {
+    phase = 'gtt'; sphereMat.depthWrite = false;
+    globe.updateMatrixWorld();
+    const from = new Float32Array(N * 3); const v = new THREE.Vector3(); const p = geo.attributes.position.array;
+    for (let i = 0; i < N; i++) { v.set(p[i * 3], p[i * 3 + 1], p[i * 3 + 2]).applyMatrix4(globe.matrixWorld); from.set([v.x, v.y, v.z], i * 3); }
+    const to = textTargets('GTT', N, 2.3, 1.5, 0.6);
+    const g2 = new THREE.BufferGeometry();
+    g2.setAttribute('position', new THREE.Float32BufferAttribute(from.slice(), 3));
+    const c2 = new Float32Array(N * 3); const c0 = geo.attributes.color.array;
+    for (let i = 0; i < N; i++) c2.set([c0[i * 3], c0[i * 3 + 1], c0[i * 3 + 2]], i * 3);
+    g2.setAttribute('color', new THREE.Float32BufferAttribute(c2, 3));
+    const m2 = new THREE.PointsMaterial({ size: 0.05, map: tex, vertexColors: true, transparent: true, depthWrite: false });
+    fly.pts = new THREE.Points(g2, m2); scene.add(fly.pts);
+    fly.from = from; fly.to = to; fly.target = palette.map(() => 0);
+    fly.seed = Array.from({ length: N }, () => ({ d: Math.random() * 0.45, c: palette[Math.floor(Math.random() * palette.length)], sw: (Math.random() - 0.5) * 1.6 }));
+    points.visible = false;
+    const ui = document.getElementById('bstage'); if (ui) ui.dataset.stage = 'gtt';
+  };
   return {
     update(t) {
-      const k = REDUCED ? 10 : t;
-      bgMat.opacity = 0.75 * clamp01(k / 0.8);
-      const s = 0.82 + 0.18 * easeInOut(clamp01(k / 1.2)); globe.scale.setScalar(s);
-      globe.rotation.y = -1.55 + Math.sin(t * 0.15) * 0.12 + drag.yaw;
-      globe.rotation.x = 0.5 + drag.pitch;
-      globe.updateMatrixWorld();
-      camera.getWorldDirection(camDir);
-      const vis = (v) => v.clone().applyMatrix4(globe.matrixWorld).sub(globe.position).normalize().dot(camDir) < -0.15;
-      arcs.forEach((a) => {
-        const p = clamp01((k - a.delay) / 0.9);
-        a.lg.setDrawRange(0, Math.floor(p * 65));
-        a.head.visible = p > 0 && p < 1; if (a.head.visible) a.head.position.copy(a.curve[Math.min(64, Math.floor(p * 64))]);
-        a.mat.opacity = clamp01((k - a.delay - 0.7) / 0.5);
-        placeLabel(a.el, a.target.clone().applyMatrix4(globe.matrixWorld), p >= 1 && vis(a.target));
-      });
-      placeLabel(mosEl, mos.position.clone().applyMatrix4(globe.matrixWorld), k > 0.9 && vis(mos.position));
+      const k = REDUCED ? MORPH_AT + MORPH + 1 : t;
+      if (phase === 'globe') {
+        pmat.opacity = clamp01(k / 0.8); sphereMat.opacity = 0.92 * clamp01(k / 0.8);
+        globe.scale.setScalar(0.84 + 0.16 * easeInOut(clamp01(k / 1.2)));
+        globe.rotation.y = -1.55 + Math.sin(t * 0.15) * 0.1 + drag.yaw;
+        globe.rotation.x = 0.5 + drag.pitch;
+        globe.updateMatrixWorld();
+        camera.getWorldDirection(camDir);
+        const vis = (v) => v.clone().applyMatrix4(globe.matrixWorld).sub(globe.position).normalize().dot(camDir) < -0.15;
+        let lit = 0; const colA = geo.attributes.color;
+        arcs.forEach((a) => {
+          const p = clamp01((k - a.delay) / 0.9);
+          a.lg.setDrawRange(0, Math.floor(p * 65));
+          a.head.visible = p > 0 && p < 1; if (a.head.visible) a.head.position.copy(a.curve[Math.min(64, Math.floor(p * 64))]);
+          const on = clamp01((k - a.delay - 0.75) / 0.4);
+          if (on > 0) { lit++; const [s, e] = countryRange[a.ci]; for (let i = s; i < e; i++) colA.setXYZ(i, cBg.r + (cCountry.r - cBg.r) * on, cBg.g + (cCountry.g - cBg.g) * on, cBg.b + (cCountry.b - cBg.b) * on); }
+          placeLabel(a.el, a.target.clone().applyMatrix4(globe.matrixWorld), p >= 1 && vis(a.target));
+        });
+        colA.needsUpdate = true;
+        setCounter(lit);
+        placeLabel(mosEl, mos.position.clone().applyMatrix4(globe.matrixWorld), k > 0.9 && vis(mos.position));
+        if (k >= MORPH_AT) startMorph();
+        return;
+      }
+      // Сборка в буквы GTT: точки глобуса слетаются, линии и подписи гаснут
+      const q = (k - MORPH_AT) / MORPH;
+      const fade = clamp01(1 - q * 3);
+      sphereMat.opacity = 0.92 * fade; sphere.visible = fade > 0.01; arcs.forEach((a) => { a.lmat.opacity = 0.7 * fade; a.head.visible = false; a.el.style.opacity = 0; });
+      mosEl.style.opacity = 0; mos.visible = fade > 0.05;
+      const P = fly.pts.geometry.attributes.position; const Cc = fly.pts.geometry.attributes.color;
+      for (let i = 0; i < N; i++) {
+        const s = fly.seed[i]; const e = easeInOut(clamp01((q - s.d * 0.5) / 0.75));
+        const fx = fly.from[i * 3], fy = fly.from[i * 3 + 1], fz = fly.from[i * 3 + 2];
+        const tx = fly.to[i * 3], ty = fly.to[i * 3 + 1], tz = fly.to[i * 3 + 2];
+        const arc = Math.sin(Math.PI * e) * s.sw;
+        P.setXYZ(i, fx + (tx - fx) * e + arc * 0.5, fy + (ty - fy) * e, fz + (tz - fz) * e + arc);
+        const c0r = Cc.getX(i), c0g = Cc.getY(i), c0b = Cc.getZ(i);
+        Cc.setXYZ(i, c0r + (s.c.r - c0r) * 0.08, c0g + (s.c.g - c0g) * 0.08, c0b + (s.c.b - c0b) * 0.08);
+      }
+      P.needsUpdate = true; Cc.needsUpdate = true;
+      fly.pts.material.size = 0.05 + 0.012 * clamp01(q);
+      fly.pts.rotation.y = (q >= 1 ? Math.sin((k - MORPH_AT - MORPH) * 0.4) * 0.12 : 0) + drag.yaw;
+      fly.pts.rotation.x = drag.pitch * 0.5;
     },
   };
 }
@@ -452,7 +547,7 @@ document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () 
   start(b.dataset.v);
 }));
 const fromHash = (location.hash || '').replace('#', '');
-const first = ['a', 'b', 'c'].includes(fromHash) ? fromHash : 'a';
+const first = ['a', 'b', 'c'].includes(fromHash) ? fromHash : 'b';
 document.querySelectorAll('.tab').forEach((x) => x.setAttribute('aria-selected', String(x.dataset.v === first)));
 start(first);
 requestAnimationFrame(loop);
