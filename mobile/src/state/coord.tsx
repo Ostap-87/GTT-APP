@@ -1,4 +1,4 @@
-// Режим координатора (шаг 1 — в памяти телефона, как в прототипе v9): профили группы и их этапы, переезды дня,
+// Режим координатора (шаг 1 — данные сохраняются на телефоне, как в прототипе v9): профили группы и их этапы, переезды дня,
 // сводки ресторанам и отелю, объявления. Профиль Анны берётся из состояния делегата — видно, как роли связаны.
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
 
@@ -6,6 +6,7 @@ import { BASE_HISTORY, LEGS, NOT_READY, NOW, PROFILES, TEMPLATES, ALG_BY, DIET_B
 import { algNames, foodLine, type Profile } from '@/data/profile';
 import { DELEGATES } from '@/data/trip';
 import { useTrip } from '@/state/trip';
+import { useStored } from '@/state/store';
 
 export type Stage = ['invited' | 'filling' | 'ready' | 'checked', string, 'ok' | 'warn' | 'info'];
 type LegMark = { dep?: string; arr?: string };
@@ -29,24 +30,24 @@ const SENT_SIG = JSON.stringify(groupFoodOf(Object.values(PROFILES)));
 
 function useCoordState() {
   const trip = useTrip();
-  const [missing, setMissing] = useState(['d1', 'd4', 'd2', 'd3']);
-  const [legs, setLegs] = useState<Record<string, LegMark>>({});
-  const [checked, setChecked] = useState<Record<string, boolean>>(() => Object.fromEntries(Object.keys(PROFILES).filter((x) => x !== 'd18').map((x) => [x, true])));
-  const [d1Checked, setD1Checked] = useState<string | null>(null); // профиль Анны, который координатор проверил
-  const [reminded, setReminded] = useState<Record<string, boolean>>({});
-  const [notes, setNotes] = useState<Record<string, string>>({});
-  const [foodSent, setFoodSent] = useState({ at: 'вчера, 18:20', sig: SENT_SIG });
-  const [anns, setAnns] = useState<Ann[]>([{ id: 'a0', ru: TEMPLATES[2].ru, zh: TEMPLATES[2].zh, toD: true, toH: false, tg: false, time: '08:40' }]);
-  const [igorReminded, setIgorReminded] = useState(false);
-  const [pddReminded, setPddReminded] = useState(false);
+  const [missing, setMissing] = useStored('coord.missing', ['d1', 'd4', 'd2', 'd3']);
+  const [legs, setLegs] = useStored<Record<string, LegMark>>('coord.legs', {});
+  const [checked, setChecked] = useStored<Record<string, boolean>>('coord.checked', () => Object.fromEntries(Object.keys(PROFILES).filter((x) => x !== 'd18').map((x) => [x, true])));
+  const [d1Checked, setD1Checked] = useStored<string | null>('coord.d1Checked', null); // профиль Анны, который координатор проверил
+  const [reminded, setReminded] = useStored<Record<string, boolean>>('coord.reminded', {});
+  const [notes, setNotes] = useStored<Record<string, string>>('coord.notes', {});
+  const [foodSent, setFoodSent] = useStored('coord.foodSent', { at: 'вчера, 18:20', sig: SENT_SIG });
+  const [anns, setAnns] = useStored<Ann[]>('coord.anns', [{ id: 'a0', ru: TEMPLATES[2].ru, zh: TEMPLATES[2].zh, toD: true, toH: false, tg: false, time: '08:40' }]);
+  const [igorReminded, setIgorReminded] = useStored('coord.igorReminded', false);
+  const [pddReminded, setPddReminded] = useStored('coord.pddReminded', false);
   const [viewing, setViewing] = useState(false);
   // Радиогид, прогулка, отзывы и «Хочу продолжить» — общие для делегата и координатора
-  const [guideLive, setGuideLive] = useState(false);
-  const [out, setOut] = useState<string | null>(null); // делегат гуляет сам — вернуться до …
-  const [followups, setFollowups] = useState<Followup[]>([]);
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [rating, setRating] = useState(0);
-  const [hema, setHema] = useState<'pending' | 'accepted' | 'discuss'>('pending');
+  const [guideLive, setGuideLive] = useStored('coord.guideLive', false);
+  const [out, setOut] = useStored<string | null>('coord.out', null); // делегат гуляет сам — вернуться до …
+  const [followups, setFollowups] = useStored<Followup[]>('coord.followups', []);
+  const [reviews, setReviews] = useStored<Review[]>('coord.reviews', []);
+  const [rating, setRating] = useStored('coord.rating', 0);
+  const [hema, setHema] = useStored<'pending' | 'accepted' | 'discuss'>('coord.hema', 'pending');
   const docsMissing = ['d4', 'd15'];
 
   return useMemo(() => {

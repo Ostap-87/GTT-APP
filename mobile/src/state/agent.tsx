@@ -1,15 +1,16 @@
-// Агент и заявки (шаг 1 — в памяти телефона): заявки на места, запросы на расчёт, занятые места в выездах.
+// Агент и заявки (шаг 1 — сохраняются на телефоне): заявки на места, запросы на расчёт, занятые места в выездах.
 // Координатор видит все заявки (агентов и с сайта) и меняет их статус; агент — только свои.
-import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useContext, useMemo, type ReactNode } from 'react';
 
 import { AGENCY, SEED_APPS, SEED_CALC, depById, freshCalc, tourById, type AgentApp, type CalcDraft, type CalcReq, type Dep } from '@/data/agent';
+import { useStored } from '@/state/store';
 
 function useAgentState() {
-  const [apps, setApps] = useState<AgentApp[]>(SEED_APPS);
-  const [calcs, setCalcs] = useState<CalcReq[]>(SEED_CALC);
-  const [depTaken, setDepTaken] = useState<Record<string, number>>({});
-  const [seq, setSeq] = useState(15);
-  const [draft, setDraft] = useState<CalcDraft>(freshCalc);
+  const [apps, setApps] = useStored<AgentApp[]>('agent.apps', SEED_APPS);
+  const [calcs, setCalcs] = useStored<CalcReq[]>('agent.calcs', SEED_CALC);
+  const [depTaken, setDepTaken] = useStored<Record<string, number>>('agent.depTaken', {});
+  const [seq, setSeq] = useStored('agent.seq', 15);
+  const [draft, setDraft] = useStored<CalcDraft>('agent.draft', freshCalc);
 
   return useMemo(() => {
     const depFree = (d: Dep) => Math.max(0, d.total - d.taken - (depTaken[d.id] || 0));

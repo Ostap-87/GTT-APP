@@ -9,7 +9,9 @@ import { CAT_COLOR, CITY_CATS, PLACES, cityMapXml, type PlaceCat } from '@/data/
 import { hotelOf } from '@/data/trip';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
+import { Converter } from '@/ui/Converter';
 import { Button, Card, Chip, Chips, H3, Pick, Plain, Row, Seg, T } from '@/ui/kit';
+import { OfflineNote } from '@/ui/OfflineNote';
 import { C } from '@/ui/theme';
 
 export default function City() {
@@ -20,6 +22,7 @@ export default function City() {
   const h = hotelOf(1)!;
   return (
     <Plain>
+      <OfflineNote what="Подборка мест, адрес отеля для такси и конвертер (по последнему курсу)" />
       {out ? (
         <Card tone="info">
           <Row title="Вы гуляете самостоятельно" sub={`Координатор знает · вернуться до ${out}`} right={<Button title="Я в отеле" small onPress={() => { setOut(null); toast('Отмечено: вы в отеле'); }} />} />
@@ -36,6 +39,7 @@ export default function City() {
           ) : null}
         </Card>
       )}
+      <Converter />
       <Seg options={CITY_CATS} value={cat} onChange={setCat} />
       <Card style={{ padding: 8 }}>
         <View style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: 340 / 220 }}><SvgXml xml={cityMapXml(cat)} width="100%" height="100%" /></View>

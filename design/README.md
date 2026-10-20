@@ -114,3 +114,5 @@ https://claude.ai/artifact/WqVbtPczcM5Vny7N5f1Jym — исходник [`prototy
   `render-previews.mjs` берёт `playwright-core` и Chromium (в облаке Claude — `/opt/pw-browsers`).
 - Цвета и шрифты — как у сайта и презентаций GTT: синий `#1a73e8`, тёмный `#0f1b2d`, Inter, Sofia Sans Extra
   Condensed для крупных заголовков, Noto Sans SC для китайского.
+
+Офлайн, заметки к визитам, сканер визиток, итоги PDF и конвертер юаней (20.10) — [`previews/_приложение-офлайн-заметки-визитки.jpg`](previews/_приложение-офлайн-заметки-визитки.jpg).

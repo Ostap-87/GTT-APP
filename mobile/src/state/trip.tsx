@@ -1,7 +1,8 @@
-// Состояние делегата на шаге 1 — в памяти телефона. На шаге 2 его заменит сервер (вход по приглашению, синхронизация).
-import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
+// Состояние делегата на шаге 1 — сохраняется на телефоне (store.ts). На шаге 2 его дополнит сервер (вход по приглашению, синхронизация).
+import { createContext, useContext, useMemo, type ReactNode } from 'react';
 
 import { foodLine, freshProfile, type Profile } from '@/data/profile';
+import { useStored } from '@/state/store';
 
 type Note = { text: string; time: string };
 type TripState = {
@@ -31,14 +32,14 @@ const Ctx = createContext<TripState | null>(null);
 const clock = () => new Date().toTimeString().slice(0, 5);
 
 export function TripProvider({ children }: { children: ReactNode }) {
-  const [inBus, setInBus] = useState(false);
-  const [done, setDone] = useState<Record<string, boolean>>({ passport: true, tickets: true, interests: true });
-  const [profile, setProfile] = useState<Profile>(freshProfile);
-  const [pStep, setPStep] = useState(0);
-  const [pHist, setPHist] = useState<[string, string][]>([]);
-  const [downloaded, setDownloaded] = useState<Record<string, boolean>>({ trip: true, memo: true, program: true });
-  const [notes, setNotes] = useState<Note[]>([{ text: 'JD: спросить про сроки доставки в регионах', time: 'вчера' }]);
-  const [intros, setIntros] = useState<Record<string, boolean>>({});
+  const [inBus, setInBus] = useStored('trip.inBus', false);
+  const [done, setDone] = useStored<Record<string, boolean>>('trip.done', { passport: true, tickets: true, interests: true });
+  const [profile, setProfile] = useStored<Profile>('trip.profile', freshProfile);
+  const [pStep, setPStep] = useStored('trip.pStep', 0);
+  const [pHist, setPHist] = useStored<[string, string][]>('trip.pHist', []);
+  const [downloaded, setDownloaded] = useStored<Record<string, boolean>>('trip.downloaded', { trip: true, memo: true, program: true });
+  const [notes, setNotes] = useStored<Note[]>('trip.notes', [{ text: 'JD: спросить про сроки доставки в регионах', time: 'вчера' }]);
+  const [intros, setIntros] = useStored<Record<string, boolean>>('trip.intros', {});
 
   const value = useMemo<TripState>(() => ({
     inBus,

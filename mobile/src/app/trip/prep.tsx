@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { foodLine } from '@/data/profile';
+import { CHINA_PREP } from '@/data/china-prep';
 import { CHECKLIST, CULTURE, ME } from '@/data/trip';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
@@ -11,6 +12,38 @@ import { useTrip } from '@/state/trip';
 import { Icon } from '@/ui/Icon';
 import { Avatar, Button, Card, Check, Chip, Field, H3, Row, Screen, Seg, T, TitleRow, initials } from '@/ui/kit';
 import { C, F } from '@/ui/theme';
+
+/** «Китай: связь, оплата, розетки» — раскрывающиеся советы с отметкой «сделано». */
+function ChinaPrep() {
+  const { done, toggle } = useTrip();
+  const [open, setOpen] = useState<string | null>(null);
+  const n = CHINA_PREP.filter((c) => done[c.key]).length;
+  return (
+    <Card>
+      <TitleRow title={`Китай: связь, оплата, розетки · ${n} из ${CHINA_PREP.length}`} />
+      {CHINA_PREP.map((c) => {
+        const on = !!done[c.key];
+        const isOpen = open === c.key;
+        return (
+          <View key={c.key} style={{ borderTopWidth: 1, borderTopColor: C.line2, paddingVertical: 10, gap: 8 }}>
+            <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+              <Pressable onPress={() => toggle(c.key)} accessibilityRole="checkbox" accessibilityState={{ checked: on }} accessibilityLabel={`${c.title}: сделано`} hitSlop={8}
+                style={{ width: 22, height: 22, borderRadius: 6, borderWidth: 1.5, borderColor: on ? C.green : '#c3cad6', backgroundColor: on ? C.green : C.card, alignItems: 'center', justifyContent: 'center' }}>
+                {on ? <Icon name="check" size={14} color="#fff" /> : null}
+              </Pressable>
+              <Pressable style={{ flex: 1 }} onPress={() => setOpen(isOpen ? null : c.key)} accessibilityRole="button" accessibilityState={{ expanded: isOpen }} accessibilityLabel={`${c.title}, ${isOpen ? 'свернуть' : 'подробнее'}`}>
+                <Text style={{ fontFamily: F.semibold, fontSize: 14, color: C.ink }}>{c.title}</Text>
+                <Text style={{ fontFamily: F.regular, fontSize: 12.5, color: C.muted }}>{isOpen ? c.sub : `${c.sub} · подробнее`}</Text>
+              </Pressable>
+            </View>
+            {isOpen ? c.how.map((h) => <T key={h} style={{ paddingLeft: 34 }}>{`• ${h}`}</T>) : null}
+          </View>
+        );
+      })}
+      <T muted>Самые частые вопросы первого дня. Не нашли ответ — напишите координатору.</T>
+    </Card>
+  );
+}
 
 /** «В поездке»: прогресс поездки, культурная программа и инструменты дня. */
 function During() {
@@ -33,7 +66,8 @@ function During() {
         <H3>В дороге пригодится</H3>
         <Row title="Переводчик" sub="Говорите по-русски — собеседник слышит по-китайски" left={<Icon name="translate" size={22} color={C.blueInk} />} onPress={() => router.push('/translator')} label="Переводчик" />
         <Row title="Слушать гида" sub="Радиогид в наушниках, субтитры на русском" left={<Icon name="headphones" size={22} color={C.blueInk} />} onPress={() => router.push('/guide')} label="Слушать гида" />
-        <Row title="Город" sub="Шопинг, вечер, магазины 24/7 и туалеты рядом с отелем" left={<Icon name="map" size={22} color={C.blueInk} />} onPress={() => router.push('/city')} label="Город" />
+        <Row title="Город" sub="Шопинг, вечер, магазины 24/7 и туалеты рядом с отелем, юани в рубли" left={<Icon name="map" size={22} color={C.blueInk} />} onPress={() => router.push('/city')} label="Город" />
+        <Row title="Итоги поездки — PDF" sub="Компании, заметки, фото и визитки одним файлом" left={<Icon name="doc" size={22} color={C.blueInk} />} onPress={() => router.push('/report')} label="Итоги поездки" />
       </Card>
     </>
   );
@@ -56,6 +90,11 @@ function After() {
   };
   return (
     <>
+      <Card tone="accent">
+        <H3>Итоги поездки одним PDF</H3>
+        <T>Компании, ваши заметки и фото, контакты с визиток — показать руководству или партнёрам.</T>
+        <Button title="Собрать итоги" icon="doc" onPress={() => router.push('/report')} />
+      </Card>
       <Card>
         <H3>Отзыв о поездке</H3>
         {sent ? <Card tone="info"><T>{`Спасибо! Отзыв${sent.video ? ' (видео)' : ''} у координатора.`}</T></Card> : (
@@ -142,6 +181,7 @@ export default function Prep() {
               );
             })}
           </Card>
+          <ChinaPrep />
         </>
       ) : stage === 'during' ? (
 <During />

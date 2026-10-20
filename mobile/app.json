@@ -31,7 +31,21 @@
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-status-bar"
+      "expo-status-bar",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Микрофон нужен для голосовых заметок к визитам и для переводчика."
+        }
+      ],
+      "expo-sharing",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Камера нужна, чтобы сфотографировать визитку или сделать фото к заметке о визите.",
+          "photosPermission": "Доступ к фото нужен, чтобы добавить снимок визитки или фото к заметке о визите."
+        }
+      ]
     ],
     "runtimeVersion": {
       "policy": "sdkVersion"

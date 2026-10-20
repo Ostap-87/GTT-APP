@@ -3,12 +3,14 @@
 // сразу готовые буквы. Кнопки входа делегата, координатора, агента и каталог видны всё время.
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AccessibilityInfo, Animated, Platform, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { AccessibilityInfo, Animated, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import catalog from '@/data/catalog.json';
 import { TRIP } from '@/data/trip';
 import { GLOBE_Y, LETTER_H, LETTER_Y, unitPx, type SplashConfig, type SplashEvent } from '@/splash/config';
+import { useResetAll } from '@/state/reset';
+import { useToast } from '@/state/toast';
 import { Button } from '@/ui/kit';
 import { Splash3D } from '@/ui/Splash3D';
 import { C, F } from '@/ui/theme';
@@ -26,6 +28,15 @@ export default function Welcome() {
   const [stage, setStage] = useState<'globe' | 'gtt'>('globe');
   const [failed, setFailed] = useState(false);
   const [paused, setPaused] = useState(false);
+  const resetAll = useResetAll();
+  const toast = useToast();
+  const [armed, setArmed] = useState(false);
+  // сброс демо — двойным нажатием: первое предупреждает, второе (в течение 4 с) стирает сохранённое
+  const reset = () => {
+    if (!armed) { setArmed(true); setTimeout(() => setArmed(false), 4000); return; }
+    setArmed(false);
+    resetAll().then(() => toast('Демо начато заново — сохранённое стёрто'));
+  };
   const top = useRef(new Animated.Value(1)).current;
   const tag = useRef(new Animated.Value(0)).current;
 
@@ -92,7 +103,10 @@ export default function Welcome() {
           <View style={{ flex: 1 }}><Button title="Агент" kind="light" icon="send" label="Войти как агент" onPress={() => router.replace('/agent')} /></View>
         </View>
         <Button title={`Программы GTT · ${catalog.length}`} kind="ghost" icon="globe" onPress={() => router.push('/catalog')} />
-        <Text style={st.note}>{`Демо: ${TRIP.title}, ${TRIP.dates}. Участники вымышленные.`}</Text>
+        <Text style={st.note}>{`Демо: ${TRIP.title}, ${TRIP.dates}. Участники вымышленные. Всё, что вы отметите, сохраняется на телефоне.`}</Text>
+        <Pressable onPress={reset} accessibilityRole="button" accessibilityLabel="Начать демо заново" hitSlop={8}>
+          <Text style={[st.note, { color: armed ? C.warn : C.blue, fontFamily: F.semibold }]}>{armed ? 'Нажмите ещё раз — всё сохранённое сотрётся' : 'Начать демо заново'}</Text>
+        </Pressable>
       </View>
     </View>
   );

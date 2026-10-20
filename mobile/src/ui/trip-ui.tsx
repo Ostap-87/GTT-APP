@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { Linking, Platform, Pressable, Text, View } from 'react-native';
 
 import type { TripEvent } from '@/data/trip';
+import { VISITS } from '@/data/group';
 import { useToast } from '@/state/toast';
 import { Icon } from './Icon';
 import { Button, Card, Chip, Row, s as kit } from './kit';
@@ -15,7 +16,8 @@ export function EventRow({ e }: { e: TripEvent }) {
       : e.kind === 'meal' ? <Chip tone="ok">{/обед/i.test(e.name) ? 'обед' : 'ужин'}</Chip>
         : e.kind === 'culture' ? <Chip tone="dark">культура</Chip>
           : e.kind === 'move' ? <Chip tone="plain">переезд</Chip> : null;
-  const href = e.ref?.startsWith('m-') ? `/meal/${e.ref}` : e.ref?.startsWith('c-') ? `/culture/${e.ref}` : null;
+  const visit = e.kind === 'co' ? VISITS.find((v) => v.name === e.name) : undefined;
+  const href = e.ref?.startsWith('m-') ? `/meal/${e.ref}` : e.ref?.startsWith('c-') ? `/culture/${e.ref}` : visit ? `/company/${visit.id}` : null;
   return (
     <Row
       title={<Text style={kit.rowTitle}><Text style={{ fontVariant: ['tabular-nums'], color: e.moved ? C.warn : C.ink }}>{e.t}</Text>  {e.name}</Text>}

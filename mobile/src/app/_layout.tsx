@@ -6,23 +6,34 @@ import { Inter_700Bold } from '@expo-google-fonts/inter/700Bold';
 import { SofiaSansExtraCondensed_800ExtraBold } from '@expo-google-fonts/sofia-sans-extra-condensed/800ExtraBold';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AgentProvider } from '@/state/agent';
+import { ResetContext } from '@/state/reset';
 import { CoordProvider } from '@/state/coord';
+import { clearStore, loadStore } from '@/state/store';
 import { TripProvider } from '@/state/trip';
+import { VisitsProvider } from '@/state/visits';
 import { ToastProvider } from '@/state/toast';
 import { C, F } from '@/ui/theme';
 
 export default function RootLayout() {
   const [loaded] = useFonts({ Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, SofiaSansExtraCondensed_800ExtraBold });
-  if (!loaded) return null;
+  // Сохранённое на телефоне читается до первого экрана; «Начать демо заново» меняет gen — состояние собирается с нуля
+  const [stored, setStored] = useState(false);
+  const [gen, setGen] = useState(0);
+  useEffect(() => { loadStore().finally(() => setStored(true)); }, []);
+  const resetAll = useCallback(async () => { await clearStore(); setGen((g) => g + 1); }, []);
+  if (!loaded || !stored) return null;
   return (
     <SafeAreaProvider>
-      <TripProvider>
+      <ResetContext.Provider value={resetAll}>
+      <TripProvider key={gen}>
         <CoordProvider>
         <AgentProvider>
+        <VisitsProvider>
         <ToastProvider>
           <StatusBar style="dark" />
           <Stack
@@ -62,11 +73,16 @@ export default function RootLayout() {
             <Stack.Screen name="place/[id]" options={{ title: 'Место', presentation: 'modal' }} />
             <Stack.Screen name="followup" options={{ title: 'Хочу продолжить', presentation: 'modal' }} />
             <Stack.Screen name="visit/[id]" options={{ title: 'Визит компании' }} />
+            <Stack.Screen name="company/[id]" options={{ title: 'Визит' }} />
+            <Stack.Screen name="card-scan" options={{ title: 'Визитка' }} />
+            <Stack.Screen name="report" options={{ title: 'Итоги поездки' }} />
           </Stack>
         </ToastProvider>
+        </VisitsProvider>
         </AgentProvider>
         </CoordProvider>
       </TripProvider>
+      </ResetContext.Provider>
     </SafeAreaProvider>
   );
 }

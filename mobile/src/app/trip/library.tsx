@@ -1,4 +1,5 @@
 // «Материалы»: закреплённые презентации, материалы поездки (скачиваются для работы без интернета), личные заметки.
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 
@@ -7,6 +8,7 @@ import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
 import { Icon } from '@/ui/Icon';
 import { Button, Card, H3, Row, Screen, T, TitleRow } from '@/ui/kit';
+import { OfflineNote } from '@/ui/OfflineNote';
 import { C, F } from '@/ui/theme';
 
 export default function Library() {
@@ -36,6 +38,7 @@ export default function Library() {
   };
   return (
     <Screen eyebrow="Скачанное открывается без интернета" title="Материалы">
+      <OfflineNote what="Скачанные материалы, программа и ваши заметки" />
       <Card tone="accent">
         <TitleRow title={<View style={{ flexDirection: 'row', gap: 6, alignItems: 'center' }}><Icon name="pinned" size={18} /><H3>Закреплено · презентации</H3></View>} right={<T muted>{PINNED.length}</T>} />
         {PINNED.map(file)}
@@ -58,7 +61,10 @@ export default function Library() {
         />
         <Button title="+ Заметка" kind="light" small onPress={() => { const t = draft.trim(); if (!t) return; addNote(t); setDraft(''); toast('Заметка сохранена'); }} />
         {notes.map((n, i) => <Row key={i} title={<T>{n.text}</T>} sub={n.time} />)}
-        <T muted>Заметки видите только вы.</T>
+        <T muted>Заметки видите только вы. Заметки, фото и визитки к конкретной компании — в её карточке в «Плане».</T>
+      </Card>
+      <Card onPress={() => router.push('/report')} label="Итоги поездки — PDF">
+        <Row left={<Icon name="doc" size={22} color={C.blueInk} />} title="Итоги поездки — PDF" sub="Компании, заметки, фото и визитки одним файлом" />
       </Card>
     </Screen>
   );

@@ -8,6 +8,7 @@ import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
 import { Icon } from '@/ui/Icon';
 import { Avatar, Button, Card, Chip, H3, Row, Screen, T, TitleRow } from '@/ui/kit';
+import { OfflineNote } from '@/ui/OfflineNote';
 import { EventRow } from '@/ui/trip-ui';
 import { C, F } from '@/ui/theme';
 
@@ -22,6 +23,7 @@ export default function Today() {
   const ann = k.anns.find((a) => a.toD); // последнее объявление координатора делегатам
   return (
     <Screen eyebrow={`${d.wd}, ${d.n} ноября · ${CITY[i]} · ${w.max}`} title="Сегодня">
+      <OfflineNote />
       <Card tone="dark">
         <T style={{ color: C.onDark, fontSize: 12.5 }}>Через 25 минут</T>
         <Text style={{ fontFamily: F.display, fontSize: 34, color: '#fff', textTransform: 'uppercase' }}>Выезд в 09:30</Text>
