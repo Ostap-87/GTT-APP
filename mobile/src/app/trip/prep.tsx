@@ -67,6 +67,7 @@ function During() {
         <Row title="Переводчик" sub="Говорите по-русски — собеседник слышит по-китайски" left={<Icon name="translate" size={22} color={C.blueInk} />} onPress={() => router.push('/translator')} label="Переводчик" />
         <Row title="Слушать гида" sub="Радиогид в наушниках, субтитры на русском" left={<Icon name="headphones" size={22} color={C.blueInk} />} onPress={() => router.push('/guide')} label="Слушать гида" />
         <Row title="Город" sub="Шопинг, вечер, магазины 24/7 и туалеты рядом с отелем, юани в рубли" left={<Icon name="map" size={22} color={C.blueInk} />} onPress={() => router.push('/city')} label="Город" />
+        <Row title="Майндмэп дня" sub="Темы встреч, договорённости и контакты — картой из ваших заметок" left={<Icon name="mindmap" size={22} color={C.blueInk} />} onPress={() => router.push('/mindmap')} label="Майндмэп дня" />
         <Row title="Итоги поездки — PDF" sub="Компании, заметки, фото и визитки одним файлом" left={<Icon name="doc" size={22} color={C.blueInk} />} onPress={() => router.push('/report')} label="Итоги поездки" />
       </Card>
     </>
@@ -92,8 +93,9 @@ function After() {
     <>
       <Card tone="accent">
         <H3>Итоги поездки одним PDF</H3>
-        <T>Компании, ваши заметки и фото, контакты с визиток — показать руководству или партнёрам.</T>
+        <T>Майндмэп поездки с главными темами и вехами, по дням — компании, заметки, фото и контакты с визиток.</T>
         <Button title="Собрать итоги" icon="doc" onPress={() => router.push('/report')} />
+        <Button title="Майндмэп поездки" icon="mindmap" kind="light" onPress={() => router.push({ pathname: '/mindmap', params: { day: 'trip' } })} />
       </Card>
       <Card>
         <H3>Отзыв о поездке</H3>

@@ -16,6 +16,7 @@ export const ICONS = {
     play: '<path d="M8 5v14l11-7z"/>',
     stop: '<rect x="6" y="6" width="12" height="12" rx="2"/>',
     wifiOff: '<path d="M2 8.5a15 15 0 0 1 5-2.8M22 8.5a15 15 0 0 0-11-3.4M5 12a10 10 0 0 1 4-2M19 12a10 10 0 0 0-2.2-1.4M8.5 15.5a5 5 0 0 1 7 0M12 19h.01M3 3l18 18"/>',
+    mindmap: '<circle cx="12" cy="12" r="3"/><circle cx="4" cy="5" r="2"/><circle cx="20" cy="5" r="2"/><circle cx="4" cy="19" r="2"/><circle cx="20" cy="19" r="2"/><path d="M9.6 10.2 5.6 6.4M14.4 10.2l4-3.8M9.6 13.8l-4 3.8M14.4 13.8l4 3.8"/>',
     yuan: '<path d="M7 4l5 7 5-7M12 11v9M8 12h8M8 16h8"/>',
     chat: '<path d="M4 5h16v11H9l-5 4z"/>',
     bus: '<rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16M8 21v-3M16 21v-3"/>',

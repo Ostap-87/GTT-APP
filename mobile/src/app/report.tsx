@@ -54,9 +54,12 @@ export default function Report() {
     <Plain>
       <Card tone="accent">
         <H3>Итоги поездки одним PDF</H3>
-        <T>Компании, ваши заметки и фото, контакты с визиток — удобно показать руководству или партнёрам.</T>
+        <T>Майндмэп поездки и каждого дня, компании, ваши заметки и фото, контакты с визиток — удобно показать руководству или партнёрам.</T>
         <Button title={busy ? 'Собираю PDF…' : 'Сохранить PDF и поделиться'} icon="doc" onPress={() => { if (!busy) make(); }} />
         <T muted>Собирается на телефоне, без интернета. Голосовые заметки остаются в приложении — в PDF их число.</T>
+      </Card>
+      <Card onPress={() => router.push({ pathname: '/mindmap', params: { day: 'trip' } })} label="Майндмэп поездки">
+        <Row left={<Icon name="mindmap" size={22} color={C.blueInk} />} title="Майндмэп: дни и вся поездка" sub="Темы встреч, договорённости и контакты картой — в PDF тоже войдёт" />
       </Card>
       <Card>
         <TitleRow title="Войдёт в итоги" right={<Chip>{`${withData.length} из ${VISITS.length}`}</Chip>} />

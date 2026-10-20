@@ -5,6 +5,7 @@ import { Text, View } from 'react-native';
 
 import { BASE_Q } from '@/data/extras';
 import { VISITS } from '@/data/group';
+import { VISIT_DAY } from '@/data/mindmap';
 import { useVisits } from '@/state/visits';
 import { Icon } from '@/ui/Icon';
 import { Button, Card, Chip, H3, Plain, Row, T, TitleRow } from '@/ui/kit';
@@ -52,7 +53,10 @@ export default function CompanyVisit() {
         </View>
       </Card>
 
-      <Button title="Итоги поездки — PDF" icon="doc" kind="ghost" onPress={() => router.push('/report')} />
+      <View style={{ flexDirection: 'row', gap: 8 }}>
+        <View style={{ flex: 1 }}><Button title="Майндмэп дня" icon="mindmap" kind="light" onPress={() => router.push({ pathname: '/mindmap', params: { day: String(VISIT_DAY[v.id]) } })} /></View>
+        <View style={{ flex: 1 }}><Button title="Итоги — PDF" icon="doc" kind="ghost" label="Итоги поездки — PDF" onPress={() => router.push('/report')} /></View>
+      </View>
     </Plain>
   );
 }

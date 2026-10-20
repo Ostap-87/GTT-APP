@@ -76,6 +76,7 @@ export default function RootLayout() {
             <Stack.Screen name="company/[id]" options={{ title: 'Визит' }} />
             <Stack.Screen name="card-scan" options={{ title: 'Визитка' }} />
             <Stack.Screen name="report" options={{ title: 'Итоги поездки' }} />
+            <Stack.Screen name="mindmap" options={{ title: 'Майндмэп' }} />
           </Stack>
         </ToastProvider>
         </VisitsProvider>
