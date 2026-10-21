@@ -63,8 +63,14 @@ export default function Library() {
         {notes.map((n, i) => <Row key={i} title={<T>{n.text}</T>} sub={n.time} />)}
         <T muted>Заметки видите только вы. Заметки, фото и визитки к конкретной компании — в её карточке в «Плане».</T>
       </Card>
+      <Card onPress={() => router.push('/docs')} label="Мои документы">
+        <Row left={<Icon name="passport" size={22} color={C.blueInk} />} title="Мои документы" sub="Паспорт, виза, билеты, страховка, бронь — крупно, без интернета" />
+      </Card>
+      <Card onPress={() => router.push('/expenses')} label="Расходы">
+        <Row left={<Icon name="receipt" size={22} color={C.blueInk} />} title="Расходы" sub="Чеки, суммы в рублях, отчёт Excel и PDF для бухгалтерии" />
+      </Card>
       <Card onPress={() => router.push('/cards')} label="Визитница">
-        <Row left={<Icon name="card" size={22} color={C.blueInk} />} title="Визитница" sub="Все визитки поездки по компаниям — снимки, контакты, «В контакты телефона»" />
+        <Row left={<Icon name="card" size={22} color={C.blueInk} />} title="Визитница" sub="Все визитки поездки по компаниям; одним файлом — в Excel, Bitrix24, amoCRM и «Контакты»" />
       </Card>
       <Card onPress={() => router.push('/report')} label="Итоги поездки — PDF">
         <Row left={<Icon name="doc" size={22} color={C.blueInk} />} title="Итоги поездки — PDF" sub="Компании, заметки, фото и визитки одним файлом" />

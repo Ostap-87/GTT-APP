@@ -206,7 +206,7 @@ export function buildTrip(p: Program) {
   const lang = country.lang.ru.split(' ')[0];
 
   return {
-    trip: { title: p.title, dates: `${dateOf(0).getUTCDate()}–${dateRu(n - 1)} ${dateOf(n - 1).getUTCFullYear()}`, route: cities.join(' → '), today, country: p.country, programId: p.id },
+    trip: { title: p.title, start: dateOf(0).toISOString().slice(0, 10), dates: `${dateOf(0).getUTCDate()}–${dateRu(n - 1)} ${dateOf(n - 1).getUTCFullYear()}`, route: cities.join(' → '), today, country: p.country, programId: p.id },
     days,
     city: days.map((d) => d.city),
     weather: days.map(() => ({ ...NO_WEATHER })),

@@ -19,6 +19,7 @@ import { clearStore, loadStore, peekStored, putStored } from '@/state/store';
 import { TripProvider } from '@/state/trip';
 import { VisitsProvider } from '@/state/visits';
 import { ToastProvider } from '@/state/toast';
+import { NotificationBridge } from '@/ui/NotificationBridge';
 import { C, F } from '@/ui/theme';
 
 export default function RootLayout() {
@@ -42,6 +43,7 @@ export default function RootLayout() {
         <VisitsProvider>
         <ToastProvider>
           <StatusBar style="dark" />
+          <NotificationBridge />
           <Stack
             screenOptions={{
               headerTintColor: C.blue,
@@ -77,6 +79,11 @@ export default function RootLayout() {
             <Stack.Screen name="guide" options={{ title: 'Слушать гида', presentation: 'modal' }} />
             <Stack.Screen name="city" options={{ title: 'Город' }} />
             <Stack.Screen name="demo" options={{ title: 'Выбрать поездку' }} />
+            <Stack.Screen name="search" options={{ title: 'Поиск по поездке' }} />
+            <Stack.Screen name="docs" options={{ title: 'Мои документы' }} />
+            <Stack.Screen name="doc/[id]" options={{ title: 'Документ', presentation: 'fullScreenModal' }} />
+            <Stack.Screen name="help" options={{ title: 'Помощь' }} />
+            <Stack.Screen name="expenses" options={{ title: 'Расходы' }} />
             <Stack.Screen name="place/[id]" options={{ title: 'Место', presentation: 'modal' }} />
             <Stack.Screen name="followup" options={{ title: 'Хочу продолжить', presentation: 'modal' }} />
             <Stack.Screen name="visit/[id]" options={{ title: 'Визит компании' }} />

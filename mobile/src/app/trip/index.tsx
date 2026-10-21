@@ -34,6 +34,12 @@ export default function Today() {
     <Screen eyebrow={`${d.wd}, ${d.n} ноября · ${CITY[i]}${w.max ? ` · ${w.max}` : ''}`} title="Сегодня"
       right={<Button title="Сменить поездку" kind="light" small label={`Сменить поездку. Сейчас: ${TRIP.title}`} onPress={() => router.push('/demo')} />}>
       <OfflineNote />
+      <Card onPress={() => router.push('/search')} label="Поиск по поездке" style={{ paddingVertical: 12 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <Icon name="search" size={20} color={C.muted} />
+          <Text style={{ fontFamily: F.medium, fontSize: 15, color: C.muted }}>Поиск: компания, адрес, телефон, заметка</Text>
+        </View>
+      </Card>
       <Card onPress={() => router.push('/route')} label="Маршрут поездки на схеме">
         <Row left={<Icon name="route" size={24} color={C.blueInk} />} title={TRIP.title} sub={routeText()} right={<Chip tone="info">маршрут</Chip>} />
       </Card>
@@ -62,13 +68,16 @@ export default function Today() {
         </Card>
       ) : null}
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-        {([['Переводчик', 'translate', '/translator'], ['Слушать гида', 'headphones', '/guide'], ['Город', 'map', '/city'], ['Такси', 'car', 'taxi']] as const).map(([title, icon, to]) => (
+        {([['Переводчик', 'translate', '/translator'], ['Слушать гида', 'headphones', '/guide'], ['Город', 'map', '/city'], ['Такси', 'car', 'taxi'], ['Документы', 'passport', '/docs'], ['Расходы', 'receipt', '/expenses']] as const).map(([title, icon, to]) => (
           <View key={title} style={{ flexBasis: '47%', flexGrow: 1 }}>
             <Button title={title} icon={icon} kind="ghost" onPress={() => (to === 'taxi' ? router.push({ pathname: '/driver', params: { zh: h ? h.addrZh : '', ru: h ? h.addrRu : '' } }) : router.push(to))} />
           </View>
         ))}
       </View>
 
+      <Card tone="warn" onPress={() => router.push('/help')} label="Помощь: карточка на местном языке, звонок координатору, где я">
+        <Row left={<Icon name="help" size={26} color={C.warn} />} title="Помощь" sub="Карточка на местном языке, звонок координатору, «где я», экстренные номера" />
+      </Card>
       <Card>
         <Row
           left={<Avatar text="ОД" />}

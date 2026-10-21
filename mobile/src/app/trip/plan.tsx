@@ -1,6 +1,6 @@
 // «План»: дни поездки, у каждого — погода, отель, визиты, рестораны и культурная программа.
-import { router } from 'expo-router';
-import { useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import { CITY, DAYS, DAY_NOTES, TRIP, WEATHER, dayEvents, hotelOf, weatherLine } from '@/data/trip';
@@ -10,7 +10,10 @@ import { EventRow } from '@/ui/trip-ui';
 import { C, F } from '@/ui/theme';
 
 export default function Plan() {
+  const params = useLocalSearchParams<{ day?: string }>();
   const [day, setDay] = useState(TRIP.today);
+  // из поиска и напоминаний открывается нужный день
+  useEffect(() => { const d = Number(params.day); if (params.day !== undefined && d >= 0 && d < DAYS.length) setDay(d); }, [params.day]);
   const d = DAYS[day];
   const w = WEATHER[day];
   const h = hotelOf(day);

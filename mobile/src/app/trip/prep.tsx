@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
+import { CHECK_DOCS } from '@/data/docs';
 import { foodLine } from '@/data/profile';
 import { countryOf } from '@/data/countries';
 import { VISITS, plural } from '@/data/group';
@@ -16,6 +17,7 @@ import { Icon } from '@/ui/Icon';
 import { Avatar, Button, Card, Check, Chip, Field, H3, Row, Screen, Seg, T, TitleRow, initials } from '@/ui/kit';
 import { CountryApps } from '@/ui/ChinaApps';
 import { EsimOffers } from '@/ui/EsimOffers';
+import { RemindersCard } from '@/ui/RemindersCard';
 import { RouteMap } from '@/ui/RouteMap';
 import { C, F } from '@/ui/theme';
 
@@ -80,6 +82,10 @@ function During() {
         <H3>В дороге пригодится</H3>
         <Row title="Переводчик" sub={TRIP.country === 'cn' ? 'Говорите по-русски — собеседник слышит по-китайски' : `Говорите по-русски — собеседник слышит перевод на ${countryOf(TRIP.country).lang.ru.split(' ')[0]}`} left={<Icon name="translate" size={22} color={C.blueInk} />} onPress={() => router.push('/translator')} label="Переводчик" />
         <Row title="Слушать гида" sub="Радиогид в наушниках, субтитры на русском" left={<Icon name="headphones" size={22} color={C.blueInk} />} onPress={() => router.push('/guide')} label="Слушать гида" />
+        <Row title="Помощь" sub="Карточка на местном языке, звонок координатору, «где я»" left={<Icon name="help" size={22} color={C.warn} />} onPress={() => router.push('/help')} label="Помощь" />
+        <Row title="Мои документы" sub="Паспорт, билеты, страховка — крупно, без интернета" left={<Icon name="passport" size={22} color={C.blueInk} />} onPress={() => router.push('/docs')} label="Мои документы" />
+        <Row title="Расходы" sub="Фото чека → сумма в рублях → отчёт для бухгалтерии" left={<Icon name="receipt" size={22} color={C.blueInk} />} onPress={() => router.push('/expenses')} label="Расходы" />
+        <Row title="Поиск по поездке" sub="Компании, адреса, телефоны, заметки, визитки" left={<Icon name="search" size={22} color={C.blueInk} />} onPress={() => router.push('/search')} label="Поиск по поездке" />
         <Row title="Город" sub={`Шопинг, вечер, магазины 24/7 и туалеты рядом с отелем, ${countryOf(TRIP.country).currency.ru} в рубли`} left={<Icon name="map" size={22} color={C.blueInk} />} onPress={() => router.push('/city')} label="Город" />
         <Row title="Майндмэп дня" sub="Темы встреч, договорённости и контакты — картой из ваших заметок" left={<Icon name="mindmap" size={22} color={C.blueInk} />} onPress={() => router.push('/mindmap')} label="Майндмэп дня" />
         <Row title="Итоги поездки — PDF" sub="Компании, заметки, фото и визитки одним файлом" left={<Icon name="doc" size={22} color={C.blueInk} />} onPress={() => router.push('/report')} label="Итоги поездки" />
@@ -105,6 +111,9 @@ function After() {
   };
   return (
     <>
+      <Card onPress={() => router.push('/expenses')} label="Отчёт о расходах">
+        <Row left={<Icon name="receipt" size={22} color={C.blueInk} />} title="Отчёт о расходах для бухгалтерии" sub="Excel или PDF с чеками, суммы в рублях по курсу ЦБ" />
+      </Card>
       <Card tone="accent">
         <H3>Итоги поездки одним PDF</H3>
         <T>Майндмэп поездки с главными темами и вехами, по дням — компании, заметки, фото и контакты с визиток.</T>
@@ -152,9 +161,12 @@ function After() {
 }
 
 export default function Prep() {
-  const { done, toggle, profile, pStep } = useTrip();
+  const { done, toggle, profile, pStep, docs } = useTrip();
   const [stage, setStage] = useState<'before' | 'during' | 'after'>('before');
-  const count = CHECKLIST.filter((c) => done[c.key]).length;
+  // паспорт и билеты отмечаются сами, когда документ есть в «Моих документах»
+  const docsOf = (key: string) => docs.filter((d) => CHECK_DOCS[key]?.includes(d.kind)).length;
+  const isDone = (key: string) => !!done[key] || docsOf(key) > 0;
+  const count = CHECKLIST.filter((c) => isDone(c.key)).length;
   return (
     <Screen eyebrow={`${ME.ru} · делегат`} title="Моя поездка">
       <Card onPress={() => router.push('/profile')} label="Мой профиль">
@@ -193,10 +205,10 @@ export default function Prep() {
               <View style={{ width: `${(count / CHECKLIST.length) * 100}%`, height: '100%', backgroundColor: C.green }} />
             </View>
             {CHECKLIST.map((c) => {
-              const on = !!done[c.key];
-              const sub = c.key === 'profile' && profile.saved ? foodLine(profile) : c.sub;
+              const on = isDone(c.key);
+              const sub = c.key === 'profile' && profile.saved ? foodLine(profile) : docsOf(c.key) ? `В «Моих документах»: ${docsOf(c.key)}` : CHECK_DOCS[c.key] && !on ? 'Добавьте в «Мои документы» — откроется без интернета' : c.sub;
               return (
-                <Pressable key={c.key} onPress={() => (c.key === 'profile' ? router.push('/profile') : toggle(c.key))} accessibilityRole="checkbox" accessibilityState={{ checked: on }}
+                <Pressable key={c.key} onPress={() => (c.key === 'profile' ? router.push('/profile') : CHECK_DOCS[c.key] ? router.push('/docs') : toggle(c.key))} accessibilityRole="checkbox" accessibilityState={{ checked: on }}
                   style={{ flexDirection: 'row', gap: 12, alignItems: 'center', paddingVertical: 10, borderTopWidth: 1, borderTopColor: C.line2 }}>
                   <View style={{ width: 22, height: 22, borderRadius: 6, borderWidth: 1.5, borderColor: on ? C.green : '#c3cad6', backgroundColor: on ? C.green : C.card, alignItems: 'center', justifyContent: 'center' }}>
                     {on ? <Icon name="check" size={14} color="#fff" /> : null}
@@ -208,6 +220,10 @@ export default function Prep() {
                 </Pressable>
               );
             })}
+          </Card>
+          <RemindersCard />
+          <Card onPress={() => router.push('/docs')} label="Мои документы">
+            <Row left={<Icon name="passport" size={22} color={C.blueInk} />} title={`Мои документы${docs.length ? ` · ${docs.length}` : ''}`} sub="Паспорт, виза, билеты, страховка, бронь — только на телефоне, открываются без интернета" />
           </Card>
           <Card onPress={() => router.push({ pathname: '/country/[code]', params: { code: TRIP.country } })} label="Памятка по стране">
             <Row left={<Icon name="globe" size={22} color={C.blueInk} />} title={`Памятка: ${countryOf(TRIP.country).ru}`} sub="Валюта, оплата, связь, розетки, приложения, фразы, карта регионов" />

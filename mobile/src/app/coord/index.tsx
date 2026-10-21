@@ -1,6 +1,6 @@
 // «Пульт» координатора: цифры дня, сбор группы, переезды, «Требует внимания» — только то, что ждёт действия.
 import { router } from 'expo-router';
-import { View } from 'react-native';
+import { Linking, View } from 'react-native';
 
 import { AGENCY, calcTitle, citLine, tourById } from '@/data/agent';
 import { VISITS, byId, fem, plural } from '@/data/group';
@@ -25,6 +25,11 @@ export default function Center() {
   const todo = k.notReady.filter((d) => !k.reminded[d.id]);
 
   const items: Item[] = [];
+  // делегат нажал «Помощь → Отправить, где я» — самое срочное наверху
+  k.where.filter((w) => !w.seen).forEach((w) => items.push({
+    key: `w-${w.id}`, title: `Где сейчас ${w.who} · отправлено в ${w.at}`, sub: `Точность ~${Math.round(w.acc || 0)} м · ${w.lat.toFixed(5)}, ${w.lng.toFixed(5)}`,
+    btns: [['Открыть на карте', 'primary', () => Linking.openURL(w.links[0])], ['Позвонил, всё в порядке', 'ghost', () => k.seeWhere(w.id)]],
+  }));
   if (k.foodDirty) items.push({ key: 'food', title: 'Питание изменилось после отправки ресторанам', sub: `Сводка ушла ${k.foodSent.at}; с тех пор: ${k.foodChanges().join('; ')}`, btns: [['Отправить обновление', 'primary', () => router.push('/food-summary')]] });
   DELEGATES.filter((d) => k.pStage(d.id)[0] === 'ready').forEach((d) => items.push({
     key: `p-${d.id}`, title: `${d.ru} ${fem(d.id) ? 'заполнила' : 'заполнил'} профиль — проверьте`, sub: k.foodLineOf(d.id),

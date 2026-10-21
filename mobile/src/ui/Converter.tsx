@@ -11,16 +11,12 @@ import { Icon } from './Icon';
 import { Card, Chip, H3, T, inputStyle } from './kit';
 import { C, F } from './theme';
 
-type Rate = { rub: number; date: string };
+export type Rate = { rub: number; date: string };
 const fmt = (n: number, d = 0) => n.toLocaleString('ru-RU', { minimumFractionDigits: d, maximumFractionDigits: d });
 
-export function Converter({ currency = countryOf(TRIP.country).currency }: { currency?: Currency }) {
-  const cur = currency;
+/** Курс валюты к рублю: ЦБ РФ, когда есть интернет, иначе последний сохранённый; общий для конвертера и расходов. */
+export function useRate(cur: Currency) {
   const [rate, setRate] = useStored<Rate>(`money.${cur.code}`, { rub: cur.rub || 0, date: cur.rub ? '21.10.2026' : '' });
-  const [dir, setDir] = useState<'local' | 'rub'>('local');
-  const [amount, setAmount] = useState(String(cur.quick[2] ?? 100));
-  const [manual, setManual] = useState(rate.rub ? String(rate.rub).replace('.', ',') : '');
-
   useEffect(() => {
     if (!cur.cbr) return;
     const ctl = new AbortController();
@@ -35,6 +31,15 @@ export function Converter({ currency = countryOf(TRIP.country).currency }: { cur
       .finally(() => clearTimeout(t));
     return () => { clearTimeout(t); ctl.abort(); };
   }, [cur.cbr, cur.code, setRate]);
+  return [rate, setRate] as const;
+}
+
+export function Converter({ currency = countryOf(TRIP.country).currency }: { currency?: Currency }) {
+  const cur = currency;
+  const [rate, setRate] = useRate(cur);
+  const [dir, setDir] = useState<'local' | 'rub'>('local');
+  const [amount, setAmount] = useState(String(cur.quick[2] ?? 100));
+  const [manual, setManual] = useState(rate.rub ? String(rate.rub).replace('.', ',') : '');
 
   const n = Number(amount.replace(',', '.').replace(/[^\d.]/g, '')) || 0;
   const result = rate.rub ? (dir === 'local' ? n * rate.rub : n / rate.rub) : 0;

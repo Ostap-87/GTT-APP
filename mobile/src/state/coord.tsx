@@ -11,6 +11,8 @@ import { useStored } from '@/state/store';
 export type Stage = ['invited' | 'filling' | 'ready' | 'checked', string, 'ok' | 'warn' | 'info'];
 type LegMark = { dep?: string; arr?: string };
 type Ann = { id: string; ru: string; zh: string; toD: boolean; toH: boolean; tg: boolean; time: string };
+/** Делегат отправил, где он: координаты, точность, ссылки на карту. */
+export type Where = { id: string; who: string; at: string; lat: number; lng: number; acc?: number; links: string[]; seen: boolean };
 /** Первое объявление дня: в подробном демо — перенос встречи в Meituan, у программ сайта — сбор в лобби перед выездом. */
 function firstAnn(): Ann[] {
   if (!TRIP.programId) return [{ id: 'a0', ru: TEMPLATES[2].ru, zh: TEMPLATES[2].zh, toD: true, toH: false, tg: false, time: '08:40' }];
@@ -55,6 +57,8 @@ function useCoordState() {
   const [reviews, setReviews] = useStored<Review[]>('coord.reviews', []);
   const [rating, setRating] = useStored('coord.rating', 0);
   const [hema, setHema] = useStored<'pending' | 'accepted' | 'discuss'>('coord.hema', 'pending');
+  // «Помощь → Отправить координатору, где я»: делегат сам нажимает кнопку, слежки нет
+  const [where, setWhere] = useStored<Where[]>('coord.where', []);
   const docsMissing = ['d4', 'd15'];
 
   return useMemo(() => {
@@ -125,13 +129,16 @@ function useCoordState() {
       remindPdd: () => setPddReminded(true),
       setViewing,
       guideLive, setGuideLive, out, setOut, followups, reviews, rating, setRating, hema, setHema,
+      where,
+      sendWhere: (w: Omit<Where, 'id' | 'seen'>) => setWhere((x) => [{ ...w, id: `w${Date.now()}`, seen: false }, ...x]),
+      seeWhere: (id: string) => setWhere((x) => x.map((w) => (w.id === id ? { ...w, seen: true } : w))),
       addFollowup: (f: Omit<Followup, 'id' | 'status'>) => setFollowups((x) => [...x, { ...f, id: `f${x.length}`, status: 'new' }]),
       sendFollowup: (id: string) => setFollowups((x) => x.map((f) => (f.id === id ? { ...f, status: 'sent' } : f))),
       addReview: (r: Omit<Review, 'id' | 'status'>) => setReviews((x) => [{ ...r, id: `r${x.length}`, status: 'new' }, ...x]),
       markReview: (id: string, status: Review['status']) => setReviews((x) => x.map((r) => (r.id === id ? { ...r, status } : r))),
       foodLineOf: (id: string) => { const p = profileOf(id); return p ? foodLine(p) : ''; },
     };
-  }, [trip, missing, legs, checked, d1Checked, reminded, notes, foodSent, anns, igorReminded, pddReminded, viewing, guideLive, out, followups, reviews, rating, hema]);
+  }, [trip, missing, legs, checked, d1Checked, reminded, notes, foodSent, anns, igorReminded, pddReminded, viewing, guideLive, out, followups, reviews, rating, hema, where]);
 }
 
 type Coord = ReturnType<typeof useCoordState>;

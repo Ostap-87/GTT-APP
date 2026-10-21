@@ -162,3 +162,18 @@ Expo меняется от версии к версии: перед работо
 - **Проверка всех 76 программ** — собрать и прогнать скрипт, который вызывает `applyTrip` для каждой программы и проверяет
   время событий, отели, маршрут, отсутствие `undefined` (так проверено 21.10.2026: 0 ошибок).
 
+## Удобство делегата (21.10.2026)
+
+- **Напоминания** — `src/data/reminders.ts` (что и когда), `src/state/notify.ts` / `notify.web.ts` (expo-notifications, только
+  локальные), `src/ui/NotificationBridge.tsx` (ставит заново при запуске, смене программы и настроек; кнопки «Я в автобусе» и
+  «Адрес для такси»), `src/ui/RemindersCard.tsx` (настройки в «Поездка → До»). iOS держит до 64 уведомлений — ставим 60 ближайших.
+- **Время поездки** — `src/data/when.ts`: `TRIP.start` + день + «ЧЧ:ММ» по часовому поясу страны (`countries.ts → tz`).
+- **Календарь** — `src/ui/calendar.ts`: expo-calendar в собранном приложении, файл `.ics` в Expo Go и в браузере.
+- **Документы** — `src/app/docs.tsx`, `src/app/doc/[id].tsx`, `src/ui/PdfView.tsx` (iPhone — в приложении, Android — во внешнем
+  просмотрщике, веб — в окне браузера); данные — `src/data/docs.ts`, хранение — `state/trip.tsx → docs` и папка приложения.
+- **Помощь** — `src/app/help.tsx` (тексты — `countries.ts → help`), «где я» — `state/coord.tsx → where`, на «Пульте» — сверху.
+- **Расходы** — `src/app/expenses.tsx`, `src/data/expenses.ts` (сумма с чека, отчёт), курс — `useRate` из `src/ui/Converter.tsx`.
+- **Файлы** — `src/data/xlsx.ts` (Excel без библиотек и CSV), `src/ui/files.ts` (`shareFile`: на телефоне — «Поделиться»,
+  в браузере — скачивание с именем латиницей), визитки — `src/data/card-export.ts`.
+- **Поиск** — `src/data/search.ts` (индекс и поиск), `src/app/search.tsx`.
+

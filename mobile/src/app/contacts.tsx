@@ -1,4 +1,5 @@
 // Контакты поездки и экстренные номера страны поездки. Номера в демо — примеры; в приложении их задаёт координатор.
+import { router } from 'expo-router';
 import { Linking, Pressable, Text, View } from 'react-native';
 
 import { countryOf } from '@/data/countries';
@@ -15,6 +16,9 @@ export default function Contacts() {
   const country = countryOf(TRIP.country);
   return (
     <Plain>
+      <Card tone="warn" onPress={() => router.push('/help')} label="Помощь">
+        <Row left={<Icon name="help" size={24} color={C.warn} />} title="Помощь" sub="Карточка на местном языке «позвоните моему координатору», «где я»" />
+      </Card>
       <T muted>Номера в демо — примеры; в приложении их задаёт координатор.</T>
       <Card>
         {people.map((p) => (
