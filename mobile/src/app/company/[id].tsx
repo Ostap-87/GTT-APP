@@ -3,9 +3,12 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { Text, View } from 'react-native';
 
+import { countryOf } from '@/data/countries';
+import { companyByName } from '@/data/demo-trip';
 import { BASE_Q } from '@/data/extras';
 import { VISITS } from '@/data/group';
 import { VISIT_DAY } from '@/data/mindmap';
+import { TRIP } from '@/data/trip';
 import { useVisits } from '@/state/visits';
 import { Icon } from '@/ui/Icon';
 import { Button, Card, Chip, H3, Plain, Row, T, TitleRow } from '@/ui/kit';
@@ -19,11 +22,14 @@ export default function CompanyVisit() {
   const { cardsOf, notesOf } = useVisits();
   if (!v) return <Plain><T>Визит не найден</T></Plain>;
   const cards = cardsOf(v.id);
+  const about = v.desc || companyByName(v.name)?.d;
   return (
     <Plain>
       <Card>
         <Text style={{ fontFamily: F.display, fontSize: 34, lineHeight: 36, color: C.ink, textTransform: 'uppercase' }}>{v.name}</Text>
         <Row left={<Icon name="cal" size={22} color={C.blueInk} />} title={v.when} right={<Chip tone={v.st[0]}>{v.st[1]}</Chip>} />
+        {about ? <T>{about}</T> : null}
+        {about ? <T muted>О компании — с сайта globaltechtour.ru</T> : null}
       </Card>
 
       {v.id === 'jd' ? (
@@ -51,7 +57,7 @@ export default function CompanyVisit() {
         ))}
         <Button title="Сканировать визитку" icon="camera" onPress={() => router.push({ pathname: '/card-scan', params: { visit: v.id } })} />
         <View style={{ paddingHorizontal: 2 }}>
-          <Text style={{ fontFamily: F.regular, fontSize: 12.5, color: C.muted }}>Фото визитки → приложение распознаёт китайский текст, пишет имя латиницей и переводит должность и компанию.</Text>
+          <Text style={{ fontFamily: F.regular, fontSize: 12.5, color: C.muted }}>{`Фото визитки → приложение распознаёт ${TRIP.country === 'cn' ? 'китайский' : countryOf(TRIP.country).lang.ru.split(' ')[0]} текст, пишет имя латиницей и переводит должность и компанию.`}</Text>
         </View>
       </Card>
 

@@ -19,7 +19,7 @@ export default function MealScreen() {
         <T muted>{m.when}</T>
         <H3 style={{ fontSize: 20 }}>{m.place}</H3>
         <T>{m.cuisine}</T>
-        <Chip tone="ok">забронировано</Chip>
+        <Chip tone={m.addrZh ? 'ok' : 'info'}>{m.addrZh ? 'забронировано' : 'бронирует координатор'}</Chip>
       </Card>
       <Card>
         <H3>Варианты меню</H3>

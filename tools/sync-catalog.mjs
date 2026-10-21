@@ -12,17 +12,20 @@ const sinotech = resolve(process.argv[2] || process.env.SINOTECH_DIR || join(roo
 const tours = JSON.parse(readFileSync(join(sinotech, 'src/data/tours.json'), 'utf8')).tours;
 const companiesRaw = JSON.parse(readFileSync(join(sinotech, 'src/data/companies.json'), 'utf8'));
 
-// Компании лежат вложенно (страны → регионы → …): собираем id → название
-const names = new Map();
-(function walk(o) {
-  if (Array.isArray(o)) { o.forEach(walk); return; }
-  if (o && typeof o === 'object') {
-    if (o.id && o.name_en) names.set(o.id, o.name_ru || o.name_en);
-    Object.values(o).forEach(walk);
-  }
-})(companiesRaw);
+// Компании сайта: id → название, иероглифы (для Китая), город и справка
+const coById = new Map(companiesRaw.companies.map((c) => [c.id, c]));
+const names = new Map(companiesRaw.companies.map((c) => [c.id, c.name_ru || c.name_en]));
 
 const cleanCity = (c) => c.replace(/\s*\(.*?\)\s*/g, '').replace(/\s*—\s*(вылет|финал)/g, '').trim();
+/** «Шанхай, день 1», «Гуанчжоу (финал)» → «Шанхай», «Гуанчжоу». */
+const dayCity = (c) => cleanCity(c).replace(/,.*$/, '').split(/→|\//).map((x) => x.trim()).filter((x) => x && x !== 'вылет').pop() || '';
+/** Справка о компании для демо — первые одно-два предложения описания с сайта. */
+function short(text) {
+  const parts = String(text || '').trim().split(/(?<=[.!?])\s+(?=[А-ЯЁA-Z«"(0-9])/);
+  let out = '';
+  for (const p of parts) { if (out && `${out} ${p}`.length > 280) break; out = out ? `${out} ${p}` : p; }
+  return out.length > 400 ? `${out.slice(0, 380).replace(/\s+\S*$/, '')}…` : out;
+}
 const out = tours.map((t) => {
   const cities = [];
   const companies = [];
@@ -49,14 +52,32 @@ const out = tours.map((t) => {
     cities,
     companies,
     startDate: t.start_date || null,
-    // маршрут по дням для карты: город (id из companies.json → cities) и как добрались (перелёт или поезд)
-    route: (t.itinerary || []).filter((d) => d.city).map((d) => ({ day: d.day, city: d.city, ...(d.leg_mode ? { leg: d.leg_mode } : {}) })),
+    arrival: t.arrival_ru || '',
+    departure: t.departure_ru || '',
+    // маршрут по дням: город (id из companies.json → cities), как добрались (перелёт или поезд), время визитов, компании,
+    // переезд и примечание дня — из этого приложение собирает демо-поездку делегата по любой программе
+    route: (t.itinerary || []).filter((d) => d.city).map((d) => ({
+      day: d.day, city: d.city, ru: dayCity(d.city_ru || ''), area: d.area_ru || '', time: d.time || '',
+      co: (d.companies || []).filter((id) => coById.has(id)),
+      ...(d.leg_mode ? { leg: d.leg_mode } : {}), ...(d.transfer_ru ? { tr: d.transfer_ru } : {}), ...(d.note_ru ? { note: d.note_ru } : {}),
+    })),
   };
 });
 
 const file = join(root, 'mobile/src/data/catalog.json');
 writeFileSync(file, `${JSON.stringify(out, null, 1)}\n`);
 console.log(`каталог: ${out.length} программ → ${file}`);
+
+// Компании программ для демо-поездки: название, иероглифы (только Китай — для водителя), город, короткая справка с сайта
+const used = new Set(out.flatMap((t) => t.route.flatMap((r) => r.co)));
+const coOut = {};
+for (const id of [...used].sort()) {
+  const c = coById.get(id);
+  coOut[id] = { n: c.name_ru || c.name_en, ...(c.country === 'cn' && c.name_zh ? { zh: c.name_zh } : {}), c: c.city || '', d: short(c.desc_ru) };
+}
+const coFile = join(root, 'mobile/src/data/companies.json');
+writeFileSync(coFile, `${JSON.stringify(coOut)}\n`);
+console.log(`компании программ: ${used.size} → ${coFile}`);
 
 // Карта маршрута в приложении рисует те же регионы, что карта на сайте, — для всех 9 стран; города — с координатами сайта
 const GEO = { cn: 'china', jp: 'japan', kr: 'korea', th: 'thailand', vn: 'vietnam', id: 'indonesia', in: 'india', my: 'malaysia', ae: 'uae' };

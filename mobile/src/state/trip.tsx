@@ -2,6 +2,7 @@
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
 
 import { foodLine, freshProfile, type Profile } from '@/data/profile';
+import { TRIP } from '@/data/trip';
 import { useStored } from '@/state/store';
 
 type Note = { text: string; time: string };
@@ -38,7 +39,7 @@ export function TripProvider({ children }: { children: ReactNode }) {
   const [pStep, setPStep] = useStored('trip.pStep', 0);
   const [pHist, setPHist] = useStored<[string, string][]>('trip.pHist', []);
   const [downloaded, setDownloaded] = useStored<Record<string, boolean>>('trip.downloaded', { trip: true, memo: true, program: true });
-  const [notes, setNotes] = useStored<Note[]>('trip.notes', [{ text: 'JD: спросить про сроки доставки в регионах', time: 'вчера' }]);
+  const [notes, setNotes] = useStored<Note[]>('trip.notes', TRIP.programId ? [] : [{ text: 'JD: спросить про сроки доставки в регионах', time: 'вчера' }]);
   const [intros, setIntros] = useStored<Record<string, boolean>>('trip.intros', {});
 
   const value = useMemo<TripState>(() => ({

@@ -56,7 +56,7 @@ export const LEGS: Leg[] = [
   { id: 'l4', from: 'Meituan', to: 'Ужин · хого', plan: '18:15', min: 45 },
   { id: 'l5', from: 'Ужин', to: 'Отель', plan: '21:00', min: 30 },
 ];
-export const PAST_LEGS = [
+export const PAST_LEGS: { day: string; from: string; to: string; dep: string; arr: string; min: number }[] = [
   { day: 'Пн, 9 ноября', from: 'Аэропорт', to: 'Отель', dep: '14:20', arr: '15:35', min: 60 },
   { day: 'Пн, 9 ноября', from: 'Отель', to: 'Ужин · пекинская утка', dep: '19:02', arr: '19:24', min: 20 },
 ];
@@ -67,8 +67,10 @@ export const diffTxt = (fact: number, plan: number) => { const d = fact - plan; 
 export const plural = (n: number, a: string, b: string, c: string) => { const m10 = n % 10; const m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? b : c; };
 
 // ——— Визиты: что видит координатор по компаниям поездки ———
-export const VISITS: { id: string; name: string; when: string; st: ['ok' | 'warn' | 'info', string] }[] = [
-  { id: 'jd', name: 'JD.com', when: 'Вт 10 · 10:30', st: ['ok', 'подтверждено'] },
+/** zh — название для водителя, desc — справка с сайта, place — где (у программ с сайта). */
+export type Visit = { id: string; name: string; when: string; st: ['ok' | 'warn' | 'info', string]; zh?: string; addr?: string; desc?: string };
+export const VISITS: Visit[] = [
+  { id: 'jd', name: 'JD.com', when: 'Вт 10 · 10:30', st: ['ok', 'подтверждено'], zh: '京东集团总部', addr: 'Штаб-квартира JD.com, Пекин' },
   { id: 'meituan', name: 'Meituan', when: 'Вт 10 · 15:30', st: ['ok', 'перенос согласован'] },
   { id: 'hema', name: 'Hema (Freshippo)', when: 'Ср 11 · 13:30', st: ['warn', 'предлагает 14:00'] },
   { id: 'pdd', name: 'Pinduoduo', when: 'Ср 11 · 16:30', st: ['warn', 'ссылку не открыли'] },

@@ -5,8 +5,10 @@ import { Pressable, Text, View } from 'react-native';
 
 import { foodLine } from '@/data/profile';
 import { countryOf } from '@/data/countries';
-import { MAP_LEGS, MAP_STOPS, ROUTE_STATS, ROUTE_TEXT } from '@/data/route';
-import { CHECKLIST, CULTURE, ME, TRIP } from '@/data/trip';
+import { VISITS, plural } from '@/data/group';
+import { VISIT_DAY } from '@/data/mindmap';
+import { MAP_LEGS, MAP_STOPS, ROUTE_STATS, routeText } from '@/data/route';
+import { CHECKLIST, CITY, CULTURE, DAYS, ME, TRIP } from '@/data/trip';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
@@ -53,26 +55,32 @@ function CountryPrep() {
 
 /** «В поездке»: прогресс поездки, культурная программа и инструменты дня. */
 function During() {
+  const i = TRIP.today;
+  const past = VISITS.filter((v) => VISIT_DAY[v.id] < i).length;
+  const today = VISITS.filter((v) => VISIT_DAY[v.id] === i).map((v) => v.name);
+  const culture = Object.entries(CULTURE);
   return (
     <>
       <Card>
-        <TitleRow title="День 2 из 6" right={<Chip tone="info">Пекин</Chip>} />
+        <TitleRow title={`День ${i + 1} из ${DAYS.length}`} right={<Chip tone="info">{CITY[i]}</Chip>} />
         <View style={{ height: 8, borderRadius: 4, backgroundColor: C.line2, overflow: 'hidden' }}>
-          <View style={{ width: '33%', height: '100%', backgroundColor: C.blue }} />
+          <View style={{ width: `${Math.round(((i + 1) / DAYS.length) * 100)}%`, height: '100%', backgroundColor: C.blue }} />
         </View>
-        <T muted>Пройдено визитов: 0 из 9 · сегодня JD.com и Meituan</T>
+        <T muted>{`Пройдено визитов: ${past} из ${VISITS.length}${today.length ? ` · сегодня ${today.slice(0, -1).join(', ')}${today.length > 1 ? ' и ' : ''}${today[today.length - 1]}` : ''}`}</T>
       </Card>
-      <Card>
-        <H3>Культурная программа</H3>
-        {Object.entries(CULTURE).map(([key, c]) => (
-          <Row key={key} title={c.title} sub={c.when} right={<Chip tone="dark">культура</Chip>} onPress={() => router.push(`/culture/${key}`)} label={c.title} />
-        ))}
-      </Card>
+      {culture.length ? (
+        <Card>
+          <H3>Культурная программа</H3>
+          {culture.map(([key, c]) => (
+            <Row key={key} title={c.title} sub={c.when} right={<Chip tone="dark">культура</Chip>} onPress={() => router.push(`/culture/${key}`)} label={c.title} />
+          ))}
+        </Card>
+      ) : null}
       <Card>
         <H3>В дороге пригодится</H3>
-        <Row title="Переводчик" sub="Говорите по-русски — собеседник слышит по-китайски" left={<Icon name="translate" size={22} color={C.blueInk} />} onPress={() => router.push('/translator')} label="Переводчик" />
+        <Row title="Переводчик" sub={TRIP.country === 'cn' ? 'Говорите по-русски — собеседник слышит по-китайски' : `Говорите по-русски — собеседник слышит перевод на ${countryOf(TRIP.country).lang.ru.split(' ')[0]}`} left={<Icon name="translate" size={22} color={C.blueInk} />} onPress={() => router.push('/translator')} label="Переводчик" />
         <Row title="Слушать гида" sub="Радиогид в наушниках, субтитры на русском" left={<Icon name="headphones" size={22} color={C.blueInk} />} onPress={() => router.push('/guide')} label="Слушать гида" />
-        <Row title="Город" sub="Шопинг, вечер, магазины 24/7 и туалеты рядом с отелем, юани в рубли" left={<Icon name="map" size={22} color={C.blueInk} />} onPress={() => router.push('/city')} label="Город" />
+        <Row title="Город" sub={`Шопинг, вечер, магазины 24/7 и туалеты рядом с отелем, ${countryOf(TRIP.country).currency.ru} в рубли`} left={<Icon name="map" size={22} color={C.blueInk} />} onPress={() => router.push('/city')} label="Город" />
         <Row title="Майндмэп дня" sub="Темы встреч, договорённости и контакты — картой из ваших заметок" left={<Icon name="mindmap" size={22} color={C.blueInk} />} onPress={() => router.push('/mindmap')} label="Майндмэп дня" />
         <Row title="Итоги поездки — PDF" sub="Компании, заметки, фото и визитки одним файлом" left={<Icon name="doc" size={22} color={C.blueInk} />} onPress={() => router.push('/report')} label="Итоги поездки" />
       </Card>
@@ -119,7 +127,7 @@ function After() {
         )}
       </Card>
       <Card>
-        <H3>Оцените визит в JD.com</H3>
+        <H3>{`Оцените визит в ${VISITS[0]?.name || 'компанию'}`}</H3>
         <View style={{ flexDirection: 'row', gap: 6 }}>
           {[1, 2, 3, 4, 5].map((n) => (
             <Pressable key={n} onPress={() => k.setRating(n)} accessibilityRole="button" accessibilityLabel={`${n} из 5`} hitSlop={6}>
@@ -137,7 +145,7 @@ function After() {
       </Card>
       <Card>
         <H3>Фото, видео и отчёт</H3>
-        <T muted>Откроются 14 ноября, после возвращения группы.</T>
+        <T muted>{`Откроются ${DAYS[DAYS.length - 1].n} ноября, после возвращения группы.`}</T>
       </Card>
     </>
   );
@@ -174,8 +182,8 @@ export default function Prep() {
               </View>
               <View style={{ flex: 1, gap: 4 }}>
                 <H3>Как мы поедем</H3>
-                <T>{ROUTE_TEXT}</T>
-                <T muted>{`${ROUTE_STATS.cities} города · ${ROUTE_STATS.days} дней · ${ROUTE_STATS.visits} компаний — смотреть маршрут`}</T>
+                <T>{routeText()}</T>
+                <T muted>{`${ROUTE_STATS.cities} ${plural(ROUTE_STATS.cities, 'город', 'города', 'городов')} · ${ROUTE_STATS.days} ${plural(ROUTE_STATS.days, 'день', 'дня', 'дней')} · ${ROUTE_STATS.visits} ${plural(ROUTE_STATS.visits, 'компания', 'компании', 'компаний')} — смотреть маршрут`}</T>
               </View>
             </View>
           </Card>

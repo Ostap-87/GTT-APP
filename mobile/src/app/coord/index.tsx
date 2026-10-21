@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import { AGENCY, calcTitle, citLine, tourById } from '@/data/agent';
 import { VISITS, byId, fem, plural } from '@/data/group';
-import { DELEGATES } from '@/data/trip';
+import { DELEGATES, TRIP } from '@/data/trip';
 import { useAgent } from '@/state/agent';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
@@ -19,7 +19,9 @@ export default function Center() {
   const ag = useAgent();
   const toast = useToast();
   const ready = DELEGATES.filter((d) => k.ready(d.id)).length;
-  const conf = VISITS.filter((v) => v.st[0] === 'ok').length + (k.hema === 'accepted' ? 1 : 0);
+  // визиты Hema и Pinduoduo с их вопросами есть только в подробном демо
+  const has = (id: string) => VISITS.some((v) => v.id === id);
+  const conf = VISITS.filter((v) => v.st[0] === 'ok').length + (k.hema === 'accepted' && has('hema') ? 1 : 0);
   const todo = k.notReady.filter((d) => !k.reminded[d.id]);
 
   const items: Item[] = [];
@@ -40,7 +42,7 @@ export default function Center() {
     key: `c-${r.id}`, title: `Запрос на расчёт ${r.id} от ${AGENCY}`, sub: `${calcTitle(r)} · ${r.people} чел. · ${citLine(r.cit)}`,
     btns: [['Открыть ТЗ', 'primary', () => router.push({ pathname: '/calc/[id]', params: { id: r.id, as: 'coord' } })]],
   }));
-  if (k.hema === 'pending') items.push({ key: 'hema', title: 'Hema предлагает 14:00 вместо 13:30', sub: 'Ср, 11 ноября · написали на странице визита',
+  if (k.hema === 'pending' && has('hema')) items.push({ key: 'hema', title: 'Hema предлагает 14:00 вместо 13:30', sub: 'Ср, 11 ноября · написали на странице визита',
     btns: [['Принять и сообщить группе', 'primary', () => { k.setHema('accepted'); toast('Принято: делегаты и автобус узнают о 14:00'); }], ['Открыть визит', 'ghost', () => router.push('/visit/hema')]] });
   k.followups.filter((f) => f.status === 'new').forEach((f) => items.push({
     key: `f-${f.id}`, title: `Анна Смирнова хочет продолжить с ${f.company}`, sub: `${f.typeRu}${f.consent ? ' · контакты передать можно' : ' · без контактов'}`,
@@ -51,12 +53,12 @@ export default function Center() {
     btns: ([['Поблагодарить', 'primary', () => { k.markReview(r.id, 'thanked'); toast('Анна получит благодарность'); }]] as Item['btns'])
       .concat(r.consent ? [['В соцсети GTT', 'ghost', () => { k.markReview(r.id, 'shared'); toast('Отзыв в очереди публикаций GTT — выйдет после вашего «утверждаю»'); }]] : []),
   }));
-  if (!k.pddReminded) items.push({ key: 'pdd', title: 'Pinduoduo не открыла ссылку визита · 3 дня', btns: [['Напомнить', 'ghost', () => { k.remindPdd(); toast('Pinduoduo получит напоминание в WeChat'); }]] });
+  if (!k.pddReminded && has('pdd')) items.push({ key: 'pdd', title: 'Pinduoduo не открыла ссылку визита · 3 дня', btns: [['Напомнить', 'ghost', () => { k.remindPdd(); toast('Pinduoduo получит напоминание в WeChat'); }]] });
   if (!k.igorReminded) items.push({ key: 'igor', title: 'Игорь Белов · нет билета', btns: [['Напомнить', 'ghost', () => { k.remindIgor(); toast('Игорь получит напоминание в Telegram'); }]] });
 
   const dep = k.legs.l1?.dep;
   return (
-    <CoordScreen title="Новый ритейл · день 2">
+    <CoordScreen title={`${TRIP.programId ? TRIP.title : 'Новый ритейл'} · день ${TRIP.today + 1}`}>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
         <Stat dark label="В автобусе" value={`${k.busCount} / 18`} sub={dep ? `выехали в ${dep}` : 'выезд в 09:30'} />
         <Stat label="Визиты подтверждены" value={`${conf} / ${VISITS.length}`} sub={VISITS.filter((v) => v.st[0] !== 'ok' && !(v.id === 'hema' && k.hema === 'accepted')).map((v) => v.name.split(' ')[0]).join(', ')} />

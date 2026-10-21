@@ -1,6 +1,7 @@
 // Стартовый экран (вариант B, решение 17.10.2026): 3D-заставка — светлый глобус, маршруты из Москвы и счётчик стран,
 // затем точки слетаются в объёмные буквы GTT. Касание пропускает анимацию; при повторном входе и при «Уменьшить движение»
-// сразу готовые буквы. Кнопки входа делегата, координатора, агента и каталог видны всё время.
+// сразу готовые буквы. Кнопки входа делегата, координатора, агента и каталог видны всё время; «Выбрать страну и программу»
+// открывает любую программу сайта глазами делегата (решение 21.10.2026).
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AccessibilityInfo, Animated, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
@@ -98,6 +99,7 @@ export default function Welcome() {
 
       <View style={[st.bottom, { paddingBottom: insets.bottom + 16 }]}>
         <Button title="Войти в поездку" onPress={() => router.replace('/trip')} label={`Войти в поездку: ${TRIP.title}, демо`} />
+        <Button title={`Выбрать страну и программу · ${catalog.length}`} kind="light" icon="route" label="Выбрать поездку: сначала страна, потом программа" onPress={() => router.push('/demo')} />
         <View style={{ flexDirection: 'row', gap: 8 }}>
           <View style={{ flex: 1 }}><Button title="Координатор" kind="light" icon="grid" label="Войти как координатор" onPress={() => router.replace('/coord')} /></View>
           <View style={{ flex: 1 }}><Button title="Агент" kind="light" icon="send" label="Войти как агент" onPress={() => router.replace('/agent')} /></View>
@@ -106,7 +108,7 @@ export default function Welcome() {
           <View style={{ flex: 1 }}><Button title="Администратор" kind="light" icon="lock" label="Войти как администратор" onPress={() => router.replace('/admin')} /></View>
           <View style={{ flex: 1 }}><Button title={`Программы · ${catalog.length}`} kind="ghost" icon="globe" label={`Программы GTT · ${catalog.length}`} onPress={() => router.push('/catalog')} /></View>
         </View>
-        <Text style={st.note}>{`Демо: ${TRIP.title}, ${TRIP.dates}. Участники вымышленные. Всё, что вы отметите, сохраняется на телефоне.`}</Text>
+        <Text style={st.note}>{`Открыто: ${TRIP.title}, ${TRIP.dates}. Участники вымышленные. Всё, что вы отметите, сохраняется на телефоне.`}</Text>
         <Pressable onPress={reset} accessibilityRole="button" accessibilityLabel="Начать демо заново" hitSlop={8}>
           <Text style={[st.note, { color: armed ? C.warn : C.blue, fontFamily: F.semibold }]}>{armed ? 'Нажмите ещё раз — всё сохранённое сотрётся' : 'Начать демо заново'}</Text>
         </Pressable>

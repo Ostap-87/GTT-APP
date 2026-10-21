@@ -10,11 +10,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { applyTrip } from '@/data/active';
 import { AdminProvider } from '@/state/admin';
 import { AgentProvider } from '@/state/agent';
-import { ResetContext } from '@/state/reset';
+import { DemoContext, ResetContext } from '@/state/reset';
 import { CoordProvider } from '@/state/coord';
-import { clearStore, loadStore } from '@/state/store';
+import { clearStore, loadStore, peekStored, putStored } from '@/state/store';
 import { TripProvider } from '@/state/trip';
 import { VisitsProvider } from '@/state/visits';
 import { ToastProvider } from '@/state/toast';
@@ -25,12 +26,15 @@ export default function RootLayout() {
   // Сохранённое на телефоне читается до первого экрана; «Начать демо заново» меняет gen — состояние собирается с нуля
   const [stored, setStored] = useState(false);
   const [gen, setGen] = useState(0);
-  useEffect(() => { loadStore().finally(() => setStored(true)); }, []);
-  const resetAll = useCallback(async () => { await clearStore(); setGen((g) => g + 1); }, []);
+  // какая программа открыта в демо делегата — тоже сохраняется; её данные подставляются до первого экрана
+  useEffect(() => { loadStore().finally(() => { applyTrip(peekStored<string>('demo.program')); setStored(true); }); }, []);
+  const resetAll = useCallback(async () => { await clearStore(); applyTrip(null); setGen((g) => g + 1); }, []);
+  const openDemo = useCallback((programId: string) => { putStored('demo.program', applyTrip(programId)); setGen((g) => g + 1); }, []);
   if (!loaded || !stored) return null;
   return (
     <SafeAreaProvider>
       <ResetContext.Provider value={resetAll}>
+      <DemoContext.Provider value={openDemo}>
       <TripProvider key={gen}>
         <CoordProvider>
         <AgentProvider>
@@ -71,7 +75,8 @@ export default function RootLayout() {
             <Stack.Screen name="calc/[id]" options={{ title: 'ТЗ на расчёт' }} />
             <Stack.Screen name="translator" options={{ title: 'Переводчик', presentation: 'modal' }} />
             <Stack.Screen name="guide" options={{ title: 'Слушать гида', presentation: 'modal' }} />
-            <Stack.Screen name="city" options={{ title: 'Город · Пекин' }} />
+            <Stack.Screen name="city" options={{ title: 'Город' }} />
+            <Stack.Screen name="demo" options={{ title: 'Выбрать поездку' }} />
             <Stack.Screen name="place/[id]" options={{ title: 'Место', presentation: 'modal' }} />
             <Stack.Screen name="followup" options={{ title: 'Хочу продолжить', presentation: 'modal' }} />
             <Stack.Screen name="visit/[id]" options={{ title: 'Визит компании' }} />
@@ -92,6 +97,7 @@ export default function RootLayout() {
         </AgentProvider>
         </CoordProvider>
       </TripProvider>
+      </DemoContext.Provider>
       </ResetContext.Provider>
     </SafeAreaProvider>
   );

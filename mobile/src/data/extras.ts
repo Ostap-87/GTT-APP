@@ -10,6 +10,8 @@ export const PHRASES = {
 /** Радиогид: субтитры речи гида на русском. */
 export const SUBS = ['Сейчас мы проходим зону сортировки.', 'Обратите внимание: полки сами подъезжают к сотрудникам.', 'Следующий зал — шоурум собственных марок.'];
 export const GUIDE = { name: 'Ли Мэй', role: 'переводчик' };
+/** Город, к которому относится подборка мест (PLACES) — у программ с сайта подборки нет, её делает координатор. */
+export const PLACES_CITY = { ru: 'Пекин' };
 
 export type PlaceCat = 'shop' | 'night' | 'store' | 'wc';
 export type Place = { id: string; ru: string; zh: string; en: string; what: string; hours: string; dist: string; x: number; y: number };
@@ -66,7 +68,7 @@ export const FOLLOW_TYPES = [
   { key: 'talks', ru: 'Переговоры о поставках', zh: '希望洽谈供应合作。' },
   { key: 'meeting', ru: 'Повторная встреча', zh: '希望安排第二次会面。' },
 ] as const;
-export const FOLLOW_COMPANIES = ['JD.com', 'Meituan', 'Hema (Freshippo)'];
+export const FOLLOW_COMPANIES: string[] = ['JD.com', 'Meituan', 'Hema (Freshippo)'];
 
 /** Вопросы делегации к JD.com — компания видит их на китайском. */
 export const BASE_Q = [

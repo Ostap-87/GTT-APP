@@ -29,28 +29,71 @@
    "Pudu Robotics"
   ],
   "startDate": null,
+  "arrival": "Пекин (перелёт Москва → Пекин)",
+  "departure": "Шэньчжэнь / Гонконг (→ Москва)",
   "route": [
    {
     "day": 1,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "Хайдянь / PKU Lab",
+    "time": "10:00–12:30",
+    "co": [
+     "galbot",
+     "robotera"
+    ],
+    "tr": "✈ ~20:00 → Шанхай (SHA)"
    },
    {
     "day": 2,
     "city": "shanghai",
-    "leg": "flight"
+    "ru": "Шанхай",
+    "area": "Zhangjiang Hi-Tech Park (Robot Valley)",
+    "time": "09:30–11:30",
+    "co": [
+     "agibot",
+     "kepler",
+     "droidup"
+    ],
+    "leg": "flight",
+    "note": "Пудунский кластер — все три в Zhangjiang Robot Valley"
    },
    {
     "day": 3,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Zhangjiang, Пудун",
+    "time": "10:00–12:00",
+    "co": [
+     "fourier",
+     "seer-robotics"
+    ],
+    "tr": "✈ ~19:30 (PVG) → Шэньчжэнь"
    },
    {
     "day": 4,
     "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "Наньшань (Nanshan Zhiyuan, Xueyuan Ave)",
+    "time": "10:00–12:00",
+    "co": [
+     "ubtech",
+     "leju-robotics",
+     "limx-dynamics"
+    ],
     "leg": "flight"
    },
    {
     "day": 5,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "Шэньчжэнь",
+    "time": "10:00–12:00",
+    "co": [
+     "engineai",
+     "pudu-robotics"
+    ],
+    "note": "Завершение экспедиции"
    }
   ]
  },
@@ -82,29 +125,70 @@
    "UBTech"
   ],
   "startDate": null,
+  "arrival": "Пекин (перелёт Москва → Пекин)",
+  "departure": "Шэньчжэнь (→ Москва)",
   "route": [
    {
     "day": 1,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "Пекин",
+    "time": "10:00–13:00",
+    "co": [
+     "baidu",
+     "xiaomi"
+    ],
+    "tr": "✈ Вечером перелёт → Ханчжоу"
    },
    {
     "day": 2,
     "city": "hangzhou",
-    "leg": "flight"
+    "ru": "Ханчжоу",
+    "area": "Ханчжоу",
+    "time": "10:00–13:00",
+    "co": [
+     "alibaba",
+     "unitree"
+    ],
+    "leg": "flight",
+    "tr": "Вечером переезд в Шанхай (поезд)"
    },
    {
     "day": 3,
     "city": "shanghai",
-    "leg": "train"
+    "ru": "Шанхай",
+    "area": "Шанхай",
+    "time": "10:00–13:00",
+    "co": [
+     "meituan",
+     "xiaohongshu-red"
+    ],
+    "leg": "train",
+    "note": "Ночёвка в Шанхае"
    },
    {
     "day": 4,
     "city": "shenzhen",
-    "leg": "flight"
+    "ru": "Шэньчжэнь",
+    "area": "Наньшань",
+    "time": "14:00–16:00",
+    "co": [
+     "tencent"
+    ],
+    "leg": "flight",
+    "tr": "✈ Утро четверга — перелёт из Шанхая в Шэньчжэнь"
    },
    {
     "day": 5,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "Наньшань",
+    "time": "10:00–13:00",
+    "co": [
+     "huawei",
+     "ubtech"
+    ],
+    "note": "Завершение экспедиции"
    }
   ]
  },
@@ -136,29 +220,70 @@
    "Wang Lao Ji"
   ],
   "startDate": null,
+  "arrival": "Шанхай (вечерний прилёт, Pudong / Hongqiao)",
+  "departure": "Гуанчжоу (вылет из аэропорта Baiyun)",
   "route": [
    {
     "day": 1,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "North Bund и центр Шанхая",
+    "time": "10:00–16:00",
+    "co": [
+     "chagee",
+     "manner-coffee",
+     "m-stand"
+    ],
+    "note": "Блок «Новый премиум-чай и спешелти-кофе»"
    },
    {
     "day": 2,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Шанхай",
+    "time": "10:00–13:00",
+    "co": [
+     "coco-tea",
+     "alittle-tea"
+    ],
+    "note": "Ночёвка в Шанхае"
    },
    {
     "day": 3,
     "city": "xiamen",
-    "leg": "flight"
+    "ru": "Сямынь",
+    "area": "Siming District",
+    "time": "14:00–16:00",
+    "co": [
+     "luckin-coffee"
+    ],
+    "leg": "flight",
+    "tr": "✈ Утром — перелёт Шанхай → Сямынь (~2 ч)"
    },
    {
     "day": 4,
     "city": "shenzhen",
-    "leg": "train"
+    "ru": "Шэньчжэнь",
+    "area": "Наньшань",
+    "time": "15:00–18:00",
+    "co": [
+     "heytea",
+     "nayuki"
+    ],
+    "leg": "train",
+    "tr": "🚄 Утром — скоростной поезд Сямынь → Шэньчжэнь (~3,5 ч)"
    },
    {
     "day": 5,
     "city": "guangzhou",
-    "leg": "train"
+    "ru": "Гуанчжоу",
+    "area": "Гуанчжоу",
+    "time": "10:00–12:00",
+    "co": [
+     "wang-lao-ji"
+    ],
+    "leg": "train",
+    "tr": "🚄 Утром — поезд Шэньчжэнь → Гуанчжоу (~30–40 мин). Завершение программы."
    }
   ]
  },
@@ -190,28 +315,70 @@
    "Carslan"
   ],
   "startDate": null,
+  "arrival": "Шанхай (вечерний прилёт, Pudong / Hongqiao)",
+  "departure": "Гуанчжоу (вылет из аэропорта Baiyun)",
   "route": [
    {
     "day": 1,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Наследие и травяная косметика",
+    "time": "10:00–13:00",
+    "co": [
+     "pechoin",
+     "chando"
+    ],
+    "note": "Опционально: R&D-центры (Yatsen Global Innovation R&D, Botanee Shanghai) — по согласованию"
    },
    {
     "day": 2,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Премиум-уход и новые бренды",
+    "time": "10:00–13:00",
+    "co": [
+     "linqingxuan",
+     "kans"
+    ],
+    "note": "Ночёвка в Шанхае"
    },
    {
     "day": 3,
     "city": "hangzhou",
-    "leg": "train"
+    "ru": "Ханчжоу",
+    "area": "Лидеры рынка и эстетика",
+    "time": "10:00–13:00",
+    "co": [
+     "proya",
+     "florasis"
+    ],
+    "leg": "train",
+    "tr": "🚄 Утром — скоростной поезд Шанхай → Ханчжоу (~1 ч)"
    },
    {
     "day": 4,
-    "city": "hangzhou"
+    "city": "hangzhou",
+    "ru": "Ханчжоу",
+    "area": "Люкс-макияж и наука anti-age",
+    "time": "10:00–13:00",
+    "co": [
+     "mao-geping",
+     "kylin-way"
+    ],
+    "tr": "✈ Вечером — перелёт в Гуанчжоу (~2,5 ч)"
    },
    {
     "day": 5,
     "city": "guangzhou",
-    "leg": "flight"
+    "ru": "Гуанчжоу",
+    "area": "DTC-бьюти и декоративный макияж",
+    "time": "10:00–13:00",
+    "co": [
+     "yatsen",
+     "carslan"
+    ],
+    "leg": "flight",
+    "note": "Завершение программы"
    }
   ]
  },
@@ -240,29 +407,67 @@
    "Xpeng"
   ],
   "startDate": null,
+  "arrival": "Пекин (вечерний прилёт, Capital / Daxing)",
+  "departure": "Гуанчжоу (вылет из аэропорта Baiyun)",
   "route": [
    {
     "day": 1,
     "city": "beijing",
-    "leg": "flight"
+    "ru": "Пекин",
+    "area": "Смартфон-гигант в автопроме",
+    "time": "10:00–13:00",
+    "co": [
+     "xiaomi"
+    ],
+    "leg": "flight",
+    "tr": "✈ Вечером — перелёт Пекин → Хэфэй (~2 ч)"
    },
    {
     "day": 2,
-    "city": "hefei"
+    "city": "hefei",
+    "ru": "Хэфэй",
+    "area": "Премиум-EV и замена батарей",
+    "time": "10:00–13:00",
+    "co": [
+     "nio"
+    ],
+    "note": "Ночёвка в Хэфэе"
    },
    {
     "day": 3,
     "city": "hefei",
-    "leg": "train"
+    "ru": "Хэфэй",
+    "area": "Ультра-люкс и роботизация Huawei",
+    "time": "10:00–13:00",
+    "co": [
+     "maextro"
+    ],
+    "leg": "train",
+    "tr": "🚄 Утром — скоростной поезд Хэфэй → Шанхай (~2–2,5 ч)"
    },
    {
     "day": 4,
     "city": "shanghai",
-    "leg": "flight"
+    "ru": "Шанхай",
+    "area": "Крупнейший автоконцерн Китая",
+    "time": "10:00–13:00",
+    "co": [
+     "saic"
+    ],
+    "leg": "flight",
+    "tr": "✈ Вечером — перелёт Шанхай → Гуанчжоу (~2,5 ч)"
    },
    {
     "day": 5,
-    "city": "guangzhou"
+    "city": "guangzhou",
+    "ru": "Гуанчжоу",
+    "area": "Смарт-EV и автопилот",
+    "time": "10:00–13:00",
+    "co": [
+     "gac-aion",
+     "xpeng"
+    ],
+    "note": "Завершение программы"
    }
   ]
  },
@@ -296,30 +501,71 @@
    "Skyworth"
   ],
   "startDate": null,
+  "arrival": "Пекин (вечерний прилёт, Capital / Daxing)",
+  "departure": "Шэньчжэнь (вылет из аэропорта Bao'an)",
   "route": [
    {
     "day": 1,
     "city": "beijing",
-    "leg": "flight"
+    "ru": "Пекин",
+    "area": "Умный дом и IoT",
+    "time": "10:00–13:00",
+    "co": [
+     "xiaomi"
+    ],
+    "leg": "flight",
+    "tr": "✈ Вечером — перелёт Пекин → Циндао (~1,5 ч)"
    },
    {
     "day": 2,
     "city": "qingdao",
-    "leg": "flight"
+    "ru": "Циндао",
+    "area": "Северный столп — Шаньдун",
+    "time": "10:00–13:00",
+    "co": [
+     "haier",
+     "hisense"
+    ],
+    "leg": "flight",
+    "tr": "✈ Вечером — перелёт Циндао → Ханчжоу (~2 ч)"
    },
    {
     "day": 3,
     "city": "hangzhou",
-    "leg": "flight"
+    "ru": "Ханчжоу",
+    "area": "Кухня и мелкая техника",
+    "time": "10:00–13:00",
+    "co": [
+     "robam",
+     "supor"
+    ],
+    "leg": "flight",
+    "tr": "✈ Вечером — перелёт Ханчжоу → Гуанчжоу (~2,5 ч); ночёвка в Гуанчжоу"
    },
    {
     "day": 4,
-    "city": "foshan"
+    "city": "foshan",
+    "ru": "Фошань",
+    "area": "Южный столп — Шуньдэ",
+    "time": "10:00–13:00",
+    "co": [
+     "midea",
+     "galanz"
+    ],
+    "note": "~30 мин от Гуанчжоу, оба завода рядом. Ночёвка в Гуанчжоу/Фошане"
    },
    {
     "day": 5,
     "city": "shenzhen",
-    "leg": "train"
+    "ru": "Шэньчжэнь",
+    "area": "Кондиционеры и AV-техника",
+    "time": "10:00–13:00",
+    "co": [
+     "gree",
+     "skyworth"
+    ],
+    "leg": "train",
+    "note": "🚗 Переезд через мост Гонконг–Чжухай–Макао (~1 ч). Завершение программы"
    }
   ]
  },
@@ -372,34 +618,115 @@
    "SmartMore"
   ],
   "startDate": "2026-09-14",
+  "arrival": "Шэньчжэнь, 14 сентября — прибытие делегации",
+  "departure": "Шэньчжэнь, 20 сентября — отъезд делегации",
   "route": [
    {
     "day": 1,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "Прибытие делегации",
+    "time": "14 сентября",
+    "co": [],
+    "note": "Прибытие российской делегации, размещение, организационный брифинг"
    },
    {
     "day": 2,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "Конференция / форум",
+    "time": "15 сентября",
+    "co": [],
+    "note": "Официальное открытие, отраслевые сессии, презентация ОЭЗ «Технополис Москва», обсуждение торговли, локализации и совместных проектов"
    },
    {
     "day": 3,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "Посещение производств — роботы, ИИ-ПО, биомедицина",
+    "time": "16 сентября",
+    "co": [
+     "ubtech",
+     "intellifusion",
+     "mindray",
+     "orbbec"
+    ],
+    "note": "Визиты на предприятия промышленной робототехники, ИИ-ПО и биомедицины"
    },
    {
     "day": 4,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "Посещение производств — модульное строительство, биомедицина, инфраструктура",
+    "time": "17 сентября",
+    "co": [
+     "grandland",
+     "china-construction-science",
+     "bgi"
+    ],
+    "note": "Визиты на предприятия модульного строительства, биомедицины и промышленной инфраструктуры"
    },
    {
     "day": 5,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "B2B-встречи — биомедицина и строительство",
+    "time": "18 сентября",
+    "co": [
+     "xtalpi",
+     "edge-medical",
+     "mindray",
+     "bgi",
+     "salubris",
+     "sonoscape",
+     "aosa-pharma",
+     "lifotronic",
+     "antaiwei-biopharma",
+     "grandland",
+     "bauing",
+     "jianyi-decoration",
+     "huajian-holdings",
+     "zhongtian-jingzhuang",
+     "ruihe-construction",
+     "mingdiao-decoration",
+     "china-construction-science",
+     "changjiang-tunnel"
+    ],
+    "note": "Отраслевые переговоры с китайскими производителями, торговое и проектное сопряжение"
    },
    {
     "day": 6,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "B2B-встречи — робототехника и ИИ",
+    "time": "19 сентября",
+    "co": [
+     "ubtech",
+     "leadshine",
+     "zhaowei",
+     "hans-laser",
+     "orbbec",
+     "robosense",
+     "chuangjie-zhilian",
+     "topband",
+     "shugu",
+     "rabbitpre",
+     "intellifusion",
+     "insta360",
+     "afirstsoft",
+     "wanjiaan",
+     "smartmore"
+    ],
+    "note": "Продолжение переговоров, фиксация намерений, обсуждение соглашений, закупок, локализации и пилотных проектов"
    },
    {
     "day": 7,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "Отъезд",
+    "time": "20 сентября",
+    "co": [],
+    "note": "Завершение программы, отъезд российской делегации"
    }
   ]
  },
@@ -430,32 +757,77 @@
    "ZTE"
   ],
   "startDate": null,
+  "arrival": "Пекин, вечер воскресенья (перелёт Москва → Пекин)",
+  "departure": "Шэньчжэнь (аэропорт Bao'an) → Москва, в субботу",
   "route": [
    {
     "day": 1,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "Прибытие делегации",
+    "time": "воскресенье, вечер",
+    "co": [],
+    "note": "Вечерний прилёт в Пекин (Capital / Daxing), трансфер и заселение. Брифинг по программе."
    },
    {
     "day": 2,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "Блок «Кремниевая долина Китая» — Zhongguancun",
+    "time": "10:00–13:00",
+    "co": [
+     "baidu",
+     "xiaomi"
+    ],
+    "note": "Zhongguancun (中关村) — первая нацзона высоких технологий и первая демонстрационная зона независимых инноваций Китая. Опция: Future Science City — R&D-штабы, энергетика, науки о жизни."
    },
    {
     "day": 3,
     "city": "shanghai",
-    "leg": "flight"
+    "ru": "Шанхай",
+    "area": "Блок «Долина лекарств и чипов» — Zhangjiang",
+    "time": "10:00–13:00",
+    "co": [
+     "smic",
+     "wuxi-apptec"
+    ],
+    "leg": "flight",
+    "note": "✈ Утром Пекин → Шанхай, перелёт ~2,5 ч. Zhangjiang («Zhangjiang Drug Valley», 张江高科技园区) — ядро науки и технологий Пудуна: национальные базы по интегральным схемам и биофарме."
    },
    {
     "day": 4,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Блок «Городские и фронтир-зоны» — Caohejing, Lingang",
+    "time": "10:00–13:00",
+    "co": [
+     "tesla",
+     "deepblue-technology"
+    ],
+    "note": "Caohejing (漕河泾) — IT, микроэлектроника, новые материалы. Lingang New Area (临港新片区) — зона свободной торговли: Tesla, интегральные схемы, ИИ, фронтир-индустрии."
    },
    {
     "day": 5,
     "city": "shenzhen",
-    "leg": "flight"
+    "ru": "Шэньчжэнь",
+    "area": "Блок «Ядро инноваций Наньшань» — Shenzhen Hi-Tech Park",
+    "time": "10:00–13:00",
+    "co": [
+     "tencent",
+     "dji",
+     "zte"
+    ],
+    "leg": "flight",
+    "note": "✈ Утром Шанхай → Шэньчжэнь, перелёт ~2,5 ч. Shenzhen Hi-Tech Park (深圳高新区) — 5-е место среди топ-100 парков передового производства мира (2023), одна из 10 пилотных площадок Миннауки мирового класса."
    },
    {
     "day": 6,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "Блок «Трансграничные зоны Шэньчжэнь–Гонконг» — Qianhai, Hetao",
+    "time": "10:00–13:00",
+    "co": [],
+    "note": "Qianhai (前海) — финансы, современные услуги, зона Шэньчжэнь–Гонконг (120 км²). Hetao (河套) — площадка «одна страна, две системы» на границе с Гонконгом: ИИ, науки о жизни, полупроводники, робототехника, финтех, льготный налог на прибыль 15%. Завершение программы, вылет в субботу из аэропорта Шэньчжэнь (Bao'an)."
    }
   ]
  },
@@ -487,31 +859,80 @@
    "Yonghui"
   ],
   "startDate": null,
+  "arrival": "Пекин (PEK/PKX) — международный рейс, вход делегации",
+  "departure": "Шэньчжэнь (SZX) — вылет, опционально через Гуанчжоу (ж/д ~35 мин)",
   "route": [
    {
     "day": 1,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "Старт делегации",
+    "time": "день 1",
+    "co": [],
+    "note": "Прилёт, трансфер, брифинг, приветственный ужин."
    },
    {
     "day": 2,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "JD HQ + Meituan — 京东集团总部 / 望京",
+    "time": "10:00–17:00",
+    "co": [
+     "jd-com",
+     "meituan"
+    ],
+    "tr": "🚄 Вечером → Шанхай (ВСЖД, ~4,5 ч)",
+    "note": "JD (корпоративный展厅: история JD, автоматизированная логистика, экосистема 7FRESH/外卖) + Meituan (experience-центр: доставка, дарксторы 小象超市, диспетчеризация)."
    },
    {
     "day": 3,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Hema flagship + Pinduoduo (офис-визит) — 盒马鲜生 / 拼多多",
+    "time": "10:00–17:00",
+    "co": [
+     "hema-freshippo",
+     "pinduoduo"
+    ],
+    "note": "★ Hema (盒马鲜生) flagship — new-retail рынок: подвесные конвейеры, аквариумы с морепродуктами, робо-склад, электронные ценники. Pinduoduo/寻梦 — офис-визит по предварительной записи: 多多买菜 (community group-buying) и агро-цепочка C2M."
    },
    {
     "day": 4,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "RT-Mart / Sun Art + Ele.me — 大润发/高鑫 / 饿了么",
+    "time": "10:00–17:00",
+    "co": [
+     "rt-mart",
+     "eleme"
+    ],
+    "tr": "🚄 Вечером → Ханчжоу (ВСЖД, ~1 ч)",
+    "note": "RT-Mart/高鑫 — обновлённый гипермаркет и склад-клуб M会员店. Ele.me/淘宝闪购 — командный центр мгновенного ритейла: карты спроса, 30-минутная диспетчеризация (офис-визит)."
    },
    {
     "day": 5,
-    "city": "hangzhou"
+    "city": "hangzhou",
+    "ru": "Ханчжоу",
+    "area": "Alibaba Xixi Campus — 阿里巴巴 西溪园区",
+    "time": "полдня",
+    "co": [
+     "alibaba"
+    ],
+    "tr": "✈ Вечером → Шэньчжэнь (~2 ч)",
+    "note": "★★ Культовый кампус Alibaba: архитектура, visitor-центр, стена культуры и истории компании — самый красивый объект тура."
    },
    {
     "day": 6,
     "city": "shenzhen",
-    "leg": "flight"
+    "ru": "Шэньчжэнь",
+    "area": "Sam's Club / Walmart China + Yonghui — 山姆/沃尔玛中国 / 永辉",
+    "time": "10:00–17:00",
+    "co": [
+     "sams-club",
+     "yonghui"
+    ],
+    "leg": "flight",
+    "note": "★ Sam's Club — премиальный склад-клуб: private label Member's Mark, зоны дегустаций. Yonghui调改-флагман — формат в стиле 胖东来: свежая зона, выкладка, кейс «до/после». Вылет из Шэньчжэня (SZX); опционально — крюк в Гуанчжоу (ж/д ~35 мин)."
    }
   ]
  },
@@ -541,28 +962,67 @@
    "TME (Tencent Music)"
   ],
   "startDate": null,
+  "arrival": "Пекин (PEK/PKX) — ранний международный рейс, сразу на визиты",
+  "departure": "Шэньчжэнь (SZX) — вылет утром Дня 6",
   "route": [
    {
     "day": 1,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "Damai + Maoyan — 大麦 / 猫眼",
+    "time": "07:00–16:30",
+    "co": [
+     "damai",
+     "maoyan"
+    ],
+    "note": "Ранний прилёт (≈07:00), экспресс-заселение и брифинг. 大麦 Damai (HQ): real-time выбор мест, реализация тиражей, анти-перекуп (实名/盲盒). 猫眼 Maoyan (HQ): сессия «из кино в лайв» — data-инструменты, промо и аналитика спроса."
    },
    {
     "day": 2,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "Meituan + Tongcheng — 美团 / 同程",
+    "time": "09:00–16:00",
+    "co": [
+     "meituan",
+     "tongcheng"
+    ],
+    "note": "美团 Meituan (HQ, Ванцзин): внутренний туризм/staycation, билеты на достопримечательности, отели на выходные, локальные развлечения. 同程 Tongcheng (Пекин): охват low-tier городов через WeChat, ж/д/автобус/отели, интеграция билетинга концертов в тревел-поток."
    },
    {
     "day": 3,
     "city": "shanghai",
-    "leg": "flight"
+    "ru": "Шанхай",
+    "area": "Trip.com / Ctrip — 携程",
+    "time": "13:30–16:00",
+    "co": [
+     "ctrip-trip-com"
+    ],
+    "leg": "flight",
+    "note": "✈ Утренний перелёт Пекин → Шанхай (~2,25 ч). 携程 Trip.com/Ctrip (HQ, Чаннин): №1 OTA Китая — пакеты «концерт + отель + перелёт», внутренний и зарубежный трафик, кросс-бордер. Вечером — заселение, свободное время."
    },
    {
     "day": 4,
-    "city": "hangzhou"
+    "city": "hangzhou",
+    "ru": "Ханчжоу",
+    "area": "Fliggy — 飞猪 (Alibaba, 西溪园区)",
+    "time": "10:30–12:30",
+    "co": [
+     "fliggy"
+    ],
+    "note": "🚄 Утром высокоскоростная ж/д Шанхай → Ханчжоу (~1 ч). 飞猪 Fliggy (Alibaba, кампус Xixi): визит кампуса — молодёжный OTA, интеграция с Taobao/Alipay, пакетные туры и билеты. Обед на кампусе, вечером — свободное время (опционально Западное озеро)."
    },
    {
     "day": 5,
     "city": "shenzhen",
-    "leg": "flight"
+    "ru": "Шэньчжэнь",
+    "area": "TME — 腾讯音乐",
+    "time": "13:30–16:30",
+    "co": [
+     "tme"
+    ],
+    "leg": "flight",
+    "note": "✈ Утренний перелёт Ханчжоу → Шэньчжэнь (~2 ч). 腾讯音乐 TME (HQ): TME Live — монетизация лайв-музыки онлайн, стриминговая поддержка и продвижение концертов. Итоговая сессия (结案): сборка выводов по цепочке «билет → travel → стриминг». Вылет из Шэньчжэня (SZX) утром Дня 6."
    }
   ]
  },
@@ -592,33 +1052,77 @@
    "POSCO"
   ],
   "startDate": null,
+  "arrival": "Сеул (перелёт Москва → Сеул, аэропорт Инчхон)",
+  "departure": "Пхохан (→ Сеул → Москва)",
   "route": [
    {
     "day": 1,
-    "city": "seoul"
+    "city": "seoul",
+    "ru": "Сеул",
+    "area": "Гангнам",
+    "time": "10:00–13:00",
+    "co": [
+     "samsung-dlight"
+    ],
+    "note": "Бесплатный вход, без брони."
    },
    {
     "day": 2,
     "city": "paju",
-    "leg": "train"
+    "ru": "Пхаджу",
+    "area": "Display City",
+    "time": "10:00–13:00",
+    "co": [
+     "lg-display-paju"
+    ],
+    "leg": "train",
+    "tr": "По официальному согласованию. ~1 ч от Сеула, возврат в Сеул вечером."
    },
    {
     "day": 3,
     "city": "suwon",
-    "leg": "train"
+    "ru": "Сувон",
+    "area": "",
+    "time": "10:00–12:00",
+    "co": [
+     "samsung-innovation-museum"
+    ],
+    "leg": "train",
+    "tr": "Докент-тур по записи, только в будни. Днём — переезд в Ульсан (KTX + автобус, ~2,5 ч)."
    },
    {
     "day": 4,
-    "city": "ulsan"
+    "city": "ulsan",
+    "ru": "Ульсан",
+    "area": "",
+    "time": "09:00–13:00",
+    "co": [
+     "hyundai-motor-ulsan"
+    ],
+    "note": "Групповой тур от 30 человек, бронь заранее. Ночёвка в Ульсане."
    },
    {
     "day": 5,
     "city": "ulsan",
-    "leg": "train"
+    "ru": "Ульсан",
+    "area": "",
+    "time": "09:00–12:00",
+    "co": [
+     "hyundai-heavy-industries-ulsan"
+    ],
+    "leg": "train",
+    "tr": "Групповой тур от 15 человек, свой автобус. Переезд в Пхохан (~1 ч)."
    },
    {
     "day": 6,
-    "city": "pohang"
+    "city": "pohang",
+    "ru": "Пхохан",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "posco"
+    ],
+    "note": "Бронь онлайн за 2 дня. Экскурсия на завод — только по субботам. Завершение программы."
    }
   ]
  },
@@ -649,28 +1153,68 @@
    "Rainbow Robotics"
   ],
   "startDate": null,
+  "arrival": "Сеул (перелёт Москва → Сеул, аэропорт Инчхон)",
+  "departure": "Йонъин (→ Сеул → Москва)",
   "route": [
    {
     "day": 1,
-    "city": "seoul"
+    "city": "seoul",
+    "ru": "Сеул",
+    "area": "Сонпха / Чамсиль",
+    "time": "10:00–14:00",
+    "co": [
+     "coupang",
+     "woowa-brothers-baemin"
+    ],
+    "note": "Оба визита — по официальному согласованию."
    },
    {
     "day": 2,
     "city": "seoul",
-    "leg": "train"
+    "ru": "Сеул",
+    "area": "Чунгу",
+    "time": "10:00–13:00",
+    "co": [
+     "sk-telecom-tum"
+    ],
+    "leg": "train",
+    "tr": "Бронь онлайн обязательна. Вечером — переезд в Соннам/Пангё."
    },
    {
     "day": 3,
-    "city": "seongnam"
+    "city": "seongnam",
+    "ru": "Соннам",
+    "area": "",
+    "time": "10:00–14:00",
+    "co": [
+     "naver",
+     "kakao"
+    ],
+    "note": "Оба визита — по официальному согласованию."
    },
    {
     "day": 4,
     "city": "suwon",
-    "leg": "train"
+    "ru": "Сувон",
+    "area": "",
+    "time": "10:00–14:00",
+    "co": [
+     "ncsoft",
+     "doosan-robotics"
+    ],
+    "leg": "train",
+    "tr": "Оба визита — по официальному согласованию. Переезд Пангё → Сувон в течение дня (~20–30 мин)."
    },
    {
     "day": 5,
-    "city": "yongin"
+    "city": "yongin",
+    "ru": "Йонъин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "rainbow-robotics"
+    ],
+    "note": "По официальному согласованию (офис в Йонъин Техно Вэлли; головной R&D — в Тэджоне). Завершение программы."
    }
   ]
  },
@@ -703,28 +1247,70 @@
    "Caregen"
   ],
   "startDate": null,
+  "arrival": "Сеул (перелёт Москва → Сеул, аэропорт Инчхон)",
+  "departure": "Анъян (→ Сеул → Москва)",
   "route": [
    {
     "day": 1,
-    "city": "seoul"
+    "city": "seoul",
+    "ru": "Сеул",
+    "area": "Йонсан / Мёндон",
+    "time": "10:00–14:00",
+    "co": [
+     "amorepacific",
+     "innisfree"
+    ],
+    "note": "Подбор индивидуального тона HERA, анализ кожи. Ночёвка в Сеуле."
    },
    {
     "day": 2,
-    "city": "seoul"
+    "city": "seoul",
+    "ru": "Сеул",
+    "area": "",
+    "time": "10:00–14:00",
+    "co": [
+     "kolmar-korea",
+     "cosmax"
+    ],
+    "note": "Незаметные лидеры: кто производит K-beauty для всего мира. Оба визита — по официальному согласованию. Ночёвка в Сеуле."
    },
    {
     "day": 3,
     "city": "osan",
-    "leg": "train"
+    "ru": "Сеул",
+    "area": "",
+    "time": "10:00–14:00",
+    "co": [
+     "amorepacific-factory",
+     "sulwhasoo-house"
+    ],
+    "leg": "train",
+    "tr": "Официальный тур, бронь на tour.amorepacific.com. Днём — возврат в Сеул (~1 ч), Ginseng Class по записи. Ночёвка в Сеуле."
    },
    {
     "day": 4,
-    "city": "seoul"
+    "city": "seoul",
+    "ru": "Сеул",
+    "area": "Мёндон / Сонсу",
+    "time": "10:00–14:00",
+    "co": [
+     "lg-hnh-history-of-whoo",
+     "amore-seongsu"
+    ],
+    "note": "LG H&H — VIP-формат, по согласованию напрямую с компанией. Ночёвка в Сеуле."
    },
    {
     "day": 5,
     "city": "anyang",
-    "leg": "train"
+    "ru": "Анъян",
+    "area": "",
+    "time": "10:00–14:00",
+    "co": [
+     "pharmaresearch",
+     "caregen"
+    ],
+    "leg": "train",
+    "note": "Longevity-биотех: регенеративная медицина и anti-age пептиды. Оба визита — по официальному согласованию. Завершение программы."
    }
   ]
  },
@@ -758,33 +1344,80 @@
    "hy (Korea Yakult)"
   ],
   "startDate": null,
+  "arrival": "Сеул (перелёт Москва → Сеул, аэропорт Инчхон)",
+  "departure": "Пхёнтхэк (→ Сеул → Москва)",
   "route": [
    {
     "day": 1,
-    "city": "seoul"
+    "city": "seoul",
+    "ru": "Сеул",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "cj-cheiljedang",
+     "cj-freshway"
+    ],
+    "note": "Биотех и централизованное производство готовой еды. Оба визита — по официальному согласованию. Ночёвка в Сеуле."
    },
    {
     "day": 2,
-    "city": "seoul"
+    "city": "seoul",
+    "ru": "Кимпхо",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "market-kurly",
+     "nongshim-farm"
+    ],
+    "note": "«Рассветная доставка» и умное земледелие. Оба визита — по официальному согласованию. Ночёвка в Сеуле."
    },
    {
     "day": 3,
     "city": "yangju",
-    "leg": "train"
+    "ru": "Янджу",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "seoul-milk"
+    ],
+    "leg": "train",
+    "tr": "Открытый заводской тур, участвовать может любой желающий. Вечером — переезд в Вонджу (~1,5–2 ч)."
    },
    {
     "day": 4,
     "city": "wonju",
-    "leg": "train"
+    "ru": "Вонджу",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "samyang-foods",
+     "jungkwanjang-kgc"
+    ],
+    "leg": "train",
+    "tr": "Организованный тур, завод обычно закрыт для случайных визитов. Вечером — переезд в Йонъин (~2 ч)."
    },
    {
     "day": 5,
     "city": "yongin",
-    "leg": "train"
+    "ru": "Йонъин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "fresheasy"
+    ],
+    "leg": "train",
+    "tr": "По официальному согласованию. Вечером — переезд в Пхёнтхэк (~30–40 мин)."
    },
    {
     "day": 6,
-    "city": "pyeongtaek"
+    "city": "pyeongtaek",
+    "ru": "Пхёнтхэк",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "hy-korea-yakult"
+    ],
+    "note": "Интерактивное пространство hy Factory+. Завершение программы."
    }
   ]
  },
@@ -815,27 +1448,66 @@
    "Rakuten Group"
   ],
   "startDate": null,
+  "arrival": "Токио (перелёт Москва → Токио, аэропорты Нарита/Ханеда)",
+  "departure": "Токио (после дня 5 → Москва)",
   "route": [
    {
     "day": 1,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "seven-eleven-japan",
+     "lawson-japan"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "familymart",
+     "aeon-regigo"
+    ]
    },
    {
     "day": 3,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "fast-retailing-uniqlo",
+     "muji-tokyo"
+    ]
    },
    {
     "day": 4,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "don-quijote-ppih",
+     "nitori"
+    ]
    },
    {
     "day": 5,
     "city": "fukuoka",
-    "leg": "flight"
+    "ru": "Фукуока",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "trial-holdings",
+     "rakuten-group"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт туда-обратно Токио–Фукуока (≈2 ч в одну сторону); визит к Rakuten Group — вечером, по возвращении в Токио. Ночёвка в Токио."
    }
   ]
  },
@@ -867,27 +1539,66 @@
    "Megmilk Snow Brand"
   ],
   "startDate": null,
+  "arrival": "Токио (перелёт Москва → Токио, аэропорты Нарита/Ханеда)",
+  "departure": "Осака (аэропорт Кансай KIX, либо возврат в Токио → Москва)",
   "route": [
    {
     "day": 1,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "yakult-honsha",
+     "meiji-holdings"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Нода",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "kikkoman",
+     "kewpie"
+    ]
    },
    {
     "day": 3,
     "city": "osaka",
-    "leg": "train"
+    "ru": "Осака",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "ajinomoto",
+     "fuji-oil"
+    ],
+    "leg": "train",
+    "tr": "Переезд на Синкансэне Токио→Осака (≈2,5 ч)."
    },
    {
     "day": 4,
-    "city": "osaka"
+    "city": "osaka",
+    "ru": "Осака",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "nissin-foods"
+    ],
+    "note": "Второй визит дня — молочный завод региона Кансай (партнёр по запросу, уточняется)."
    },
    {
     "day": 5,
-    "city": "osaka"
+    "city": "osaka",
+    "ru": "Кобе",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "morinaga-milk",
+     "megmilk-snow-brand"
+    ]
    }
   ]
  },
@@ -917,26 +1628,65 @@
    "menu (KDDI)"
   ],
   "startDate": null,
+  "arrival": "Токио (перелёт Москва → Токио, аэропорты Нарита/Ханеда)",
+  "departure": "Токио (после дня 5 → Москва)",
   "route": [
    {
     "day": 1,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "demae-can",
+     "uber-eats-japan"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "connected-robotics",
+     "techmagic"
+    ]
    },
    {
     "day": 3,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "softbank-robotics",
+     "zmp"
+    ]
    },
    {
     "day": 4,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "wolt-japan",
+     "panasonic-robotics"
+    ]
    },
    {
     "day": 5,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "rakuten-delivery-gurunavi",
+     "menu-kddi"
+    ],
+    "note": "День завершается итоговой встречей и networking."
    }
   ]
  },
@@ -967,26 +1717,66 @@
    "Sony AI"
   ],
   "startDate": null,
+  "arrival": "Токио (перелёт Москва → Токио, аэропорты Нарита/Ханеда)",
+  "departure": "Токио (после дня 5 → Москва)",
   "route": [
    {
     "day": 1,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "preferred-networks",
+     "sakana-ai"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "ly-corporation",
+     "paypay"
+    ]
    },
    {
     "day": 3,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "rakuten-crimson-house",
+     "mercari"
+    ],
+    "note": "Rakuten Crimson House — кампус AI + e-commerce, две сессии на одной площадке."
    },
    {
     "day": 4,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "fujitsu",
+     "ntt"
+    ]
    },
    {
     "day": 5,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Тиба",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "zozo",
+     "sony-ai"
+    ],
+    "note": "ZOZO — выезд в Тибу (~1 ч); Sony AI — итоговая встреча."
    }
   ]
  },
@@ -1019,28 +1809,68 @@
    "MTG (ReFa)"
   ],
   "startDate": null,
+  "arrival": "Иокогама (перелёт Москва → Токио, трансфер ≈30 мин в Иокогаму)",
+  "departure": "Нагоя (аэропорт Тюбу Центрэйр, либо возврат в Токио → Москва)",
   "route": [
    {
     "day": 1,
-    "city": "yokohama"
+    "city": "yokohama",
+    "ru": "Иокогама",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "shiseido",
+     "fancl"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер (~30 мин от Токио), короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "kao",
+     "kanebo"
+    ]
    },
    {
     "day": 3,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "pola-orbis",
+     "kose"
+    ]
    },
    {
     "day": 4,
     "city": "osaka",
-    "leg": "train"
+    "ru": "Осака",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "panasonic-beauty",
+     "mandom",
+     "rohto"
+    ],
+    "leg": "train",
+    "tr": "Переезд на Синкансэне Токио→Осака."
    },
    {
     "day": 5,
     "city": "nagoya",
-    "leg": "train"
+    "ru": "Нагоя",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "mtg-refa"
+    ],
+    "leg": "train",
+    "tr": "Переезд на Синкансэне Осака→Нагоя. Второй визит дня — локальный шоурум бьюти-девайсов (уточняется). Ночёвка — Токио (возврат) или Нагоя."
    }
   ]
  },
@@ -1072,28 +1902,69 @@
    "Metcela"
   ],
   "startDate": null,
+  "arrival": "Токио (перелёт Москва → Токио, аэропорты Нарита/Ханеда)",
+  "departure": "Токио (после дня 5 → Москва)",
   "route": [
    {
     "day": 1,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "fujifilm-ips",
+     "healios"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "eisai",
+     "shiseido"
+    ]
    },
    {
     "day": 3,
     "city": "osaka",
-    "leg": "train"
+    "ru": "Осака",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "kaneka",
+     "rohto"
+    ],
+    "leg": "train",
+    "tr": "Переезд на Синкансэне Токио→Осака."
    },
    {
     "day": 4,
-    "city": "kyoto"
+    "city": "kyoto",
+    "ru": "Киото",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "kyoto-university-cira"
+    ],
+    "tr": "Выезд в Киото (~30 мин от Осаки), академический визит. Ночёвка — Осака."
    },
    {
     "day": 5,
     "city": "tokyo",
-    "leg": "train"
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "riken-wako",
+     "cellusion",
+     "metcela"
+    ],
+    "leg": "train",
+    "tr": "Переезд на Синкансэне Осака→Токио. Второй визит — кластер стартапов Cellusion / Metcela."
    }
   ]
  },
@@ -1124,28 +1995,67 @@
    "Gong Cha Japan"
   ],
   "startDate": null,
+  "arrival": "Кобе (перелёт Москва → Токио, переезд на Синкансэне ≈3 ч до Кобе в день прилёта)",
+  "departure": "Токио (после дня 5 → Москва)",
   "route": [
    {
     "day": 1,
     "city": "kobe",
-    "leg": "train"
+    "ru": "Кобе",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "ucc-ueshima-coffee"
+    ],
+    "leg": "train",
+    "tr": "Прилёт делегации в первой половине дня, переезд на Синкансэне из Токио, короткое заселение — программа стартует в день прилёта. Ночёвка — Осака."
    },
    {
     "day": 2,
-    "city": "osaka"
+    "city": "osaka",
+    "ru": "Осака",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "suntory-boss-coffee"
+    ],
+    "note": "Второй визит дня — локальная сеть кофеен (уточняется)."
    },
    {
     "day": 3,
-    "city": "kyoto"
+    "city": "kyoto",
+    "ru": "Киото",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "arabica-percent",
+     "ogawa-coffee"
+    ],
+    "tr": "Выезд в Киото (~30 мин от Осаки). Ночёвка — Осака."
    },
    {
     "day": 4,
     "city": "tokyo",
-    "leg": "train"
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "starbucks-reserve-roastery-nakameguro",
+     "blue-bottle-japan"
+    ],
+    "leg": "train",
+    "tr": "Переезд на Синкансэне Осака→Токио."
    },
    {
     "day": 5,
-    "city": "tokyo"
+    "city": "tokyo",
+    "ru": "Токио",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "doutor-coffee",
+     "gong-cha-japan"
+    ]
    }
   ]
  },
@@ -1174,26 +2084,64 @@
    "CP Axtra — Technology Center"
   ],
   "startDate": null,
+  "arrival": "Бангкок (перелёт Москва → Бангкок, аэропорт Суварнабхуми)",
+  "departure": "Бангкок — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "cp-all",
+     "central-retail-corporation"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "siam-piwat-iconsiam",
+     "the-mall-group-siam-paragon"
+    ]
    },
    {
     "day": 3,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "makro-cp-axtra",
+     "lotus-cp-axtra"
+    ]
    },
    {
     "day": 4,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "big-c-bjc",
+     "homepro"
+    ]
    },
    {
     "day": 5,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "cp-axtra-tech-center"
+    ],
+    "note": "День завершается итоговой встречей и networking."
    }
   ]
  },
@@ -1223,26 +2171,64 @@
    "Meiji Thailand"
   ],
   "startDate": null,
+  "arrival": "Бангкок (перелёт Москва → Бангкок, аэропорт Суварнабхуми)",
+  "departure": "Бангкок — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "charoen-pokphand-foods"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "samutsakhon"
+    "city": "samutsakhon",
+    "ru": "Самутсакхон",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "thai-union-group",
+     "space-f"
+    ],
+    "tr": "Однодневная поездка в Самутсакхон (≈1 ч от Бангкока). Ночёвка — Бангкок."
    },
    {
     "day": 3,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "betagro",
+     "dutch-mill"
+    ]
    },
    {
     "day": 4,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "nr-instant-produce",
+     "more-meat"
+    ]
    },
    {
     "day": 5,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "foremost-frieslandcampina-thailand",
+     "meiji-thailand"
+    ]
    }
   ]
  },
@@ -1271,26 +2257,64 @@
    "True Digital"
   ],
   "startDate": null,
+  "arrival": "Бангкок (перелёт Москва → Бангкок, аэропорт Суварнабхуми)",
+  "departure": "Бангкок — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "line-man-wongnai",
+     "grab-thailand"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "foodpanda-thailand",
+     "robinhood-scb"
+    ]
    },
    {
     "day": 3,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "freshket",
+     "cloudeats"
+    ]
    },
    {
     "day": 4,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "cp-cloud-kitchen",
+     "shopee-food-th"
+    ]
    },
    {
     "day": 5,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "true-digital"
+    ],
+    "note": "День завершается итоговой встречей."
    }
   ]
  },
@@ -1320,26 +2344,64 @@
    "Botnoi"
   ],
   "startDate": null,
+  "arrival": "Бангкок (перелёт Москва → Бангкок, аэропорт Суварнабхуми)",
+  "departure": "Бангкок — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "scb-10x-abacus",
+     "sertis"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "line-thailand",
+     "amity-solutions"
+    ]
    },
    {
     "day": 3,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "lazada-thailand",
+     "shopee-thailand"
+    ]
    },
    {
     "day": 4,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "central-jd",
+     "tiktok-shop-thailand"
+    ]
    },
    {
     "day": 5,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "truemoney-ascend",
+     "botnoi"
+    ]
    }
   ]
  },
@@ -1369,26 +2431,64 @@
    "Beiersdorf Thailand (Eucerin)"
   ],
   "startDate": null,
+  "arrival": "Бангкок (перелёт Москва → Бангкок, аэропорт Суварнабхуми)",
+  "departure": "Бангкок — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "better-way-mistine",
+     "karmarts"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "srichand-snp",
+     "beauty-buffet"
+    ]
    },
    {
     "day": 3,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "harnn",
+     "divana"
+    ]
    },
    {
     "day": 4,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "provamed-greater-pharma",
+     "oriental-princess"
+    ]
    },
    {
     "day": 5,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "cute-press",
+     "beiersdorf-thailand"
+    ]
    }
   ]
  },
@@ -1417,26 +2517,63 @@
    "Vega Clinic"
   ],
   "startDate": null,
+  "arrival": "Бангкок (перелёт Москва → Бангкок, аэропорт Суварнабхуми)",
+  "departure": "Бангкок — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "bdms-wellness-clinic",
+     "vitallife-bumrungrad"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "nakhonpathom"
+    "city": "nakhonpathom",
+    "ru": "Накхонпатхом",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "medeze-group",
+     "vaanaa-longevity-clinic"
+    ],
+    "tr": "Однодневная поездка в Накхонпатхом (~1 ч). Опция выезда в Рэйонг (~2,5 ч) или Пхукет по запросу клиента. Ночёвка — Бангкок."
    },
    {
     "day": 3,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "rakxa-integrative-wellness",
+     "mousai-wellness-center"
+    ]
    },
    {
     "day": 4,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "boston-health-longevity",
+     "vega-clinic"
+    ]
    },
    {
     "day": 5,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [],
+    "note": "Дополнительная wellness-клиника по запросу, далее — итоговая встреча и networking (уточняется)."
    }
   ]
  },
@@ -1467,26 +2604,65 @@
    "Gong Cha Thailand"
   ],
   "startDate": null,
+  "arrival": "Бангкок (перелёт Москва → Бангкок, аэропорт Суварнабхуми)",
+  "departure": "Бангкок — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "cafe-amazon-ptt",
+     "inthanin-bangchak"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "chatramue",
+     "karun-thai-tea"
+    ]
    },
    {
     "day": 3,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "pacamara",
+     "roots-coffee"
+    ]
    },
    {
     "day": 4,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "class-cafe",
+     "true-coffee"
+    ]
    },
    {
     "day": 5,
-    "city": "bangkok"
+    "city": "bangkok",
+    "ru": "Бангкок",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "fire-tiger",
+     "koi-the-thailand",
+     "gong-cha-thailand"
+    ]
    }
   ]
  },
@@ -1515,27 +2691,64 @@
    "Con Cưng"
   ],
   "startDate": null,
+  "arrival": "Хошимин (перелёт Москва → Хошимин)",
+  "departure": "Ханой — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "mwg-the-gioi-di-dong"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "fpt-retail-long-chau",
+     "saigon-coop"
+    ]
    },
    {
     "day": 3,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "central-retail-vietnam",
+     "aeon-vietnam"
+    ]
    },
    {
     "day": 4,
     "city": "hanoi",
-    "leg": "flight"
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "wincommerce"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Хошимин→Ханой (≈2 ч). Второй визит дня — демо смарт-магазина WinMart+ (AI/лояльность)."
    },
    {
     "day": 5,
-    "city": "hanoi"
+    "city": "hanoi",
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "circlek-gs25-vietnam",
+     "con-cung"
+    ]
    }
   ]
  },
@@ -1564,28 +2777,65 @@
    "Acecook Vietnam"
   ],
   "startDate": null,
+  "arrival": "Хошимин (перелёт Москва → Хошимин)",
+  "departure": "Ханой — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "vinamilk"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "nutifood",
+     "masan-consumer"
+    ]
    },
    {
     "day": 3,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "vissan",
+     "dutch-lady-frieslandcampina"
+    ]
    },
    {
     "day": 4,
     "city": "vinh",
-    "leg": "flight"
+    "ru": "Виня",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "th-true-milk"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Хошимин→Виня (≈1,5 ч)."
    },
    {
     "day": 5,
     "city": "hanoi",
-    "leg": "flight"
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "acecook-vietnam"
+    ],
+    "leg": "flight",
+    "tr": "Перелёт/трансфер Виня→Ханой (≈1 ч)."
    }
   ]
  },
@@ -1612,27 +2862,61 @@
    "Ahamove"
   ],
   "startDate": null,
+  "arrival": "Хошимин (перелёт Москва → Хошимин)",
+  "departure": "Ханой — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "grabfood-vietnam",
+     "shopeefood-vietnam"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "be-begroup",
+     "loship"
+    ]
    },
    {
     "day": 3,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "xanh-sm-gsm-vinfast",
+     "ahamove"
+    ]
    },
    {
     "day": 4,
     "city": "hanoi",
-    "leg": "flight"
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Хошимин→Ханой (≈2 ч). Визиты дня — оператор облачных кухонь и B2B-платформа поставок для F&B (по согласованию)."
    },
    {
     "day": 5,
-    "city": "hanoi"
+    "city": "hanoi",
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [],
+    "note": "Итоговые встречи с локальными delivery-tech игроками."
    }
   ]
  },
@@ -1663,27 +2947,66 @@
    "ELSA"
   ],
   "startDate": null,
+  "arrival": "Хошимин (перелёт Москва → Хошимин)",
+  "departure": "Ханой — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "vng-corporation",
+     "tiki"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "momo",
+     "trusting-social"
+    ]
    },
    {
     "day": 3,
     "city": "hanoi",
-    "leg": "flight"
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "vinai",
+     "fpt-ai-software"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Хошимин→Ханой (≈2 ч)."
    },
    {
     "day": 4,
-    "city": "hanoi"
+    "city": "hanoi",
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "viettel",
+     "vinbrain"
+    ]
    },
    {
     "day": 5,
-    "city": "hanoi"
+    "city": "hanoi",
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "shopee-lazada-vietnam",
+     "elsa"
+    ]
    }
   ]
  },
@@ -1712,27 +3035,64 @@
    "Milaganics"
   ],
   "startDate": null,
+  "arrival": "Хошимин (перелёт Москва → Хошимин)",
+  "departure": "Ханой — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "cocoon-vietnam",
+     "hasaki"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "thorakao",
+     "saigon-cosmetics-scc"
+    ]
    },
    {
     "day": 3,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "moi-cosmetics",
+     "lemonade-cosmetics"
+    ]
    },
    {
     "day": 4,
     "city": "hanoi",
-    "leg": "flight"
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "sao-thai-duong",
+     "milaganics"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Хошимин→Ханой (≈2 ч)."
    },
    {
     "day": 5,
-    "city": "hanoi"
+    "city": "hanoi",
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [],
+    "note": "Контрактное OEM-производство (по согласованию), далее — итоговая встреча."
    }
   ]
  },
@@ -1757,27 +3117,60 @@
    "Medeze Vietnam"
   ],
   "startDate": null,
+  "arrival": "Хошимин (перелёт Москва → Хошимин)",
+  "departure": "Хошимин — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "hanoi"
+    "city": "hanoi",
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "vinmec-vrisg"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "hanoi"
+    "city": "hanoi",
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "vinmec-regenerative-medicine-center",
+     "vinuniversity"
+    ]
    },
    {
     "day": 3,
     "city": "ho-chi-minh",
-    "leg": "flight"
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "medeze-vietnam"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Ханой→Хошимин (≈2 ч)."
    },
    {
     "day": 4,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [],
+    "note": "Клиника эстетической/регенеративной медицины (кластер, 2 визита по согласованию)."
    },
    {
     "day": 5,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [],
+    "note": "Резервный день / возможность комбинирования с модулем косметики."
    }
   ]
  },
@@ -1808,28 +3201,67 @@
    "King Coffee (TNI)"
   ],
   "startDate": null,
+  "arrival": "Хошимин (перелёт Москва → Хошимин)",
+  "departure": "Ханой — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "phuc-long-masan",
+     "the-coffee-house"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "ho-chi-minh"
+    "city": "ho-chi-minh",
+    "ru": "Хошимин",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "highlands-coffee",
+     "katinat"
+    ]
    },
    {
     "day": 3,
     "city": "buon-ma-thuot",
-    "leg": "flight"
+    "ru": "Буонматхуот",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "trung-nguyen-legend"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Хошимин→Буонматхуот (≈1 ч)."
    },
    {
     "day": 4,
     "city": "hanoi",
-    "leg": "flight"
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "cong-ca-phe",
+     "tocotoco"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Буонматхуот→Ханой (≈2 ч)."
    },
    {
     "day": 5,
-    "city": "hanoi"
+    "city": "hanoi",
+    "ru": "Ханой",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "phe-la",
+     "king-coffee-tni"
+    ]
    }
   ]
  },
@@ -1859,26 +3291,64 @@
    "Blibli"
   ],
   "startDate": null,
+  "arrival": "Джакарта (перелёт Москва → Джакарта)",
+  "departure": "Джакарта — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "indomaret",
+     "alfamart"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "map-mitra-adiperkasa",
+     "erajaya-erafone"
+    ]
    },
    {
     "day": 3,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "transmart-ct-corp",
+     "matahari-department-store"
+    ]
    },
    {
     "day": 4,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "aeon-indonesia",
+     "ace-hardware-kawan-lama"
+    ]
    },
    {
     "day": 5,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "ranch-market",
+     "blibli"
+    ]
    }
   ]
  },
@@ -1909,27 +3379,67 @@
    "Garudafood"
   ],
   "startDate": null,
+  "arrival": "Джакарта (перелёт Москва → Джакарта)",
+  "departure": "Джакарта — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "indofood"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "cikarang"
+    "city": "cikarang",
+    "ru": "Чикаранг",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "frisian-flag-indonesia",
+     "kalbe-nutritionals"
+    ],
+    "tr": "Поездка в Чикаранг (~1,5 ч от Джакарты)."
    },
    {
     "day": 3,
     "city": "semarang",
-    "leg": "flight"
+    "ru": "Семаранг",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "cimory"
+    ],
+    "leg": "flight",
+    "tr": "Перелёт Джакарта→Семаранг (≈1,5 ч)."
    },
    {
     "day": 4,
-    "city": "bandung"
+    "city": "bandung",
+    "ru": "Бандунг",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "ultrajaya",
+     "mayora-indah"
+    ],
+    "tr": "Переезд Семаранг→Бандунг."
    },
    {
     "day": 5,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "nestle-indonesia",
+     "garudafood"
+    ],
+    "tr": "Переезд Бандунг→Джакарта. Упрощённая версия маршрута (только Джакарта + Чикаранг) доступна по запросу."
    }
   ]
  },
@@ -1958,26 +3468,64 @@
    "Wahyoo"
   ],
   "startDate": null,
+  "arrival": "Джакарта (перелёт Москва → Джакарта)",
+  "departure": "Джакарта — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "goto-gofood-gokitchen",
+     "grab-indonesia"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "yummy-corp",
+     "everplate"
+    ]
    },
    {
     "day": 3,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "hangry-id",
+     "legit-group"
+    ]
    },
    {
     "day": 4,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "dailybox-group",
+     "shopeefood-indonesia"
+    ]
    },
    {
     "day": 5,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "wahyoo"
+    ],
+    "note": "День завершается итоговой встречей."
    }
   ]
  },
@@ -2006,26 +3554,64 @@
    "Bukalapak"
   ],
   "startDate": null,
+  "arrival": "Джакарта (перелёт Москва → Джакарта)",
+  "departure": "Джакарта — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "goto-campus"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта.",
+    "note": "Кампус GoTo — две сессии на одной площадке."
    },
    {
     "day": 2,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "grab-indonesia",
+     "blibli"
+    ]
    },
    {
     "day": 3,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "kata-ai",
+     "nodeflux"
+    ]
    },
    {
     "day": 4,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "prosa-ai",
+     "sahabat-ai"
+    ]
    },
    {
     "day": 5,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "shopee-tiktok-shop-indonesia",
+     "bukalapak"
+    ]
    }
   ]
  },
@@ -2057,28 +3643,68 @@
    "Rose All Day"
   ],
   "startDate": null,
+  "arrival": "Джакарта (перелёт Москва → Джакарта)",
+  "departure": "Джакарта — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "tangerang"
+    "city": "tangerang",
+    "ru": "Тангеранг",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "paragon-technology-innovation",
+     "kahf-paragon"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер (~1 ч от Джакарты), короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "martha-tilaar-group",
+     "mustika-ratu"
+    ]
    },
    {
     "day": 3,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "somethinc-beauty-haul",
+     "base-skincare"
+    ]
    },
    {
     "day": 4,
     "city": "yogyakarta",
-    "leg": "flight"
+    "ru": "Джокьякарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "avoskin",
+     "esqa-cosmetics"
+    ],
+    "leg": "flight",
+    "tr": "Перелёт Джакарта→Джокьякарта (≈1 ч)."
    },
    {
     "day": 5,
     "city": "jakarta",
-    "leg": "flight"
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "ms-glow",
+     "rose-all-day"
+    ],
+    "leg": "flight",
+    "tr": "Перелёт обратно в Джакарту."
    }
   ]
  },
@@ -2107,27 +3733,64 @@
    "Regeneratia Bali"
   ],
   "startDate": null,
+  "arrival": "Джакарта (перелёт Москва → Джакарта)",
+  "departure": "Бали/Джакарта — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "kalbe-farma-kbic"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "prodia-stemcell-prostem",
+     "kalgen-dna"
+    ]
    },
    {
     "day": 3,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "kg-bio-kalbe",
+     "prodia"
+    ]
    },
    {
     "day": 4,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "biothera-stem-cell-clinic",
+     "bio-farma-kimia-farma"
+    ]
    },
    {
     "day": 5,
     "city": "bali",
-    "leg": "flight"
+    "ru": "Бали",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "regeneratia-bali"
+    ],
+    "leg": "flight",
+    "tr": "Опциональное расширение на Бали (перелёт ≈2 ч). Потребительский клинический слой в Индонезии пока тонкий."
    }
   ]
  },
@@ -2156,26 +3819,64 @@
    "Kenangan Coffee / Chigo"
   ],
   "startDate": null,
+  "arrival": "Джакарта (перелёт Москва → Джакарта)",
+  "departure": "Джакарта — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "kopi-kenangan",
+     "fore-coffee"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "kopi-janji-jiwa",
+     "tomoro-coffee"
+    ]
    },
    {
     "day": 3,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "chatime-indonesia",
+     "esteh-indonesia"
+    ]
    },
    {
     "day": 4,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "haus-drinks",
+     "point-coffee-indomaret"
+    ]
    },
    {
     "day": 5,
-    "city": "jakarta"
+    "city": "jakarta",
+    "ru": "Джакарта",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "kenangan-coffee-chigo"
+    ],
+    "note": "День завершается итоговой встречей."
    }
   ]
  },
@@ -2207,28 +3908,68 @@
    "Vishal Mega Mart"
   ],
   "startDate": null,
+  "arrival": "Мумбаи (перелёт Москва → Мумбаи)",
+  "departure": "Дели-NCR — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "mumbai"
+    "city": "mumbai",
+    "ru": "Мумбаи",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "reliance-retail",
+     "dmart-avenue-supermarts"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "mumbai"
+    "city": "mumbai",
+    "ru": "Мумбаи",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "zepto",
+     "nykaa"
+    ]
    },
    {
     "day": 3,
     "city": "bengaluru",
-    "leg": "flight"
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "flipkart-walmart",
+     "bigbasket-tata"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Мумбаи→Бенгалуру (≈1,5 ч)."
    },
    {
     "day": 4,
-    "city": "bengaluru"
+    "city": "bengaluru",
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "swiggy-instamart",
+     "zepto"
+    ]
    },
    {
     "day": 5,
     "city": "gurugram",
-    "leg": "flight"
+    "ru": "Дели-NCR",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "blinkit-eternal",
+     "vishal-mega-mart"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Бенгалуру→Дели-NCR (≈2,5 ч)."
    }
   ]
  },
@@ -2260,28 +4001,67 @@
    "Hatsun Agro"
   ],
   "startDate": null,
+  "arrival": "Ахмадабад (перелёт Москва → Ахмадабад, ближайший аэропорт к Ананду)",
+  "departure": "Бенгалуру — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "anand"
+    "city": "anand",
+    "ru": "Ананд",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "amul-gcmmf"
+    ],
+    "tr": "Прилёт делегации в Ахмадабад, в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "ahmedabad"
+    "city": "ahmedabad",
+    "ru": "Гандинагар",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "amul-fed-dairy"
+    ],
+    "note": "Второй визит дня — дополнительная встреча с GCMMF (уточняется)."
    },
    {
     "day": 3,
     "city": "delhi",
-    "leg": "flight"
+    "ru": "Дели-NCR",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "mother-dairy",
+     "nestle-india"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Ахмадабад→Дели (≈2 ч)."
    },
    {
     "day": 4,
     "city": "bengaluru",
-    "leg": "flight"
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "nandini-kmf",
+     "itc-foods-aashirvaad"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Дели→Бенгалуру (≈2,5 ч)."
    },
    {
     "day": 5,
-    "city": "bengaluru"
+    "city": "bengaluru",
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "britannia",
+     "hatsun-agro"
+    ]
    }
   ]
  },
@@ -2313,28 +4093,68 @@
    "Zepto Café"
   ],
   "startDate": null,
+  "arrival": "Мумбаи (перелёт Москва → Мумбаи)",
+  "departure": "Дели-NCR — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "mumbai"
+    "city": "mumbai",
+    "ru": "Мумбаи",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "rebel-foods",
+     "eatclub-box8"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
     "city": "bengaluru",
-    "leg": "flight"
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "swiggy-instamart",
+     "curefoods-eatfit"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Мумбаи→Бенгалуру (≈1,5 ч)."
    },
    {
     "day": 3,
-    "city": "bengaluru"
+    "city": "bengaluru",
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "licious",
+     "freshmenu"
+    ]
    },
    {
     "day": 4,
     "city": "gurugram",
-    "leg": "flight"
+    "ru": "Гуруграм",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "blinkit-eternal",
+     "biryani-by-kilo"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Бенгалуру→Гуруграм (≈2,5 ч)."
    },
    {
     "day": 5,
-    "city": "gurugram"
+    "city": "gurugram",
+    "ru": "Дели-NCR",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "zepto-cafe"
+    ],
+    "note": "День завершается итоговой встречей."
    }
   ]
  },
@@ -2365,27 +4185,66 @@
    "Nykaa"
   ],
   "startDate": null,
+  "arrival": "Бенгалуру (перелёт Москва → Бенгалуру)",
+  "departure": "Мумбаи — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "bengaluru"
+    "city": "bengaluru",
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "sarvam-ai",
+     "krutrim-ola"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "bengaluru"
+    "city": "bengaluru",
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "flipkart-walmart",
+     "meesho"
+    ]
    },
    {
     "day": 3,
-    "city": "bengaluru"
+    "city": "bengaluru",
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "yellow-ai",
+     "mad-street-den"
+    ]
    },
    {
     "day": 4,
     "city": "mumbai",
-    "leg": "flight"
+    "ru": "Мумбаи",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "fractal-analytics",
+     "qure-ai"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Бенгалуру→Мумбаи (≈1,5 ч)."
    },
    {
     "day": 5,
-    "city": "mumbai"
+    "city": "mumbai",
+    "ru": "Мумбаи",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "haptik-reliance-jio",
+     "nykaa"
+    ]
    }
   ]
  },
@@ -2415,27 +4274,66 @@
    "Good Glamm (MyGlamm)"
   ],
   "startDate": null,
+  "arrival": "Мумбаи (перелёт Москва → Мумбаи)",
+  "departure": "Дели-NCR — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "mumbai"
+    "city": "mumbai",
+    "ru": "Мумбаи",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "nykaa",
+     "sugar-cosmetics"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "mumbai"
+    "city": "mumbai",
+    "ru": "Мумбаи",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "purplle",
+     "plum-goodness"
+    ]
    },
    {
     "day": 3,
     "city": "gurugram",
-    "leg": "flight"
+    "ru": "Дели-NCR",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "mamaearth-honasa",
+     "forest-essentials"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Мумбаи→Дели (≈2 ч)."
    },
    {
     "day": 4,
-    "city": "gurugram"
+    "city": "gurugram",
+    "ru": "Дели-NCR",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "swiss-beauty",
+     "lakme-hul"
+    ]
    },
    {
     "day": 5,
-    "city": "gurugram"
+    "city": "gurugram",
+    "ru": "Дели-NCR",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "good-glamm-myglamm"
+    ],
+    "note": "День завершается итоговой встречей."
    }
   ]
  },
@@ -2465,28 +4363,68 @@
    "Apollo/Nova — Regenerative Direction"
   ],
   "startDate": null,
+  "arrival": "Бенгалуру (перелёт Москва → Бенгалуру)",
+  "departure": "Дели-NCR — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "bengaluru"
+    "city": "bengaluru",
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "giostar",
+     "decode-age"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "bengaluru"
+    "city": "bengaluru",
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "biocon-syngene"
+    ],
+    "note": "Второй визит дня — локальная клиника долголетия (уточняется)."
    },
    {
     "day": 3,
     "city": "mumbai",
-    "leg": "flight"
+    "ru": "Мумбаи",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "stemrx-navi-mumbai",
+     "reliance-life-sciences"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Бенгалуру→Мумбаи (≈1,5 ч)."
    },
    {
     "day": 4,
     "city": "gurugram",
-    "leg": "flight"
+    "ru": "Дели-NCR",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "artemis-hospitals",
+     "anti-aging-centre-tac"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Мумбаи→Дели (≈2 ч)."
    },
    {
     "day": 5,
-    "city": "gurugram"
+    "city": "gurugram",
+    "ru": "Дели-NCR",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "apollo-nova-regenerative"
+    ],
+    "note": "Итоговая встреча."
    }
   ]
  },
@@ -2517,28 +4455,65 @@
    "Boba Bhai"
   ],
   "startDate": null,
+  "arrival": "Дели (перелёт Москва → Дели)",
+  "departure": "Мумбаи — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "delhi"
+    "city": "delhi",
+    "ru": "Дели",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "blue-tokai-coffee-roasters",
+     "sleepy-owl-rage-coffee"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "delhi"
+    "city": "delhi",
+    "ru": "Гуруграм",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "chaayos",
+     "abcoffee"
+    ]
    },
    {
     "day": 3,
     "city": "bengaluru",
-    "leg": "flight"
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "third-wave-coffee",
+     "araku-coffee"
+    ],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Дели→Бенгалуру (≈2,5 ч)."
    },
    {
     "day": 4,
-    "city": "bengaluru"
+    "city": "bengaluru",
+    "ru": "Бенгалуру",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "tata-coffee-starbucks-india",
+     "boba-bhai"
+    ]
    },
    {
     "day": 5,
     "city": "mumbai",
-    "leg": "flight"
+    "ru": "Мумбаи",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [],
+    "leg": "flight",
+    "tr": "Внутренний перелёт Бенгалуру→Мумбаи (≈1,5 ч). Программа пятого дня уточняется у партнёров на месте."
    }
   ]
  },
@@ -2568,26 +4543,64 @@
    "Eco-Shop Marketing Berhad"
   ],
   "startDate": null,
+  "arrival": "Куала-Лумпур (перелёт Москва → Куала-Лумпур)",
+  "departure": "Куала-Лумпур — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "senheng-new-retail",
+     "mr-diy-robotic-warehouse"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "7-eleven-malaysia-cloudpick",
+     "aeon-malaysia"
+    ]
    },
    {
     "day": 3,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "99-speed-mart",
+     "kk-super-mart"
+    ]
    },
    {
     "day": 4,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "lotus-stores-malaysia",
+     "jaya-grocer"
+    ]
    },
    {
     "day": 5,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "padini-holdings",
+     "eco-shop-marketing"
+    ]
    }
   ]
  },
@@ -2616,27 +4629,65 @@
    "Jemaluang Dairy Valley (JDV)"
   ],
   "startDate": null,
+  "arrival": "Куала-Лумпур (перелёт Москва → Куала-Лумпур)",
+  "departure": "Куала-Лумпур — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "ajinomoto-malaysia",
+     "dutch-lady-malaysia"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "nestle-malaysia",
+     "sime-darby-oils"
+    ]
    },
    {
     "day": 3,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "phuture-foods",
+     "mamee-double-decker"
+    ]
    },
    {
     "day": 4,
     "city": "kulai",
-    "leg": "flight"
+    "ru": "Кулаи",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "farm-fresh-berhad"
+    ],
+    "leg": "flight",
+    "tr": "Переезд/перелёт в Джохор (~1 ч перелёт либо ~3–4 ч на машине). Ночёвка — Джохор."
    },
    {
     "day": 5,
-    "city": "kulai"
+    "city": "kulai",
+    "ru": "Кулаи",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "jemaluang-dairy-valley"
+    ],
+    "note": "Второй визит дня — опционально Saikris TechDairies (роботизированная ферма, Перак, по согласованию из-за расстояния)."
    }
   ]
  },
@@ -2664,26 +4715,62 @@
    "Inside Scoop"
   ],
   "startDate": null,
+  "arrival": "Куала-Лумпур (перелёт Москва → Куала-Лумпур)",
+  "departure": "Куала-Лумпур — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "grab-food-kitchen-malaysia",
+     "foodpanda-malaysia"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "pop-meals",
+     "cookhouse-malaysia"
+    ]
    },
    {
     "day": 3,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "grabkitchen-format",
+     "kyochon-malaysia"
+    ]
    },
    {
     "day": 4,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "myburgerlab",
+     "inside-scoop"
+    ]
    },
    {
     "day": 5,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [],
+    "note": "Итоговая встреча с партнёрами экосистемы Grab."
    }
   ]
  },
@@ -2714,27 +4801,66 @@
    "Homegrown Fintech Cluster (Jirnexu/CompareHero, iPay88, Funding Societies)"
   ],
   "startDate": null,
+  "arrival": "Куала-Лумпур (перелёт Москва → Куала-Лумпур)",
+  "departure": "Куала-Лумпур — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "grab-malaysia-rce",
+     "touch-n-go-ewallet"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "carsome-group",
+     "gxbank"
+    ]
    },
    {
     "day": 3,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "aerodyne-group",
+     "mindvalley"
+    ]
    },
    {
     "day": 4,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "shopee-malaysia",
+     "lazada-malaysia"
+    ]
    },
    {
     "day": 5,
     "city": "kulai",
-    "leg": "flight"
+    "ru": "Кулаи",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "ytl-ai-cloud",
+     "malaysian-fintech-cluster"
+    ],
+    "leg": "flight",
+    "tr": "Перелёт/переезд в Джохор (~1 ч перелёт либо ~3–4 ч на машине) к флагманскому визиту YTL AI Cloud — требуется заблаговременный запрос допуска по безопасности. Второй визит — итоговая встреча по локальной финтех-экосистеме."
    }
   ]
  },
@@ -2762,27 +4888,64 @@
    "Halal OEM Cluster (CL Cosmetic / TCT Nutraceuticals / Sky Resources)"
   ],
   "startDate": null,
+  "arrival": "Куала-Лумпур (перелёт Москва → Куала-Лумпур)",
+  "departure": "Куала-Лумпур — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "wipro-unza"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "elken-elysyle",
+     "intercosmetic-asia-pacific"
+    ]
    },
    {
     "day": 3,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "furley-bioextracts",
+     "global-cosmetics-malaysia"
+    ]
    },
    {
     "day": 4,
     "city": "penang",
-    "leg": "flight"
+    "ru": "Пенанг",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "eng-kah-corporation"
+    ],
+    "leg": "flight",
+    "tr": "Перелёт в Пенанг (~1 ч). Ночёвка — Куала-Лумпур (возврат) или Пенанг."
    },
    {
     "day": 5,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "cl-cosmetic-oem-cluster"
+    ],
+    "note": "Визит в кластер халяль-OEM производителей (2 точки по согласованию), далее — итоговая встреча."
    }
   ]
  },
@@ -2810,26 +4973,62 @@
    "National Stem Cell Centre (NSCC) / UKM Tissue Engineering Centre"
   ],
   "startDate": null,
+  "arrival": "Куала-Лумпур (перелёт Москва → Куала-Лумпур)",
+  "departure": "Куала-Лумпур — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "cryocord",
+     "cytopeutics"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "stemlife",
+     "malaysian-genomics-resource-centre"
+    ]
    },
    {
     "day": 3,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "codon-genomics",
+     "synamatix"
+    ]
    },
    {
     "day": 4,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "elixir-biotech-stemtech",
+     "national-stem-cell-centre"
+    ]
    },
    {
     "day": 5,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [],
+    "note": "Резервный день / возможность объединения с модулем косметики — сегмент в Малайзии тонкий и целенаправленно не растянут искусственно."
    }
   ]
  },
@@ -2856,26 +5055,62 @@
    "Inside Scoop"
   ],
   "startDate": null,
+  "arrival": "Куала-Лумпур (перелёт Москва → Куала-Лумпур)",
+  "departure": "Куала-Лумпур — дополнительная ночь после дня 5, выезд из отеля и трансфер в аэропорт ранним утром следующего дня.",
   "route": [
    {
     "day": 1,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "zus-coffee",
+     "tealive-loob-holding"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "bask-bear-coffee",
+     "chatime-malaysia"
+    ]
    },
    {
     "day": 3,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "gigi-coffee"
+    ],
+    "note": "Второй визит дня — специализированная обжарочная (Клэнг-Вэлли, по согласованию)."
    },
    {
     "day": 4,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "luckin-coffee-malaysia",
+     "inside-scoop"
+    ]
    },
    {
     "day": 5,
-    "city": "kuala-lumpur"
+    "city": "kuala-lumpur",
+    "ru": "Куала-Лумпур",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [],
+    "note": "Итоговая встреча и networking с F&B tech-экосистемой."
    }
   ]
  },
@@ -2907,26 +5142,66 @@
    "Hub71 FinTech Cluster"
   ],
   "startDate": null,
+  "arrival": "Дубай (перелёт Москва → Дубай)",
+  "departure": "Дубай — выезд из отеля и трансфер в аэропорт после дня 5.",
   "route": [
    {
     "day": 1,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "DIFC",
+    "time": "10:00–13:00",
+    "co": [
+     "mashreq-bank",
+     "emirates-nbd"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "DIFC",
+    "time": "10:00–13:00",
+    "co": [
+     "visa-mena",
+     "mastercard-mena"
+    ]
    },
    {
     "day": 3,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "DIFC",
+    "time": "10:00–13:00",
+    "co": [
+     "astra-tech-careem-pay",
+     "bayzat",
+     "nymcard"
+    ]
    },
    {
     "day": 4,
-    "city": "abu-dhabi"
+    "city": "abu-dhabi",
+    "ru": "Абу-Даби",
+    "area": "ADGM",
+    "time": "10:00–13:00",
+    "co": [
+     "adcb",
+     "wio-bank"
+    ],
+    "tr": "Утренний трансфер Дубай → Абу-Даби (~1,5 часа по трассе)."
    },
    {
     "day": 5,
-    "city": "abu-dhabi"
+    "city": "abu-dhabi",
+    "ru": "Абу-Даби",
+    "area": "ADGM",
+    "time": "10:00–13:00",
+    "co": [
+     "adgm",
+     "hub71-fintech-cluster"
+    ]
    }
   ]
  },
@@ -2958,26 +5233,66 @@
    "Dubai Future Foundation"
   ],
   "startDate": null,
+  "arrival": "Дубай (перелёт Москва → Дубай)",
+  "departure": "Дубай — выезд из отеля и трансфер в аэропорт после дня 5.",
   "route": [
    {
     "day": 1,
-    "city": "abu-dhabi"
+    "city": "abu-dhabi",
+    "ru": "Абу-Даби",
+    "area": "Hub71 / Masdar City",
+    "time": "10:00–13:00",
+    "co": [
+     "g42",
+     "hub71"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "abu-dhabi"
+    "city": "abu-dhabi",
+    "ru": "Абу-Даби",
+    "area": "Masdar City",
+    "time": "10:00–13:00",
+    "co": [
+     "tii"
+    ],
+    "tr": "После утреннего визита — трансфер Абу-Даби → Дубай (~1,5 часа по трассе)."
    },
    {
     "day": 3,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "Dubai Internet City",
+    "time": "10:00–13:00",
+    "co": [
+     "google-mena",
+     "aws-mena"
+    ]
    },
    {
     "day": 4,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "Dubai Internet City",
+    "time": "10:00–13:00",
+    "co": [
+     "meta-mena",
+     "microsoft-mea",
+     "alibaba-cloud-me"
+    ]
    },
    {
     "day": 5,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "Dubai Internet City",
+    "time": "10:00–13:00",
+    "co": [
+     "tiktok-mena",
+     "careem",
+     "dubai-future-foundation"
+    ]
    }
   ]
  },
@@ -3007,26 +5322,64 @@
    "Amazon.ae"
   ],
   "startDate": null,
+  "arrival": "Дубай (перелёт Москва → Дубай)",
+  "departure": "Дубай — выезд из отеля и трансфер в аэропорт после дня 5.",
   "route": [
    {
     "day": 1,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "dp-world",
+     "jafza"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "maersk-me",
+     "dhl-express-mena"
+    ]
    },
    {
     "day": 3,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "fedex-me",
+     "aramex"
+    ]
    },
    {
     "day": 4,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "emirates-skycargo",
+     "dnata"
+    ]
    },
    {
     "day": 5,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "dmcc",
+     "amazon-ae"
+    ]
    }
   ]
  },
@@ -3058,26 +5411,66 @@
    "Zayed International Airport"
   ],
   "startDate": null,
+  "arrival": "Дубай (перелёт Москва → Дубай)",
+  "departure": "Дубай — выезд из отеля и трансфер в аэропорт после дня 5.",
   "route": [
    {
     "day": 1,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "emirates-group",
+     "emirates-engineering"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "flydubai",
+     "dubai-airports"
+    ]
    },
    {
     "day": 3,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "airbus-me",
+     "boeing-me"
+    ]
    },
    {
     "day": 4,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "dnata",
+     "emirates-flight-training-academy"
+    ]
    },
    {
     "day": 5,
-    "city": "abu-dhabi"
+    "city": "abu-dhabi",
+    "ru": "Абу-Даби",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "etihad-airways",
+     "etihad-engineering",
+     "zayed-international-airport"
+    ],
+    "tr": "Утренний трансфер Дубай → Абу-Даби (~1,5 часа по трассе)."
    }
   ]
  },
@@ -3107,26 +5500,64 @@
    "Aldar Properties"
   ],
   "startDate": null,
+  "arrival": "Дубай (перелёт Москва → Дубай)",
+  "departure": "Дубай — выезд из отеля и трансфер в аэропорт после дня 5.",
   "route": [
    {
     "day": 1,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "emaar-properties",
+     "damac-properties"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "nakheel",
+     "dubai-holding"
+    ]
    },
    {
     "day": 3,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "meraas",
+     "jll-mena"
+    ]
    },
    {
     "day": 4,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "cbre-mena",
+     "knight-frank-mena"
+    ]
    },
    {
     "day": 5,
-    "city": "abu-dhabi"
+    "city": "abu-dhabi",
+    "ru": "Абу-Даби",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "aldar-properties"
+    ],
+    "tr": "Утренний трансфер Дубай → Абу-Даби (~1,5 часа по трассе)."
    }
   ]
  },
@@ -3156,26 +5587,64 @@
    "Mohammed bin Rashid Al Maktoum Solar Park"
   ],
   "startDate": null,
+  "arrival": "Дубай (перелёт Москва → Дубай)",
+  "departure": "Дубай — выезд из отеля и трансфер в аэропорт после дня 5.",
   "route": [
    {
     "day": 1,
-    "city": "abu-dhabi"
+    "city": "abu-dhabi",
+    "ru": "Абу-Даби",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "adnoc",
+     "masdar"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "abu-dhabi"
+    "city": "abu-dhabi",
+    "ru": "Абу-Даби",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "siemens-energy-me",
+     "taqa"
+    ]
    },
    {
     "day": 3,
-    "city": "abu-dhabi"
+    "city": "abu-dhabi",
+    "ru": "Абу-Даби",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "bp-me"
+    ],
+    "tr": "После утреннего визита — трансфер Абу-Даби → Дубай (~1,5 часа по трассе)."
    },
    {
     "day": 4,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "dewa",
+     "shell-me"
+    ]
    },
    {
     "day": 5,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "totalenergies-me",
+     "al-maktoum-solar-park"
+    ]
    }
   ]
  },
@@ -3205,26 +5674,64 @@
    "LVMH Middle East"
   ],
   "startDate": null,
+  "arrival": "Дубай (перелёт Москва → Дубай)",
+  "departure": "Дубай — выезд из отеля и трансфер в аэропорт после дня 5.",
   "route": [
    {
     "day": 1,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "noon",
+     "amazon-ae"
+    ],
+    "tr": "Прилёт делегации в первой половине дня, трансфер, короткое заселение — программа стартует в день прилёта."
    },
    {
     "day": 2,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "apple-me",
+     "majid-al-futtaim"
+    ]
    },
    {
     "day": 3,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "ikea-me-al-futtaim",
+     "landmark-group"
+    ]
    },
    {
     "day": 4,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "chalhoub-group",
+     "careem"
+    ]
    },
    {
     "day": 5,
-    "city": "dubai"
+    "city": "dubai",
+    "ru": "Дубай",
+    "area": "",
+    "time": "10:00–13:00",
+    "co": [
+     "instashop",
+     "lvmh-me"
+    ]
    }
   ]
  },
@@ -3257,29 +5764,71 @@
    "SF Express / S.F. Holding"
   ],
   "startDate": null,
+  "arrival": "Пекин (перелёт Москва → Пекин)",
+  "departure": "Шэньчжэнь (SZX) — вылет утром 6-го дня.",
   "route": [
    {
     "day": 1,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "Пекин",
+    "time": "09:00–17:00",
+    "co": [
+     "sinotrans",
+     "jd-logistics",
+     "china-railway-express"
+    ],
+    "tr": "Прилёт делегации, трансфер, заселение, брифинг — программа стартует в день прилёта."
    },
    {
     "day": 2,
     "city": "shanghai",
-    "leg": "flight"
+    "ru": "Шанхай",
+    "area": "Шанхай",
+    "time": "09:00–17:00",
+    "co": [
+     "cosco-shipping"
+    ],
+    "leg": "flight",
+    "tr": "✈ Утренний перелёт Пекин → Шанхай (~2,5 ч)"
    },
    {
     "day": 3,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Шанхай",
+    "time": "09:00–17:00",
+    "co": [
+     "zto-express",
+     "yto-express",
+     "sto-express"
+    ]
    },
    {
     "day": 4,
     "city": "hangzhou",
-    "leg": "train"
+    "ru": "Ханчжоу",
+    "area": "Шанхай / Ханчжоу",
+    "time": "09:00–17:00",
+    "co": [
+     "deppon-logistics",
+     "cainiao"
+    ],
+    "leg": "train",
+    "tr": "🚄 Скоростной поезд Шанхай → Ханчжоу (~1 ч), в середине дня"
    },
    {
     "day": 5,
     "city": "shenzhen",
-    "leg": "flight"
+    "ru": "Шэньчжэнь",
+    "area": "Шэньчжэнь",
+    "time": "09:00–17:00",
+    "co": [
+     "sf-express"
+    ],
+    "leg": "flight",
+    "tr": "✈ Утренний перелёт Ханчжоу → Шэньчжэнь (~2,5–3 ч). Утро 6-го дня — вылет из Шэньчжэня (SZX).",
+    "note": "Завершение экспедиции"
    }
   ]
  },
@@ -3308,26 +5857,63 @@
    "ExxonMobil Huizhou"
   ],
   "startDate": null,
+  "arrival": "Чжаньцзян (перелёт Москва → Чжаньцзян, возможен через Гуанчжоу/Шэньчжэнь)",
+  "departure": "Гуанчжоу или Шэньчжэнь (→ Москва)",
   "route": [
    {
     "day": 1,
-    "city": "zhanjiang"
+    "city": "zhanjiang",
+    "ru": "Чжаньцзян",
+    "area": "о. Дунхай",
+    "time": "10:00–17:00",
+    "co": [
+     "sinopec-zhongke-guangdong"
+    ],
+    "tr": "Встреча в аэропорту Чжаньцзян Учуань, трансфер в отель, обед. После обеда — визит."
    },
    {
     "day": 2,
-    "city": "zhanjiang"
+    "city": "zhanjiang",
+    "ru": "Маомин",
+    "area": "Чжаньцзян / Маомин",
+    "time": "09:00–17:00",
+    "co": [
+     "basf-zhanjiang",
+     "sinopec-maoming"
+    ],
+    "tr": "Утро — визит в Чжаньцзяне. Переезд на авто в Маомин (~1,5 ч), визит после обеда."
    },
    {
     "day": 3,
-    "city": "guangzhou"
+    "city": "guangzhou",
+    "ru": "Гуанчжоу",
+    "area": "р-н Хуанпу",
+    "time": "10:00–17:00",
+    "co": [
+     "guangzhou-petrochemical"
+    ],
+    "tr": "Переезд на авто в Гуанчжоу (~4 ч). По прибытии — визит."
    },
    {
     "day": 4,
-    "city": "huizhou"
+    "city": "huizhou",
+    "ru": "Хуэйчжоу",
+    "area": "промзона Даявань",
+    "time": "09:00–17:00",
+    "co": [
+     "cspc-cnooc-shell",
+     "exxonmobil-huizhou"
+    ],
+    "tr": "Переезд на авто в Хуэйчжоу (~1,5 ч). Два визита в один день — оптимальная логистика."
    },
    {
     "day": 5,
-    "city": "huizhou"
+    "city": "huizhou",
+    "ru": "Хуэйчжоу",
+    "area": "",
+    "time": "утро",
+    "co": [],
+    "note": "Трансфер в аэропорт Гуанчжоу или Шэньчжэня (~1,5–2 ч), вылет."
    }
   ]
  },
@@ -3358,27 +5944,65 @@
    "China Tianying"
   ],
   "startDate": null,
+  "arrival": "Шэньчжэнь (перелёт Москва → Шэньчжэнь)",
+  "departure": "Наньтун или Шанхай (→ Москва)",
   "route": [
    {
     "day": 1,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "",
+    "time": "10:00–17:00",
+    "co": [
+     "gem-co"
+    ],
+    "tr": "Встреча в аэропорту, трансфер в отель, обед. После обеда — визит."
    },
    {
     "day": 2,
-    "city": "foshan"
+    "city": "foshan",
+    "ru": "Фошань",
+    "area": "парк «Яньтянь»",
+    "time": "09:00–17:00",
+    "co": [
+     "shenzhen-energy-environmental",
+     "grandblue-environment"
+    ],
+    "tr": "Утро — визит в парке «Яньтянь» (Шэньчжэнь). Переезд в Фошань (~1 ч), визит после обеда."
    },
    {
     "day": 3,
     "city": "guangzhou",
-    "leg": "flight"
+    "ru": "Шанхай",
+    "area": "дельта Жемчужной реки",
+    "time": "10:00–17:00",
+    "co": [
+     "china-everbright-environment"
+    ],
+    "leg": "flight",
+    "tr": "Утро — визит на представительный проект в дельте Жемчужной реки (точный объект уточняется по согласованию). После обеда — перелёт в Шанхай."
    },
    {
     "day": 4,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Хайань",
+    "area": "«Лаоган»",
+    "time": "09:00–17:00",
+    "co": [
+     "shanghai-environment-group"
+    ],
+    "tr": "Утро — визит на комплекс «Лаоган». После обеда — переезд в Хайань, пров. Цзянсу (~3 ч)."
    },
    {
     "day": 5,
-    "city": "haian"
+    "city": "haian",
+    "ru": "Наньтун",
+    "area": "",
+    "time": "утро",
+    "co": [
+     "china-tianying"
+    ],
+    "note": "Визит, затем трансфер в аэропорт Наньтун (~40 мин) либо обратно в Шанхай, вылет."
    }
   ]
  },
@@ -3408,28 +6032,66 @@
    "Zhejiang Huace Film & TV"
   ],
   "startDate": null,
+  "arrival": "Пекин (перелёт Москва → Пекин)",
+  "departure": "Шанхай (→ Москва)",
   "route": [
    {
     "day": 1,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "",
+    "time": "10:00–20:00",
+    "co": [
+     "china-film-group",
+     "youku"
+    ],
+    "tr": "Утренний прилёт, трансфер в отель, обед. После обеда — визит на CFGC. Вечером — визит на Youku (р-н Чаоян, Ванцзин)."
    },
    {
     "day": 2,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "р-н Чаоян",
+    "time": "10:00–17:00",
+    "co": [
+     "bona-film-group",
+     "huayi-brothers"
+    ]
    },
    {
     "day": 3,
     "city": "shanghai",
-    "leg": "flight"
+    "ru": "Шанхай",
+    "area": "р-н Чаоян",
+    "time": "10:00–17:00",
+    "co": [
+     "iqiyi"
+    ],
+    "leg": "flight",
+    "tr": "Утро — визит на iQiyi (сервис Baidu). После обеда — перелёт в Шанхай (~2,5 ч)."
    },
    {
     "day": 4,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "",
+    "time": "10:00–17:00",
+    "co": [
+     "shanghai-film-group",
+     "tencent-penguin-pictures"
+    ]
    },
    {
     "day": 5,
     "city": "hangzhou",
-    "leg": "train"
+    "ru": "Ханчжоу",
+    "area": "творческий парк Сиси",
+    "time": "10:00–19:00",
+    "co": [
+     "zhejiang-huace"
+    ],
+    "leg": "train",
+    "tr": "Утро — поездка в Ханчжоу на скоростном поезде (~1 ч), визит. Возвращение в Шанхай, трансфер в аэропорт, вылет не ранее 19:00–20:00."
    }
   ]
  },
@@ -3460,30 +6122,68 @@
    "Urban Revivo (UR)"
   ],
   "startDate": null,
+  "arrival": "Пекин (перелёт Москва → Пекин)",
+  "departure": "Гуанчжоу (→ Москва)",
   "route": [
    {
     "day": 1,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "р-н Тунчжоу",
+    "time": "10:00–17:00",
+    "co": [
+     "li-ning"
+    ],
+    "tr": "Встреча в аэропорту, трансфер в отель, обед. После обеда — визит."
    },
    {
     "day": 2,
     "city": "shanghai",
-    "leg": "flight"
+    "ru": "Шанхай",
+    "area": "р-н Сихунцяо",
+    "time": "10:00–17:00",
+    "co": [
+     "anta-sports"
+    ],
+    "leg": "flight",
+    "tr": "Утренний перелёт в Шанхай (~2,5 ч). После обеда — визит на глобальную розничную штаб-квартиру Anta."
    },
    {
     "day": 3,
     "city": "changshu",
-    "leg": "train"
+    "ru": "Чаншу",
+    "area": "",
+    "time": "10:00–17:00",
+    "co": [
+     "bosideng"
+    ],
+    "leg": "train",
+    "tr": "Поездка в Чаншу на скоростном поезде (~1 ч), визит. Возвращение в Шанхай во второй половине дня."
    },
    {
     "day": 4,
     "city": "ningbo",
-    "leg": "train"
+    "ru": "Нинбо",
+    "area": "",
+    "time": "09:00–17:00",
+    "co": [
+     "jnby",
+     "peacebird"
+    ],
+    "leg": "train",
+    "tr": "Утро — поездка в Ханчжоу (~1 ч), визит на JNBY. После обеда — переезд в Нинбо (~1,5 ч), визит на Peacebird."
    },
    {
     "day": 5,
     "city": "guangzhou",
-    "leg": "flight"
+    "ru": "Гуанчжоу",
+    "area": "р-н Байюнь",
+    "time": "10:00–17:00",
+    "co": [
+     "urban-revivo"
+    ],
+    "leg": "flight",
+    "note": "Перелёт в Гуанчжоу (~2,5 ч), визит на штаб-квартиру Urban Revivo. Трансфер в аэропорт, вылет."
    }
   ]
  },
@@ -3514,29 +6214,69 @@
    "East Money Information"
   ],
   "startDate": null,
+  "arrival": "Пекин (перелёт Москва → Пекин)",
+  "departure": "Шанхай (→ Москва)",
   "route": [
    {
     "day": 1,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "",
+    "time": "10:00–20:00",
+    "co": [
+     "jd-digits",
+     "du-xiaoman"
+    ],
+    "tr": "Встреча в аэропорту, трансфер в отель, обед. После обеда — визит на JD Digits (р-н Ичжуан). Вечером — визит на Du Xiaoman Financial (р-н Хайдянь)."
    },
    {
     "day": 2,
     "city": "shenzhen",
-    "leg": "flight"
+    "ru": "Шэньчжэнь",
+    "area": "р-н Наньшань",
+    "time": "10:00–17:00",
+    "co": [
+     "tencent"
+    ],
+    "leg": "flight",
+    "tr": "Утренний перелёт в Шэньчжэнь. После обеда — визит на штаб-квартиру Tencent (р-н Наньшань)."
    },
    {
     "day": 3,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "р-н Наньшань",
+    "time": "09:00–17:00",
+    "co": [
+     "oneconnect",
+     "lexinfintech"
+    ],
+    "note": "Утро — визит на OneConnect (金融壹账通). После обеда — визит на LexinFintech (乐信, р-н Наньшань)."
    },
    {
     "day": 4,
     "city": "hangzhou",
-    "leg": "flight"
+    "ru": "Ханчжоу",
+    "area": "«Муравьиное Z-пространство», р-н Сиху",
+    "time": "10:00–17:00",
+    "co": [
+     "ant-group"
+    ],
+    "leg": "flight",
+    "tr": "Перелёт в Ханчжоу (~2,5 ч). Визит на штаб-квартиру Ant Group."
    },
    {
     "day": 5,
     "city": "shanghai",
-    "leg": "train"
+    "ru": "Шанхай",
+    "area": "",
+    "time": "10:00–19:00",
+    "co": [
+     "lufax",
+     "east-money-information"
+    ],
+    "leg": "train",
+    "note": "Утренняя поездка в Шанхай на скоростном поезде (~1 ч). Визиты на Lufax (陆金所) и East Money Information (东方财富). Трансфер в аэропорт, вылет не ранее 19:00."
    }
   ]
  },
@@ -3566,29 +6306,68 @@
    "BTG Hotels Group"
   ],
   "startDate": null,
+  "arrival": "Шанхай (прилёт, Pudong / Hongqiao)",
+  "departure": "Пекин (вылет из аэропорта Beijing Capital / Daxing)",
   "route": [
    {
     "day": 1,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Шанхай",
+    "time": "10:00–16:00",
+    "co": [
+     "jin-jiang-international",
+     "h-world-group"
+    ],
+    "note": "Блок «Государственные и биржевые гостиничные гиганты Шанхая»"
    },
    {
     "day": 2,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Шанхай",
+    "time": "10:00–16:00",
+    "co": [
+     "greentree-hospitality",
+     "atour-yaduo-group"
+    ],
+    "note": "Ночёвка в Шанхае"
    },
    {
     "day": 3,
     "city": "hangzhou",
-    "leg": "train"
+    "ru": "Ханчжоу",
+    "area": "Ханчжоу",
+    "time": "14:00–16:00",
+    "co": [
+     "kaiyuan-hotel-group"
+    ],
+    "leg": "train",
+    "tr": "🚄 Утром — скоростной поезд Шанхай → Ханчжоу (~1 ч)"
    },
    {
     "day": 4,
     "city": "guangzhou",
-    "leg": "flight"
+    "ru": "Гуанчжоу",
+    "area": "Гуанчжоу",
+    "time": "14:00–16:00",
+    "co": [
+     "dossen-group"
+    ],
+    "leg": "flight",
+    "tr": "✈ Утром — перелёт Ханчжоу → Гуанчжоу (~2 ч)"
    },
    {
     "day": 5,
     "city": "beijing",
-    "leg": "flight"
+    "ru": "Пекин",
+    "area": "Пекин",
+    "time": "14:00–16:00",
+    "co": [
+     "btg-hotels-group"
+    ],
+    "leg": "flight",
+    "tr": "✈ Утром — перелёт Гуанчжоу → Пекин (~3 ч). Вечером — вылет из Пекина, завершение программы."
    }
   ]
  },
@@ -3616,26 +6395,64 @@
    "Tomorrow Square Shanghai (JW Marriott / Ritz-Carlton case)"
   ],
   "startDate": null,
+  "arrival": "Шанхай (прилёт, Pudong / Hongqiao), начало программы в день прилёта",
+  "departure": "Шанхай, вылет вечером 6-й ночи",
   "route": [
    {
     "day": 1,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Шанхай",
+    "time": "10:00–16:00",
+    "co": [
+     "marriott-international-china",
+     "hilton-china"
+    ],
+    "tr": "🛬 Прилёт в Шанхай, трансфер и заселение в отель — программа начинается в день прилёта"
    },
    {
     "day": 2,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Пудун",
+    "time": "10:00–16:00",
+    "co": [
+     "ihg-greater-china",
+     "accor-china"
+    ],
+    "note": "Региональный офис IHG находится в Пудуне"
    },
    {
     "day": 3,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Шанхай",
+    "time": "10:00–16:00",
+    "co": [
+     "hyatt-greater-china",
+     "wyndham-china"
+    ]
    },
    {
     "day": 4,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Бунд / Народная площадь",
+    "time": "10:00–16:00",
+    "co": [
+     "waldorf-astoria-shanghai-bund",
+     "jw-marriott-ritz-carlton-tomorrow-square"
+    ],
+    "note": "Кейс: визиты на объекты — Waldorf Astoria Shanghai on the Bund и комплекс Tomorrow Square, иллюстрирующие позиционирование и операционную модель люксовых брендов в знаковых зданиях Шанхая"
    },
    {
     "day": 5,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Шанхай",
+    "time": "10:00–13:00",
+    "co": [],
+    "note": "Формат: круглый стол — «Локализация глобального стандарта в Китае» в первой половине дня; вторая половина дня — резерв на логистику/индивидуальные встречи"
    }
   ]
  },
@@ -3662,26 +6479,64 @@
    "The Murray, a Niccolo Hotel Hong Kong"
   ],
   "startDate": null,
+  "arrival": "Гонконг (прилёт, аэропорт Hong Kong International), начало программы в день прилёта",
+  "departure": "Гонконг, вылет вечером 6-й ночи",
   "route": [
    {
     "day": 1,
-    "city": "hongkong"
+    "city": "hongkong",
+    "ru": "Гонконг",
+    "area": "Гонконг",
+    "time": "10:00–16:00",
+    "co": [
+     "hsh-peninsula-hongkong",
+     "mandarin-oriental-hotel-group"
+    ],
+    "tr": "🛬 Прилёт в Гонконг, трансфер и заселение в отель — программа начинается в день прилёта"
    },
    {
     "day": 2,
-    "city": "hongkong"
+    "city": "hongkong",
+    "ru": "Гонконг",
+    "area": "Куорри-Бей",
+    "time": "10:00–16:00",
+    "co": [
+     "rosewood-hotel-group",
+     "shangri-la-asia"
+    ],
+    "note": "Утренний визит — штаб-квартира Rosewood Hotel Group в Куорри-Бей"
    },
    {
     "day": 3,
-    "city": "hongkong"
+    "city": "hongkong",
+    "ru": "Гонконг",
+    "area": "Гонконг",
+    "time": "10:00–16:00",
+    "co": [
+     "langham-hospitality-great-eagle",
+     "wharf-hotels"
+    ]
    },
    {
     "day": 4,
-    "city": "hongkong"
+    "city": "hongkong",
+    "ru": "Гонконг",
+    "area": "Центральный район",
+    "time": "10:00–16:00",
+    "co": [
+     "rosewood-hotel-group",
+     "the-murray-niccolo-hongkong"
+    ],
+    "note": "Архитектурно-дизайнерский тур: визиты на объекты Rosewood Hong Kong (Victoria Dockside) и The Murray — конверсия исторического Murray Building в люксовый отель, — иллюстрирующие язык дизайна и позиционирование люксовых брендов"
    },
    {
     "day": 5,
-    "city": "hongkong"
+    "city": "hongkong",
+    "ru": "Гонконг",
+    "area": "Гонконг",
+    "time": "10:00–13:00",
+    "co": [],
+    "note": "Формат: закрытая сессия — встреча с представителями семейных гостиничных конгломератов Гонконга в первой половине дня (по подтверждению); вторая половина дня — свободный день/резерв"
    }
   ]
  },
@@ -3712,28 +6567,69 @@
    "Maxim's Cakes"
   ],
   "startDate": null,
+  "arrival": "Пекин (перелёт Москва → Пекин)",
+  "departure": "Гуанчжоу (→ Москва)",
   "route": [
    {
     "day": 1,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "Пекин",
+    "time": "10:30–16:30",
+    "co": [
+     "holiland",
+     "wedome"
+    ],
+    "note": "Лидеры рынка тортов и десертов"
    },
    {
     "day": 2,
     "city": "beijing",
-    "leg": "flight"
+    "ru": "Шанхай",
+    "area": "Пекин",
+    "time": "09:30–11:30",
+    "co": [
+     "21cake"
+    ],
+    "leg": "flight",
+    "tr": "✈ ~15:00 → Шанхай (или 🚆 скоростной поезд, 4,5–5,5 ч)"
    },
    {
     "day": 3,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Шанхай",
+    "time": "09:30–16:00",
+    "co": [
+     "ganso",
+     "lecake"
+    ],
+    "note": "Подарочная и премиальная кондитерка"
    },
    {
     "day": 4,
     "city": "shanghai",
-    "leg": "flight"
+    "ru": "Шанхай",
+    "area": "Шанхай",
+    "time": "09:30–11:30",
+    "co": [
+     "85c"
+    ],
+    "leg": "flight",
+    "tr": "✈ ~16:00 → Шэньчжэнь"
    },
    {
     "day": 5,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Цзянмэнь",
+    "area": "Шэньчжэнь · Цзянмэнь, фабрика Maxim's",
+    "time": "09:30–17:00",
+    "co": [
+     "xingfu-xibing",
+     "maxims-cakes"
+    ],
+    "tr": "🚗 ~13:00 → Цзянмэнь (~2 ч), вечером 🚗 → Гуанчжоу (~1,5 ч)",
+    "note": "Завершение экспедиции"
    }
   ]
  },
@@ -3766,29 +6662,71 @@
    "BrainCo"
   ],
   "startDate": null,
+  "arrival": "Пекин (перелёт Москва → Пекин)",
+  "departure": "Шэньчжэнь (→ Москва)",
   "route": [
    {
     "day": 1,
-    "city": "beijing"
+    "city": "beijing",
+    "ru": "Пекин",
+    "area": "Хайдянь",
+    "time": "10:00–17:00",
+    "co": [
+     "zhipu-ai",
+     "moonshot-ai-kimi",
+     "kuaishou"
+    ],
+    "note": "LLM и генеративное видео — Kimi, GLM, Kling"
    },
    {
     "day": 2,
     "city": "beijing",
-    "leg": "flight"
+    "ru": "Пекин",
+    "area": "Пекин",
+    "time": "09:30–16:00",
+    "co": [
+     "bytedance",
+     "baidu"
+    ],
+    "leg": "flight",
+    "tr": "✈ ~19:30 → Шанхай"
    },
    {
     "day": 3,
     "city": "shanghai",
-    "leg": "train"
+    "ru": "Ханчжоу",
+    "area": "Шанхай",
+    "time": "10:00–12:00",
+    "co": [
+     "sensetime"
+    ],
+    "leg": "train",
+    "tr": "🚆 ~14:30 → Ханчжоу (~1 ч)"
    },
    {
     "day": 4,
     "city": "hangzhou",
-    "leg": "flight"
+    "ru": "Ханчжоу",
+    "area": "Кампус Alibaba Сиси (Юйхан)",
+    "time": "09:30–16:00",
+    "co": [
+     "alibaba",
+     "deepseek"
+    ],
+    "leg": "flight",
+    "tr": "✈ ~20:00 (HGH) → Шэньчжэнь"
    },
    {
     "day": 5,
-    "city": "shenzhen"
+    "city": "shenzhen",
+    "ru": "Шэньчжэнь",
+    "area": "Наньшань",
+    "time": "09:30–16:00",
+    "co": [
+     "tencent",
+     "brainco"
+    ],
+    "note": "Завершение экспедиции"
    }
   ]
  },
@@ -3816,30 +6754,67 @@
    "Bright Dairy"
   ],
   "startDate": null,
+  "arrival": "Хух-Хото (вечерний прилёт, аэропорт Байта)",
+  "departure": "Шанхай (вылет из аэропорта Пудун утром после 6-й ночи)",
   "route": [
    {
     "day": 1,
-    "city": "hohhot"
+    "city": "hohhot",
+    "ru": "Хух-Хото",
+    "area": "Флагман жидкого молока Yili",
+    "time": "10:00–13:00",
+    "co": [
+     "yili"
+    ],
+    "tr": "✈ Вечером — перелёт Хух-Хото → Иньчуань (~1–1,5 ч). Ночёвка в Иньчуане"
    },
    {
     "day": 2,
     "city": "yinchuan",
-    "leg": "flight"
+    "ru": "Иньчуань",
+    "area": "«Маяковая фабрика» WEF",
+    "time": "10:00–13:00",
+    "co": [
+     "mengniu"
+    ],
+    "leg": "flight",
+    "tr": "✈ Вечером — перелёт Иньчуань → Ухань (~2,5 ч). Ночёвка в Ухане"
    },
    {
     "day": 3,
     "city": "wuhan",
-    "leg": "flight"
+    "ru": "Ухань",
+    "area": "Крупнейший в мире завод йогуртов",
+    "time": "10:00–13:00",
+    "co": [
+     "mengniu"
+    ],
+    "leg": "flight",
+    "tr": "🚄 Днём — скоростной поезд Ухань → Нанкин (~3 ч). Ночёвка в Нанкине"
    },
    {
     "day": 4,
     "city": "nanjing",
-    "leg": "train"
+    "ru": "Нанкин",
+    "area": "Региональный 5G-завод",
+    "time": "10:00–13:00",
+    "co": [
+     "weigang-dairy"
+    ],
+    "leg": "train",
+    "tr": "🚄 Днём — скоростной поезд Нанкин → Шанхай (~1–1,5 ч). Ночёвка в Шанхае"
    },
    {
     "day": 5,
     "city": "shanghai",
-    "leg": "train"
+    "ru": "Шанхай",
+    "area": "Крупнейший в мире завод охлаждённой продукции",
+    "time": "10:00–13:00",
+    "co": [
+     "bright-dairy"
+    ],
+    "leg": "train",
+    "note": "Завершение программы. Ночёвка в Шанхае, вылет на следующее утро из аэропорта Пудун"
    }
   ]
  },
@@ -3869,40 +6844,88 @@
    "Sciwind"
   ],
   "startDate": null,
+  "arrival": "Шанхай (вечерний прилёт, Пудун / Хунцяо)",
+  "departure": "Шанхай (аэропорт Пудун), утром после 6-й ночи",
   "route": [
    {
     "day": 0,
-    "city": "shanghai"
+    "city": "shanghai",
+    "ru": "Шанхай",
+    "area": "Прибытие делегации",
+    "time": "вечер",
+    "co": [],
+    "note": "Вечерний прилёт в Шанхай (Пудун / Хунцяо), встреча, трансфер и заселение. Брифинг: рынок GLP-1 в Китае после окончания патента на семаглутид, как устроены оригинаторы, дженерики и CDMO. Ночёвка в Шанхае"
    },
    {
     "day": 1,
     "city": "changzhou",
-    "leg": "train"
+    "ru": "Чанчжоу",
+    "area": "Фабрика пептидов для мировых брендов",
+    "time": "10:00–13:00",
+    "co": [
+     "wuxi-apptec"
+    ],
+    "leg": "train",
+    "tr": "🚄 Утром — скоростной поезд Шанхай → Чанчжоу (~1 ч). 🚄 Вечером — Чанчжоу → Сучжоу (~30 мин). Ночёвка в Сучжоу"
    },
    {
     "day": 2,
     "city": "suzhou",
-    "leg": "train"
+    "ru": "Сучжоу",
+    "area": "Собственный китайский GLP-1",
+    "time": "10:00–13:00",
+    "co": [
+     "innovent"
+    ],
+    "leg": "train",
+    "tr": "🚄 Вечером — скоростной поезд Сучжоу → Ханчжоу (~1,5 ч). Ночёвка в Ханчжоу"
    },
    {
     "day": 3,
     "city": "hangzhou",
-    "leg": "train"
+    "ru": "Ханчжоу",
+    "area": "Дженерики семаглутида: два подхода",
+    "time": "10:00–17:30",
+    "co": [
+     "huadong-medicine",
+     "jiuyuan-gene"
+    ],
+    "leg": "train",
+    "note": "10:00–13:00 — Huadong Medicine, 15:00–17:30 — Jiuyuan Gene. Ночёвка в Ханчжоу"
    },
    {
     "day": 4,
     "city": "taizhou",
-    "leg": "train"
+    "ru": "Тайчжоу",
+    "area": "Быстрорастущая CDMO нового поколения",
+    "time": "11:00–14:00",
+    "co": [
+     "langhua"
+    ],
+    "leg": "train",
+    "tr": "🚄 Утром — Ханчжоу → Тайчжоу (~1,5–2 ч). 🚄 Вечером — возвращение в Ханчжоу. Ночёвка в Ханчжоу"
    },
    {
     "day": 5,
     "city": "hangzhou",
-    "leg": "train"
+    "ru": "Ханчжоу",
+    "area": "Оригинальный GLP-1 с глобальным партнёром",
+    "time": "10:00–13:00",
+    "co": [
+     "sciwind"
+    ],
+    "leg": "train",
+    "tr": "15:00 — итоговая сессия: «оригинатор / дженерик / CDMO». 🚄 Вечером — скоростной поезд Ханчжоу → Шанхай (~1 ч), прощальный ужин на набережной Вайтань. Ночёвка в Шанхае"
    },
    {
     "day": 6,
     "city": "shanghai",
-    "leg": "train"
+    "ru": "Шанхай",
+    "area": "Вылет делегации",
+    "time": "утро",
+    "co": [],
+    "leg": "train",
+    "note": "Завершение программы. Трансфер в аэропорт Пудун, вылет в Москву"
    }
   ]
  }

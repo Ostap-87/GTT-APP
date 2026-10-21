@@ -18,8 +18,15 @@ const CO_COLORS = ['#1a73e8', '#e8590c', '#2b8a3e', '#7048e8', '#c2255c', '#0c85
 const DEAL_COLOR = '#0f1b2d';
 
 /** В какой день поездки визит (по расписанию). */
-export const VISIT_DAY: Record<string, number> = Object.fromEntries(VISITS.map((v) => [v.id, DAYS.findIndex((_, i) => dayEvents(i).some((e) => e.kind === 'co' && e.name === v.name))]));
-export const DAYS_WITH_VISITS = DAYS.map((_, i) => i).filter((i) => VISITS.some((v) => VISIT_DAY[v.id] === i));
+export const VISIT_DAY: Record<string, number> = {};
+export const DAYS_WITH_VISITS: number[] = [];
+/** Пересчитать дни визитов — при запуске и после смены программы в демо (data/active.ts). */
+export function refreshMind() {
+  for (const k of Object.keys(VISIT_DAY)) delete VISIT_DAY[k];
+  for (const v of VISITS) VISIT_DAY[v.id] = DAYS.findIndex((_, i) => dayEvents(i).some((e) => e.kind === 'co' && e.name === v.name));
+  DAYS_WITH_VISITS.splice(0, DAYS_WITH_VISITS.length, ...DAYS.map((_, i) => i).filter((i) => VISITS.some((v) => VISIT_DAY[v.id] === i)));
+}
+refreshMind();
 export const dayLabel = (i: number) => `${DAYS[i].wd}, ${DAYS[i].n} ноября`;
 export const visitName = (id: string) => VISITS.find((v) => v.id === id)?.name || id;
 

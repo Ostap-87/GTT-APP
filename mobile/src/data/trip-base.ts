@@ -1,5 +1,6 @@
 // Тестовая поездка «Новый ритейл Китая», 9–14 ноября 2026 — из кликабельного прототипа (design/prototype/index.html).
 // Все делегаты вымышленные; отели, рестораны, погода и телефоны — примеры. В приложении данные придут с сервера.
+// Массивы и словари поездки меняются на месте, когда в демо выбирают другую программу (data/active.ts).
 
 export type Delegate = { id: string; ru: string; lat: string; roleRu: string; roleZh: string; roleEn: string; coRu: string; coZh: string; coEn: string; cityRu: string; cityZh: string; cityEn: string; ind: string };
 export type Hotel = { name: string; city: string; addrZh: string; addrRu: string; addrEn: string; nights: string; phone: string; desc: string };
@@ -28,12 +29,13 @@ const ROWS: string[][] = [
   ];
 export const DELEGATES: Delegate[] = ROWS.map((r) => ({ id: r[0], ru: r[1], lat: r[2], roleRu: r[3], roleZh: r[4], roleEn: r[5], coRu: r[6], coZh: r[7], coEn: r[8], cityRu: r[9], cityZh: r[10], cityEn: r[11], ind: r[12] }));
 export const ME = DELEGATES[0];
-export const DAYS = [
+export type Weather = { icon: 'sun' | 'cloud' | 'rain'; max: string; min: string; text: string };
+export const DAYS: { wd: string; n: number; city: string }[] = [
     { wd: 'Пн', n: 9, city: 'Пекин' }, { wd: 'Вт', n: 10, city: 'Пекин' }, { wd: 'Ср', n: 11, city: 'Шанхай' },
     { wd: 'Чт', n: 12, city: 'Шанхай' }, { wd: 'Пт', n: 13, city: 'Ханчжоу' }, { wd: 'Сб', n: 14, city: 'Шэньчж.' },
   ];
 export const CITY = ['Пекин', 'Пекин', 'Шанхай', 'Шанхай', 'Ханчжоу', 'Шэньчжэнь'];
-export const WEATHER: { icon: 'sun' | 'cloud' | 'rain'; max: string; min: string; text: string }[] = [
+export const WEATHER: Weather[] = [
     { icon: 'sun', max: '+13°', min: '+3°', text: 'Ясно, ветер 3 м/с' },
     { icon: 'sun', max: '+12°', min: '+2°', text: 'Солнечно и сухо' },
     { icon: 'cloud', max: '+18°', min: '+12°', text: 'Облачно' },
@@ -47,6 +49,8 @@ export const HOTELS: Record<string, Hotel> = {
     shenzhen: { name: 'Отель в районе Футянь', city: 'Шэньчжэнь', addrZh: '深圳市福田区', addrRu: 'Шэньчжэнь, район Футянь', addrEn: 'Futian District, Shenzhen', nights: '13–14 ноября · 1 ночь', phone: '+86 755 0000 0000', desc: 'Заезд около 21:00 после перелёта, завтрак 06:30–10:00. Выезд 14 ноября до 12:00, багаж можно оставить у стойки.' },
   };
 export const HOTEL_BY_DAY: (string | null)[] = ['beijing', 'beijing', 'shanghai', 'shanghai', 'shenzhen', null];
+/** Примечания программы по дням (прилёт, «по согласованию» и т. п.) — у программ с сайта; в подробном демо пусто. */
+export const DAY_NOTES: string[] = ['', '', '', '', '', ''];
 export const MEALS: Record<string, Meal> = {
     'm-mon-d': { title: 'Приветственный ужин', when: 'Пн, 9 ноября · 19:30', place: 'Ресторан пекинской кухни', addrZh: '北京市东城区（地址见预订）', cuisine: 'Пекинская утка, холодные закуски, овощи на воке.', options: ['Классическое меню', 'Вегетарианское', 'Без свинины'] },
     'm-tue-l': { title: 'Обед', when: 'Вт, 10 ноября · 13:00', place: 'Ресторан кантонской кухни рядом с JD.com', addrZh: '北京市大兴区（地址见预订）', cuisine: 'Димсамы, рис с овощами, суп дня.', options: ['Классическое меню', 'Вегетарианское', 'Без морепродуктов'] },

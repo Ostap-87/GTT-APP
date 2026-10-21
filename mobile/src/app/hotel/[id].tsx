@@ -18,11 +18,13 @@ export default function HotelScreen() {
         <T>{h.desc}</T>
       </Card>
       <Address3 zh={h.addrZh} ru={h.addrRu} en={h.addrEn} />
-      <Card>
-        <H3>Телефон отеля</H3>
-        <T>{h.phone} (пример)</T>
-        <Button title="Позвонить" kind="ghost" icon="phone" onPress={() => Linking.openURL(`tel:${h.phone.replace(/\s/g, '')}`)} />
-      </Card>
+      {h.phone ? (
+        <Card>
+          <H3>Телефон отеля</H3>
+          <T>{h.phone} (пример)</T>
+          <Button title="Позвонить" kind="ghost" icon="phone" onPress={() => Linking.openURL(`tel:${h.phone.replace(/\s/g, '')}`)} />
+        </Card>
+      ) : null}
     </Plain>
   );
 }

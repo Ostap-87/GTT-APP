@@ -7,6 +7,7 @@ import { Linking, Text, View } from 'react-native';
 import catalog from '@/data/catalog.json';
 import { COUNTRY_RU, plural } from '@/data/catalog-meta';
 import { programRoute } from '@/data/map-route';
+import { useOpenDemo } from '@/state/reset';
 import { Button, Card, Chip, H3, Plain, T } from '@/ui/kit';
 import { RouteMap } from '@/ui/RouteMap';
 import { C, F } from '@/ui/theme';
@@ -17,6 +18,7 @@ export default function Program() {
   const route = useMemo(() => programRoute(t?.route || []), [t]);
   const [boxW, setBoxW] = useState(0);
   const [shown, setShown] = useState(99);
+  const openDemo = useOpenDemo();
   if (!t) return <Plain><T>Программа не найдена</T></Plain>;
   return (
     <Plain>
@@ -45,6 +47,11 @@ export default function Program() {
             route.legs.forEach((_, i) => setTimeout(() => setShown(i + 1), 400 + i * 1600));
           }} />
         ) : null}
+      </Card>
+      <Card tone="accent">
+        <H3>Как это увидит делегат</H3>
+        <T>Поездка по этой программе в приложении: «Сегодня», план по дням с визитами и переездами, маршрут на карте, справки о компаниях, памятка по стране.</T>
+        <Button title="Посмотреть как делегат" icon="suitcase" onPress={() => { openDemo(t.id); setTimeout(() => router.replace('/trip'), 50); }} />
       </Card>
       <Card onPress={() => router.push({ pathname: '/country/[code]', params: { code: t.country } })} label={`Памятка: ${COUNTRY_RU[t.country]}`}>
         <T>{`Памятка: ${COUNTRY_RU[t.country]} — валюта, оплата, связь, розетки, приложения, фразы`}</T>

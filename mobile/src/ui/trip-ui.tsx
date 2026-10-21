@@ -3,7 +3,8 @@ import * as Clipboard from 'expo-clipboard';
 import { router } from 'expo-router';
 import { Linking, Platform, Pressable, Text, View } from 'react-native';
 
-import type { TripEvent } from '@/data/trip';
+import { countryOf } from '@/data/countries';
+import { TRIP, type TripEvent } from '@/data/trip';
 import { VISITS } from '@/data/group';
 import { useToast } from '@/state/toast';
 import { Icon } from './Icon';
@@ -35,9 +36,11 @@ export function Address3({ zh, ru, en, note }: { zh: string; ru: string; en: str
     try { await Clipboard.setStringAsync(text); } catch { /* буфер недоступен — достаточно сообщения */ }
     toast('Адрес скопирован');
   };
+  const cn = TRIP.country === 'cn';
   const openMaps = () => {
-    const q = encodeURIComponent(zh);
-    // Amap (高德) — карты, которые работают в Китае; Google Карты там заблокированы
+    const q = encodeURIComponent(zh || en || ru);
+    // Amap (高德) — карты, которые работают в Китае; Google Карты там заблокированы. В остальных странах — Google Карты
+    if (!cn) { Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${q}`); return; }
     Linking.openURL(Platform.OS === 'ios' ? `iosamap://poi?sourceApplication=gtt&name=${q}` : `https://uri.amap.com/search?keyword=${q}`)
       .catch(() => Linking.openURL(`https://uri.amap.com/search?keyword=${q}`));
   };
@@ -50,12 +53,12 @@ export function Address3({ zh, ru, en, note }: { zh: string; ru: string; en: str
   );
   return (
     <Card style={{ backgroundColor: C.bg }}>
-      {line('中文 · для водителя', zh, true)}
-      {line('Русский', ru)}
-      {line('English', en)}
+      {zh ? line(`${countryOf(TRIP.country).lang.self} · для водителя`, zh, true) : null}
+      {ru ? line('Русский', ru) : null}
+      {en ? line('English', en) : null}
       {note ? <Text style={kit.muted}>{note}</Text> : null}
-      <Button title="Показать водителю" full onPress={() => router.push({ pathname: '/driver', params: { zh, ru } })} />
-      <Button title="Открыть в картах (Amap)" kind="ghost" full onPress={openMaps} />
+      {zh ? <Button title="Показать водителю" full onPress={() => router.push({ pathname: '/driver', params: { zh, ru } })} /> : null}
+      {zh || en ? <Button title={`Открыть в картах (${cn ? 'Amap' : 'Google'})`} kind="ghost" full onPress={openMaps} /> : null}
     </Card>
   );
 }

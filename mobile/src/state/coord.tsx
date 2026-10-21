@@ -2,15 +2,22 @@
 // сводки ресторанам и отелю, объявления. Профиль Анны берётся из состояния делегата — видно, как роли связаны.
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
 
-import { BASE_HISTORY, LEGS, NOT_READY, NOW, PROFILES, TEMPLATES, ALG_BY, DIET_BY, byId, fem, firstName } from '@/data/group';
+import { BASE_HISTORY, LEGS, NOT_READY, NOW, PROFILES, TEMPLATES, ALG_BY, DIET_BY, byId, fem, firstName, fromMin, toMin } from '@/data/group';
 import { algNames, foodLine, type Profile } from '@/data/profile';
-import { DELEGATES } from '@/data/trip';
+import { DELEGATES, TRIP, dayEvents } from '@/data/trip';
 import { useTrip } from '@/state/trip';
 import { useStored } from '@/state/store';
 
 export type Stage = ['invited' | 'filling' | 'ready' | 'checked', string, 'ok' | 'warn' | 'info'];
 type LegMark = { dep?: string; arr?: string };
 type Ann = { id: string; ru: string; zh: string; toD: boolean; toH: boolean; tg: boolean; time: string };
+/** Первое объявление дня: в подробном демо — перенос встречи в Meituan, у программ сайта — сбор в лобби перед выездом. */
+function firstAnn(): Ann[] {
+  if (!TRIP.programId) return [{ id: 'a0', ru: TEMPLATES[2].ru, zh: TEMPLATES[2].zh, toD: true, toH: false, tg: false, time: '08:40' }];
+  const dep = dayEvents(TRIP.today).find((e) => e.kind === 'move');
+  const at = dep ? fromMin(toMin(dep.t) - 10) : '09:00';
+  return [{ id: 'a0', ru: `Сбор в лобби отеля в ${at}, не опаздывайте.`, zh: '', toD: true, toH: false, tg: false, time: '08:10' }];
+}
 export type Followup = { id: string; company: string; typeRu: string; zh: string; consent: boolean; status: 'new' | 'sent' };
 export type Review = { id: string; text: string; video: boolean; consent: boolean; status: 'new' | 'thanked' | 'shared' };
 type FoodSum = { filled: number; dc: Record<string, number>; ac: Record<string, number>; sev: Record<string, number> };
@@ -37,7 +44,7 @@ function useCoordState() {
   const [reminded, setReminded] = useStored<Record<string, boolean>>('coord.reminded', {});
   const [notes, setNotes] = useStored<Record<string, string>>('coord.notes', {});
   const [foodSent, setFoodSent] = useStored('coord.foodSent', { at: 'вчера, 18:20', sig: SENT_SIG });
-  const [anns, setAnns] = useStored<Ann[]>('coord.anns', [{ id: 'a0', ru: TEMPLATES[2].ru, zh: TEMPLATES[2].zh, toD: true, toH: false, tg: false, time: '08:40' }]);
+  const [anns, setAnns] = useStored<Ann[]>('coord.anns', firstAnn);
   const [igorReminded, setIgorReminded] = useStored('coord.igorReminded', false);
   const [pddReminded, setPddReminded] = useStored('coord.pddReminded', false);
   const [viewing, setViewing] = useState(false);

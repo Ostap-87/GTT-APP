@@ -27,6 +27,14 @@ export async function clearStore() {
   } catch { /* нечего стирать */ }
 }
 
+/** Прочитать сохранённое вне компонентов (например, какая поездка открыта в демо). */
+export const peekStored = <T,>(key: string): T | undefined => cache.get(key) as T | undefined;
+/** Записать вне компонентов. */
+export function putStored(key: string, value: unknown) {
+  cache.set(key, value);
+  AsyncStorage.setItem(PREFIX + key, JSON.stringify(value)).catch(() => { /* нет места — останется в памяти */ });
+}
+
 /** Как useState, но значение переживает перезапуск приложения. */
 export function useStored<T>(key: string, init: T | (() => T)): [T, Dispatch<SetStateAction<T>>] {
   const [value, setValue] = useState<T>(() => (cache.has(key) ? (cache.get(key) as T) : init instanceof Function ? init() : init));

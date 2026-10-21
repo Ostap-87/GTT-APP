@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Text, View } from 'react-native';
 
 import { LEGS, diffTxt, dur, fromMin, toMin } from '@/data/group';
+import { TRIP } from '@/data/trip';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
 import { Button, Card, H3, Plain, T } from '@/ui/kit';
@@ -21,7 +22,7 @@ export default function LegTime() {
   const save = () => {
     const err = k.markLeg(L.id, isDep ? 'dep' : 'arr', t);
     if (err) return toast(err);
-    toast(isDep ? (L.id === 'l1' ? `Выехали в ${t} — JD.com и делегаты видят «в пути»` : `Выезд в ${t} записан`) : `В пути ${dur(m)} — записано в журнал`);
+    toast(isDep ? (L.id === 'l1' ? `Выехали в ${t} — ${L.to} и делегаты видят «в пути»` : `Выезд в ${t} записан`) : `В пути ${dur(m)} — записано в журнал`);
     router.back();
   };
   return (
@@ -34,7 +35,7 @@ export default function LegTime() {
           {[-5, -1, 1, 5].map((x) => <View key={x} style={{ flex: 1 }}><Button title={`${x > 0 ? '+' : '−'}${Math.abs(x)} мин`} kind="ghost" small onPress={() => setT(fromMin(toMin(t) + x))} /></View>)}
         </View>
         {isDep && L.id === 'l1' && k.missing.length ? <Card tone="warn"><T>{`В автобусе ${k.busCount} из 18 — отсутствующих можно отметить и после выезда.`}</T></Card> : null}
-        {isDep ? (L.id === 'l1' ? <T muted>JD.com увидит «代表团已出发», делегаты — «в пути».</T> : null) : <Card tone="info"><T>{`В пути ${dur(m)} · ${diffTxt(m, L.min)}`}</T></Card>}
+        {isDep ? (L.id === 'l1' ? <T muted>{`${L.to} увидит «${TRIP.country === 'cn' ? '代表团已出发' : 'Delegation is on the way'}», делегаты — «в пути».`}</T> : null) : <Card tone="info"><T>{`В пути ${dur(m)} · ${diffTxt(m, L.min)}`}</T></Card>}
       </Card>
       <Button title={isDep ? 'Отметить выезд' : 'Отметить прибытие'} onPress={save} />
       <Button title="Отмена" kind="ghost" onPress={() => router.back()} />

@@ -61,7 +61,7 @@ export function LegsCard() {
         <Card tone="info">
           <T muted>{`Дальше: выезд в ${cur.plan} · в пути ~${dur(cur.min)}`}</T>
           <Text style={{ fontFamily: F.bold, fontSize: 16, color: C.ink }}>{`${cur.from} → ${cur.to}`}</Text>
-          <Button title={`Выехали${cur.id === 'l1' ? ' — JD.com узнает' : ''}`} icon="bus" onPress={() => router.push({ pathname: '/leg', params: { id: cur.id, kind: 'dep' } })} />
+          <Button title={`Выехали${cur.id === 'l1' ? ` — ${cur.to} узнает` : ''}`} icon="bus" onPress={() => router.push({ pathname: '/leg', params: { id: cur.id, kind: 'dep' } })} />
         </Card>
       )}
       {LEGS.map((l) => {

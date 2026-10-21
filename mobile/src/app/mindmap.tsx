@@ -29,7 +29,9 @@ export default function MindMap() {
   const toast = useToast();
   const mine: MindSource[] = VISITS.map((v) => ({ visit: v.id, notes: notesOf(v.id), cards: cardsOf(v.id) }));
   const hasMine = mine.some((s) => s.notes.length || s.cards.length);
-  const [src, setSrc] = useState<'mine' | 'sample'>(hasMine ? 'mine' : 'sample');
+  // пример заметок написан под визиты подробного демо; у программ сайта его нет
+  const sampleOk = SAMPLE.some((x) => VISITS.some((v) => v.id === x.visit));
+  const [src, setSrc] = useState<'mine' | 'sample'>(hasMine || !sampleOk ? 'mine' : 'sample');
   const first = String(DAYS_WITH_VISITS.includes(TRIP.today) ? TRIP.today : DAYS_WITH_VISITS[0]);
   const [view, setView] = useState(params.day === 'trip' || DAYS_WITH_VISITS.includes(Number(params.day)) ? String(params.day) : first);
   const [zoom, setZoom] = useState<'fit' | 'big'>('fit');
@@ -72,7 +74,7 @@ export default function MindMap() {
         <Pick title="Вся поездка" on={view === 'trip'} onPress={() => setView('trip')} />
       </Chips>
 
-      <Seg options={[['mine', 'Мои заметки'], ['sample', 'Пример']] as const} value={src} onChange={setSrc} />
+      {sampleOk ? <Seg options={[['mine', 'Мои заметки'], ['sample', 'Пример']] as const} value={src} onChange={setSrc} /> : null}
       {src === 'sample' ? (
         <Card tone="info">
           <T>{hasMine ? 'Пример вымышленного делегата — так карта выглядит, когда заметок много.' : 'Своих заметок пока нет — показываем пример вымышленного делегата. Добавьте заметки на визитах, и карта соберётся из них.'}</T>

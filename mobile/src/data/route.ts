@@ -1,6 +1,6 @@
 // Интерактивный маршрут для делегатов (решения 21.10.2026): карта страны по регионам — как на сайте, города, как едем
 // между ними, что в каждом городе. Координаты городов — из данных сайта (companies.json → cities).
-// Данные — из тестовой поездки (trip.ts); на шаге 2 придут с сервера из «Центра поездки».
+// Данные — из тестовой поездки (trip.ts) или программы сайта (data/demo-trip.ts); на шаге 2 придут с сервера.
 import { VISITS } from './group';
 import type { MapLeg, MapStop } from './map-route';
 import { CULTURE, DAYS, HOTELS, WEATHER, dayEvents } from './trip';
@@ -43,12 +43,20 @@ export function stopInfo(s: Stop) {
   };
 }
 
-export const ROUTE_TEXT = ['Москва', ...STOPS.map((s) => s.ru), 'Москва'].join(' → ');
-export const ROUTE_STATS = { cities: STOPS.length, days: DAYS.length, visits: VISITS.length };
+export const routeText = () => ['Москва', ...STOPS.map((s) => s.ru), 'Москва'].join(' → ');
+export const ROUTE_STATS = { cities: 0, days: 0, visits: 0 };
 
-/** Точки и переезды для карты (RouteMap): подпись под городом — иероглифы и дни. */
-export const MAP_STOPS: MapStop[] = STOPS.map((s) => ({
-  key: s.key, ru: s.ru, lng: s.lng, lat: s.lat, side: s.side,
-  sub: `${s.zh} · ${s.days.length > 1 ? `${dayShort(s.days[0])}–${DAYS[s.days[s.days.length - 1]].n}` : dayShort(s.days[0])}`,
-}));
-export const MAP_LEGS: MapLeg[] = LEGS.map(({ from, to, how }) => ({ from, to, how }));
+/** Точки и переезды для карты (RouteMap): подпись под городом — иероглифы (если есть) и дни. */
+export const MAP_STOPS: MapStop[] = [];
+export const MAP_LEGS: MapLeg[] = [];
+
+/** Пересчитать производные маршрута — при запуске и после смены программы в демо (data/active.ts). */
+export function refreshRoute() {
+  Object.assign(ROUTE_STATS, { cities: STOPS.length, days: DAYS.length, visits: VISITS.length });
+  MAP_STOPS.splice(0, MAP_STOPS.length, ...STOPS.map((s) => {
+    const days = s.days.length > 1 ? `${dayShort(s.days[0])}–${DAYS[s.days[s.days.length - 1]].n}` : dayShort(s.days[0]);
+    return { key: s.key, ru: s.ru, lng: s.lng, lat: s.lat, side: s.side, sub: s.zh ? `${s.zh} · ${days}` : days };
+  }));
+  MAP_LEGS.splice(0, MAP_LEGS.length, ...LEGS.map(({ from, to, how }) => ({ from, to, how })));
+}
+refreshRoute();

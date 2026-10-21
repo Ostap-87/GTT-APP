@@ -5,10 +5,11 @@ import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { AccessibilityInfo, Text, View } from 'react-native';
 
-import { LEGS, MAP_LEGS, MAP_STOPS, ROUTE_STATS, ROUTE_TEXT, STOPS, dayShort, pointOf, stopDays, stopInfo } from '@/data/route';
+import { plural } from '@/data/group';
+import { LEGS, MAP_LEGS, MAP_STOPS, ROUTE_STATS, STOPS, dayShort, pointOf, routeText, stopDays, stopInfo } from '@/data/route';
 import { Icon } from '@/ui/Icon';
 import { Button, Card, Chip, H3, Plain, Row, T, TitleRow } from '@/ui/kit';
-import { TRIP } from '@/data/trip';
+import { TRIP, weatherLine } from '@/data/trip';
 import { RouteMap } from '@/ui/RouteMap';
 import { C, F } from '@/ui/theme';
 
@@ -55,8 +56,8 @@ export default function RouteScreen() {
     <Plain>
       <Card>
         <Text style={{ fontFamily: F.display, fontSize: 30, lineHeight: 32, color: C.ink, textTransform: 'uppercase' }}>Как мы поедем</Text>
-        <T>{ROUTE_TEXT}</T>
-        <T muted>{`${ROUTE_STATS.cities} города · ${ROUTE_STATS.days} дней · ${ROUTE_STATS.visits} компаний`}</T>
+        <T>{routeText()}</T>
+        <T muted>{`${ROUTE_STATS.cities} ${plural(ROUTE_STATS.cities, 'город', 'города', 'городов')} · ${ROUTE_STATS.days} ${plural(ROUTE_STATS.days, 'день', 'дня', 'дней')} · ${ROUTE_STATS.visits} ${plural(ROUTE_STATS.visits, 'компания', 'компании', 'компаний')}`}</T>
       </Card>
 
       <Card style={{ padding: 8 }}>
@@ -78,7 +79,7 @@ export default function RouteScreen() {
       </Card>
 
       <Card>
-        <TitleRow title={`${stopIdx + 1}. ${stop.ru}  ${stop.zh}`} right={<Chip tone="info">{stopDays(stop)}</Chip>} />
+        <TitleRow title={`${stopIdx + 1}. ${stop.ru}${stop.zh ? `  ${stop.zh}` : ''}`} right={<Chip tone="info">{stopDays(stop)}</Chip>} />
         {info.arrive ? (
           <Row left={<Icon name={info.arrive.how} size={22} color={C.blueInk} />} title={`Приезжаем: ${howRu(info.arrive.how)} из ${pointOf(info.arrive.from).ru === 'Москва' ? 'Москвы' : pointOf(info.arrive.from).ru}`}
             sub={`${dayShort(info.arrive.day)} · ${info.arrive.time} · ${info.arrive.note}`} />
@@ -94,9 +95,9 @@ export default function RouteScreen() {
         {info.hotel ? (
           <Row left={<Icon name="bed" size={22} color={C.blueInk} />} title={info.hotel.name} sub={info.hotel.nights} onPress={() => router.push(`/hotel/${info.hotel!.key}`)} label={`Отель ${info.hotel.name}`} />
         ) : (
-          <Row left={<Icon name="bed" size={22} color={C.muted} />} title="Без ночёвки" sub="Вечером в тот же день едем дальше" />
+          <Row left={<Icon name="bed" size={22} color={C.muted} />} title="Без ночёвки" sub={info.next?.to === 'moscow' ? 'Вечером — вылет домой' : 'Вечером в тот же день едем дальше'} />
         )}
-        <Row left={<Icon name={info.weather[0].icon} size={22} color={C.blueInk} />} title={`Погода: ${info.weather.map((w) => `${w.max} / ${w.min}`).join(' · ')}`} sub={info.weather[0].text} />
+        <Row left={<Icon name={info.weather[0].icon} size={22} color={C.blueInk} />} title={`Погода: ${info.weather[0].max ? info.weather.map(weatherLine).join(' · ') : 'прогноз позже'}`} sub={info.weather[0].text} />
         {info.next ? (
           <Row left={<Icon name={info.next.how} size={22} color={C.blueInk} />} title={info.next.to === 'moscow' ? 'Домой, в Москву' : `Дальше: ${pointOf(info.next.to).ru}`}
             sub={`${dayShort(info.next.day)} · ${info.next.time} · ${info.next.note}`} onPress={info.next.to !== 'moscow' ? () => pick(info.next!.to) : undefined} />
