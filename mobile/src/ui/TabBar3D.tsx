@@ -71,13 +71,15 @@ function Tab({ name, title, on, onPress, onLongPress, flat }: { name: string; ti
 }
 
 /** three — объёмные значки делегата (вкладки поездки); без него — контурные значки экранов. */
-export function TabBar3D({ state, descriptors, navigation, insets, three }: BarProps & { three?: boolean }) {
+/** hide — вкладки, которые организатор выключил в конструкторе. */
+export function TabBar3D({ state, descriptors, navigation, insets, three, hide = [] }: BarProps & { three?: boolean; hide?: string[] }) {
   return (
     <View
       accessibilityRole="tablist"
       style={{ position: 'absolute', left: 12, right: 12, bottom: Math.max(insets.bottom, 10) + 4, height: 76, flexDirection: 'row', paddingHorizontal: 4, borderRadius: 28, backgroundColor: '#ffffff', boxShadow: SH.float }}
     >
       {state.routes.map((route, i) => {
+        if (hide.includes(route.name)) return null;
         const on = state.index === i;
         const title = descriptors[route.key].options.title ?? route.name;
         const onPress = () => {

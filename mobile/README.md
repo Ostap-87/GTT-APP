@@ -207,5 +207,13 @@ Expo меняется от версии к версии: перед работо
 - **Вход** — `src/app/join.tsx`: код руками → стартовый экран организатора; ссылка `/join?code=DEMO` → сразу «Сегодня».
   Стартовый экран — `src/app/index.tsx` (`TenantWelcome` для всех, кроме GTT), монограмма — `src/ui/Monogram.tsx`.
 - **Панель вкладок** — `TabBar3D three={TENANT.icons3d}`: объёмные значки только у GTT.
+- **Конструктор организатора** — `src/app/builder.tsx` (`/builder`, `/builder?id=<id>` — правка своего). Организатор из
+  конструктора — тот же `Tenant` с `custom: true`, `logo` (data: URI PNG 256 px), `phone`, `blocks` (порядок и видимость блоков
+  «Сегодня», `TODAY_BLOCKS`), `tools` (плитки «Под рукой», `TOOLS`), `tabs` (вкладки «Материалы» и «Люди»). Цвета — из одного
+  HEX через `deriveBrand`. Хранится на телефоне в `tenants.custom`, при запуске — `setCustomTenants` в `_layout.tsx`;
+  `allTenants()` и `tenantByCode()` видят и встроенных, и своих.
+- **«Сегодня» из блоков** — `src/app/trip/index.tsx`: `block(key)` возвращает блок, порядок — `TENANT.blocks`; плитки —
+  `TENANT.tools`; скрытые вкладки — `TabBar3D hide=[…]` в `src/app/trip/_layout.tsx`. Новый блок: ключ в `TodayBlock` и
+  `TODAY_BLOCKS` (`tenant.ts`) + ветка в `block()`.
 - Проверка в браузере: начинать с `/demo` или `/join?code=…`; стартовый экран GTT с 3D-заставкой «вешает» безголовый Chromium.
 

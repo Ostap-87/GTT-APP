@@ -1,11 +1,12 @@
 // «Код приглашения» (white label, решение 21.10.2026): участник вводит код организатора — приложение открывается под его
 // брендом (название, цвета, координатор). В демо два кода: GTT — Global Tech Tour, DEMO — пример чужого бренда.
 // Ссылка-приглашение /join?code=DEMO открывает поездку организатора сразу, без ввода кода.
+// Здесь же вход в конструктор (/builder): свой организатор — название, логотип, цвет, блоки экрана.
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { TextInput, View } from 'react-native';
 
-import { REGION_RU, TENANT, TENANTS, tenantByCode, type Tenant } from '@/data/tenant';
+import { REGION_RU, TENANT, allTenants, tenantByCode, type Tenant } from '@/data/tenant';
 import { useSwitchTenant } from '@/state/reset';
 import { useToast } from '@/state/toast';
 import { Button, Card, Chip, H3, Plain, Row, T, inputStyle } from '@/ui/kit';
@@ -44,13 +45,21 @@ export default function Join() {
         <Button title="Открыть" onPress={submit} />
       </Card>
       <Card>
-        <H3>Организаторы в демо</H3>
-        {TENANTS.map((t, i) => (
+        <H3>Организаторы</H3>
+        {allTenants().map((t, i) => (
           <Press key={t.id} onPress={() => open(t)} label={`Открыть: ${t.name}, код ${t.code}`} scaleTo={0.98}>
-            <Row first={i === 0} left={<Monogram t={t} />} title={t.name} sub={`код ${t.code} · данные хранятся: ${REGION_RU[t.region]}${t.demo ? ' · пример бренда' : ''}`}
-              right={TENANT.id === t.id ? <Chip tone="ok">открыто</Chip> : undefined} />
+            <Row first={i === 0} left={<Monogram t={t} />} title={t.name}
+              sub={`код ${t.code} · данные хранятся: ${REGION_RU[t.region]}${t.demo ? ' · пример бренда' : t.custom ? ' · из конструктора' : ''}`}
+              right={t.custom
+                ? <Button title="Изменить" kind="light" small label={`Изменить организатора ${t.name}`} onPress={() => router.push(`/builder?id=${t.id}`)} />
+                : TENANT.id === t.id ? <Chip tone="ok">открыто</Chip> : undefined} />
           </Press>
         ))}
+      </Card>
+      <Card tone="info">
+        <H3>Свой организатор</H3>
+        <T>Название, логотип, цвет, координатор и какие блоки видят участники — собирается за пару минут, код приглашения появится сразу.</T>
+        <Button title="Открыть конструктор" icon="plus" onPress={() => router.push('/builder')} />
       </Card>
       <View style={{ paddingHorizontal: 4 }}>
         <T muted>Одно приложение для всех организаторов: у каждого свой бренд, а данные участников хранятся там, где требует закон страны организатора.</T>

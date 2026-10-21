@@ -3,19 +3,18 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Easing, Text, View } from 'react-native';
+import { Animated, Easing, Linking, Text, View } from 'react-native';
 
 import { GUIDE } from '@/data/extras';
 import { NOW, VISITS, toMin } from '@/data/group';
 import { routeText } from '@/data/route';
-import { TENANT } from '@/data/tenant';
+import { TENANT, TOOLS, type TodayBlock } from '@/data/tenant';
 import { CITY, DAYS, DAY_NOTES, TRIP, WEATHER, dayEvents, hotelOf, weatherLine, type TripEvent } from '@/data/trip';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
 import { okFeel } from '@/ui/haptics';
 import { Icon } from '@/ui/Icon';
-import type { IconName } from '@/ui/icon-paths';
 import { Avatar, Button, Card, Chip, H3, Row, Screen, Section, T, TitleRow } from '@/ui/kit';
 import { ND, Press, Pulse, reduceMotion } from '@/ui/motion';
 import { OfflineNote } from '@/ui/OfflineNote';
@@ -28,11 +27,6 @@ function untilText(t: string) {
   if (m <= 0) return 'сейчас';
   return m < 60 ? `через ${m} мин` : `через ${Math.floor(m / 60)} ч ${m % 60 ? `${m % 60} мин` : ''}`.trim();
 }
-
-const TOOLS: [string, IconName, string][] = [
-  ['Переводчик', 'translate', '/translator'], ['Документы', 'passport', '/docs'], ['Помощь', 'help', '/help'],
-  ['Расходы', 'receipt', '/expenses'], ['Город', 'map', '/city'], ['Гид', 'headphones', '/guide'],
-];
 
 export default function Today() {
   const i = TRIP.today;
@@ -49,6 +43,86 @@ export default function Today() {
   const taxi = v ? { zh: v.zh || v.name, ru: v.addr || `${v.name}, ${CITY[i]}` } : { zh: h?.addrZh || '', ru: h?.addrRu || '' };
   const rest = ev.filter((e) => e !== dep);
   const unread = k.unread('delegate');
+  const tools = TOOLS.filter(([key]) => TENANT.tools.includes(key));
+
+  // блоки экрана — организатор включает нужные и задаёт порядок в конструкторе (TENANT.blocks)
+  const block = (key: TodayBlock) => {
+    switch (key) {
+      case 'now': return dep || k.guideLive ? (
+        <View key={key} style={{ gap: 14 }}>
+          <Section title="Сейчас" />
+          {dep ? <NowHero dep={dep} onTaxi={() => router.push({ pathname: '/driver', params: taxi })} /> : null}
+          {k.guideLive ? (
+            <Card tone="info" onPress={() => router.push('/guide')} label="Гид в эфире — слушать">
+              <Row left={<Icon name="headphones" size={24} color={C.blueInk} />} title="Гид в эфире" sub={`${GUIDE.name} · нажмите, чтобы слушать в наушниках`} />
+            </Card>
+          ) : null}
+        </View>
+      ) : null;
+      case 'next': return rest.length ? (
+        <View key={key} style={{ gap: 14 }}>
+          <Section title="Дальше сегодня" link="Весь план" onLink={() => router.push('/trip/plan')} />
+          <Timeline events={rest} from={1} />
+          {DAY_NOTES[i] ? <T muted style={{ paddingHorizontal: 4 }}>{DAY_NOTES[i]}</T> : null}
+        </View>
+      ) : null;
+      case 'ann': return ann ? (
+        <Card key={key} tone="warn">
+          <TitleRow title={<View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="megaphone" size={20} color={C.warn} /><H3>Объявление координатора</H3></View>} right={<T muted>{ann.time}</T>} />
+          <T>{ann.ru}</T>
+        </Card>
+      ) : null;
+      case 'tools': return tools.length ? (
+        <View key={key} style={{ gap: 14 }}>
+          <Section title="Под рукой" />
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
+            {tools.map(([tk, title, icon, to]) => {
+              const sos = tk === 'help';
+              return (
+                <Press key={tk} onPress={() => router.push(to as never)} label={title} scaleTo={0.93}
+                  style={{ flexBasis: '29%', flexGrow: 1, alignItems: 'center', gap: 7, paddingTop: 13, paddingBottom: 11, borderRadius: 22, backgroundColor: C.card, boxShadow: SH.clay }}>
+                  <View style={{ width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: sos ? '#fbe4d4' : C.well, boxShadow: SH.inset }}>
+                    <Icon name={icon} size={22} color={sos ? '#d9622b' : C.blueInk} />
+                  </View>
+                  <Text style={{ fontFamily: F.semibold, fontSize: 12.5, color: C.ink }}>{title}</Text>
+                </Press>
+              );
+            })}
+          </View>
+        </View>
+      ) : null;
+      case 'coord': return (
+        <Card key={key}>
+          <Row left={<Avatar text={TENANT.coordinator.initials} size={42} />} title={TENANT.coordinator.name} sub="Координатор · на связи круглосуточно" />
+          <View style={{ flexDirection: 'row', gap: 10 }}>
+            <View style={{ flex: 1 }}>
+              <Button title={unread > 0 ? `Написать · ${unread}` : 'Написать'} icon="chat" label={unread > 0 ? `Чат с координатором: ${unread} новых` : 'Написать координатору'} onPress={() => router.push('/chat')} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Button title="Позвонить" icon="phone" kind="light" onPress={() => (TENANT.phone ? Linking.openURL(`tel:${TENANT.phone.replace(/[^+\d]/g, '')}`) : router.push('/contacts'))} />
+            </View>
+          </View>
+        </Card>
+      );
+      case 'weather': return (
+        <Card key={key}>
+          <H3>Погода и отель</H3>
+          <Row left={<Icon name={w.icon} size={26} />} title={`${weatherLine(w)} · ${CITY[i]}`} sub={w.text} />
+          {h ? (
+            <Row left={<Icon name="bed" size={26} />} title={h.name} sub={`${h.nights} · ${h.addrZh ? 'адрес на 3 языках' : 'адрес пришлёт координатор'}`}
+              right={<Chip>отель</Chip>} onPress={() => router.push(`/hotel/${h.key}`)} label={`Отель: ${h.name}`} />
+          ) : null}
+        </Card>
+      );
+      case 'route': return (
+        <Card key={key} onPress={() => router.push('/route')} label="Маршрут поездки на схеме">
+          <Row left={<Icon name="route" size={24} color={C.blueInk} />} title={TRIP.title} sub={routeText()} right={<Chip tone="info">маршрут</Chip>} />
+        </Card>
+      );
+      default: return null;
+    }
+  };
+
   return (
     <Screen eyebrow={`${d.wd}, ${d.n} ноября · ${CITY[i]}${w.max ? ` · ${w.max}` : ''}`} title="Сегодня"
       right={<Button title="Сменить поездку" kind="light" small label={`Сменить поездку. Сейчас: ${TRIP.title}`} onPress={() => router.push('/demo')} />}>
@@ -59,63 +133,7 @@ export default function Today() {
           <Text style={{ fontFamily: F.medium, fontSize: 15, color: C.muted }}>Поиск: компания, адрес, телефон</Text>
         </View>
       </Card>
-
-      <Section title="Сейчас" />
-      {dep ? <NowHero dep={dep} onTaxi={() => router.push({ pathname: '/driver', params: taxi })} /> : null}
-      {k.guideLive ? (
-        <Card tone="info" onPress={() => router.push('/guide')} label="Гид в эфире — слушать">
-          <Row left={<Icon name="headphones" size={24} color={C.blueInk} />} title="Гид в эфире" sub={`${GUIDE.name} · нажмите, чтобы слушать в наушниках`} />
-        </Card>
-      ) : null}
-
-      {rest.length ? <Section title="Дальше сегодня" link="Весь план" onLink={() => router.push('/trip/plan')} /> : null}
-      {rest.length ? <Timeline events={rest} from={1} /> : null}
-      {DAY_NOTES[i] ? <T muted style={{ paddingHorizontal: 4 }}>{DAY_NOTES[i]}</T> : null}
-
-      {ann ? (
-        <Card tone="warn">
-          <TitleRow title={<View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="megaphone" size={20} color={C.warn} /><H3>Объявление координатора</H3></View>} right={<T muted>{ann.time}</T>} />
-          <T>{ann.ru}</T>
-        </Card>
-      ) : null}
-
-      <Section title="Под рукой" />
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
-        {TOOLS.map(([title, icon, to]) => {
-          const sos = to === '/help';
-          return (
-            <Press key={title} onPress={() => router.push(to as never)} label={title} scaleTo={0.93}
-              style={{ flexBasis: '29%', flexGrow: 1, alignItems: 'center', gap: 7, paddingTop: 13, paddingBottom: 11, borderRadius: 22, backgroundColor: C.card, boxShadow: SH.clay }}>
-              <View style={{ width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: sos ? '#fbe4d4' : C.well, boxShadow: SH.inset }}>
-                <Icon name={icon} size={22} color={sos ? '#d9622b' : C.blueInk} />
-              </View>
-              <Text style={{ fontFamily: F.semibold, fontSize: 12.5, color: C.ink }}>{title}</Text>
-            </Press>
-          );
-        })}
-      </View>
-
-      <Card>
-        <Row left={<Avatar text={TENANT.coordinator.initials} size={42} />} title={TENANT.coordinator.name} sub="Координатор · на связи круглосуточно" />
-        <View style={{ flexDirection: 'row', gap: 10 }}>
-          <View style={{ flex: 1 }}>
-            <Button title={unread > 0 ? `Написать · ${unread}` : 'Написать'} icon="chat" label={unread > 0 ? `Чат с координатором: ${unread} новых` : 'Написать координатору'} onPress={() => router.push('/chat')} />
-          </View>
-          <View style={{ flex: 1 }}><Button title="Позвонить" icon="phone" kind="light" onPress={() => router.push('/contacts')} /></View>
-        </View>
-      </Card>
-
-      <Card>
-        <H3>Погода и отель</H3>
-        <Row left={<Icon name={w.icon} size={26} />} title={`${weatherLine(w)} · ${CITY[i]}`} sub={w.text} />
-        {h ? (
-          <Row left={<Icon name="bed" size={26} />} title={h.name} sub={`${h.nights} · ${h.addrZh ? 'адрес на 3 языках' : 'адрес пришлёт координатор'}`}
-            right={<Chip>отель</Chip>} onPress={() => router.push(`/hotel/${h.key}`)} label={`Отель: ${h.name}`} />
-        ) : null}
-      </Card>
-      <Card onPress={() => router.push('/route')} label="Маршрут поездки на схеме">
-        <Row left={<Icon name="route" size={24} color={C.blueInk} />} title={TRIP.title} sub={routeText()} right={<Chip tone="info">маршрут</Chip>} />
-      </Card>
+      {TENANT.blocks.filter((b) => b.on).map((b) => block(b.key))}
     </Screen>
   );
 }
