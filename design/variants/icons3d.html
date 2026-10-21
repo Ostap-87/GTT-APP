@@ -1,0 +1,208 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>GTT · 3D-значки вкладок</title>
+<!-- Объёмные значки нижней панели (варианты дизайна 21.10.2026): пять моделей из простых форм three.js и шесть стилей
+     материалов. Рендер — tools: design/variants/render-icons.mjs (PNG 320×320, активная и неактивная вкладка). -->
+<script type="importmap">{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }</script>
+<style>body{margin:0;background:#eef2f8}canvas{display:block}</style>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const S = 320;
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setSize(S, S);
+renderer.setPixelRatio(1);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+const env = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+
+// ——— цвета ролей: main — основной, accent — светлые части, detail — акцент, cell — мелкие детали ———
+const BLUE = '#1a73e8';
+const PAL = {
+  on: { main: BLUE, accent: '#ffffff', detail: '#ffb020', cell: '#cfe0fc', dark: '#0f3f8c' },
+  off: { main: '#a3adbd', accent: '#f4f6f9', detail: '#c4cbd6', cell: '#dde2ea', dark: '#7e8898' },
+};
+const CLAY = {
+  on: { main: '#3f7be6', accent: '#fff6e8', detail: '#ff8a4c', cell: '#b9d1fa', dark: '#2a5bbf' },
+  off: { main: '#aeb8c7', accent: '#eceff4', detail: '#c3cad5', cell: '#d5dbe4', dark: '#97a2b3' },
+};
+const TILE = { today: '#ff9f1c', plan: BLUE, library: '#7048e8', people: '#2b9a52', trip: '#0c8599' };
+
+const V = {
+  glossy: { pal: PAL, mat: (c) => new THREE.MeshPhysicalMaterial({ color: c, roughness: 0.18, clearcoat: 1, clearcoatRoughness: 0.06, envMapIntensity: 1.1 }) },
+  clay: { pal: CLAY, mat: (c) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.9, metalness: 0, envMapIntensity: 0.3 }) },
+  glass: { pal: { on: { main: '#1f6bf0', accent: '#dcebff', detail: '#00b4d8', cell: '#a9caff', dark: '#1450c4' }, off: { main: '#8e9bb1', accent: '#e6ebf2', detail: '#a7b3c5', cell: '#cdd5e1', dark: '#7a879c' } },
+    mat: (c, role) => new THREE.MeshPhysicalMaterial({ color: c, roughness: 0.06, metalness: 0.0, transparent: true, opacity: role === 'accent' ? 0.92 : 0.78, clearcoat: 1, clearcoatRoughness: 0.02, iridescence: 1, iridescenceIOR: 1.6, iridescenceThicknessRange: [200, 600], envMapIntensity: 2.2, specularIntensity: 1, side: THREE.DoubleSide }) },
+  tiles: { pal: { on: { main: '#ffffff', accent: '#ffffff', detail: '#ffe08a', cell: '#e8f0ff', dark: '#ffffff' }, off: { main: '#ffffff', accent: '#ffffff', detail: '#f1f3f7', cell: '#eef1f5', dark: '#ffffff' } },
+    mat: (c) => new THREE.MeshPhysicalMaterial({ color: c, roughness: 0.3, clearcoat: 0.6, envMapIntensity: 0.9 }) },
+  neon: { bg: '#000000', bloom: true, unblack: true,
+    pal: { on: { main: '#3d8bff', accent: '#24467e', detail: '#ff5ec8', cell: '#6fd0ff', dark: '#5aa2ff' }, off: { main: '#2b3d5e', accent: '#3f5478', detail: '#34476a', cell: '#2f4266', dark: '#24324e' } },
+    mat: (c, role, on) => new THREE.MeshStandardMaterial({ color: '#0d1830', emissive: c, emissiveIntensity: on ? (role === 'cell' ? 0.9 : 0.62) : 0.5, roughness: 0.35, metalness: 0.2, envMapIntensity: 0.6 }) },
+  iso: { ortho: true, pal: { on: { main: BLUE, accent: '#ffffff', detail: '#ff8a3d', cell: '#bcd5fb', dark: '#0f4fb8' }, off: { main: '#aab3c2', accent: '#f4f6f9', detail: '#c9d0db', cell: '#e1e6ee', dark: '#8b95a6' } },
+    mat: (c) => new THREE.MeshLambertMaterial({ color: c, flatShading: true }) },
+};
+
+const box = (w, h, d, r, seg = 5) => new RoundedBoxGeometry(w, h, d, seg, r);
+function mesh(geo, m, x = 0, y = 0, z = 0) { const o = new THREE.Mesh(geo, m); o.position.set(x, y, z); return o; }
+
+// ——— модели ———
+const MODELS = {
+  today(M) { // солнце за облаком
+    const g = new THREE.Group();
+    const sun = new THREE.Group();
+    sun.add(mesh(new THREE.SphereGeometry(0.52, 48, 32), M('detail')));
+    for (let i = 0; i < 9; i++) {
+      const a = (i / 9) * Math.PI * 2 + 0.2;
+      const r = mesh(new THREE.CapsuleGeometry(0.07, 0.2, 6, 12), M('detail'), Math.cos(a) * 0.82, Math.sin(a) * 0.82, 0);
+      r.rotation.z = a - Math.PI / 2;
+      sun.add(r);
+    }
+    sun.position.set(0.32, 0.36, -0.25);
+    g.add(sun);
+    const cloud = new THREE.Group();
+    [[-0.42, -0.1, 0.38], [0.02, 0.08, 0.5], [0.45, -0.12, 0.34], [-0.05, -0.22, 0.36]].forEach(([x, y, r]) => cloud.add(mesh(new THREE.SphereGeometry(r, 40, 28), M('main'), x, y, 0)));
+    const base = mesh(new THREE.CapsuleGeometry(0.3, 0.95, 8, 24), M('main'), 0, -0.3, 0);
+    base.rotation.z = Math.PI / 2;
+    cloud.add(base);
+    cloud.position.set(-0.15, -0.35, 0.3);
+    g.add(cloud);
+    return g;
+  },
+  plan(M) { // календарь
+    const g = new THREE.Group();
+    g.add(mesh(box(1.6, 1.5, 0.32, 0.14), M('accent')));
+    g.add(mesh(box(1.62, 0.46, 0.36, 0.14), M('main'), 0, 0.54, 0));
+    [-0.42, 0.42].forEach((x) => { const t = mesh(new THREE.TorusGeometry(0.13, 0.045, 14, 32), M('dark'), x, 0.8, 0); t.rotation.y = Math.PI / 2; g.add(t); });
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) {
+      const hot = r === 0 && c === 1;
+      g.add(mesh(box(0.32, 0.26, hot ? 0.14 : 0.08, 0.05), M(hot ? 'detail' : 'cell'), -0.42 + c * 0.42, 0.05 - r * 0.36, 0.17 + (hot ? 0.04 : 0)));
+    }
+    return g;
+  },
+  library(M) { // раскрытая книга
+    const g = new THREE.Group();
+    [-1, 1].forEach((s) => {
+      const half = new THREE.Group();
+      half.add(mesh(box(0.86, 1.22, 0.07, 0.03), M('main'), s * 0.43, 0, -0.06));
+      half.add(mesh(box(0.8, 1.14, 0.08, 0.03), M('accent'), s * 0.41, 0.01, 0.02));
+      for (let i = 0; i < 4; i++) half.add(mesh(box(0.5, 0.06, 0.03, 0.015), M('cell'), s * 0.42, 0.32 - i * 0.18, 0.075));
+      half.rotation.y = -s * 0.42;
+      g.add(half);
+    });
+    g.add(mesh(box(0.12, 0.42, 0.04, 0.02), M('detail'), 0.16, -0.5, 0.12));
+    g.rotation.x = -0.25;
+    return g;
+  },
+  people(M) { // двое
+    const g = new THREE.Group();
+    const person = (x, y, z, s, role) => {
+      const p = new THREE.Group();
+      p.add(mesh(new THREE.SphereGeometry(0.3, 40, 28), M(role), 0, 0.42, 0));
+      const body = mesh(new THREE.SphereGeometry(0.5, 40, 28, 0, Math.PI * 2, 0, Math.PI / 2), M(role), 0, -0.42, 0);
+      body.scale.set(1, 1.05, 0.72);
+      p.add(body);
+      p.position.set(x, y, z);
+      p.scale.setScalar(s);
+      return p;
+    };
+    g.add(person(-0.45, 0.14, -0.35, 0.86, 'detail'));
+    g.add(person(0.22, -0.04, 0.2, 1, 'main'));
+    return g;
+  },
+  trip(M) { // чемодан
+    const g = new THREE.Group();
+    g.add(mesh(box(1.6, 1.12, 0.56, 0.17), M('main')));
+    const h = mesh(new THREE.TorusGeometry(0.24, 0.065, 16, 40, Math.PI), M('dark'), 0, 0.56, 0);
+    g.add(h);
+    [-0.44, 0.44].forEach((x) => g.add(mesh(box(0.16, 1.15, 0.6, 0.05), M('detail'), x, 0, 0)));
+    g.add(mesh(box(0.34, 0.1, 0.62, 0.04), M('accent'), 0, 0.24, 0));
+    return g;
+  },
+};
+
+/** Отрисовать значок; вернуть PNG data:-строкой. */
+/** Свечение на чёрном → прозрачный PNG: яркость становится непрозрачностью, цвет восстанавливается делением. */
+async function unblack(src) {
+  const c = document.createElement('canvas'); c.width = S; c.height = S;
+  const x = c.getContext('2d'); x.drawImage(src, 0, 0);
+  const d = x.getImageData(0, 0, S, S); const p = d.data;
+  for (let i = 0; i < p.length; i += 4) {
+    const m = Math.max(p[i], p[i + 1], p[i + 2]);
+    const a = Math.min(1, Math.max(0, (m - 10) / 245) * 1.4);
+    if (a <= 0.01) { p[i + 3] = 0; continue; }
+    p[i] = Math.min(255, p[i] / a); p[i + 1] = Math.min(255, p[i + 1] / a); p[i + 2] = Math.min(255, p[i + 2] / a); p[i + 3] = Math.round(a * 255);
+  }
+  x.putImageData(d, 0, 0);
+  return c.toDataURL('image/png');
+}
+
+window.renderIcon = async (variant, icon, on) => {
+  const v = V[variant];
+  const pal = v.pal[on ? 'on' : 'off'];
+  const M = (role) => v.mat(pal[role] ?? pal.main, role, on);
+  const scene = new THREE.Scene();
+  scene.environment = env;
+  scene.background = v.bg ? new THREE.Color(v.bg) : null;
+  const model = MODELS[icon](M);
+  const holder = new THREE.Group();
+  if (variant === 'tiles') {
+    const tile = new THREE.Mesh(box(2.25, 2.25, 0.42, 0.42, 8), new THREE.MeshPhysicalMaterial({ color: on ? TILE[icon] : '#c3cad6', roughness: 0.25, clearcoat: 1, clearcoatRoughness: 0.1 }));
+    tile.position.z = -0.45;
+    holder.add(tile);
+    model.scale.setScalar(0.66);
+    holder.add(model);
+  } else holder.add(model);
+  // по центру и в один размер
+  const b = new THREE.Box3().setFromObject(holder);
+  const c = b.getCenter(new THREE.Vector3());
+  const r = b.getBoundingSphere(new THREE.Sphere()).radius;
+  holder.position.sub(c);
+  const wrap = new THREE.Group();
+  wrap.add(holder);
+  wrap.scale.setScalar(1 / r);
+  if (!v.ortho) { wrap.rotation.y = variant === 'tiles' ? -0.32 : -0.42; wrap.rotation.x = 0.12; }
+  scene.add(wrap);
+
+  let camera;
+  if (v.ortho) {
+    camera = new THREE.OrthographicCamera(-1.12, 1.12, 1.12, -1.12, 0.1, 50);
+    camera.position.set(4, 3.3, 4);
+    camera.lookAt(0, 0, 0);
+    scene.add(new THREE.AmbientLight('#ffffff', 1.25));
+    const d = new THREE.DirectionalLight('#ffffff', 2.2); d.position.set(-2, 5, 3); scene.add(d);
+  } else {
+    camera = new THREE.PerspectiveCamera(26, 1, 0.1, 50);
+    camera.position.set(0, 0.25, 5.1);
+    camera.lookAt(0, 0, 0);
+    const key = new THREE.DirectionalLight('#ffffff', variant === 'clay' ? 2.1 : 1.2); key.position.set(-2.5, 4, 4); scene.add(key);
+    const rim = new THREE.DirectionalLight('#cfe0ff', 0.6); rim.position.set(3, 1, -2); scene.add(rim);
+    scene.add(new THREE.HemisphereLight('#ffffff', '#b8c6dc', variant === 'clay' ? 0.7 : 0.4));
+  }
+  if (v.bloom) {
+    const comp = new EffectComposer(renderer);
+    comp.addPass(new RenderPass(scene, camera));
+    comp.addPass(new UnrealBloomPass(new THREE.Vector2(S, S), on ? 0.55 : 0.12, 0.28, 0.32));
+    comp.addPass(new OutputPass());
+    comp.render();
+  } else {
+    renderer.setClearColor(0x000000, 0);
+    renderer.render(scene, camera);
+  }
+  let url = renderer.domElement.toDataURL('image/png');
+  if (v.unblack) url = await unblack(renderer.domElement);
+  scene.traverse((o) => { if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); });
+  return url;
+};
+window.iconsReady = true;
+</script>
+</body></html>
