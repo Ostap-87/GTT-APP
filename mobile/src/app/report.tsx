@@ -15,6 +15,7 @@ import { Button, Card, Chip, H3, Plain, Row, T, TitleRow } from '@/ui/kit';
 import { C } from '@/ui/theme';
 
 const MAX_PHOTOS = 6;
+const MAX_CARD_PHOTOS = 30;
 
 export default function Report() {
   const { notesOf, cardsOf } = useVisits();
@@ -26,6 +27,7 @@ export default function Report() {
     setBusy(true);
     try {
       const visits: ReportVisit[] = [];
+      let cardShots = 0;
       for (const v of withData) {
         const notes = notesOf(v.id);
         const photos: string[] = [];
@@ -33,7 +35,13 @@ export default function Report() {
           const b = p.uri ? await base64Of(p.uri) : null;
           if (b) photos.push(b);
         }
-        visits.push({ id: v.id, notes, cards: cardsOf(v.id), photos });
+        const cardPhotos: Record<string, string> = {};
+        for (const c of cardsOf(v.id)) {
+          if (!c.photo || cardShots >= MAX_CARD_PHOTOS) continue;
+          const b = await base64Of(c.photo);
+          if (b) { cardPhotos[c.id] = b; cardShots += 1; }
+        }
+        visits.push({ id: v.id, notes, cards: cardsOf(v.id), photos, cardPhotos });
       }
       const html = reportHtml(visits, nowLabel());
       if (Platform.OS === 'web') {
@@ -71,6 +79,9 @@ export default function Report() {
             <Row key={v.id} left={<Icon name="building" size={22} color={parts.length ? C.blueInk : C.muted} />} title={v.name} sub={parts.length ? parts.join(' · ') : 'пока пусто — добавьте заметки'} onPress={() => router.push(`/company/${v.id}`)} label={`Визит ${v.name}`} />
           );
         })}
+      </Card>
+      <Card onPress={() => router.push('/cards')} label="Визитница">
+        <Row left={<Icon name="card" size={22} color={C.blueInk} />} title="Визитница" sub="Снимки визиток войдут в таблицу контактов PDF" />
       </Card>
       <Card>
         <H3>В конце PDF — что посмотреть дальше</H3>

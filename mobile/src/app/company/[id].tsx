@@ -9,6 +9,7 @@ import { VISIT_DAY } from '@/data/mindmap';
 import { useVisits } from '@/state/visits';
 import { Icon } from '@/ui/Icon';
 import { Button, Card, Chip, H3, Plain, Row, T, TitleRow } from '@/ui/kit';
+import { CardThumb } from '@/ui/card-ui';
 import { NoteComposer, NoteList } from '@/ui/notes-ui';
 import { C, F } from '@/ui/theme';
 
@@ -44,7 +45,7 @@ export default function CompanyVisit() {
       <Card>
         <TitleRow title={`Визитки · ${cards.length}`} />
         {cards.map((c) => (
-          <Row key={c.id} left={<Icon name="card" size={22} color={C.blueInk} />} title={c.latin || c.name || 'Без имени'}
+          <Row key={c.id} left={<CardThumb uri={c.photo} />} title={c.latin || c.name || 'Без имени'}
             sub={[c.titleRu || c.title, c.companyRu || c.company, c.phones[0]].filter(Boolean).join(' · ')}
             onPress={() => router.push({ pathname: '/card-scan', params: { visit: v.id, id: c.id } })} label={`Визитка: ${c.latin || c.name}`} />
         ))}

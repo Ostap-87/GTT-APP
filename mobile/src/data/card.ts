@@ -149,3 +149,25 @@ export function parseCard(text: string, lines: { text: string; h?: number }[] = 
     phones, email, wechat, site, address,
   };
 }
+
+/** Визитка как vCard 3.0 — «В контакты телефона» и переслать коллеге. Русские должность и компания — в заметке. */
+export function vcard(c: BizCard) {
+  const e = (v = '') => v.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/[,;]/g, (m) => `\\${m}`);
+  const latin = (c.latin || '').split(/\s+/);
+  const lines = [
+    'BEGIN:VCARD', 'VERSION:3.0',
+    `N:${e(latin.slice(0, 1).join(' '))};${e(latin.slice(1).join(' '))};;;`,
+    `FN:${e(c.latin || c.name || c.company)}`,
+    c.name ? `NICKNAME:${e(c.name)}` : '', // имя иероглифами
+    c.company || c.companyRu ? `ORG:${e(c.company || c.companyRu)}` : '',
+    c.title || c.titleRu ? `TITLE:${e(c.title || c.titleRu)}` : '',
+    ...c.phones.map((p) => `TEL;TYPE=WORK,VOICE:${p}`),
+    c.email ? `EMAIL;TYPE=WORK:${c.email}` : '',
+    c.site ? `URL:${c.site}` : '',
+    c.address ? `ADR;TYPE=WORK:;;${e(c.address)};;;;` : '',
+    `NOTE:${e([c.name, c.titleRu, c.companyRu, c.wechat ? `WeChat: ${c.wechat}` : '', 'Визитка из поездки Global Tech Tour'].filter(Boolean).join(' · '))}`,
+    'END:VCARD',
+  ];
+  return lines.filter(Boolean).join('\r\n');
+}
+

@@ -63,6 +63,9 @@ export default function Library() {
         {notes.map((n, i) => <Row key={i} title={<T>{n.text}</T>} sub={n.time} />)}
         <T muted>Заметки видите только вы. Заметки, фото и визитки к конкретной компании — в её карточке в «Плане».</T>
       </Card>
+      <Card onPress={() => router.push('/cards')} label="Визитница">
+        <Row left={<Icon name="card" size={22} color={C.blueInk} />} title="Визитница" sub="Все визитки поездки по компаниям — снимки, контакты, «В контакты телефона»" />
+      </Card>
       <Card onPress={() => router.push('/report')} label="Итоги поездки — PDF">
         <Row left={<Icon name="doc" size={22} color={C.blueInk} />} title="Итоги поездки — PDF" sub="Компании, заметки, фото и визитки одним файлом" />
       </Card>

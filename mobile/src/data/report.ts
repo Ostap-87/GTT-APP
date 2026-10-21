@@ -11,7 +11,8 @@ import type { VNote } from '@/state/visits';
 
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c] as string);
 
-export type ReportVisit = { id: string; notes: VNote[]; cards: BizCard[]; photos: string[] };
+/** cardPhotos — снимки визиток в base64 по id визитки (в таблицу контактов). */
+export type ReportVisit = { id: string; notes: VNote[]; cards: BizCard[]; photos: string[]; cardPhotos?: Record<string, string> };
 
 /** Похожие программы для следующей поездки: другие ритейл-экспедиции GTT. */
 export const nextTours = () => catalog.filter((t) => /ритейл|ретейл/i.test(t.title) && t.id !== 'china-retail-showrooms-expedition').slice(0, 3);
@@ -51,6 +52,7 @@ const CSS = `
   th { text-align: left; background: #f3f6fb; color: #5b6576; font-weight: 600; padding: 6px; }
   td { border-top: 1px solid #e6ebf3; padding: 6px; vertical-align: top; }
   .zh { color: #5b6576; }
+  td img.card { display: block; width: 120px; height: 69px; object-fit: cover; border-radius: 4px; margin-bottom: 4px; border: 1px solid #e3e7ef; }
   .next { margin-top: 22px; background: #0f1b2d; color: #fff; border-radius: 10px; padding: 14px 16px; page-break-inside: avoid; }
   .next h3 { margin: 0 0 6px; font-size: 13pt; } .next li { margin: 3px 0; } .next a { color: #8ab8ff; }`;
 
@@ -73,7 +75,7 @@ function noteBody(n: VNote) {
   return `${head}коротко — <ul>${keyPoints([{ text: n.text || '' }], 5).map((p) => `<li>${esc(p.text)}</li>`).join('')}</ul><span class="muted">Полная расшифровка (${wordCount(n.text)} слов) — в приложении.</span>`;
 }
 
-function visitHtml({ id, notes, cards, photos }: ReportVisit) {
+function visitHtml({ id, notes, cards, photos, cardPhotos = {} }: ReportVisit) {
   const v = VISITS.find((x) => x.id === id);
   const texts = notes.filter((n) => n.kind === 'text' || n.kind === 'guide');
   const voices = notes.filter((n) => n.kind === 'voice').length;
@@ -83,7 +85,7 @@ function visitHtml({ id, notes, cards, photos }: ReportVisit) {
     ${voices ? `<p class="muted">Голосовых заметок: ${voices} — слушать в приложении.</p>` : ''}
     ${photos.length ? `<div class="photos">${photos.map((p) => `<img src="data:image/jpeg;base64,${p}"/>`).join('')}</div>` : ''}
     ${cards.length ? `<table><tr><th>Контакт</th><th>Должность и компания</th><th>Связь</th></tr>${cards.map((c) => `<tr>
-      <td><b>${esc(c.latin || c.name)}</b>${c.name && c.latin ? `<br/><span class="zh">${esc(c.name)}</span>` : ''}</td>
+      <td>${cardPhotos[c.id] ? `<img class="card" src="data:image/jpeg;base64,${cardPhotos[c.id]}"/>` : ''}<b>${esc(c.latin || c.name)}</b>${c.name && c.latin ? `<br/><span class="zh">${esc(c.name)}</span>` : ''}</td>
       <td>${esc(c.titleRu || c.title)}<br/><span class="muted">${esc(c.companyRu || c.company)}</span></td>
       <td>${[...c.phones, c.email, c.wechat ? `WeChat: ${c.wechat}` : '', c.site].filter(Boolean).map(esc).join('<br/>')}</td></tr>`).join('')}</table>` : ''}
   </section>`;

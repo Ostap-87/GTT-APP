@@ -81,6 +81,7 @@ export default function RootLayout() {
             <Stack.Screen name="mindmap" options={{ title: 'Майндмэп' }} />
             <Stack.Screen name="transcript" options={{ title: 'Расшифровка' }} />
             <Stack.Screen name="route" options={{ title: 'Маршрут' }} />
+            <Stack.Screen name="cards" options={{ title: 'Визитница' }} />
             <Stack.Screen name="admin" options={{ headerShown: false }} />
             <Stack.Screen name="admin-trip/[id]" options={{ title: 'Поездка' }} />
           </Stack>

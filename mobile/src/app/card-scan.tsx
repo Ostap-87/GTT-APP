@@ -1,5 +1,7 @@
 // Сканер визиток: фото → распознавание китайского и английского текста на телефоне → поля с переводом → сохранение
 // к визиту. Без интернета в первый раз распознавание не скачается — тогда поля заполняются вручную, фото сохраняется.
+// Снимок визитки хранится вместе с контактом и прикреплён к компании визита (её можно поменять); «В контакты телефона» —
+// файл vCard.
 import { SaveFormat, ImageManipulator } from 'expo-image-manipulator';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
@@ -11,7 +13,8 @@ import { keepFile } from '@/data/media';
 import { ocrStage, type OcrEvent } from '@/ocr/ocr-html';
 import { useToast } from '@/state/toast';
 import { useVisits } from '@/state/visits';
-import { Button, Card, Field, H3, Plain, T } from '@/ui/kit';
+import { shareCard } from '@/ui/card-ui';
+import { Button, Card, Chips, Field, H3, Pick, Plain, T } from '@/ui/kit';
 import { pickPhoto } from '@/ui/notes-ui';
 import { OcrEngine } from '@/ui/OcrEngine';
 import { C, F } from '@/ui/theme';
@@ -107,7 +110,16 @@ export default function CardScan() {
         ) : null}
       </Card>
 
+      <Card>
+        <H3>Компания</H3>
+        <T muted>Визитка прикреплена к визиту — её видно в карточке компании, в «Визитнице» и в итогах поездки.</T>
+        <Chips>{VISITS.map((x) => <Pick key={x.id} title={x.name} on={card.visit === x.id} onPress={() => set({ visit: x.id })} />)}</Chips>
+      </Card>
+
       <Button title={existing ? 'Сохранить изменения' : 'Сохранить визитку'} onPress={save} />
+      {card.name || card.latin || card.phones.length ? (
+        <Button title="В контакты телефона" icon="people" kind="light" onPress={() => { shareCard(card).then((ok) => { if (!ok) toast('На этом устройстве поделиться нельзя'); }).catch(() => toast('Не получилось подготовить контакт')); }} />
+      ) : null}
       {existing ? <Button title="Удалить визитку" kind="ghost" onPress={() => { removeCard(existing.id); toast('Визитка удалена'); router.back(); }} /> : null}
     </Plain>
   );
