@@ -107,8 +107,20 @@ export default function MindMap() {
         </View>
       </Card>
 
+      {sum.brief.length ? (
+        <Card>
+          <H3>Коротко</H3>
+          {sum.brief.map((p, i) => (
+            <Text key={i} style={{ fontFamily: F.regular, fontSize: 14, lineHeight: 20, color: C.ink }}>
+              <Text style={{ fontFamily: F.semibold, color: C.blueInk }}>{`${visitName(p.from || '')}: `}</Text>{p.text}
+            </Text>
+          ))}
+          <T muted>Главные фразы из заметок и расшифровок — выбраны на телефоне, без ИИ.</T>
+        </Card>
+      ) : null}
+
       <Card>
-        <H3>{day === undefined ? 'Главное за поездку' : `Главное · ${dayLabel(day)}`}</H3>
+        <H3>{day === undefined ? 'Темы поездки' : `Темы · ${dayLabel(day)}`}</H3>
         {sum.themes.length ? sum.themes.slice(0, 6).map((t) => (
           <View key={t.key} style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
             <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: t.color, marginTop: 5 }} />
@@ -144,7 +156,7 @@ export default function MindMap() {
         <Button title="Итоги поездки — PDF" icon="doc" kind="ghost" onPress={() => router.push('/report')} />
       )}
 
-      <T muted>Темы находятся по словам в заметках и в рассказе гида — у каждой заметки их можно поправить («Изменить темы»). Голосовым заметкам и фото темы ставите вы. Позже, с вашего согласия, ИИ на сервере будет расшифровывать голос и рассказ гида и писать саммари.</T>
+      <T muted>Темы и «Коротко» находятся по словам в заметках и в расшифровке экскурсии — у каждой заметки темы можно поправить («Изменить темы»). Голосовым заметкам и фото темы ставите вы. Расшифровку делает приложение переводчика — её вставляют в карточке визита.</T>
     </Plain>
   );
 }

@@ -6,9 +6,9 @@ import type { BizCard } from '@/data/card';
 import { dropFile, nowLabel } from '@/data/media';
 import { useStored } from '@/state/store';
 
-/** guide — рассказ гида (субтитры радиогида). tags и deal — поправленные вручную темы и отметка «договорённость»;
- *  пока не заданы, их находит словарь тем (data/themes.ts). */
-export type VNote = { id: string; at: string; kind: 'text' | 'voice' | 'photo' | 'guide'; text?: string; uri?: string; sec?: number; tags?: string[]; deal?: boolean };
+/** guide — рассказ гида: субтитры радиогида или расшифровка экскурсии из приложения переводчика (label — подпись).
+ *  tags и deal — поправленные вручную темы и отметка «договорённость»; пока не заданы, их находит словарь тем. */
+export type VNote = { id: string; at: string; kind: 'text' | 'voice' | 'photo' | 'guide'; text?: string; uri?: string; sec?: number; tags?: string[]; deal?: boolean; label?: string };
 
 type VisitsState = {
   notesOf: (visit: string) => VNote[];

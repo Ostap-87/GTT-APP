@@ -5,6 +5,7 @@
 import type { BizCard } from './card';
 import { VISITS } from './group';
 import { CITY, DAYS, TRIP, dayEvents } from './trip';
+import { keyPoints, sentences } from './summary';
 import { THEMES, findDeal, findThemes, snippet, themeOf } from './themes';
 import type { VNote } from '@/state/visits';
 
@@ -25,6 +26,8 @@ export const visitName = (id: string) => VISITS.find((v) => v.id === id)?.name |
 const hasText = (n: VNote) => (n.kind === 'text' || n.kind === 'guide') && !!n.text;
 export const noteThemes = (n: VNote) => n.tags ?? (hasText(n) ? findThemes(n.text) : []);
 export const noteDeal = (n: VNote) => n.deal ?? (hasText(n) && findDeal(n.text));
+/** Текст договорённости: короткая заметка целиком, из длинной расшифровки — фраза с договорённостью. */
+export const dealText = (n: VNote) => (!n.text || n.text.length < 200 ? n.text || '' : sentences(n.text).find((s) => findDeal(s)) || snippet(n.text, 120));
 /** Цитата к теме: фраза заметки, в которой тема прозвучала (или первая фраза). */
 function quote(n: VNote, key?: string) {
   if (!n.text) return n.kind === 'voice' ? 'голосовая заметка' : 'фото';
@@ -61,7 +64,7 @@ export function dayTree(day: number, src: MindSource[]): MindTree {
       const s = src.find((x) => x.visit === v.id);
       const notes = s?.notes || [];
       const leaves: MindLeaf[] = visitThemes(notes).slice(0, 4).map((t) => ({ kind: 'theme', text: themeOf(t.key)?.ru || t.key, sub: t.quote }));
-      notes.filter(noteDeal).slice(0, 2).forEach((n) => leaves.push({ kind: 'deal', text: 'Договорённость', sub: snippet(n.text, 64) }));
+      notes.filter(noteDeal).slice(0, 2).forEach((n) => leaves.push({ kind: 'deal', text: 'Договорённость', sub: snippet(dealText(n), 64) }));
       if (s?.cards.length) leaves.push(contactLeaf(s.cards));
       if (!leaves.length) leaves.push({ kind: 'empty', text: notes.length ? 'Заметки без тем' : 'Заметок нет' });
       return { key: v.id, label: v.name, color: CO_COLORS[i % CO_COLORS.length], leaves };
@@ -91,11 +94,13 @@ export function tripSummary(src: MindSource[], day?: number) {
   const themes = THEMES.filter((t) => byTheme.has(t.key))
     .map((t) => ({ ...t, visits: byTheme.get(t.key)!, n: byTheme.get(t.key)!.reduce((a, v) => a + v.n, 0) }))
     .sort((a, b) => b.visits.length - a.visits.length || b.n - a.n);
-  const deals = list.flatMap((s) => [...s.notes].reverse().filter(noteDeal).map((n) => ({ visit: s.visit, day: VISIT_DAY[s.visit], text: n.text || '' })))
+  const deals = list.flatMap((s) => [...s.notes].reverse().filter(noteDeal).map((n) => ({ visit: s.visit, day: VISIT_DAY[s.visit], text: dealText(n) })))
     .sort((a, b) => a.day - b.day);
   const cards = list.flatMap((s) => s.cards);
+  // «Коротко»: главные фразы заметок и расшифровок — бесплатно, на телефоне
+  const brief = keyPoints(list.flatMap((s) => [...s.notes].reverse().filter(hasText).map((n) => ({ text: n.text || '', from: s.visit }))), day === undefined ? 7 : 4, day === undefined ? 1 : 2);
   return {
-    themes, deals,
+    themes, deals, brief,
     contacts: cards.length,
     contactCompanies: new Set(cards.map((c) => c.visit)).size,
     notes: list.reduce((a, s) => a + s.notes.length, 0),

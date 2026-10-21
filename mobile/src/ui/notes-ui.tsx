@@ -7,6 +7,7 @@ import { Image, Platform, Pressable, Text, TextInput, View } from 'react-native'
 
 import { keepFile } from '@/data/media';
 import { noteDeal, noteThemes } from '@/data/mindmap';
+import { isLong, keyPoints, wordCount } from '@/data/summary';
 import { THEMES, themeOf } from '@/data/themes';
 import { useToast } from '@/state/toast';
 import { useVisits, type VNote } from '@/state/visits';
@@ -130,8 +131,8 @@ export function NoteList({ visit }: { visit: string }) {
           ) : (
             <View style={{ flexDirection: 'row', gap: 10 }}>
               <View style={{ flex: 1 }}>
-                {n.kind === 'guide' ? <Text style={{ fontFamily: F.semibold, fontSize: 12, color: C.blueInk }}>Рассказ гида</Text> : null}
-                <Text style={{ fontFamily: F.regular, fontSize: 14, lineHeight: 20, color: C.ink }}>{n.text}</Text>
+                {n.kind === 'guide' ? <Text style={{ fontFamily: F.semibold, fontSize: 12, color: C.blueInk }}>{n.label || 'Рассказ гида'}</Text> : null}
+                {isLong(n.text) ? <LongText text={n.text || ''} /> : <Text style={{ fontFamily: F.regular, fontSize: 14, lineHeight: 20, color: C.ink }}>{n.text}</Text>}
                 <Text style={{ fontFamily: F.regular, fontSize: 12, color: C.muted }}>{n.at}</Text>
               </View>
               <DeleteBtn onPress={() => removeNote(visit, n.id)} />
@@ -184,6 +185,24 @@ function NoteTags({ visit, n }: { visit: string; n: VNote }) {
           {THEMES.map((t) => <Pick key={t.key} title={t.ru} on={tags.includes(t.key)} onPress={() => toggle(t.key)} />)}
         </Chips>
       ) : null}
+    </View>
+  );
+}
+
+/** Длинная расшифровка: сначала «Коротко» (главные фразы), полный текст — по нажатию. */
+function LongText({ text }: { text: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <View style={{ gap: 4 }}>
+      {open ? <Text style={{ fontFamily: F.regular, fontSize: 14, lineHeight: 20, color: C.ink }}>{text}</Text> : (
+        <>
+          <Text style={{ fontFamily: F.semibold, fontSize: 13, color: C.ink }}>Коротко</Text>
+          {keyPoints([{ text }], 3).map((p, i) => <Text key={i} style={{ fontFamily: F.regular, fontSize: 14, lineHeight: 20, color: C.ink }}>{`• ${p.text}`}</Text>)}
+        </>
+      )}
+      <Pressable onPress={() => setOpen(!open)} accessibilityRole="button" hitSlop={6}>
+        <Text style={{ fontFamily: F.semibold, fontSize: 12.5, color: C.blue }}>{open ? 'Свернуть' : `Вся расшифровка · ${wordCount(text)} слов`}</Text>
+      </Pressable>
     </View>
   );
 }

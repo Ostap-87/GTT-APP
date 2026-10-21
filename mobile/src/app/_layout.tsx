@@ -77,6 +77,7 @@ export default function RootLayout() {
             <Stack.Screen name="card-scan" options={{ title: 'Визитка' }} />
             <Stack.Screen name="report" options={{ title: 'Итоги поездки' }} />
             <Stack.Screen name="mindmap" options={{ title: 'Майндмэп' }} />
+            <Stack.Screen name="transcript" options={{ title: 'Расшифровка' }} />
           </Stack>
         </ToastProvider>
         </VisitsProvider>

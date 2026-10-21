@@ -36,6 +36,7 @@ export default function CompanyVisit() {
       <Card>
         <TitleRow title={`Мои заметки · ${notesOf(v.id).length}`} />
         <NoteComposer visit={v.id} />
+        <Button title="Вставить расшифровку экскурсии" icon="headphones" kind="ghost" small onPress={() => router.push({ pathname: '/transcript', params: { visit: v.id } })} />
         <NoteList visit={v.id} />
         <T muted>Видите только вы. Фото удаляются долгим нажатием.</T>
       </Card>

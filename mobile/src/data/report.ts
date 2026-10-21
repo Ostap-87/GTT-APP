@@ -5,6 +5,7 @@ import catalog from './catalog.json';
 import type { BizCard } from './card';
 import { VISITS } from './group';
 import { DAYS_WITH_VISITS, PRINT_FONTS, VISIT_DAY, dayLabel, dayTree, mindSvg, noteDeal, tripSummary, tripTree, visitName, type MindSource, type MindTree } from './mindmap';
+import { isLong, keyPoints, wordCount } from './summary';
 import { CITY, DAYS, ME, TRIP } from './trip';
 import type { VNote } from '@/state/visits';
 
@@ -27,6 +28,8 @@ const CSS = `
   .map { margin: 10px 0; border: 1px solid #e3e7ef; border-radius: 10px; overflow: hidden; page-break-inside: avoid; }
   .map svg { display: block; width: 100%; height: auto; max-height: 235mm; }
   .msum { display: flex; gap: 16px; page-break-inside: avoid; }
+  .brief { background: #f3f6fb; border-radius: 8px; padding: 4px 12px 8px; margin: 8px 0; page-break-inside: avoid; }
+  .brief h4 { margin: 6px 0 4px; font-size: 11pt; } .brief ul { padding-left: 16px; margin: 0; } .brief li { margin: 3px 0; font-size: 10pt; }
   .msum > div { flex: 1; }
   .msum h4 { margin: 6px 0 4px; font-size: 11pt; }
   .msum ul { list-style: none; padding: 0; margin: 0; }
@@ -56,10 +59,18 @@ const mapBlock = (tree: MindTree) => `<div class="map">${mindSvg(tree, PRINT_FON
 /** Главные темы и вехи рядом с картой. */
 function summaryHtml(sum: ReturnType<typeof tripSummary>) {
   if (!sum.themes.length && !sum.deals.length) return '';
-  return `<div class="msum">
+  const brief = sum.brief.length ? `<div class="brief"><h4>Коротко</h4><ul>${sum.brief.map((p) => `<li><b>${esc(visitName(p.from || ''))}:</b> ${esc(p.text)}</li>`).join('')}</ul></div>` : '';
+  return `${brief}<div class="msum">
     ${sum.themes.length ? `<div><h4>Главные темы</h4><ul>${sum.themes.slice(0, 6).map((t) => `<li><i style="background:${t.color}"></i><b>${esc(t.ru)}</b> — ${t.visits.map((v) => esc(visitName(v.visit))).join(', ')}</li>`).join('')}</ul></div>` : ''}
     ${sum.deals.length ? `<div><h4>Вехи и договорённости</h4><ul>${sum.deals.map((d) => `<li><b>${esc(`${DAYS[d.day]?.wd} ${DAYS[d.day]?.n}`)} · ${esc(visitName(d.visit))}</b> — ${esc(d.text)}</li>`).join('')}</ul></div>` : ''}
   </div>`;
+}
+
+/** Заметка в PDF; длинная расшифровка — только «Коротко», полный текст остаётся в приложении. */
+function noteBody(n: VNote) {
+  const head = n.kind === 'guide' ? `<b>${esc(n.label || 'Рассказ гида')}:</b> ` : '';
+  if (!isLong(n.text)) return head + esc(n.text || '');
+  return `${head}коротко — <ul>${keyPoints([{ text: n.text || '' }], 5).map((p) => `<li>${esc(p.text)}</li>`).join('')}</ul><span class="muted">Полная расшифровка (${wordCount(n.text)} слов) — в приложении.</span>`;
 }
 
 function visitHtml({ id, notes, cards, photos }: ReportVisit) {
@@ -68,7 +79,7 @@ function visitHtml({ id, notes, cards, photos }: ReportVisit) {
   const voices = notes.filter((n) => n.kind === 'voice').length;
   return `<section class="visit">
     <div class="vh"><h2>${esc(v?.name || id)}</h2><span>${esc(v?.when || '')}</span></div>
-    ${texts.length ? `<ul class="notes">${[...texts].reverse().map((n) => `<li>${noteDeal(n) ? '<span class="deal">Договорённость</span>' : ''}${n.kind === 'guide' ? '<b>Рассказ гида:</b> ' : ''}${esc(n.text || '')}<small>${esc(n.at)}</small></li>`).join('')}</ul>` : ''}
+    ${texts.length ? `<ul class="notes">${[...texts].reverse().map((n) => `<li>${noteDeal(n) ? '<span class="deal">Договорённость</span>' : ''}${noteBody(n)}<small>${esc(n.at)}</small></li>`).join('')}</ul>` : ''}
     ${voices ? `<p class="muted">Голосовых заметок: ${voices} — слушать в приложении.</p>` : ''}
     ${photos.length ? `<div class="photos">${photos.map((p) => `<img src="data:image/jpeg;base64,${p}"/>`).join('')}</div>` : ''}
     ${cards.length ? `<table><tr><th>Контакт</th><th>Должность и компания</th><th>Связь</th></tr>${cards.map((c) => `<tr>
@@ -78,6 +89,11 @@ function visitHtml({ id, notes, cards, photos }: ReportVisit) {
   </section>`;
 }
 
+const dayBrief = (src: MindSource[], d: number) => {
+  const b = tripSummary(src, d).brief;
+  return b.length ? `<div class="brief"><h4>Коротко за день</h4><ul>${b.map((p) => `<li><b>${esc(visitName(p.from || ''))}:</b> ${esc(p.text)}</li>`).join('')}</ul></div>` : '';
+};
+
 export function reportHtml(visits: ReportVisit[], when: string) {
   const src: MindSource[] = visits.map(({ id, notes, cards }) => ({ visit: id, notes, cards }));
   const sum = tripSummary(src);
@@ -85,6 +101,7 @@ export function reportHtml(visits: ReportVisit[], when: string) {
   const dayBlocks = days.map((d) => `<section class="day">
     <div class="dh"><h2>${esc(dayLabel(d))}</h2><span>${esc(CITY[d])}</span></div>
     ${mapBlock(dayTree(d, src))}
+    ${dayBrief(src, d)}
     ${visits.filter((v) => VISIT_DAY[v.id] === d).map(visitHtml).join('')}
   </section>`).join('');
   const tours = nextTours();
