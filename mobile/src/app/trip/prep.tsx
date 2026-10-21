@@ -2,17 +2,17 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { SvgXml } from 'react-native-svg';
 
 import { foodLine } from '@/data/profile';
 import { CHINA_PREP } from '@/data/china-prep';
-import { ROUTE_STATS, ROUTE_TEXT, routeSvg } from '@/data/route';
+import { ROUTE_STATS, ROUTE_TEXT } from '@/data/route';
 import { CHECKLIST, CULTURE, ME } from '@/data/trip';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
 import { Icon } from '@/ui/Icon';
 import { Avatar, Button, Card, Check, Chip, Field, H3, Row, Screen, Seg, T, TitleRow, initials } from '@/ui/kit';
+import { RouteMap } from '@/ui/RouteMap';
 import { C, F } from '@/ui/theme';
 
 /** «Китай: связь, оплата, розетки» — раскрывающиеся советы с отметкой «сделано». */
@@ -166,7 +166,7 @@ export default function Prep() {
           <Card onPress={() => router.push('/route')} label="Маршрут поездки">
             <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
               <View style={{ width: 96, height: 115, borderRadius: 10, overflow: 'hidden' }}>
-                <SvgXml xml={routeSvg(99, undefined, { regular: F.regular, bold: F.bold })} width={96} height={115} />
+                <RouteMap compact shown={99} width={96} height={115} />
               </View>
               <View style={{ flex: 1, gap: 4 }}>
                 <H3>Как мы поедем</H3>

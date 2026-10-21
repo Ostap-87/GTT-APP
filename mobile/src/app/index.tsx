@@ -102,7 +102,10 @@ export default function Welcome() {
           <View style={{ flex: 1 }}><Button title="Координатор" kind="light" icon="grid" label="Войти как координатор" onPress={() => router.replace('/coord')} /></View>
           <View style={{ flex: 1 }}><Button title="Агент" kind="light" icon="send" label="Войти как агент" onPress={() => router.replace('/agent')} /></View>
         </View>
-        <Button title={`Программы GTT · ${catalog.length}`} kind="ghost" icon="globe" onPress={() => router.push('/catalog')} />
+        <View style={{ flexDirection: 'row', gap: 8 }}>
+          <View style={{ flex: 1 }}><Button title="Администратор" kind="light" icon="lock" label="Войти как администратор" onPress={() => router.replace('/admin')} /></View>
+          <View style={{ flex: 1 }}><Button title={`Программы · ${catalog.length}`} kind="ghost" icon="globe" label={`Программы GTT · ${catalog.length}`} onPress={() => router.push('/catalog')} /></View>
+        </View>
         <Text style={st.note}>{`Демо: ${TRIP.title}, ${TRIP.dates}. Участники вымышленные. Всё, что вы отметите, сохраняется на телефоне.`}</Text>
         <Pressable onPress={reset} accessibilityRole="button" accessibilityLabel="Начать демо заново" hitSlop={8}>
           <Text style={[st.note, { color: armed ? C.warn : C.blue, fontFamily: F.semibold }]}>{armed ? 'Нажмите ещё раз — всё сохранённое сотрётся' : 'Начать демо заново'}</Text>

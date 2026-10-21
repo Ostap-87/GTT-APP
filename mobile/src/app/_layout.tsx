@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { AdminProvider } from '@/state/admin';
 import { AgentProvider } from '@/state/agent';
 import { ResetContext } from '@/state/reset';
 import { CoordProvider } from '@/state/coord';
@@ -33,6 +34,7 @@ export default function RootLayout() {
       <TripProvider key={gen}>
         <CoordProvider>
         <AgentProvider>
+        <AdminProvider>
         <VisitsProvider>
         <ToastProvider>
           <StatusBar style="dark" />
@@ -79,9 +81,12 @@ export default function RootLayout() {
             <Stack.Screen name="mindmap" options={{ title: 'Майндмэп' }} />
             <Stack.Screen name="transcript" options={{ title: 'Расшифровка' }} />
             <Stack.Screen name="route" options={{ title: 'Маршрут' }} />
+            <Stack.Screen name="admin" options={{ headerShown: false }} />
+            <Stack.Screen name="admin-trip/[id]" options={{ title: 'Поездка' }} />
           </Stack>
         </ToastProvider>
         </VisitsProvider>
+        </AdminProvider>
         </AgentProvider>
         </CoordProvider>
       </TripProvider>

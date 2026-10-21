@@ -2,6 +2,7 @@
 // Каталог программ для приложения — из данных сайта globaltechtour.ru (репозиторий Ostap-87/SINOTECH).
 // Запуск: node tools/sync-catalog.mjs [путь к клону SINOTECH]  (по умолчанию ../sinotech рядом с GTT-APP)
 // Результат: mobile/src/data/catalog.json — только то, что показывает приложение. Цен в нём нет (правило репозитория).
+// Заодно — границы провинций Китая для карты маршрута, те же, что на сайте (mobile/src/data/china-provinces.json).
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -54,3 +55,8 @@ const out = tours.map((t) => {
 const file = join(root, 'mobile/src/data/catalog.json');
 writeFileSync(file, `${JSON.stringify(out, null, 1)}\n`);
 console.log(`каталог: ${out.length} программ → ${file}`);
+
+// Карта маршрута в приложении рисует те же провинции, что карта на сайте
+const geo = join(root, 'mobile/src/data/china-provinces.json');
+writeFileSync(geo, readFileSync(join(sinotech, 'src/data/china-provinces.json')));
+console.log(`границы провинций → ${geo}`);

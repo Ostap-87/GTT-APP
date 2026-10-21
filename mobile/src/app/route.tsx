@@ -1,30 +1,31 @@
-// Маршрут поездки (решение 21.10.2026): схема городов и переездов. При первом открытии маршрут «проигрывается» —
-// из Москвы по городам и обратно; нажатие на город открывает, что в нём: компании, культура, отель, погода, как едем дальше.
+// Маршрут поездки (решения 21.10.2026): карта Китая по провинциям, как на сайте. При открытии маршрут «проигрывается» —
+// из Москвы по городам и обратно; нажатие на город приближает его и открывает, что в нём: компании, культура, отель,
+// погода, как едем дальше.
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { AccessibilityInfo, Pressable, Text, View } from 'react-native';
-import { SvgXml } from 'react-native-svg';
+import { AccessibilityInfo, Text, View } from 'react-native';
 
-import { LEGS, ROUTE_STATS, ROUTE_TEXT, STOPS, dayShort, pointOf, routeSvg, stopDays, stopInfo } from '@/data/route';
+import { LEGS, ROUTE_STATS, ROUTE_TEXT, STOPS, dayShort, pointOf, stopDays, stopInfo } from '@/data/route';
 import { Icon } from '@/ui/Icon';
 import { Button, Card, Chip, H3, Plain, Row, T, TitleRow } from '@/ui/kit';
+import { RouteMap } from '@/ui/RouteMap';
 import { C, F } from '@/ui/theme';
 
-const VB = { w: 360, h: 430 };
-const FONT = { regular: F.regular, bold: F.bold };
-const STEP_MS = 1500;
+const STEP_MS = 2600; // переезд рисуется 1,3 с, потом камера у города
 const howRu = (how: 'plane' | 'train') => (how === 'plane' ? 'перелёт' : 'поезд');
 
 export default function RouteScreen() {
   const [shown, setShown] = useState(LEGS.length);
   const [sel, setSel] = useState(STOPS[0].key);
   const [playing, setPlaying] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
   const [boxW, setBoxW] = useState(0);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const play = () => {
     clearTimeout(timer.current);
     setPlaying(true);
+    setZoomed(true);
     setShown(0);
     let i = 0;
     const tick = () => {
@@ -33,7 +34,7 @@ export default function RouteScreen() {
       const to = LEGS[i - 1].to;
       if (to !== 'moscow') setSel(to);
       if (i < LEGS.length) timer.current = setTimeout(tick, STEP_MS);
-      else setPlaying(false);
+      else timer.current = setTimeout(() => { setPlaying(false); setZoomed(false); }, STEP_MS); // в конце — весь маршрут
     };
     timer.current = setTimeout(tick, 400);
   };
@@ -44,8 +45,7 @@ export default function RouteScreen() {
     return () => clearTimeout(timer.current);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const pick = (key: string) => { clearTimeout(timer.current); setPlaying(false); setShown(LEGS.length); setSel(key); };
-  const scale = boxW / VB.w;
+  const pick = (key: string) => { clearTimeout(timer.current); setPlaying(false); setShown(LEGS.length); setSel(key); setZoomed(true); };
   const stopIdx = STOPS.findIndex((s) => s.key === sel);
   const stop = STOPS[stopIdx];
   const info = stopInfo(stop);
@@ -60,19 +60,19 @@ export default function RouteScreen() {
 
       <Card style={{ padding: 8 }}>
         <View onLayout={(e) => setBoxW(e.nativeEvent.layout.width)} style={{ borderRadius: 12, overflow: 'hidden' }}>
-          {boxW ? (
-            <View style={{ width: boxW, height: VB.h * scale }}>
-              <SvgXml xml={routeSvg(shown, sel, FONT)} width={boxW} height={VB.h * scale} />
-              {STOPS.map((s) => (
-                <Pressable key={s.key} onPress={() => pick(s.key)} accessibilityRole="button" accessibilityLabel={`${s.ru}, ${stopDays(s)}`}
-                  style={{ position: 'absolute', left: s.x * scale - 26, top: s.y * scale - 26, width: 52, height: 52, borderRadius: 26 }} />
-              ))}
-            </View>
-          ) : <View style={{ height: 300 }} />}
+          {boxW ? <RouteMap shown={shown} sel={sel} zoomed={zoomed} onPick={pick} width={boxW} height={Math.round(boxW * 1.1)} /> : <View style={{ height: 300 }} />}
+        </View>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, paddingTop: 8 }}>
+          {STOPS.map((s, i) => (
+            <Button key={s.key} small kind={sel === s.key && zoomed ? 'primary' : 'light'} title={`${i + 1}. ${s.ru}`} label={`${s.ru}, ${stopDays(s)}`} onPress={() => pick(s.key)} />
+          ))}
         </View>
         <View style={{ padding: 6, gap: 6 }}>
-          <Button title={playing ? 'Едем…' : 'Проиграть маршрут'} icon="play" kind="light" onPress={() => { if (!playing) play(); }} />
-          <T muted>Нажмите на город — внизу появится, что в нём. Пунктир — перелёт, сплошная линия — поезд. Схема без масштаба.</T>
+          <View style={{ flexDirection: 'row', gap: 8 }}>
+            <View style={{ flex: 1 }}><Button title={playing ? 'Едем…' : 'Проиграть'} icon="play" kind="light" onPress={() => { if (!playing) play(); }} /></View>
+            <View style={{ flex: 1 }}><Button title="Весь маршрут" icon="route" kind="ghost" onPress={() => { clearTimeout(timer.current); setPlaying(false); setShown(LEGS.length); setZoomed(false); }} /></View>
+          </View>
+          <T muted>Нажмите на город — карта приблизит его провинцию, внизу появится, что в нём. Пунктир — перелёт, сплошная линия — поезд.</T>
         </View>
       </Card>
 
