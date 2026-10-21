@@ -3,15 +3,22 @@ import { router } from 'expo-router';
 import { Text, View } from 'react-native';
 
 import { datesText } from '@/data/admin';
+import { REGION_RU, TENANT } from '@/data/tenant';
 import { useAdmin } from '@/state/admin';
 import { AdminScreen } from '@/ui/admin-ui';
-import { Button, Card, Chip, T, TitleRow } from '@/ui/kit';
+import { Button, Card, Chip, Row, T, TitleRow } from '@/ui/kit';
+import { Monogram } from '@/ui/Monogram';
 import { C, F } from '@/ui/theme';
 
 export default function AdminTrips() {
   const a = useAdmin();
   return (
     <AdminScreen title="Поездки">
+      {/* white label: какой организатор (клиент платформы) открыт и где хранятся данные его участников */}
+      <Card onPress={() => router.push('/join')} label={`Организатор: ${TENANT.name}. Сменить`}>
+        <Row first left={<Monogram t={TENANT} size={40} />} title={`Организатор: ${TENANT.name}`}
+          sub={`Код приглашения ${TENANT.code} · данные участников хранятся: ${REGION_RU[TENANT.region]}`} right={<Chip tone="info">сменить</Chip>} />
+      </Card>
       <Card tone="info">
         <T>{a.level === 'full'
           ? 'Поездка создаётся из программы сайта, дальше — даты, дни, люди. Правки копятся в черновике и уходят делегатам кнопкой «Опубликовать».'

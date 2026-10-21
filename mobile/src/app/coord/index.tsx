@@ -11,6 +11,7 @@ import { useToast } from '@/state/toast';
 import { Avatar, Button, Card, Chip, Row, T, TitleRow, initials } from '@/ui/kit';
 import { Bar, CoordScreen, LegsCard, Stat } from '@/ui/coord-ui';
 import { C } from '@/ui/theme';
+import { TENANT } from '@/data/tenant';
 
 type Item = { key: string; title: string; sub?: string; btns: [string, 'primary' | 'ghost', () => void][] };
 
@@ -62,7 +63,7 @@ export default function Center() {
   k.reviews.filter((r) => r.status === 'new').forEach((r) => items.push({
     key: `r-${r.id}`, title: `Отзыв о поездке от Анны Смирновой · ${r.video ? 'видео 0:48' : 'текст'}`, sub: r.text ? `«${r.text}»` : 'Видеоотзыв с телефона',
     btns: ([['Поблагодарить', 'primary', () => { k.markReview(r.id, 'thanked'); toast('Анна получит благодарность'); }]] as Item['btns'])
-      .concat(r.consent ? [['В соцсети GTT', 'ghost', () => { k.markReview(r.id, 'shared'); toast('Отзыв в очереди публикаций GTT — выйдет после вашего «утверждаю»'); }]] : []),
+      .concat(r.consent ? [[`В соцсети ${TENANT.short}`, 'ghost', () => { k.markReview(r.id, 'shared'); toast(`Отзыв в очереди публикаций ${TENANT.short} — выйдет после вашего «утверждаю»`); }]] : []),
   }));
   if (!k.pddReminded && has('pdd')) items.push({ key: 'pdd', title: 'Pinduoduo не открыла ссылку визита · 3 дня', btns: [['Напомнить', 'ghost', () => { k.remindPdd(); toast('Pinduoduo получит напоминание в WeChat'); }]] });
   if (!k.igorReminded) items.push({ key: 'igor', title: 'Игорь Белов · нет билета', btns: [['Напомнить', 'ghost', () => { k.remindIgor(); toast('Игорь получит напоминание в Telegram'); }]] });

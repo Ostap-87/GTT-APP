@@ -52,7 +52,8 @@ export function Plain({ children }: { children: ReactNode }) {
 }
 
 export function Card({ children, tone, style, onPress, label }: { children: ReactNode; tone?: 'dark' | 'info' | 'warn' | 'accent'; style?: StyleProp<ViewStyle>; onPress?: () => void; label?: string }) {
-  const st = [s.card, tone === 'dark' && s.cardDark, tone === 'info' && s.cardInfo, tone === 'warn' && s.cardWarn, tone === 'accent' && s.cardAccent, style];
+  // цвета бренда — при рендере (их меняет applyTenant), остальное — из StyleSheet
+  const st = [s.card, tone === 'dark' && s.cardDark, tone === 'info' && { backgroundColor: C.blueSoft }, tone === 'warn' && s.cardWarn, tone === 'accent' && { borderWidth: 1.5, borderColor: C.blue }, style];
   // у первой строки карточки нет разделителя сверху — линия нужна только между строками
   const kids = Children.toArray(children);
   if (isValidElement(kids[0]) && kids[0].type === Row) kids[0] = cloneElement(kids[0] as ReactElement<{ first?: boolean }>, { first: true });
@@ -133,15 +134,15 @@ export function Row({ title, sub, left, right, onPress, label, first }: { title:
 
 export function Avatar({ text, size = 36 }: { text: string; size?: number }) {
   return (
-    <View style={[s.avatar, { width: size, height: size, borderRadius: size / 2 }]}>
-      <Text style={s.avatarText}>{text}</Text>
+    <View style={[s.avatar, { width: size, height: size, borderRadius: size / 2, backgroundColor: C.blueSoft }]}>
+      <Text style={[s.avatarText, { color: C.blueInk }]}>{text}</Text>
     </View>
   );
 }
 
 export function Pick({ title, on, onPress }: { title: string; on: boolean; onPress: () => void }) {
   return (
-    <Pressable onPress={() => { selectFeel(); onPress(); }} accessibilityRole="button" accessibilityState={{ selected: on }} style={[s.pick, on && s.pickOn]}>
+    <Pressable onPress={() => { selectFeel(); onPress(); }} accessibilityRole="button" accessibilityState={{ selected: on }} style={[s.pick, on && { backgroundColor: C.blue, boxShadow: SH.blue }]}>
       <Text style={[s.pickText, on && { color: '#fff', fontFamily: F.bold }]}>{title}</Text>
     </Pressable>
   );
@@ -217,9 +218,7 @@ export const s = StyleSheet.create({
   rowBetween: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
   card: { backgroundColor: C.card, borderRadius: 24, paddingVertical: 15, paddingHorizontal: 17, gap: 8, boxShadow: SH.clay },
   cardDark: { backgroundColor: C.dark, boxShadow: SH.dark },
-  cardInfo: { backgroundColor: C.blueSoft },
   cardWarn: { backgroundColor: '#fdf0e6' },
-  cardAccent: { borderWidth: 1.5, borderColor: C.blue },
   h3: { fontFamily: F.bold, fontSize: 15, color: C.ink },
   t: { fontFamily: F.regular, fontSize: 14, lineHeight: 20, color: C.ink },
   muted: { color: C.muted, fontSize: 12.5, lineHeight: 18 },
@@ -232,10 +231,9 @@ export const s = StyleSheet.create({
   rowFirst: { borderTopWidth: 0, paddingTop: 2 },
   rowTitle: { fontFamily: F.semibold, fontSize: 14, color: C.ink },
   rowSub: { fontFamily: F.regular, fontSize: 12.5, color: C.muted, marginTop: 2 },
-  avatar: { backgroundColor: C.blueSoft, alignItems: 'center', justifyContent: 'center', boxShadow: SH.small },
-  avatarText: { fontFamily: F.bold, fontSize: 12, color: C.blueInk },
+  avatar: { alignItems: 'center', justifyContent: 'center', boxShadow: SH.small },
+  avatarText: { fontFamily: F.bold, fontSize: 12 },
   pick: { backgroundColor: C.card, borderRadius: 999, paddingHorizontal: 13, paddingVertical: 8, maxWidth: '100%', boxShadow: SH.small },
-  pickOn: { backgroundColor: C.blue, boxShadow: SH.blue },
   pickText: { fontFamily: F.medium, fontSize: 13, color: C.ink },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   seg: { flexDirection: 'row', backgroundColor: C.well, borderRadius: 14, padding: 4, boxShadow: SH.inset },

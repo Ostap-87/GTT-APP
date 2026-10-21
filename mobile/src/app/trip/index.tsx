@@ -8,6 +8,7 @@ import { Animated, Easing, Text, View } from 'react-native';
 import { GUIDE } from '@/data/extras';
 import { NOW, VISITS, toMin } from '@/data/group';
 import { routeText } from '@/data/route';
+import { TENANT } from '@/data/tenant';
 import { CITY, DAYS, DAY_NOTES, TRIP, WEATHER, dayEvents, hotelOf, weatherLine, type TripEvent } from '@/data/trip';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
@@ -95,7 +96,7 @@ export default function Today() {
       </View>
 
       <Card>
-        <Row left={<Avatar text="ОД" size={42} />} title="Остап Доценко" sub="Координатор · на связи круглосуточно" />
+        <Row left={<Avatar text={TENANT.coordinator.initials} size={42} />} title={TENANT.coordinator.name} sub="Координатор · на связи круглосуточно" />
         <View style={{ flexDirection: 'row', gap: 10 }}>
           <View style={{ flex: 1 }}>
             <Button title={unread > 0 ? `Написать · ${unread}` : 'Написать'} icon="chat" label={unread > 0 ? `Чат с координатором: ${unread} новых` : 'Написать координатору'} onPress={() => router.push('/chat')} />
@@ -139,7 +140,7 @@ function NowHero({ dep, onTaxi }: { dep: TripEvent; onTaxi: () => void }) {
   const big = dep.name === 'Выезд из отеля' ? `Выезд в ${dep.t}` : `${dep.t} · ${dep.name}`;
   return (
     <View style={{ borderRadius: 26, boxShadow: SH.hero }} onLayout={(e) => setWd(e.nativeEvent.layout.width)}>
-      <LinearGradient colors={['#2b80f2', '#0f4fc0']} start={{ x: 0.1, y: 0 }} end={{ x: 0.9, y: 1 }} style={{ borderRadius: 26, overflow: 'hidden', paddingHorizontal: 18, paddingTop: 18, paddingBottom: 16 }}>
+      <LinearGradient colors={[C.heroFrom, C.heroTo]} start={{ x: 0.1, y: 0 }} end={{ x: 0.9, y: 1 }} style={{ borderRadius: 26, overflow: 'hidden', paddingHorizontal: 18, paddingTop: 18, paddingBottom: 16 }}>
         {/* глянцевый блик сверху слева */}
         <LinearGradient pointerEvents="none" colors={['rgba(255,255,255,0.30)', 'rgba(255,255,255,0)']} start={{ x: 0.2, y: 0.2 }} end={{ x: 0.75, y: 0.8 }}
           style={{ position: 'absolute', left: '-20%', top: '-60%', width: '90%', height: '130%', borderRadius: 999 }} />

@@ -20,6 +20,7 @@ import { EsimOffers } from '@/ui/EsimOffers';
 import { RemindersCard } from '@/ui/RemindersCard';
 import { RouteMap } from '@/ui/RouteMap';
 import { C, F, SH } from '@/ui/theme';
+import { TENANT } from '@/data/tenant';
 
 /** «Страна: связь, оплата, розетки» — раскрывающиеся советы с отметкой «сделано»; набор — по стране поездки. */
 function CountryPrep() {
@@ -130,7 +131,7 @@ function After() {
               : video
                 ? <Row left={<Icon name="video" size={24} color={C.ink} />} title="Видео 0:48 записано" sub="Можно переснять" right={<Button title="Переснять" kind="ghost" small onPress={() => toast('Камера откроется в приложении')} />} />
                 : <Button title="Записать видео до 2 минут" icon="video" kind="ghost" onPress={() => { setVideo(true); toast('Видео 0:48 записано (в демо — без камеры)'); }} />}
-            <Check on={consent} onPress={() => setConsent(!consent)}>Разрешаю Global Tech Tour опубликовать отзыв на сайте и в соцсетях</Check>
+            <Check on={consent} onPress={() => setConsent(!consent)}>{`Разрешаю ${TENANT.name} опубликовать отзыв на сайте и в соцсетях`}</Check>
             <Button title="Отправить отзыв" onPress={send} />
           </>
         )}

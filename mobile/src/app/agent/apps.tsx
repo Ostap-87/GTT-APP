@@ -9,6 +9,7 @@ import { useAgent } from '@/state/agent';
 import { AgentScreen } from '@/ui/agent-ui';
 import { Stat } from '@/ui/coord-ui';
 import { Button, Card, Chip, H3, Row, T, TitleRow } from '@/ui/kit';
+import { TENANT } from '@/data/tenant';
 
 export default function AgentApps() {
   const a = useAgent();
@@ -42,7 +43,7 @@ export default function AgentApps() {
       </Card>
       <Card>
         <H3>Как это работает</H3>
-        <T muted>Заявка уходит координатору GTT в приложение и в Telegram. Статус меняется здесь: отправлена → в работе → подтверждена. Паспорта и телефоны участников — только после подтверждения, хранятся на сервере в России.</T>
+        <T muted>{`Заявка уходит координатору ${TENANT.short} в приложение и в Telegram.`} Статус меняется здесь: отправлена → в работе → подтверждена. Паспорта и телефоны участников — только после подтверждения, хранятся на сервере в России.</T>
       </Card>
     </AgentScreen>
   );

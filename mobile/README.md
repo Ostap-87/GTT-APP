@@ -196,3 +196,16 @@ Expo меняется от версии к версии: перед работо
   (`sendChat`, `readChat`, `unread`, `readBy`).
 - **Категория расхода сама** — `guessCategory` в `src/data/expenses.ts` (побеждает категория с большим числом совпадений).
 
+## White label — организатор как клиент платформы (21.10.2026)
+
+- **Организатор** — `src/data/tenant.ts`: `TENANTS` (GTT и демо «Ваш бренд»), текущий `TENANT`, `applyTenant(id)` меняет
+  на месте акцентные цвета темы (`C.blue`, `blueInk`, `blueSoft`, `heroFrom`, `heroTo`) и тени `SH.blue`, `SH.hero`.
+  Выбор хранится в `tenant.id`; смена — `useSwitchTenant()` из `src/state/reset.ts` (экраны пересобираются через `gen`).
+- **Правило:** цвета бренда читаем только при рендере (inline-стили, функции), не в `StyleSheet.create` и не в константах
+  модуля — они вычисляются один раз при загрузке и не узнают о смене организатора. Тексты с названием организатора —
+  `TENANT.name` / `TENANT.short`, координатор — `TENANT.coordinator`.
+- **Вход** — `src/app/join.tsx`: код руками → стартовый экран организатора; ссылка `/join?code=DEMO` → сразу «Сегодня».
+  Стартовый экран — `src/app/index.tsx` (`TenantWelcome` для всех, кроме GTT), монограмма — `src/ui/Monogram.tsx`.
+- **Панель вкладок** — `TabBar3D three={TENANT.icons3d}`: объёмные значки только у GTT.
+- Проверка в браузере: начинать с `/demo` или `/join?code=…`; стартовый экран GTT с 3D-заставкой «вешает» безголовый Chromium.
+

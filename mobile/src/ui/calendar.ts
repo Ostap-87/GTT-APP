@@ -9,24 +9,26 @@ import { Platform } from 'react-native';
 import { TRIP } from '@/data/trip';
 import { icsOf, tripItems, tzOfDay } from '@/data/when';
 import { safeName, shareFile } from './files';
+import { TENANT } from '@/data/tenant';
 
 export type CalendarResult = { how: 'calendar' | 'file'; n: number } | { how: 'denied' | 'error'; n: 0 };
-const TITLE = 'Global Tech Tour';
+// календарь называется по организатору поездки (white label)
+const title = () => TENANT.name;
 
 /** Можно ли писать в календарь напрямую (собранное приложение, не Expo Go и не браузер). */
 export const directCalendar = Platform.OS !== 'web' && Constants.executionEnvironment !== ExecutionEnvironment.StoreClient;
 
 async function ourCalendar() {
   const all = await Calendar.getCalendars(Calendar.EntityTypes.EVENT);
-  const mine = all.find((c) => c.title === TITLE && c.allowsModifications);
+  const mine = all.find((c) => c.title === title() && c.allowsModifications);
   if (mine) return mine;
   if (Platform.OS === 'ios') {
     const def = Calendar.getDefaultCalendarSync();
-    return Calendar.createCalendar({ title: TITLE, color: '#1a73e8', entityType: Calendar.EntityTypes.EVENT, sourceId: def.source.id, source: def.source });
+    return Calendar.createCalendar({ title: title(), color: TENANT.accent, entityType: Calendar.EntityTypes.EVENT, sourceId: def.source.id, source: def.source });
   }
   return Calendar.createCalendar({
-    title: TITLE, name: 'gtt', color: '#1a73e8', entityType: Calendar.EntityTypes.EVENT, ownerAccount: 'gtt',
-    source: { isLocalAccount: true, name: TITLE, type: 'LOCAL' }, accessLevel: Calendar.CalendarAccessLevel.OWNER,
+    title: title(), name: 'gtt', color: TENANT.accent, entityType: Calendar.EntityTypes.EVENT, ownerAccount: 'gtt',
+    source: { isLocalAccount: true, name: title(), type: 'LOCAL' }, accessLevel: Calendar.CalendarAccessLevel.OWNER,
   });
 }
 

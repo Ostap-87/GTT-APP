@@ -12,6 +12,7 @@ import { addTripToCalendar, directCalendar } from './calendar';
 import { Icon } from './Icon';
 import { Button, Card, Chips, H3, Pick, Row, Seg, T } from './kit';
 import { C, F } from './theme';
+import { TENANT } from '@/data/tenant';
 
 export function RemindersCard() {
   const { reminders: s, setReminders } = useTrip();
@@ -27,7 +28,7 @@ export function RemindersCard() {
     setBusy(true);
     const r = await addTripToCalendar(s.lead);
     setBusy(false);
-    if (r.how === 'calendar') toast(`В календаре «Global Tech Tour»: ${r.n} событий с напоминанием за ${s.lead} мин`);
+    if (r.how === 'calendar') toast(`В календаре «${TENANT.name}»: ${r.n} событий с напоминанием за ${s.lead} мин`);
     else if (r.how === 'file') toast(Platform.OS === 'web' ? 'Файл календаря скачан — откройте его' : 'Выберите календарь, почту или «Файлы»');
     else if (r.how === 'denied') toast('Разрешите доступ к календарю в настройках телефона');
     else toast('Не получилось — попробуйте ещё раз');
@@ -61,7 +62,7 @@ export function RemindersCard() {
       ) : <T muted>В браузере напоминания не приходят — включите их в приложении на телефоне.</T>}
       <Button title={busy ? 'Добавляю…' : 'Добавить всю программу в календарь'} icon="cal" kind="light" onPress={() => { if (!busy) calendar(); }} />
       <T muted>{directCalendar
-        ? 'События появятся в отдельном календаре «Global Tech Tour» с напоминанием; повторное нажатие обновит их.'
+        ? `События появятся в отдельном календаре «${TENANT.name}» с напоминанием; повторное нажатие обновит их.`
         : Platform.OS === 'web'
           ? 'Скачается файл .ics — его открывают Календарь, Google Календарь и Outlook.'
           : 'В тестовой версии (Expo Go) программа уходит файлом: на Android откройте его календарём; на iPhone отправьте себе на почту или сохраните в «Файлы» и нажмите «Добавить все». В приложении из App Store — сразу в Календарь.'}</T>

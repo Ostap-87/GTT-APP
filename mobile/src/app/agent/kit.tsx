@@ -3,6 +3,7 @@ import { DEPS, tourById } from '@/data/agent';
 import { useToast } from '@/state/toast';
 import { AgentScreen, AgentTerms } from '@/ui/agent-ui';
 import { Avatar, Button, Card, Chip, H3, Row, T, TitleRow } from '@/ui/kit';
+import { TENANT } from '@/data/tenant';
 
 const REELS: [string, string][] = [['Автопром и электромобили Китая', '1:48'], ['Чай и кофе Китая', '1:31'], ['Косметика и anti-age', '1:35']];
 
@@ -19,7 +20,7 @@ export default function AgentKit() {
       <Card>
         <H3>Ролики и фото для ваших соцсетей</H3>
         {REELS.map(([n, d]) => <Row key={n} title={n} sub={`Reels · ${d}`} right={<Button title="" icon="down" kind="ghost" small label={`Скачать ролик: ${n}`} onPress={() => toast(`Ролик «${n}» скачан`)} />} />)}
-        <T muted>Правила использования и отметка GTT — [уточнить].</T>
+        <T muted>{`Правила использования и отметка ${TENANT.short} — [уточнить].`}</T>
       </Card>
       <Card>
         <H3>Условия сотрудничества</H3>
@@ -27,7 +28,7 @@ export default function AgentKit() {
         <T muted>Поля подготовлены: стоимость и комиссию для агентов координатор укажет позже. Договор — [уточнить].</T>
       </Card>
       <Card>
-        <Row left={<Avatar text="ОД" />} title="Остап Доценко" sub="Координатор · заявки агентов" right={<Button title="Написать" kind="light" small onPress={() => toast('Открываем чат с координатором в Telegram')} />} />
+        <Row left={<Avatar text={TENANT.coordinator.initials} />} title={TENANT.coordinator.name} sub="Координатор · заявки агентов" right={<Button title="Написать" kind="light" small onPress={() => toast('Открываем чат с координатором в Telegram')} />} />
       </Card>
     </AgentScreen>
   );

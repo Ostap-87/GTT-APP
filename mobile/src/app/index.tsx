@@ -8,11 +8,13 @@ import { AccessibilityInfo, Animated, Platform, Pressable, StyleSheet, Text, Vie
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import catalog from '@/data/catalog.json';
+import { TENANT } from '@/data/tenant';
 import { TRIP } from '@/data/trip';
 import { GLOBE_Y, LETTER_H, LETTER_Y, unitPx, type SplashConfig, type SplashEvent } from '@/splash/config';
 import { useResetAll } from '@/state/reset';
 import { useToast } from '@/state/toast';
 import { Button } from '@/ui/kit';
+import { Monogram } from '@/ui/Monogram';
 import { Splash3D } from '@/ui/Splash3D';
 import { C, F } from '@/ui/theme';
 
@@ -22,6 +24,12 @@ const native = Platform.OS !== 'web';
 let seenSplash = false;
 
 export default function Welcome() {
+  // у других организаторов (white label) — свой стартовый экран без заставки GTT
+  if (TENANT.id !== 'gtt') return <TenantWelcome />;
+  return <GttWelcome />;
+}
+
+function GttWelcome() {
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
   const [cfg, setCfg] = useState<SplashConfig | null>(null);
@@ -29,15 +37,6 @@ export default function Welcome() {
   const [stage, setStage] = useState<'globe' | 'gtt'>('globe');
   const [failed, setFailed] = useState(false);
   const [paused, setPaused] = useState(false);
-  const resetAll = useResetAll();
-  const toast = useToast();
-  const [armed, setArmed] = useState(false);
-  // сброс демо — двойным нажатием: первое предупреждает, второе (в течение 4 с) стирает сохранённое
-  const reset = () => {
-    if (!armed) { setArmed(true); setTimeout(() => setArmed(false), 4000); return; }
-    setArmed(false);
-    resetAll().then(() => toast('Демо начато заново — сохранённое стёрто'));
-  };
   const top = useRef(new Animated.Value(1)).current;
   const tag = useRef(new Animated.Value(0)).current;
 
@@ -79,7 +78,7 @@ export default function Welcome() {
       {cfg && !failed ? <Splash3D config={cfg} paused={paused} onEvent={onEvent} /> : null}
 
       <Animated.View pointerEvents="none" style={[st.topBlock, { paddingTop: insets.top + 24, opacity: top }]}>
-        <Text style={st.brand}>GLOBAL TECH TOUR</Text>
+        <Text style={[st.brand, { color: C.blue }]}>GLOBAL TECH TOUR</Text>
         <Text style={st.big} accessibilityLiveRegion="polite">
           <Text style={st.num}>{count}</Text> {plural(count, 'страна', 'страны', 'стран')}
         </Text>
@@ -88,16 +87,48 @@ export default function Welcome() {
 
       {failed ? (
         <View pointerEvents="none" style={[st.center, { top: lettersTop, height: LETTER_H * u }]}>
-          <Text style={[st.fallback, { fontSize: LETTER_H * u * 1.15, lineHeight: LETTER_H * u * 1.15 }]}>GTT</Text>
+          <Text style={[st.fallback, { color: C.blue, fontSize: LETTER_H * u * 1.15, lineHeight: LETTER_H * u * 1.15 }]}>GTT</Text>
         </View>
       ) : null}
 
       <Animated.View pointerEvents="none" style={[st.center, { top: tagTop, opacity: tag }]}>
-        <Text style={st.brand}>GLOBAL TECH TOUR</Text>
+        <Text style={[st.brand, { color: C.blue }]}>GLOBAL TECH TOUR</Text>
         <Text style={st.tagline}>{`Экспедиции в будущее\n9 стран · ${catalog.length} программ`}</Text>
       </Animated.View>
 
-      <View style={[st.bottom, { paddingBottom: insets.bottom + 16 }]}>
+      <Entry bottom={insets.bottom} />
+    </View>
+  );
+}
+
+/** Стартовый экран организатора (white label): монограмма и название его бренда, те же входы. */
+function TenantWelcome() {
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={[st.wrap, { backgroundColor: C.bg }]}>
+      <View style={{ position: 'absolute', left: 0, right: 0, top: insets.top + 64, alignItems: 'center', gap: 14, paddingHorizontal: 24 }}>
+        <Monogram t={TENANT} size={112} />
+        <Text style={[st.big, { textAlign: 'center' }]}>{TENANT.name}</Text>
+        <Text style={[st.tagline, { fontSize: 15 }]}>{TENANT.tagline}</Text>
+      </View>
+      <Entry bottom={insets.bottom} />
+    </View>
+  );
+}
+
+/** Входы в роли — общие для стартового экрана GTT и организаторов. */
+function Entry({ bottom }: { bottom: number }) {
+  const resetAll = useResetAll();
+  const toast = useToast();
+  const [armed, setArmed] = useState(false);
+  // сброс демо — двойным нажатием: первое предупреждает, второе (в течение 4 с) стирает сохранённое
+  const reset = () => {
+    if (!armed) { setArmed(true); setTimeout(() => setArmed(false), 4000); return; }
+    setArmed(false);
+    resetAll().then(() => toast('Демо начато заново — сохранённое стёрто'));
+  };
+  return (
+      <View style={[st.bottom, { paddingBottom: bottom + 16 }]}>
         <Button title="Войти в поездку" onPress={() => router.replace('/trip')} label={`Войти в поездку: ${TRIP.title}, демо`} />
         <Button title={`Выбрать страну и программу · ${catalog.length}`} kind="light" icon="route" label="Выбрать поездку: сначала страна, потом программа" onPress={() => router.push('/demo')} />
         <View style={{ flexDirection: 'row', gap: 8 }}>
@@ -106,27 +137,31 @@ export default function Welcome() {
         </View>
         <View style={{ flexDirection: 'row', gap: 8 }}>
           <View style={{ flex: 1 }}><Button title="Администратор" kind="light" icon="lock" label="Войти как администратор" onPress={() => router.replace('/admin')} /></View>
-          <View style={{ flex: 1 }}><Button title={`Программы · ${catalog.length}`} kind="ghost" icon="globe" label={`Программы GTT · ${catalog.length}`} onPress={() => router.push('/catalog')} /></View>
+          <View style={{ flex: 1 }}><Button title={`Программы · ${catalog.length}`} kind="ghost" icon="globe" label={`Программы ${TENANT.short} · ${catalog.length}`} onPress={() => router.push('/catalog')} /></View>
         </View>
         <Text style={st.note}>{`Открыто: ${TRIP.title}, ${TRIP.dates}. Участники вымышленные. Всё, что вы отметите, сохраняется на телефоне.`}</Text>
-        <Pressable onPress={reset} accessibilityRole="button" accessibilityLabel="Начать демо заново" hitSlop={8}>
-          <Text style={[st.note, { color: armed ? C.warn : C.blue, fontFamily: F.semibold }]}>{armed ? 'Нажмите ещё раз — всё сохранённое сотрётся' : 'Начать демо заново'}</Text>
-        </Pressable>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 22 }}>
+          <Pressable onPress={() => router.push('/join')} accessibilityRole="button" accessibilityLabel="Ввести код приглашения от организатора" hitSlop={8}>
+            <Text style={[st.note, { color: C.blue, fontFamily: F.semibold }]}>{`Код приглашения · ${TENANT.short}`}</Text>
+          </Pressable>
+          <Pressable onPress={reset} accessibilityRole="button" accessibilityLabel="Начать демо заново" hitSlop={8}>
+            <Text style={[st.note, { color: armed ? C.warn : C.blue, fontFamily: F.semibold }]}>{armed ? 'Нажмите ещё раз — всё сотрётся' : 'Начать демо заново'}</Text>
+          </Pressable>
+        </View>
       </View>
-    </View>
   );
 }
 
 const st = StyleSheet.create({
   wrap: { flex: 1, backgroundColor: '#f1f6ff' },
   topBlock: { position: 'absolute', left: 0, right: 0, top: 0, paddingHorizontal: 22, gap: 6 },
-  brand: { fontFamily: F.bold, fontSize: 12, letterSpacing: 1.6, color: C.blue },
+  brand: { fontFamily: F.bold, fontSize: 12, letterSpacing: 1.6 },
   big: { fontFamily: F.display, fontSize: 40, lineHeight: 52, color: C.ink, textTransform: 'uppercase' },
   num: { fontFamily: F.display, fontSize: 64, color: C.ink },
   sub: { fontFamily: F.regular, fontSize: 15, lineHeight: 21, color: C.muted, maxWidth: 260 },
   center: { position: 'absolute', left: 20, right: 20, alignItems: 'center', gap: 8 },
   tagline: { fontFamily: F.regular, fontSize: 14, lineHeight: 20, color: C.muted, textAlign: 'center' },
-  fallback: { fontFamily: F.display, color: C.blue },
+  fallback: { fontFamily: F.display },
   bottom: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 18, gap: 10 },
   note: { fontFamily: F.regular, fontSize: 12, color: C.muted, textAlign: 'center' },
 });

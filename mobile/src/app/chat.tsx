@@ -6,7 +6,8 @@ import { useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { CONTACTS, ME } from '@/data/trip';
+import { TENANT } from '@/data/tenant';
+import { ME } from '@/data/trip';
 import { useCoord, type Msg } from '@/state/coord';
 import { useTrip } from '@/state/trip';
 import { okFeel } from '@/ui/haptics';
@@ -28,7 +29,6 @@ export default function Chat() {
   const insets = useSafeAreaInsets();
   const [text, setText] = useState('');
   const ref = useRef<ScrollView>(null);
-  const coord = CONTACTS[0];
   // открытый чат — сообщения другой стороны прочитаны
   useEffect(() => { k.readChat(who); }, [k, who]);
 
@@ -47,7 +47,7 @@ export default function Chat() {
       <ScrollView ref={ref} contentContainerStyle={{ padding: 16, gap: 10 }} onContentSizeChange={() => ref.current?.scrollToEnd({ animated: true })}>
         <Card>
           {who === 'delegate' ? (
-            <Row left={<Avatar text="ОД" size={42} />} title={coord?.name || 'Координатор'} sub="Координатор поездки · на связи круглосуточно"
+            <Row left={<Avatar text={TENANT.coordinator.initials} size={42} />} title={TENANT.coordinator.name} sub={`Координатор · ${TENANT.name} · на связи круглосуточно`}
               right={<Button title="" icon="phone" kind="light" small label="Позвонить координатору" onPress={() => router.push('/contacts')} />} />
           ) : (
             <Row left={<Avatar text={initials(ME.lat)} size={42} />} title={ME.ru} sub={`${ME.roleRu} · ${ME.coRu}`} />

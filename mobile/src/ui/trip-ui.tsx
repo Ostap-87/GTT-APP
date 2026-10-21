@@ -29,7 +29,8 @@ export function CoLogo({ path, fallback = 'building', color = C.blue, w = 54, h 
 }
 
 // цвет и значок события по виду: визит — синий, еда — зелёный, переезд — серый, культура — фиолетовый
-const KIND: Record<EventKind, [string, IconName]> = { co: [C.blue, 'building'], meal: [C.green, 'food'], move: ['#8a94a6', 'bus'], culture: [C.violet, 'culture'], info: [C.blueInk, 'megaphone'] };
+// функция, а не константа: синий — цвет бренда организатора, его меняет applyTenant
+const kindOf = (k: EventKind): [string, IconName] => ({ co: [C.blue, 'building'], meal: [C.green, 'food'], move: ['#8a94a6', 'bus'], culture: [C.violet, 'culture'], info: [C.blueInk, 'megaphone'] } as Record<EventKind, [string, IconName]>)[k];
 const moveIcon = (name: string): IconName => (/перел|вылет|прил/i.test(name) ? 'plane' : /поезд/i.test(name) ? 'train' : 'bus');
 const chipOf = (e: TripEvent): [string, string] => (e.moved ? ['перенесено', '#d9822b']
   : e.kind === 'co' ? ['визит', C.blue]
@@ -55,7 +56,7 @@ export function Timeline({ events, from = 0 }: { events: TripEvent[]; from?: num
 }
 
 function TimelineItem({ e, i }: { e: TripEvent; i: number }) {
-  const [k, icon] = KIND[e.kind];
+  const [k, icon] = kindOf(e.kind);
   const { visit, href } = hrefOf(e);
   const [chip, chipColor] = chipOf(e);
   const body = (

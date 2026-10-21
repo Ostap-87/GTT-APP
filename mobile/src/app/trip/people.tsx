@@ -1,6 +1,7 @@
 // «Люди»: связь с координатором, «Вам стоит познакомиться», делегаты группы (без телефонов — контакты по согласию).
 import { router } from 'expo-router';
 
+import { TENANT } from '@/data/tenant';
 import { DELEGATES, INTROS, ME } from '@/data/trip';
 import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
@@ -16,7 +17,7 @@ export default function People() {
     <Screen eyebrow={`Группа · ${DELEGATES.length} делегатов и 2 организатора`} title="Люди">
       <Card tone="dark">
         <TitleRow title={<T bold style={{ color: '#fff' }}>Связь с координатором</T>} />
-        <T style={{ color: C.onDark }}>Остап Доценко · русский, китайский, английский · круглосуточно</T>
+        <T style={{ color: C.onDark }}>{`${TENANT.coordinator.name} · ${TENANT.demo ? 'на связи' : 'русский, китайский, английский'} · круглосуточно`}</T>
         <Button title="Все контакты и экстренные номера" onPress={() => router.push('/contacts')} />
       </Card>
       <Card>

@@ -4,6 +4,7 @@ import { Linking, Text, View } from 'react-native';
 import { ESIM_OFFERS } from '@/data/esim';
 import { Button, Card, H3, T } from './kit';
 import { C, F } from './theme';
+import { TENANT } from '@/data/tenant';
 
 export function EsimOffers() {
   return (
@@ -20,7 +21,7 @@ export function EsimOffers() {
       )) : (
         <Text style={{ fontFamily: F.medium, fontSize: 13, color: C.warn, paddingVertical: 6 }}>[уточнить: партнёры eSIM и ссылки — скоро здесь]</Text>
       )}
-      {ESIM_OFFERS.length ? <T muted>Партнёрские предложения Global Tech Tour.</T> : null}
+      {ESIM_OFFERS.length ? <T muted>{`Партнёрские предложения ${TENANT.name}.`}</T> : null}
     </Card>
   );
 }
