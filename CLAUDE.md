@@ -12,6 +12,8 @@
 - `docs/decisions.md` — журнал: что решил пользователь, что ещё предложение. Каждую новую договорённость
   записывай сюда с датой.
 - `docs/*.md` — остальные проработки (например, `wechat-mini-program.md`).
+- `docs/market-research.md` — рынки технологического туризма и MICE, конкуренты, модель white label (21.10.2026). Рабочая
+  версия с диаграммами — Claude Docs https://claude.ai/artifact/Cg9az4DRCa6CMrLtmvjciE; правишь её — обнови и файл.
 - `design/canvas/` — копия файлов холста Claude Design (https://claude.ai/artifact/8Tw2bADzTCNwschFSXRMAy,
   файлы `project/*.dc.html` и `canvas.json`). После правок на холсте скопируй изменённые файлы сюда и пересобери
   превью: `node tools/render-previews.mjs`, затем `python3 tools/role-sheets.py`.
