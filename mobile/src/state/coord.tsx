@@ -20,6 +20,11 @@ function firstAnn(): Ann[] {
   const at = dep ? fromMin(toMin(dep.t) - 10) : '09:00';
   return [{ id: 'a0', ru: `Сбор в лобби отеля в ${at}, не опаздывайте.`, zh: '', toD: true, toH: false, tg: false, time: '08:10' }];
 }
+/** Чат делегата с координатором (решение 21.10.2026, по примеру Navan — поддержка 24/7 прямо в приложении). Как и всё демо,
+ *  хранится на телефоне; координатор отвечает из пульта («Смотреть как…» → обратно на пульт → «Чат с делегатами»). */
+export type Msg = { id: string; from: 'delegate' | 'coord'; text: string; at: string };
+const CHAT0: Msg[] = [{ id: 'm0', from: 'coord', text: 'Доброе утро! Я на связи круглосуточно — пишите сюда: опаздываете, потерялись, нужна помощь с заказом или такси.', at: '08:00' }];
+const hhmm = () => new Date().toTimeString().slice(0, 5);
 export type Followup = { id: string; company: string; typeRu: string; zh: string; consent: boolean; status: 'new' | 'sent' };
 export type Review = { id: string; text: string; video: boolean; consent: boolean; status: 'new' | 'thanked' | 'shared' };
 type FoodSum = { filled: number; dc: Record<string, number>; ac: Record<string, number>; sev: Record<string, number> };
@@ -59,6 +64,8 @@ function useCoordState() {
   const [hema, setHema] = useStored<'pending' | 'accepted' | 'discuss'>('coord.hema', 'pending');
   // «Помощь → Отправить координатору, где я»: делегат сам нажимает кнопку, слежки нет
   const [where, setWhere] = useStored<Where[]>('coord.where', []);
+  const [chat, setChat] = useStored<Msg[]>('coord.chat', CHAT0);
+  const [chatSeen, setChatSeen] = useStored('coord.chatSeen', { delegate: 1, coord: 0 }); // сколько сообщений другой стороны прочитано
   const docsMissing = ['d4', 'd15'];
 
   return useMemo(() => {
@@ -132,13 +139,23 @@ function useCoordState() {
       where,
       sendWhere: (w: Omit<Where, 'id' | 'seen'>) => setWhere((x) => [{ ...w, id: `w${Date.now()}`, seen: false }, ...x]),
       seeWhere: (id: string) => setWhere((x) => x.map((w) => (w.id === id ? { ...w, seen: true } : w))),
+      chat,
+      /** Непрочитанные сообщения для стороны who (у делегата — от координатора, у координатора — от делегата). */
+      unread: (who: Msg['from']) => chat.filter((m) => m.from !== who).length - chatSeen[who],
+      /** Прочитала ли другая сторона сообщение №i (для «доставлено / прочитано» под своими сообщениями). */
+      readBy: (m: Msg) => chat.filter((x) => x.from === m.from).indexOf(m) < chatSeen[m.from === 'delegate' ? 'coord' : 'delegate'],
+      sendChat: (from: Msg['from'], text: string) => setChat((x) => [...x, { id: `m${Date.now()}`, from, text, at: hhmm() }]),
+      readChat: (who: Msg['from']) => {
+        const n = chat.filter((m) => m.from !== who).length;
+        if (chatSeen[who] !== n) setChatSeen((c) => ({ ...c, [who]: n }));
+      },
       addFollowup: (f: Omit<Followup, 'id' | 'status'>) => setFollowups((x) => [...x, { ...f, id: `f${x.length}`, status: 'new' }]),
       sendFollowup: (id: string) => setFollowups((x) => x.map((f) => (f.id === id ? { ...f, status: 'sent' } : f))),
       addReview: (r: Omit<Review, 'id' | 'status'>) => setReviews((x) => [{ ...r, id: `r${x.length}`, status: 'new' }, ...x]),
       markReview: (id: string, status: Review['status']) => setReviews((x) => x.map((r) => (r.id === id ? { ...r, status } : r))),
       foodLineOf: (id: string) => { const p = profileOf(id); return p ? foodLine(p) : ''; },
     };
-  }, [trip, missing, legs, checked, d1Checked, reminded, notes, foodSent, anns, igorReminded, pddReminded, viewing, guideLive, out, followups, reviews, rating, hema, where]);
+  }, [trip, missing, legs, checked, d1Checked, reminded, notes, foodSent, anns, igorReminded, pddReminded, viewing, guideLive, out, followups, reviews, rating, hema, where, chat, chatSeen]);
 }
 
 type Coord = ReturnType<typeof useCoordState>;

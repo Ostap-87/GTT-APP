@@ -20,6 +20,29 @@ export const rub = (e: Expense) => (e.rate ? Math.round(e.amount * e.rate * 100)
 export const money = (n: number, d = 2) => n.toLocaleString('ru-RU', { minimumFractionDigits: n % 1 ? d : 0, maximumFractionDigits: d });
 export const dateRu = (iso: string) => { const d = new Date(iso); return `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`; };
 
+// ——— категория сама (решение 21.10.2026, по примеру Navan) ———
+// По словам на чеке или в описании: такси и транспорт, еда, проживание, связь, покупки. Языки — те же, что у распознавания
+// чеков (русский, английский, китайский, японский, корейский, тайский, вьетнамский, индонезийский/малайский).
+const CAT_WORDS: [ExpenseCat, RegExp][] = [
+  ['hotel', /отел|гостиниц|хостел|прожив|hotel|hostel|resort|airbnb|accommodation|\binn\b|\bnights?\b|酒店|宾馆|住宿|旅馆|ホテル|旅館|호텔|숙박|โรงแรม|khách sạn|penginapan/i],
+  ['net', /сим-?карт|\bsim\b|esim|интернет|роуминг|связь|wi-?fi|internet|roaming|china mobile|china unicom|china telecom|中国移动|联通|电信|流量|话费|docomo|softbank|\bais\b|dtac|viettel|telkomsel|celcom|maxis|du telecom|etisalat/i],
+  ['taxi', /такси|трансфер|метро|автобус|поезд|электричк|парковк|бензин|taxi|cab\b|uber|grab|gojek|bolt|didi|careem|metro|subway|train|railway|bus\b|parking|toll|fuel|滴滴|出租|打车|地铁|高铁|火车|公交|停车|加油|タクシー|電車|地下鉄|택시|지하철|แท็กซี่|รถไฟ|xe ôm|tàu/i],
+  ['food', /ресторан|кафе|кофе|обед|ужин|завтрак|ланч|бар\b|еда|restaurant|cafe|café|coffee|lunch|dinner|breakfast|meal|food|bar\b|starbucks|luckin|mixue|kfc|mcdonald|family ?mart|7-?eleven|lawson|tea\b|sandwich|onigiri|noodle|burger|pizza|餐|饭|面馆|食|咖啡|茶|饮|瑞幸|蜜雪|全家|罗森|レストラン|食堂|カフェ|居酒屋|식당|카페|커피|ร้านอาหาร|อาหาร|กาแฟ|nhà hàng|cà phê|phở|makan|kopi|restoran/i],
+  ['shop', /магазин|покупк|образ[еця]|сувенир|аптек|shop|store|mall|market|outlet|souvenir|pharmacy|超市|商场|商店|购物|淘宝|京东|拼多多|名创|药店|ドラッグ|マート|마트|편의점|ร้านค้า|siêu thị|toko/i],
+];
+
+/** Категория по тексту чека или описанию: побеждает та, чьих слов больше (на чеке FamilyMart слово «Store» — одно, а
+ *  онигири, чай и сэндвич — три); при равенстве — по порядку списка. null — непонятно, человек выберет сам. */
+export function guessCategory(text: string): ExpenseCat | null {
+  let best: ExpenseCat | null = null;
+  let max = 0;
+  for (const [cat, re] of CAT_WORDS) {
+    const n = text.match(new RegExp(re.source, 'gi'))?.length || 0;
+    if (n > max) { max = n; best = cat; }
+  }
+  return best;
+}
+
 // ——— сумма с чека ———
 const TOTAL = /(итого|всего|к оплате|total|amount|grand|balance due|合计|总计|合計|总额|总价|实付|实收|应付|お会計|お支払|총액|합계|결제금액|รวม|ยอดสุทธิ|tổng|thành tiền|jumlah|bayar|المجموع)/i;
 const SKIP = /(subtotal|小计|小計|税|tax|vat|change|找零|お釣り|거스름|ทอน|tiền thối|kembali)/i;

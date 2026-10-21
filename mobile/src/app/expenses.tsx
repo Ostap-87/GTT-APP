@@ -1,5 +1,6 @@
 // «Расходы» для командировочного отчёта (решение 21.10.2026): фото чека → сумма распознаётся с чека (её можно поправить) →
 // пересчёт в рубли по курсу ЦБ РФ → в конце поездки Excel или PDF с чеками для бухгалтерии. Всё хранится на телефоне.
+// Категория ставится сама по словам на чеке или в описании (по примеру Navan); выбранную вручную приложение не трогает.
 import { SaveFormat, ImageManipulator } from 'expo-image-manipulator';
 import * as Print from 'expo-print';
 import { router } from 'expo-router';
@@ -8,7 +9,7 @@ import { ActivityIndicator, Image, Platform, Pressable, Text, TextInput, View } 
 
 import { countryOf } from '@/data/countries';
 import { plural } from '@/data/group';
-import { EXPENSE_CATS, catRu, expenseHtml, expenseRows, money, receiptAmount, rub, type Expense, type ExpenseCat } from '@/data/expenses';
+import { EXPENSE_CATS, catRu, expenseHtml, expenseRows, guessCategory, money, receiptAmount, rub, type Expense, type ExpenseCat } from '@/data/expenses';
 import { base64Of, keepFile } from '@/data/media';
 import { ME, TRIP } from '@/data/trip';
 import { xlsx } from '@/data/xlsx';
@@ -31,7 +32,9 @@ export default function Expenses() {
   const cur = countryOf(TRIP.country).currency;
   const [rate] = useRate(cur);
   const [amount, setAmount] = useState('');
-  const [cat, setCat] = useState<ExpenseCat>('taxi');
+  const [cat, setCat] = useState<ExpenseCat>('other');
+  // 'hand' — категорию выбрал человек; 'receipt' / 'note' — поставлена сама по чеку или по описанию
+  const [catBy, setCatBy] = useState<'hand' | 'receipt' | 'note' | null>(null);
   const [note, setNote] = useState('');
   const [photo, setPhoto] = useState<string | undefined>();
   const [job, setJob] = useState<{ id: number; image: string; langs?: string[] } | null>(null);
@@ -61,8 +64,16 @@ export default function Expenses() {
     if (e.type === 'result') {
       setStage(null);
       const a = receiptAmount(e.text);
-      if (a) { setAmount(String(a).replace('.', ',')); toast(`С чека: ${money(a)} ${cur.sym} — проверьте`); } else toast('Сумму на чеке не нашли — впишите её');
+      const g = catBy === 'hand' ? null : guessCategory(e.text);
+      if (g) { setCat(g); setCatBy('receipt'); }
+      if (a) { setAmount(String(a).replace('.', ',')); toast(`С чека: ${money(a)} ${cur.sym}${g ? ` · ${catRu(g).toLowerCase()}` : ''} — проверьте`); } else toast('Сумму на чеке не нашли — впишите её');
     }
+  };
+  const onNote = (t: string) => {
+    setNote(t);
+    if (catBy === 'hand' || catBy === 'receipt') return;
+    const g = guessCategory(t);
+    if (g) { setCat(g); setCatBy('note'); } else if (catBy === 'note') { setCat('other'); setCatBy(null); }
   };
   const save = () => {
     if (!(n > 0)) return toast('Впишите сумму');
@@ -70,7 +81,7 @@ export default function Expenses() {
       id: `e${Date.now()}`, at: new Date().toISOString(), trip: tripKey(), amount: n, cur: cur.code, sym: cur.sym,
       rate: rate.rub || 0, rateNote: rate.rub ? (cur.cbr ? `ЦБ РФ на ${rate.date}` : 'курс обменника') : '', cat, note: note.trim(), photo,
     });
-    setAmount(''); setNote(''); setPhoto(undefined);
+    setAmount(''); setNote(''); setPhoto(undefined); setCat('other'); setCatBy(null);
     toast(rate.rub ? `Записано: ≈ ${money(n * rate.rub, 0)} ₽` : 'Записано — курс впишите в конвертере «Город»');
   };
 
@@ -120,8 +131,9 @@ export default function Expenses() {
           <Text style={{ fontFamily: F.bold, fontSize: 22, color: C.muted }}>{cur.sym}</Text>
         </View>
         {n > 0 && rate.rub ? <T muted>{`≈ ${money(n * rate.rub)} ₽`}</T> : null}
-        <Chips>{EXPENSE_CATS.map(([k, ru]) => <Pick key={k} title={ru} on={cat === k} onPress={() => setCat(k)} />)}</Chips>
-        <Field value={note} onChangeText={setNote} placeholder="Что это: такси в аэропорт, ужин с партнёром, SIM-карта" />
+        <Field value={note} onChangeText={onNote} placeholder="Что это: такси в аэропорт, ужин с партнёром, SIM-карта" />
+        <Chips>{EXPENSE_CATS.map(([k, ru]) => <Pick key={k} title={ru} on={cat === k} onPress={() => { setCat(k); setCatBy('hand'); }} />)}</Chips>
+        {catBy === 'receipt' || catBy === 'note' ? <T muted>{`Категория «${catRu(cat)}» выбрана сама — по ${catBy === 'receipt' ? 'чеку' : 'описанию'}. Не так — нажмите другую.`}</T> : null}
         <Button title="Записать расход" onPress={save} />
         {!rate.rub ? <Button title="Задать курс в конвертере" kind="ghost" small onPress={() => router.push('/city')} /> : null}
       </Card>

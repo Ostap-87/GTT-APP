@@ -64,7 +64,8 @@
           "calendarPermission": "Календарь нужен, чтобы добавить программу поездки — визиты, переезды и обеды — в ваш календарь."
         }
       ],
-      "expo-document-picker"
+      "expo-document-picker",
+      "expo-image"
     ],
     "runtimeVersion": {
       "policy": "sdkVersion"

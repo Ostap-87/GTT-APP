@@ -4,7 +4,7 @@ import { Linking, View } from 'react-native';
 
 import { AGENCY, calcTitle, citLine, tourById } from '@/data/agent';
 import { VISITS, byId, fem, plural } from '@/data/group';
-import { DELEGATES, TRIP } from '@/data/trip';
+import { DELEGATES, ME, TRIP } from '@/data/trip';
 import { useAgent } from '@/state/agent';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
@@ -30,6 +30,12 @@ export default function Center() {
     key: `w-${w.id}`, title: `Где сейчас ${w.who} · отправлено в ${w.at}`, sub: `Точность ~${Math.round(w.acc || 0)} м · ${w.lat.toFixed(5)}, ${w.lng.toFixed(5)}`,
     btns: [['Открыть на карте', 'primary', () => Linking.openURL(w.links[0])], ['Позвонил, всё в порядке', 'ghost', () => k.seeWhere(w.id)]],
   }));
+  // сообщения делегата в чате приложения
+  const lastD = [...k.chat].reverse().find((m) => m.from === 'delegate');
+  if (k.unread('coord') > 0 && lastD) items.push({
+    key: 'chat', title: `${ME.ru} пишет в чат · ${lastD.at}`, sub: `«${lastD.text}»${k.unread('coord') > 1 ? ` и ещё ${k.unread('coord') - 1}` : ''}`,
+    btns: [['Ответить', 'primary', () => router.push({ pathname: '/chat', params: { as: 'coord' } })]],
+  });
   if (k.foodDirty) items.push({ key: 'food', title: 'Питание изменилось после отправки ресторанам', sub: `Сводка ушла ${k.foodSent.at}; с тех пор: ${k.foodChanges().join('; ')}`, btns: [['Отправить обновление', 'primary', () => router.push('/food-summary')]] });
   DELEGATES.filter((d) => k.pStage(d.id)[0] === 'ready').forEach((d) => items.push({
     key: `p-${d.id}`, title: `${d.ru} ${fem(d.id) ? 'заполнила' : 'заполнил'} профиль — проверьте`, sub: k.foodLineOf(d.id),
@@ -89,6 +95,11 @@ export default function Center() {
       </Card>
 
       <LegsCard />
+
+      <Card onPress={() => router.push({ pathname: '/chat', params: { as: 'coord' } })} label="Чат с делегатами">
+        <TitleRow title="Чат с делегатами" right={k.unread('coord') > 0 ? <Chip tone="new">{`${k.unread('coord')} новых`}</Chip> : <Chip tone="ok">всё прочитано</Chip>} />
+        <T muted numberOfLines={2}>{lastD ? `${ME.ru}, ${lastD.at}: «${lastD.text}»` : 'Делегаты пишут сюда из приложения — без поиска номера в мессенджерах.'}</T>
+      </Card>
 
       <Card>
         <TitleRow title="Радиогид для группы" right={k.guideLive ? <Chip tone="new">в эфире</Chip> : null} />

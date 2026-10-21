@@ -28,7 +28,9 @@
   только когда Expo Go с ним вышел в App Store: `npx expo install expo@~<SDK>.0.0 && npx expo install --fix`.
 - Пакеты — только `npx expo install`; перед API Expo читать документацию своей версии (`docs.expo.dev/llms.txt`), не память.
 - Перед пушем: `npm run typecheck` и `npm run export:web` в `mobile/` — без ошибок; снимки экранов для чата — Playwright
-  по веб-сборке (`dist/`), лист — `design/previews/_приложение.jpg`.
+  по веб-сборке (`dist/`), лист — `design/previews/_приложение-<тема>.jpg`.
+- Дизайн — «пластилин» (решение 21.10.2026): цвета и тени только из `src/ui/theme.ts` (`C`, `SH`), элементы — из `src/ui/kit.tsx`,
+  движение — `src/ui/motion.tsx` (с учётом «Уменьшить движение»), нижняя панель — `src/ui/TabBar3D.tsx`; подробности — `mobile/README.md`.
 - Всё, что зависит от страны поездки (валюта, язык, подготовка, приложения, карта регионов), — профиль в `src/data/countries.ts`
   (9 стран, решение 21.10.2026); новый экран берёт страну из `TRIP.country`, а не пишет «Китай» в коде.
 - Каталог — `node tools/sync-catalog.mjs` из клона SINOTECH (цен в каталоге нет); тестовая поездка — `src/data/trip*.ts`,

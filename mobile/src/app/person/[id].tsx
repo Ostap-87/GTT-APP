@@ -9,7 +9,7 @@ import { DELEGATES } from '@/data/trip';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
-import { Avatar, Button, Card, Chip, H3, Plain, Row, T, initials } from '@/ui/kit';
+import { Avatar, Button, Card, Chip, H3, Plain, Row, T, initials, inputStyle } from '@/ui/kit';
 import { C, F } from '@/ui/theme';
 
 const KV = ({ k, v }: { k: string; v: string }) => (
@@ -26,7 +26,7 @@ function Notes({ id }: { id: string }) {
       <H3>Заметки координатора</H3>
       <T muted>Видите только вы и ваша команда — участник их не видит.</T>
       <TextInput value={k.notes[id] || ''} onChangeText={(v) => k.setNote(id, v)} multiline placeholder="Например: принимает решения о закупках; интересна встреча с Meituan" placeholderTextColor={C.muted}
-        accessibilityLabel="Заметка координатора" style={{ borderWidth: 1, borderColor: '#d5dbe6', borderRadius: 10, padding: 10, minHeight: 64, fontFamily: F.regular, fontSize: 14, color: C.ink }} />
+        accessibilityLabel="Заметка координатора" style={{ ...inputStyle, minHeight: 64 }} />
     </Card>
   );
 }

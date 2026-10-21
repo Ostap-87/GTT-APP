@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
 
 import { Icon } from '@/ui/Icon';
+import { TabBar3D } from '@/ui/TabBar3D';
 import type { IconName } from '@/ui/icon-paths';
 import { useWide } from '@/ui/admin-ui';
 import { C, F } from '@/ui/theme';
@@ -18,6 +19,7 @@ export default function AdminTabs() {
   const wide = useWide();
   return (
     <Tabs
+      tabBar={wide ? undefined : (p) => <TabBar3D {...p} />}
       screenOptions={{
         headerShown: false,
         tabBarPosition: wide ? 'left' : 'bottom',

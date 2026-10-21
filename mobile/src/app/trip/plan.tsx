@@ -5,9 +5,10 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import { CITY, DAYS, DAY_NOTES, TRIP, WEATHER, dayEvents, hotelOf, weatherLine } from '@/data/trip';
 import { Icon } from '@/ui/Icon';
-import { Card, Chip, Row, Screen, T, TitleRow } from '@/ui/kit';
-import { EventRow } from '@/ui/trip-ui';
-import { C, F } from '@/ui/theme';
+import { Card, Chip, Row, Screen, Section, T, TitleRow } from '@/ui/kit';
+import { selectFeel } from '@/ui/haptics';
+import { Timeline } from '@/ui/trip-ui';
+import { C, F, SH } from '@/ui/theme';
 
 export default function Plan() {
   const params = useLocalSearchParams<{ day?: string }>();
@@ -19,12 +20,12 @@ export default function Plan() {
   const h = hotelOf(day);
   return (
     <Screen eyebrow={TRIP.route} title="План">
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6 }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, padding: 10, margin: -10 }}>
         {DAYS.map((x, i) => {
           const on = i === day;
           return (
-            <Pressable key={x.n} onPress={() => setDay(i)} accessibilityRole="button" accessibilityState={{ selected: on }} accessibilityLabel={`${x.wd}, ${x.n} ноября`}
-              style={{ width: 54, paddingVertical: 8, borderRadius: 12, alignItems: 'center', backgroundColor: on ? C.blue : C.card, borderWidth: 1, borderColor: on ? C.blue : C.line }}>
+            <Pressable key={x.n} onPress={() => { selectFeel(); setDay(i); }} accessibilityRole="button" accessibilityState={{ selected: on }} accessibilityLabel={`${x.wd}, ${x.n} ноября`}
+              style={{ width: 56, paddingVertical: 9, borderRadius: 18, alignItems: 'center', backgroundColor: on ? C.blue : C.card, boxShadow: on ? SH.blue : SH.small }}>
               <Text style={{ fontFamily: F.medium, fontSize: 11, color: on ? '#fff' : C.muted }}>{x.wd}</Text>
               <Text style={{ fontFamily: F.bold, fontSize: 18, color: on ? '#fff' : C.ink }}>{x.n}</Text>
               <Text style={{ fontFamily: F.medium, fontSize: 10.5, color: on ? '#fff' : C.muted }} numberOfLines={1}>{WEATHER[i].max || CITY[i]}</Text>
@@ -41,11 +42,10 @@ export default function Plan() {
           <Row left={<Icon name="bed" size={26} />} title="Выезд из отеля до 12:00" sub={day === DAYS.length - 1 ? 'Багаж у стойки отеля, вылет вечером' : 'Ночь в пути'} />
         )}
       </Card>
-      <Card>
-        <TitleRow title="Расписание" />
-        {dayEvents(day).map((e) => <EventRow key={e.t + e.name} e={e} />)}
-        {DAY_NOTES[day] ? <T muted>{DAY_NOTES[day]}</T> : null}
-      </Card>
+      <Section title="Расписание" />
+      {/* ключ по дню: при смене дня лента появляется заново, по очереди */}
+      <Timeline key={day} events={dayEvents(day)} />
+      {DAY_NOTES[day] ? <T muted style={{ paddingHorizontal: 4 }}>{DAY_NOTES[day]}</T> : null}
       <View style={{ paddingHorizontal: 4 }}>
         <Text style={{ fontFamily: F.regular, fontSize: 12.5, color: C.muted }}>Нажмите на обед, ужин или культурную программу — откроется описание и адрес.</Text>
       </View>

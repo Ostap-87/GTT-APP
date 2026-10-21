@@ -48,9 +48,12 @@ export default function RootLayout() {
             screenOptions={{
               headerTintColor: C.blue,
               headerTitleStyle: { fontFamily: F.bold, color: C.ink },
-              headerStyle: { backgroundColor: C.card },
+              headerStyle: { backgroundColor: C.bg },
+              headerShadowVisible: false,
               headerBackTitle: 'Назад',
               contentStyle: { backgroundColor: C.bg },
+              // плавный сдвиг экранов, одинаковый на iOS и Android
+              animation: 'ios_from_right',
             }}
           >
             <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -94,6 +97,7 @@ export default function RootLayout() {
             <Stack.Screen name="transcript" options={{ title: 'Расшифровка' }} />
             <Stack.Screen name="route" options={{ title: 'Маршрут' }} />
             <Stack.Screen name="cards" options={{ title: 'Визитница' }} />
+            <Stack.Screen name="chat" options={{ title: 'Чат с координатором' }} />
             <Stack.Screen name="country/[code]" options={{ title: 'Памятка по стране' }} />
             <Stack.Screen name="admin" options={{ headerShown: false }} />
             <Stack.Screen name="admin-trip/[id]" options={{ title: 'Поездка' }} />

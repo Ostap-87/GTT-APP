@@ -9,7 +9,8 @@ import { LEGS, diffTxt, dur, toMin } from '@/data/group';
 import { useCoord } from '@/state/coord';
 import { Icon } from './Icon';
 import { Button, Card, Chip, Row, Screen, T, TitleRow } from './kit';
-import { C, F } from './theme';
+import { TAB_BAR_SPACE } from './TabBar3D';
+import { C, F, SH } from './theme';
 
 export function CoordScreen({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -26,7 +27,7 @@ export function CoordScreen({ title, children }: { title: string; children: Reac
 
 export function Bar({ value, color = C.blue }: { value: number; color?: string }) {
   return (
-    <View style={{ height: 8, borderRadius: 4, backgroundColor: C.line2, overflow: 'hidden' }}>
+    <View style={{ height: 8, borderRadius: 4, backgroundColor: C.well, boxShadow: SH.inset, overflow: 'hidden' }}>
       <View style={{ width: `${Math.max(0, Math.min(1, value)) * 100}%`, height: '100%', backgroundColor: color }} />
     </View>
   );
@@ -34,7 +35,7 @@ export function Bar({ value, color = C.blue }: { value: number; color?: string }
 
 export function Stat({ label, value, sub, dark }: { label: string; value: string; sub: string; dark?: boolean }) {
   return (
-    <View style={{ flexBasis: '47%', flexGrow: 1, backgroundColor: dark ? C.dark : C.card, borderWidth: 1, borderColor: dark ? C.dark : C.line, borderRadius: 14, padding: 12, gap: 2 }}>
+    <View style={{ flexBasis: '47%', flexGrow: 1, backgroundColor: dark ? C.dark : C.card, borderRadius: 20, padding: 13, gap: 2, boxShadow: dark ? SH.dark : SH.small }}>
       <Text style={{ fontFamily: F.medium, fontSize: 12, color: dark ? C.onDark : C.muted }}>{label}</Text>
       <Text style={{ fontFamily: F.display, fontSize: 30, lineHeight: 32, color: dark ? '#fff' : C.ink }}>{value}</Text>
       <Text style={{ fontFamily: F.regular, fontSize: 12, color: dark ? C.onDark : C.muted }} numberOfLines={1}>{sub}</Text>
@@ -91,7 +92,7 @@ export function BackToCoord() {
       onPress={() => { setViewing(false); router.replace('/coord'); }}
       accessibilityRole="button"
       accessibilityLabel="Вернуться к пульту координатора"
-      style={{ position: 'absolute', right: 14, bottom: insets.bottom + 62, flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: C.dark, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 10 }}
+      style={{ position: 'absolute', right: 14, bottom: Math.max(insets.bottom, 10) + TAB_BAR_SPACE, flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: C.dark, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 10, boxShadow: SH.float }}
     >
       <Icon name="grid" size={16} color="#fff" />
       <Text style={{ fontFamily: F.bold, fontSize: 13, color: '#fff' }}>Пульт координатора</Text>

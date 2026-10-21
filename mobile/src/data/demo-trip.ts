@@ -14,7 +14,7 @@ import type { Hotel, Meal, Weather } from './trip-base';
 
 type Day = { day: number; city: string; ru: string; area: string; time: string; co: string[]; leg?: string; tr?: string; note?: string };
 export type Program = Omit<(typeof catalog)[number], 'route'> & { route: Day[] };
-type Co = { n: string; zh?: string; c: string; d: string };
+type Co = { n: string; zh?: string; c: string; d: string; l?: string };
 const CO = companies as Record<string, Co>;
 export const PROGRAMS = catalog as Program[];
 export const programById = (id: string) => PROGRAMS.find((p) => p.id === id);
@@ -125,7 +125,7 @@ export function buildTrip(p: Program) {
     co.forEach((c, k) => {
       const t = fromMin(times[k]);
       ev.push({ t, name: c.n, place, kind: 'co' });
-      if (!visits.some((v) => v.id === c.id)) visits.push({ id: c.id, name: c.n, when: `${days[i].wd} ${days[i].n} · ${t}`, st: ['info', 'по программе'], zh: c.zh, addr: `${c.n}, ${cityRu(i)}`, desc: c.d });
+      if (!visits.some((v) => v.id === c.id)) visits.push({ id: c.id, name: c.n, when: `${days[i].wd} ${days[i].n} · ${t}`, st: ['info', 'по программе'], zh: c.zh, addr: `${c.n}, ${cityRu(i)}`, desc: c.d, logo: c.l });
     });
     ev.push(meal(i, 'l', lunch));
 

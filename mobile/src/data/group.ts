@@ -68,17 +68,18 @@ export const plural = (n: number, a: string, b: string, c: string) => { const m1
 
 // ——— Визиты: что видит координатор по компаниям поездки ———
 /** zh — название для водителя, desc — справка с сайта, place — где (у программ с сайта). */
-export type Visit = { id: string; name: string; when: string; st: ['ok' | 'warn' | 'info', string]; zh?: string; addr?: string; desc?: string };
+/** logo — путь логотипа на сайте (https://globaltechtour.ru/logos/…), как в карточках компаний сайта. */
+export type Visit = { id: string; name: string; when: string; st: ['ok' | 'warn' | 'info', string]; zh?: string; addr?: string; desc?: string; logo?: string };
 export const VISITS: Visit[] = [
-  { id: 'jd', name: 'JD.com', when: 'Вт 10 · 10:30', st: ['ok', 'подтверждено'], zh: '京东集团总部', addr: 'Штаб-квартира JD.com, Пекин' },
-  { id: 'meituan', name: 'Meituan', when: 'Вт 10 · 15:30', st: ['ok', 'перенос согласован'] },
-  { id: 'hema', name: 'Hema (Freshippo)', when: 'Ср 11 · 13:30', st: ['warn', 'предлагает 14:00'] },
-  { id: 'pdd', name: 'Pinduoduo', when: 'Ср 11 · 16:30', st: ['warn', 'ссылку не открыли'] },
-  { id: 'rtmart', name: 'RT-Mart', when: 'Чт 12 · 10:00', st: ['ok', 'подтверждено'] },
-  { id: 'eleme', name: 'Ele.me', when: 'Чт 12 · 14:30', st: ['ok', 'подтверждено'] },
-  { id: 'alibaba', name: 'Alibaba', when: 'Пт 13 · 11:00', st: ['ok', 'подтверждено'] },
-  { id: 'sams', name: "Sam's Club", when: 'Сб 14 · 10:00', st: ['ok', 'подтверждено'] },
-  { id: 'yonghui', name: 'Yonghui', when: 'Сб 14 · 14:00', st: ['ok', 'подтверждено'] },
+  { id: 'jd', name: 'JD.com', when: 'Вт 10 · 10:30', st: ['ok', 'подтверждено'], zh: '京东集团总部', addr: 'Штаб-квартира JD.com, Пекин', logo: '/logos/jd-com.svg' },
+  { id: 'meituan', name: 'Meituan', when: 'Вт 10 · 15:30', st: ['ok', 'перенос согласован'], logo: '/logos/meituan.svg' },
+  { id: 'hema', name: 'Hema (Freshippo)', when: 'Ср 11 · 13:30', st: ['warn', 'предлагает 14:00'], logo: '/logos/Hema:Freshippo.png' },
+  { id: 'pdd', name: 'Pinduoduo', when: 'Ср 11 · 16:30', st: ['warn', 'ссылку не открыли'], logo: '/logos/pinduoduo.svg' },
+  { id: 'rtmart', name: 'RT-Mart', when: 'Чт 12 · 10:00', st: ['ok', 'подтверждено'], logo: '/logos/RT-Mart.png' },
+  { id: 'eleme', name: 'Ele.me', when: 'Чт 12 · 14:30', st: ['ok', 'подтверждено'], logo: '/logos/Ele.me:Taobao Instant.png' },
+  { id: 'alibaba', name: 'Alibaba', when: 'Пт 13 · 11:00', st: ['ok', 'подтверждено'], logo: '/logos/alibaba.svg' },
+  { id: 'sams', name: "Sam's Club", when: 'Сб 14 · 10:00', st: ['ok', 'подтверждено'], logo: '/logos/sams-club.svg' },
+  { id: 'yonghui', name: 'Yonghui', when: 'Сб 14 · 14:00', st: ['ok', 'подтверждено'], logo: '/logos/Yonghui.png' },
 ];
 
 // ——— Объявления ———

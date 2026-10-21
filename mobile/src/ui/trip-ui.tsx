@@ -1,15 +1,95 @@
-// Элементы поездки, общие для нескольких экранов: строка события и адрес на трёх языках.
+// Элементы поездки, общие для нескольких экранов: лента времени дня, строка события и адрес на трёх языках.
 import * as Clipboard from 'expo-clipboard';
+import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import { Linking, Platform, Pressable, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { countryOf } from '@/data/countries';
-import { TRIP, type TripEvent } from '@/data/trip';
+import { TRIP, type EventKind, type TripEvent } from '@/data/trip';
 import { VISITS } from '@/data/group';
 import { useToast } from '@/state/toast';
 import { Icon } from './Icon';
+import type { IconName } from './icon-paths';
 import { Button, Card, Chip, Row, s as kit } from './kit';
-import { C, F } from './theme';
+import { Appear, Press } from './motion';
+import { C, F, SH } from './theme';
+
+/** Логотип компании с сайта (как в карточках компаний globaltechtour.ru); картинка кэшируется и открывается без сети. */
+export const logoUrl = (path: string) => `https://globaltechtour.ru${encodeURI(path)}`;
+
+export function CoLogo({ path, fallback = 'building', color = C.blue, w = 54, h = 42 }: { path?: string; fallback?: IconName; color?: string; w?: number; h?: number }) {
+  const [bad, setBad] = useState(false);
+  if (!path || bad) return <View style={[tl.ico, { width: h, height: h }]}><Icon name={fallback} size={21} color={color} /></View>;
+  return (
+    <View style={[tl.logo, { width: w, height: h }]}>
+      <Image source={{ uri: logoUrl(path) }} contentFit="contain" cachePolicy="disk" onError={() => setBad(true)} style={{ width: w - 10, height: h - 14 }} accessibilityIgnoresInvertColors />
+    </View>
+  );
+}
+
+// цвет и значок события по виду: визит — синий, еда — зелёный, переезд — серый, культура — фиолетовый
+const KIND: Record<EventKind, [string, IconName]> = { co: [C.blue, 'building'], meal: [C.green, 'food'], move: ['#8a94a6', 'bus'], culture: [C.violet, 'culture'], info: [C.blueInk, 'megaphone'] };
+const moveIcon = (name: string): IconName => (/перел|вылет|прил/i.test(name) ? 'plane' : /поезд/i.test(name) ? 'train' : 'bus');
+const chipOf = (e: TripEvent): [string, string] => (e.moved ? ['перенесено', '#d9822b']
+  : e.kind === 'co' ? ['визит', C.blue]
+    : e.kind === 'meal' ? [/обед/i.test(e.name) ? 'обед' : 'ужин', C.green]
+      : e.kind === 'culture' ? ['культура', C.violet]
+        : e.kind === 'move' ? ['переезд', '#8a94a6'] : ['инфо', C.blueInk]);
+const hrefOf = (e: TripEvent) => {
+  const visit = e.kind === 'co' ? VISITS.find((v) => v.name === e.name) : undefined;
+  return { visit, href: e.ref?.startsWith('m-') ? `/meal/${e.ref}` : e.ref?.startsWith('c-') ? `/culture/${e.ref}` : visit ? `/company/${visit.id}` : null };
+};
+
+/** Лента времени (решение 21.10.2026): слева время, по линии цветные точки, у визитов — логотип компании. Пункты
+ *  появляются по очереди; нажатие открывает компанию, ресторан или культурную программу. */
+export function Timeline({ events, from = 0 }: { events: TripEvent[]; from?: number }) {
+  return (
+    <View style={{ paddingLeft: 62 }}>
+      <View style={tl.line} />
+      <View style={{ gap: 10 }}>
+        {events.map((e, i) => <TimelineItem key={e.t + e.name} e={e} i={from + i} />)}
+      </View>
+    </View>
+  );
+}
+
+function TimelineItem({ e, i }: { e: TripEvent; i: number }) {
+  const [k, icon] = KIND[e.kind];
+  const { visit, href } = hrefOf(e);
+  const [chip, chipColor] = chipOf(e);
+  const body = (
+    <>
+      <View style={[tl.side, { left: -62, width: 42 }]}><Text style={[tl.time, e.moved && { color: C.warn }]}>{e.t}</Text></View>
+      <View style={[tl.side, { left: -15 }]}><View style={[tl.dot, { backgroundColor: k }]} /></View>
+      {e.kind === 'co' ? <CoLogo path={visit?.logo} color={k} /> : <View style={tl.ico}><Icon name={e.kind === 'move' ? moveIcon(e.name) : icon} size={21} color={k} /></View>}
+      <View style={{ flex: 1, minWidth: 0 }}>
+        <Text style={tl.name} numberOfLines={1}>{e.name}</Text>
+        {e.place ? <Text style={tl.place} numberOfLines={1}>{e.place}</Text> : null}
+      </View>
+      <View style={[tl.chip, { backgroundColor: `${chipColor}24` }]}><Text style={[tl.chipText, { color: chipColor }]}>{chip}</Text></View>
+    </>
+  );
+  return (
+    <Appear i={i}>
+      {href ? <Press onPress={() => router.push(href as never)} label={`${e.t} ${e.name}`} scaleTo={0.97} style={tl.ev}>{body}</Press> : <View style={tl.ev}>{body}</View>}
+    </Appear>
+  );
+}
+
+const tl = StyleSheet.create({
+  line: { position: 'absolute', left: 51, top: 14, bottom: 14, width: 2, borderRadius: 1, backgroundColor: C.line },
+  ev: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 9, paddingHorizontal: 11, borderRadius: 20, backgroundColor: C.card, boxShadow: SH.small },
+  side: { position: 'absolute', top: 0, bottom: 0, justifyContent: 'center' },
+  time: { textAlign: 'right', fontFamily: F.bold, fontSize: 14, color: C.ink, fontVariant: ['tabular-nums'] },
+  dot: { width: 12, height: 12, borderRadius: 6, boxShadow: `0px 0px 0px 3px ${C.bg}, 2px 2px 4px #c3ccd9` },
+  ico: { width: 42, height: 42, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: C.well, boxShadow: SH.inset },
+  logo: { borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ffffff', boxShadow: 'inset 0px 0px 0px 1px #e3e8f0' },
+  name: { fontFamily: F.bold, fontSize: 15, color: C.ink },
+  place: { fontFamily: F.regular, fontSize: 12.5, color: C.muted, marginTop: 1 },
+  chip: { borderRadius: 99, paddingHorizontal: 8, paddingVertical: 4 },
+  chipText: { fontFamily: F.bold, fontSize: 11 },
+});
 
 export function EventRow({ e }: { e: TripEvent }) {
   const chip = e.moved ? <Chip tone="warn">перенесено</Chip>
@@ -17,8 +97,7 @@ export function EventRow({ e }: { e: TripEvent }) {
       : e.kind === 'meal' ? <Chip tone="ok">{/обед/i.test(e.name) ? 'обед' : 'ужин'}</Chip>
         : e.kind === 'culture' ? <Chip tone="dark">культура</Chip>
           : e.kind === 'move' ? <Chip tone="plain">переезд</Chip> : null;
-  const visit = e.kind === 'co' ? VISITS.find((v) => v.name === e.name) : undefined;
-  const href = e.ref?.startsWith('m-') ? `/meal/${e.ref}` : e.ref?.startsWith('c-') ? `/culture/${e.ref}` : visit ? `/company/${visit.id}` : null;
+  const { href } = hrefOf(e);
   return (
     <Row
       title={<Text style={kit.rowTitle}><Text style={{ fontVariant: ['tabular-nums'], color: e.moved ? C.warn : C.ink }}>{e.t}</Text>  {e.name}</Text>}

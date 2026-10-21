@@ -15,3 +15,5 @@ export function OfflineNote({ what = 'Программа, адреса для т
     </View>
   );
 }
+// плашки чаще нет — в очередь появления экрана она не встаёт (см. Cascade в kit.tsx)
+OfflineNote.noAppear = true;

@@ -7,7 +7,7 @@ import { MATERIALS, PINNED } from '@/data/trip';
 import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
 import { Icon } from '@/ui/Icon';
-import { Button, Card, H3, Row, Screen, T, TitleRow } from '@/ui/kit';
+import { Button, Card, H3, Row, Screen, T, TitleRow, inputStyle } from '@/ui/kit';
 import { OfflineNote } from '@/ui/OfflineNote';
 import { C, F } from '@/ui/theme';
 
@@ -57,7 +57,7 @@ export default function Library() {
           placeholderTextColor={C.muted}
           multiline
           accessibilityLabel="Новая заметка"
-          style={{ borderWidth: 1, borderColor: '#d5dbe6', borderRadius: 10, padding: 10, minHeight: 44, fontFamily: F.regular, fontSize: 14, color: C.ink }}
+          style={{ ...inputStyle, minHeight: 44 }}
         />
         <Button title="+ Заметка" kind="light" small onPress={() => { const t = draft.trim(); if (!t) return; addNote(t); setDraft(''); toast('Заметка сохранена'); }} />
         {notes.map((n, i) => <Row key={i} title={<T>{n.text}</T>} sub={n.time} />)}

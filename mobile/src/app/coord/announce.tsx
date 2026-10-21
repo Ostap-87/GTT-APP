@@ -5,7 +5,7 @@ import { TextInput } from 'react-native';
 import { TEMPLATES } from '@/data/group';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
-import { Button, Card, Check, Chips, H3, Pick, Row, T } from '@/ui/kit';
+import { Button, Card, Check, Chips, H3, Pick, Row, T, inputStyle } from '@/ui/kit';
 import { CoordScreen } from '@/ui/coord-ui';
 import { C, F } from '@/ui/theme';
 
@@ -28,7 +28,7 @@ export default function Announce() {
         <H3>Быстрые шаблоны</H3>
         <Chips>{TEMPLATES.map((x) => <Pick key={x.key} title={x.label} on={tpl === x.key} onPress={() => { setTpl(x.key); setText(x.ru); }} />)}</Chips>
         <TextInput value={text} onChangeText={(v) => { setText(v); setTpl(''); }} multiline accessibilityLabel="Текст объявления"
-          style={{ borderWidth: 1, borderColor: '#d5dbe6', borderRadius: 10, padding: 10, minHeight: 72, fontFamily: F.regular, fontSize: 14, color: C.ink }} />
+          style={{ ...inputStyle, minHeight: 72 }} />
         {zh ? <T muted>{`По-китайски для компании: ${zh}`}</T> : to.h ? <T muted>Свой текст компании переведёт переводчик перед отправкой.</T> : null}
         <Check on={to.d} onPress={() => setTo({ ...to, d: !to.d })}>Делегатам (18) — push</Check>
         <Check on={to.h} onPress={() => setTo({ ...to, h: !to.h })}>JD.com (中文)</Check>

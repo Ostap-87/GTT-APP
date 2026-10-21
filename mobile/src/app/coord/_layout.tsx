@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
 
 import { Icon } from '@/ui/Icon';
+import { TabBar3D } from '@/ui/TabBar3D';
 import type { IconName } from '@/ui/icon-paths';
 import { C, F } from '@/ui/theme';
 
@@ -17,6 +18,7 @@ const TABS: [string, string, IconName][] = [
 export default function CoordTabs() {
   return (
     <Tabs
+      tabBar={(p) => <TabBar3D {...p} />}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: C.blue,

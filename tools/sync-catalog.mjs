@@ -68,12 +68,13 @@ const file = join(root, 'mobile/src/data/catalog.json');
 writeFileSync(file, `${JSON.stringify(out, null, 1)}\n`);
 console.log(`каталог: ${out.length} программ → ${file}`);
 
-// Компании программ для демо-поездки: название, иероглифы (только Китай — для водителя), город, короткая справка с сайта
+// Компании программ для демо-поездки: название, иероглифы (только Китай — для водителя), город, короткая справка с сайта,
+// логотип (путь на сайте: https://globaltechtour.ru/logos/…)
 const used = new Set(out.flatMap((t) => t.route.flatMap((r) => r.co)));
 const coOut = {};
 for (const id of [...used].sort()) {
   const c = coById.get(id);
-  coOut[id] = { n: c.name_ru || c.name_en, ...(c.country === 'cn' && c.name_zh ? { zh: c.name_zh } : {}), c: c.city || '', d: short(c.desc_ru) };
+  coOut[id] = { n: c.name_ru || c.name_en, ...(c.country === 'cn' && c.name_zh ? { zh: c.name_zh } : {}), c: c.city || '', d: short(c.desc_ru), ...(c.logo ? { l: c.logo } : {}) };
 }
 const coFile = join(root, 'mobile/src/data/companies.json');
 writeFileSync(coFile, `${JSON.stringify(coOut)}\n`);

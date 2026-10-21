@@ -19,7 +19,7 @@ import { CountryApps } from '@/ui/ChinaApps';
 import { EsimOffers } from '@/ui/EsimOffers';
 import { RemindersCard } from '@/ui/RemindersCard';
 import { RouteMap } from '@/ui/RouteMap';
-import { C, F } from '@/ui/theme';
+import { C, F, SH } from '@/ui/theme';
 
 /** «Страна: связь, оплата, розетки» — раскрывающиеся советы с отметкой «сделано»; набор — по стране поездки. */
 function CountryPrep() {
@@ -38,7 +38,7 @@ function CountryPrep() {
           <View key={c.key} style={{ borderTopWidth: 1, borderTopColor: C.line2, paddingVertical: 10, gap: 8 }}>
             <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
               <Pressable onPress={() => toggle(c.key)} accessibilityRole="checkbox" accessibilityState={{ checked: on }} accessibilityLabel={`${c.title}: сделано`} hitSlop={8}
-                style={{ width: 22, height: 22, borderRadius: 6, borderWidth: 1.5, borderColor: on ? C.green : '#c3cad6', backgroundColor: on ? C.green : C.card, alignItems: 'center', justifyContent: 'center' }}>
+                style={{ width: 22, height: 22, borderRadius: 7, backgroundColor: on ? C.green : C.well, boxShadow: on ? '0px 4px 10px rgba(30, 142, 90, 0.3)' : SH.inset, alignItems: 'center', justifyContent: 'center' }}>
                 {on ? <Icon name="check" size={14} color="#fff" /> : null}
               </Pressable>
               <Pressable style={{ flex: 1 }} onPress={() => setOpen(isOpen ? null : c.key)} accessibilityRole="button" accessibilityState={{ expanded: isOpen }} accessibilityLabel={`${c.title}, ${isOpen ? 'свернуть' : 'подробнее'}`}>
@@ -210,7 +210,7 @@ export default function Prep() {
               return (
                 <Pressable key={c.key} onPress={() => (c.key === 'profile' ? router.push('/profile') : CHECK_DOCS[c.key] ? router.push('/docs') : toggle(c.key))} accessibilityRole="checkbox" accessibilityState={{ checked: on }}
                   style={{ flexDirection: 'row', gap: 12, alignItems: 'center', paddingVertical: 10, borderTopWidth: 1, borderTopColor: C.line2 }}>
-                  <View style={{ width: 22, height: 22, borderRadius: 6, borderWidth: 1.5, borderColor: on ? C.green : '#c3cad6', backgroundColor: on ? C.green : C.card, alignItems: 'center', justifyContent: 'center' }}>
+                  <View style={{ width: 22, height: 22, borderRadius: 7, backgroundColor: on ? C.green : C.well, boxShadow: on ? '0px 4px 10px rgba(30, 142, 90, 0.3)' : SH.inset, alignItems: 'center', justifyContent: 'center' }}>
                     {on ? <Icon name="check" size={14} color="#fff" /> : null}
                   </View>
                   <View style={{ flex: 1 }}>
