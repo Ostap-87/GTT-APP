@@ -13,6 +13,7 @@ import { useTrip } from '@/state/trip';
 import { Icon } from '@/ui/Icon';
 import { Avatar, Button, Card, Check, Chip, Field, H3, Row, Screen, Seg, T, TitleRow, initials } from '@/ui/kit';
 import { ChinaApps } from '@/ui/ChinaApps';
+import { EsimOffers } from '@/ui/EsimOffers';
 import { RouteMap } from '@/ui/RouteMap';
 import { C, F } from '@/ui/theme';
 
@@ -199,6 +200,7 @@ export default function Prep() {
             })}
           </Card>
           <ChinaPrep />
+          <EsimOffers />
           <ChinaApps />
         </>
       ) : stage === 'during' ? (

@@ -89,8 +89,11 @@ Expo меняется от версии к версии: перед работо
   визиток — в таблице контактов (до 30 штук).
 - **Итоги поездки — PDF** — `src/app/report.tsx` + `src/data/report.ts` (expo-print, expo-sharing): компании, заметки, фото,
   таблица контактов, в конце похожие экспедиции из каталога сайта. В вебе — окно печати «Сохранить как PDF».
-- **Приложения для Китая** (21.10.2026) — `src/data/china-apps.ts` (Alipay, WeChat, Amap, DiDi, Trip.com: id в App Store и
-  пакет в Google Play, проверены по российским магазинам) и `src/ui/ChinaApps.tsx` — в «Поездка → До» и в «Городе».
+- **Приложения для Китая** (21.10.2026) — `src/data/china-apps.ts` (Alipay, WeChat, Amap, DiDi, Trip.com, Meituan, Dianping,
+  Taobao Shangou: id в App Store и пакет в Google Play, проверены по российским магазинам; `iosCn` — только в китайском App
+  Store, тогда подсказка про мини-программу в WeChat) и `src/ui/ChinaApps.tsx` — в «Поездка → До» и в «Городе».
+- **Туристическая eSIM** — `src/data/esim.ts` (`ESIM_OFFERS`: название, что входит, партнёрская ссылка) и `src/ui/EsimOffers.tsx`
+  в «Поездка → До». Пока пусто — показывается заглушка; VPN-ссылок в приложении нет (решение 21.10.2026).
 - **Юани в рубли** — `src/ui/Converter.tsx` в «Городе»: курс ЦБ РФ (cbr-xml-daily.ru) обновляется при сети и запоминается.
 
 ## Майндмэп дня и поездки (20.10.2026)
