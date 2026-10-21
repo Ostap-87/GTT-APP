@@ -8,7 +8,9 @@ import { useState } from 'react';
 import { ActivityIndicator, Image, Text, View } from 'react-native';
 
 import { emptyCard, nameLatin, parseCard, translateCompany, translateTitle, type BizCard } from '@/data/card';
+import { countryOf } from '@/data/countries';
 import { VISITS } from '@/data/group';
+import { TRIP } from '@/data/trip';
 import { keepFile } from '@/data/media';
 import { ocrStage, type OcrEvent } from '@/ocr/ocr-html';
 import { useToast } from '@/state/toast';
@@ -27,7 +29,7 @@ export default function CardScan() {
   const toast = useToast();
   const existing = id ? cards.find((c) => c.id === id) : undefined;
   const [card, setCard] = useState<BizCard>(existing || emptyCard(visit));
-  const [job, setJob] = useState<{ id: number; image: string } | null>(null);
+  const [job, setJob] = useState<{ id: number; image: string; langs?: string[] } | null>(null);
   const [stage, setStage] = useState<string | null>(null);
   const [showRaw, setShowRaw] = useState(false);
   const v = VISITS.find((x) => x.id === card.visit);
@@ -42,7 +44,7 @@ export default function CardScan() {
       const img = await (await ctx.renderAsync()).saveAsync({ format: SaveFormat.JPEG, compress: 0.8, base64: true });
       set({ photo: await keepFile(img.uri, 'jpg') });
       setStage('Готовлю распознавание…');
-      setJob({ id: Date.now(), image: `data:image/jpeg;base64,${img.base64}` });
+      setJob({ id: Date.now(), image: `data:image/jpeg;base64,${img.base64}`, langs: countryOf(TRIP.country).lang.ocr });
     } catch {
       toast('Не получилось открыть фото');
     }

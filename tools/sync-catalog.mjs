@@ -2,8 +2,8 @@
 // Каталог программ для приложения — из данных сайта globaltechtour.ru (репозиторий Ostap-87/SINOTECH).
 // Запуск: node tools/sync-catalog.mjs [путь к клону SINOTECH]  (по умолчанию ../sinotech рядом с GTT-APP)
 // Результат: mobile/src/data/catalog.json — только то, что показывает приложение. Цен в нём нет (правило репозитория).
-// Заодно — границы провинций Китая для карты маршрута, те же, что на сайте (mobile/src/data/china-provinces.json).
-import { readFileSync, writeFileSync } from 'node:fs';
+// Заодно — регионы 9 стран и города с координатами для карты маршрута, те же, что на сайте (mobile/src/data/geo/).
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -49,6 +49,8 @@ const out = tours.map((t) => {
     cities,
     companies,
     startDate: t.start_date || null,
+    // маршрут по дням для карты: город (id из companies.json → cities) и как добрались (перелёт или поезд)
+    route: (t.itinerary || []).filter((d) => d.city).map((d) => ({ day: d.day, city: d.city, ...(d.leg_mode ? { leg: d.leg_mode } : {}) })),
   };
 });
 
@@ -56,7 +58,11 @@ const file = join(root, 'mobile/src/data/catalog.json');
 writeFileSync(file, `${JSON.stringify(out, null, 1)}\n`);
 console.log(`каталог: ${out.length} программ → ${file}`);
 
-// Карта маршрута в приложении рисует те же провинции, что карта на сайте
-const geo = join(root, 'mobile/src/data/china-provinces.json');
-writeFileSync(geo, readFileSync(join(sinotech, 'src/data/china-provinces.json')));
-console.log(`границы провинций → ${geo}`);
+// Карта маршрута в приложении рисует те же регионы, что карта на сайте, — для всех 9 стран; города — с координатами сайта
+const GEO = { cn: 'china', jp: 'japan', kr: 'korea', th: 'thailand', vn: 'vietnam', id: 'indonesia', in: 'india', my: 'malaysia', ae: 'uae' };
+const geoDir = join(root, 'mobile/src/data/geo');
+mkdirSync(geoDir, { recursive: true });
+for (const [cc, name] of Object.entries(GEO)) writeFileSync(join(geoDir, `${cc}.json`), readFileSync(join(sinotech, `src/data/${name}-provinces.json`)));
+const cities = companiesRaw.cities.map((c) => ({ id: c.id, ru: c.name_ru, en: c.name_en, lat: c.lat, lng: c.lng, country: c.country }));
+writeFileSync(join(geoDir, 'cities.json'), `${JSON.stringify(cities)}\n`);
+console.log(`регионы ${Object.keys(GEO).length} стран и ${cities.length} городов → ${geoDir}`);

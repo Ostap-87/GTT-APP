@@ -4,12 +4,15 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
-import { ACCESS, dayTitle, datesText, type AEvent } from '@/data/admin';
+import { ACCESS, PROGRAMS, dayTitle, datesText, type AEvent } from '@/data/admin';
+import { COUNTRY_RU } from '@/data/catalog-meta';
+import { programRoute } from '@/data/map-route';
 import type { EventKind } from '@/data/trip';
 import { useAdmin } from '@/state/admin';
 import { useToast } from '@/state/toast';
 import { Columns, LevelSwitch, Wide, useWide } from '@/ui/admin-ui';
 import { Icon } from '@/ui/Icon';
+import { RouteMap } from '@/ui/RouteMap';
 import { Button, Card, Chip, Chips, Field, H3, Pick, Plain, Row, T, TitleRow } from '@/ui/kit';
 import { C, F } from '@/ui/theme';
 
@@ -26,13 +29,26 @@ export default function AdminTrip() {
   const [ev, setEv] = useState<Omit<AEvent, 'id'>>({ t: '10:00', name: '', kind: 'co' });
   const [person, setPerson] = useState({ name: '', role: '' });
   const [replace, setReplace] = useState<{ id: string; name: string } | null>(null);
+  const [mapW, setMapW] = useState(0);
   if (!t || !a.myTrips.some((x) => x.id === t.id)) return <Plain><Wide><Card tone="warn"><T>Эта поездка вам не назначена.</T></Card></Wide></Plain>;
   const edit = a.can('trip.edit');
   const people = a.can('people.edit');
   const cities = [...new Set(t.days.map((d) => d.city))];
+  const program = PROGRAMS.find((p) => p.id === t.programId);
+  const route = programRoute(program?.route || []);
 
   const left = (
     <>
+      {program && route.stops.length ? (
+        <Card style={{ padding: 8 }}>
+          <View onLayout={(e) => setMapW(e.nativeEvent.layout.width)} style={{ borderRadius: 12, overflow: 'hidden' }}>
+            {mapW ? <RouteMap cc={program.country} stops={route.stops} legs={route.legs} shown={99} width={mapW} height={Math.round(Math.min(mapW * 0.7, 420))} /> : <View style={{ height: 200 }} />}
+          </View>
+          <View style={{ flexDirection: 'row', gap: 8, paddingTop: 6 }}>
+            <View style={{ flex: 1 }}><Button title={`Памятка: ${COUNTRY_RU[program.country]}`} small kind="light" onPress={() => router.push({ pathname: '/country/[code]', params: { code: program.country } })} /></View>
+          </View>
+        </Card>
+      ) : null}
       <Card>
         <TitleRow title="Даты" right={<Chip tone="info">{`${t.days.length} дн.`}</Chip>} />
         <Text style={{ fontFamily: F.display, fontSize: 28, lineHeight: 30, color: C.ink, textTransform: 'uppercase' }}>{datesText(t)}</Text>

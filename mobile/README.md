@@ -137,3 +137,13 @@ Expo меняется от версии к версии: перед работо
 - **Телефон и компьютер** — `src/ui/admin-ui.tsx`: `useWide()` (от 900 px), `Columns` (две колонки), `LevelSwitch`
   («Смотреть как» полный ↔ ограниченный).
 
+## Страны (21.10.2026)
+
+- **Профили** — `src/data/countries.ts`: валюта, язык и фразы, подготовка, розетки, приложения, канал для компании; страна
+  поездки — `TRIP.country`. Китайские советы и приложения — по-прежнему `china-prep.ts` и `china-apps.ts`.
+- **Карты** — `src/data/geo.ts` (`geoOf(страна)`, регионы из `data/geo/<код>.json`, города — `data/geo/cities.json`),
+  `src/data/map-route.ts` (`mapRoute` — точки и «камера», `programRoute` — маршрут программы из `catalog.json → route`),
+  `src/ui/RouteMap.tsx` (любая страна; `numbersOnly` — только номера, когда городов много).
+- **Памятка** — `src/app/country/[code].tsx`; конвертер — `Converter currency={…}`; приложения — `CountryApps code={…}`.
+- **Новая страна** — регионы и города появятся из сайта после `node tools/sync-catalog.mjs`; профиль — дописать в `countries.ts`.
+

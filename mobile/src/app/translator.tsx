@@ -3,11 +3,15 @@
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 
-import { PHRASES } from '@/data/extras';
+import { countryOf } from '@/data/countries';
+import { TRIP } from '@/data/trip';
 import { Button, Card, Check, Plain, T } from '@/ui/kit';
 import { C, F } from '@/ui/theme';
 
 type Bubble = { side: 'ru' | 'zh'; orig: string; tr: string };
+// фразы — на языке страны поездки (data/countries.ts); side 'zh' — собеседник на местном языке
+const lang = () => countryOf(TRIP.country).lang;
+const PHRASES = { ru: lang().ru2local, zh: lang().local2ru };
 
 export default function Translator() {
   const [chat, setChat] = useState<Bubble[]>([]);
@@ -32,10 +36,10 @@ export default function Translator() {
       <T muted>Кто говорит — нажмите свою кнопку</T>
       <View style={{ flexDirection: 'row', gap: 8 }}>
         <View style={{ flex: 1 }}><Button title="Русский" icon="mic" label="Говорю по-русски" onPress={() => speak('ru')} /></View>
-        <View style={{ flex: 1 }}><Button title="中文" icon="mic" kind="dark" label="我说中文 — говорю по-китайски" onPress={() => speak('zh')} /></View>
+        <View style={{ flex: 1 }}><Button title={lang().self} icon="mic" kind="dark" label={`${lang().self} — собеседник говорит (${lang().ru})`} onPress={() => speak('zh')} /></View>
       </View>
       <Check on={voice} onPress={() => setVoice(!voice)}>Озвучивать перевод</Check>
-      <T muted>Сейчас фразы заготовлены для показа. В приложении — распознавание речи и перевод китайский ↔ русский ↔ английский.</T>
+      <T muted>{`Сейчас фразы заготовлены для показа. В приложении — распознавание речи и перевод: ${lang().ru} ↔ русский ↔ английский.`}</T>
     </Plain>
   );
 }

@@ -5,9 +5,10 @@ import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { AccessibilityInfo, Text, View } from 'react-native';
 
-import { LEGS, ROUTE_STATS, ROUTE_TEXT, STOPS, dayShort, pointOf, stopDays, stopInfo } from '@/data/route';
+import { LEGS, MAP_LEGS, MAP_STOPS, ROUTE_STATS, ROUTE_TEXT, STOPS, dayShort, pointOf, stopDays, stopInfo } from '@/data/route';
 import { Icon } from '@/ui/Icon';
 import { Button, Card, Chip, H3, Plain, Row, T, TitleRow } from '@/ui/kit';
+import { TRIP } from '@/data/trip';
 import { RouteMap } from '@/ui/RouteMap';
 import { C, F } from '@/ui/theme';
 
@@ -60,7 +61,7 @@ export default function RouteScreen() {
 
       <Card style={{ padding: 8 }}>
         <View onLayout={(e) => setBoxW(e.nativeEvent.layout.width)} style={{ borderRadius: 12, overflow: 'hidden' }}>
-          {boxW ? <RouteMap shown={shown} sel={sel} zoomed={zoomed} onPick={pick} width={boxW} height={Math.round(boxW * 1.1)} /> : <View style={{ height: 300 }} />}
+          {boxW ? <RouteMap cc={TRIP.country} stops={MAP_STOPS} legs={MAP_LEGS} shown={shown} sel={sel} zoomed={zoomed} onPick={pick} width={boxW} height={Math.round(boxW * 1.1)} /> : <View style={{ height: 300 }} />}
         </View>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, paddingTop: 8 }}>
           {STOPS.map((s, i) => (

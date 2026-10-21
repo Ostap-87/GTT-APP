@@ -28,7 +28,31 @@
    "EngineAI",
    "Pudu Robotics"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing"
+   },
+   {
+    "day": 2,
+    "city": "shanghai",
+    "leg": "flight"
+   },
+   {
+    "day": 3,
+    "city": "shanghai"
+   },
+   {
+    "day": 4,
+    "city": "shenzhen",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "shenzhen"
+   }
+  ]
  },
  {
   "id": "china-tech-giants-expedition",
@@ -57,7 +81,32 @@
    "Huawei",
    "UBTech"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing"
+   },
+   {
+    "day": 2,
+    "city": "hangzhou",
+    "leg": "flight"
+   },
+   {
+    "day": 3,
+    "city": "shanghai",
+    "leg": "train"
+   },
+   {
+    "day": 4,
+    "city": "shenzhen",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "shenzhen"
+   }
+  ]
  },
  {
   "id": "china-tea-coffee-retail-expedition",
@@ -86,7 +135,32 @@
    "Nayuki",
    "Wang Lao Ji"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "shanghai"
+   },
+   {
+    "day": 2,
+    "city": "shanghai"
+   },
+   {
+    "day": 3,
+    "city": "xiamen",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "shenzhen",
+    "leg": "train"
+   },
+   {
+    "day": 5,
+    "city": "guangzhou",
+    "leg": "train"
+   }
+  ]
  },
  {
   "id": "china-beauty-antiage-expedition",
@@ -115,7 +189,31 @@
    "Yatsen (Perfect Diary)",
    "Carslan"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "shanghai"
+   },
+   {
+    "day": 2,
+    "city": "shanghai"
+   },
+   {
+    "day": 3,
+    "city": "hangzhou",
+    "leg": "train"
+   },
+   {
+    "day": 4,
+    "city": "hangzhou"
+   },
+   {
+    "day": 5,
+    "city": "guangzhou",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "china-auto-plants-expedition",
@@ -141,7 +239,32 @@
    "GAC Aion",
    "Xpeng"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing",
+    "leg": "flight"
+   },
+   {
+    "day": 2,
+    "city": "hefei"
+   },
+   {
+    "day": 3,
+    "city": "hefei",
+    "leg": "train"
+   },
+   {
+    "day": 4,
+    "city": "shanghai",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "guangzhou"
+   }
+  ]
  },
  {
   "id": "china-appliances-expedition",
@@ -172,7 +295,33 @@
    "Gree",
    "Skyworth"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing",
+    "leg": "flight"
+   },
+   {
+    "day": 2,
+    "city": "qingdao",
+    "leg": "flight"
+   },
+   {
+    "day": 3,
+    "city": "hangzhou",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "foshan"
+   },
+   {
+    "day": 5,
+    "city": "shenzhen",
+    "leg": "train"
+   }
+  ]
  },
  {
   "id": "shenzhen-moscow-industrial-mission-2026",
@@ -222,7 +371,37 @@
    "Wanjiaan",
    "SmartMore"
   ],
-  "startDate": "2026-09-14"
+  "startDate": "2026-09-14",
+  "route": [
+   {
+    "day": 1,
+    "city": "shenzhen"
+   },
+   {
+    "day": 2,
+    "city": "shenzhen"
+   },
+   {
+    "day": 3,
+    "city": "shenzhen"
+   },
+   {
+    "day": 4,
+    "city": "shenzhen"
+   },
+   {
+    "day": 5,
+    "city": "shenzhen"
+   },
+   {
+    "day": 6,
+    "city": "shenzhen"
+   },
+   {
+    "day": 7,
+    "city": "shenzhen"
+   }
+  ]
  },
  {
   "id": "china-tech-parks-expedition",
@@ -250,7 +429,35 @@
    "DJI",
    "ZTE"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing"
+   },
+   {
+    "day": 2,
+    "city": "beijing"
+   },
+   {
+    "day": 3,
+    "city": "shanghai",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "shanghai"
+   },
+   {
+    "day": 5,
+    "city": "shenzhen",
+    "leg": "flight"
+   },
+   {
+    "day": 6,
+    "city": "shenzhen"
+   }
+  ]
  },
  {
   "id": "china-retail-showrooms-expedition",
@@ -279,7 +486,34 @@
    "Sam's Club / Walmart China",
    "Yonghui"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing"
+   },
+   {
+    "day": 2,
+    "city": "beijing"
+   },
+   {
+    "day": 3,
+    "city": "shanghai"
+   },
+   {
+    "day": 4,
+    "city": "shanghai"
+   },
+   {
+    "day": 5,
+    "city": "hangzhou"
+   },
+   {
+    "day": 6,
+    "city": "shenzhen",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "china-ticketing-travel-expedition",
@@ -306,7 +540,31 @@
    "Fliggy",
    "TME (Tencent Music)"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing"
+   },
+   {
+    "day": 2,
+    "city": "beijing"
+   },
+   {
+    "day": 3,
+    "city": "shanghai",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "hangzhou"
+   },
+   {
+    "day": 5,
+    "city": "shenzhen",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "korea-industry-manufacturing-expedition",
@@ -333,7 +591,36 @@
    "Hyundai Heavy Industries — Ulsan Shipyard",
    "POSCO"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "seoul"
+   },
+   {
+    "day": 2,
+    "city": "paju",
+    "leg": "train"
+   },
+   {
+    "day": 3,
+    "city": "suwon",
+    "leg": "train"
+   },
+   {
+    "day": 4,
+    "city": "ulsan"
+   },
+   {
+    "day": 5,
+    "city": "ulsan",
+    "leg": "train"
+   },
+   {
+    "day": 6,
+    "city": "pohang"
+   }
+  ]
  },
  {
   "id": "korea-tech-internet-giants-expedition",
@@ -361,7 +648,31 @@
    "Doosan Robotics",
    "Rainbow Robotics"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "seoul"
+   },
+   {
+    "day": 2,
+    "city": "seoul",
+    "leg": "train"
+   },
+   {
+    "day": 3,
+    "city": "seongnam"
+   },
+   {
+    "day": 4,
+    "city": "suwon",
+    "leg": "train"
+   },
+   {
+    "day": 5,
+    "city": "yongin"
+   }
+  ]
  },
  {
   "id": "korea-beauty-industry-expedition",
@@ -391,7 +702,31 @@
    "PharmaResearch",
    "Caregen"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "seoul"
+   },
+   {
+    "day": 2,
+    "city": "seoul"
+   },
+   {
+    "day": 3,
+    "city": "osan",
+    "leg": "train"
+   },
+   {
+    "day": 4,
+    "city": "seoul"
+   },
+   {
+    "day": 5,
+    "city": "anyang",
+    "leg": "train"
+   }
+  ]
  },
  {
   "id": "korea-foodtech-smart-farming-expedition",
@@ -422,7 +757,36 @@
    "Fresheasy",
    "hy (Korea Yakult)"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "seoul"
+   },
+   {
+    "day": 2,
+    "city": "seoul"
+   },
+   {
+    "day": 3,
+    "city": "yangju",
+    "leg": "train"
+   },
+   {
+    "day": 4,
+    "city": "wonju",
+    "leg": "train"
+   },
+   {
+    "day": 5,
+    "city": "yongin",
+    "leg": "train"
+   },
+   {
+    "day": 6,
+    "city": "pyeongtaek"
+   }
+  ]
  },
  {
   "id": "japan-retail-expedition",
@@ -450,7 +814,30 @@
    "Trial Holdings",
    "Rakuten Group"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "tokyo"
+   },
+   {
+    "day": 2,
+    "city": "tokyo"
+   },
+   {
+    "day": 3,
+    "city": "tokyo"
+   },
+   {
+    "day": 4,
+    "city": "tokyo"
+   },
+   {
+    "day": 5,
+    "city": "fukuoka",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "japan-food-dairy-expedition",
@@ -479,7 +866,30 @@
    "Morinaga Milk",
    "Megmilk Snow Brand"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "tokyo"
+   },
+   {
+    "day": 2,
+    "city": "tokyo"
+   },
+   {
+    "day": 3,
+    "city": "osaka",
+    "leg": "train"
+   },
+   {
+    "day": 4,
+    "city": "osaka"
+   },
+   {
+    "day": 5,
+    "city": "osaka"
+   }
+  ]
  },
  {
   "id": "japan-dark-kitchen-delivery-expedition",
@@ -506,7 +916,29 @@
    "Rakuten Delivery / Gurunavi",
    "menu (KDDI)"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "tokyo"
+   },
+   {
+    "day": 2,
+    "city": "tokyo"
+   },
+   {
+    "day": 3,
+    "city": "tokyo"
+   },
+   {
+    "day": 4,
+    "city": "tokyo"
+   },
+   {
+    "day": 5,
+    "city": "tokyo"
+   }
+  ]
  },
  {
   "id": "japan-tech-internet-giants-expedition",
@@ -534,7 +966,29 @@
    "ZOZO",
    "Sony AI"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "tokyo"
+   },
+   {
+    "day": 2,
+    "city": "tokyo"
+   },
+   {
+    "day": 3,
+    "city": "tokyo"
+   },
+   {
+    "day": 4,
+    "city": "tokyo"
+   },
+   {
+    "day": 5,
+    "city": "tokyo"
+   }
+  ]
  },
  {
   "id": "japan-beauty-industry-expedition",
@@ -564,7 +1018,31 @@
    "Rohto",
    "MTG (ReFa)"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "yokohama"
+   },
+   {
+    "day": 2,
+    "city": "tokyo"
+   },
+   {
+    "day": 3,
+    "city": "tokyo"
+   },
+   {
+    "day": 4,
+    "city": "osaka",
+    "leg": "train"
+   },
+   {
+    "day": 5,
+    "city": "nagoya",
+    "leg": "train"
+   }
+  ]
  },
  {
   "id": "japan-longevity-biotech-expedition",
@@ -593,7 +1071,31 @@
    "Cellusion",
    "Metcela"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "tokyo"
+   },
+   {
+    "day": 2,
+    "city": "tokyo"
+   },
+   {
+    "day": 3,
+    "city": "osaka",
+    "leg": "train"
+   },
+   {
+    "day": 4,
+    "city": "kyoto"
+   },
+   {
+    "day": 5,
+    "city": "tokyo",
+    "leg": "train"
+   }
+  ]
  },
  {
   "id": "japan-bubble-tea-coffee-expedition",
@@ -621,7 +1123,31 @@
    "Doutor Coffee",
    "Gong Cha Japan"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "kobe",
+    "leg": "train"
+   },
+   {
+    "day": 2,
+    "city": "osaka"
+   },
+   {
+    "day": 3,
+    "city": "kyoto"
+   },
+   {
+    "day": 4,
+    "city": "tokyo",
+    "leg": "train"
+   },
+   {
+    "day": 5,
+    "city": "tokyo"
+   }
+  ]
  },
  {
   "id": "thailand-retail-expedition",
@@ -647,7 +1173,29 @@
    "HomePro",
    "CP Axtra — Technology Center"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "bangkok"
+   },
+   {
+    "day": 2,
+    "city": "bangkok"
+   },
+   {
+    "day": 3,
+    "city": "bangkok"
+   },
+   {
+    "day": 4,
+    "city": "bangkok"
+   },
+   {
+    "day": 5,
+    "city": "bangkok"
+   }
+  ]
  },
  {
   "id": "thailand-food-dairy-expedition",
@@ -674,7 +1222,29 @@
    "Foremost / FrieslandCampina Thailand",
    "Meiji Thailand"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "bangkok"
+   },
+   {
+    "day": 2,
+    "city": "samutsakhon"
+   },
+   {
+    "day": 3,
+    "city": "bangkok"
+   },
+   {
+    "day": 4,
+    "city": "bangkok"
+   },
+   {
+    "day": 5,
+    "city": "bangkok"
+   }
+  ]
  },
  {
   "id": "thailand-dark-kitchen-delivery-expedition",
@@ -700,7 +1270,29 @@
    "Shopee Food",
    "True Digital"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "bangkok"
+   },
+   {
+    "day": 2,
+    "city": "bangkok"
+   },
+   {
+    "day": 3,
+    "city": "bangkok"
+   },
+   {
+    "day": 4,
+    "city": "bangkok"
+   },
+   {
+    "day": 5,
+    "city": "bangkok"
+   }
+  ]
  },
  {
   "id": "thailand-tech-internet-giants-expedition",
@@ -727,7 +1319,29 @@
    "TrueMoney (Ascend Group)",
    "Botnoi"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "bangkok"
+   },
+   {
+    "day": 2,
+    "city": "bangkok"
+   },
+   {
+    "day": 3,
+    "city": "bangkok"
+   },
+   {
+    "day": 4,
+    "city": "bangkok"
+   },
+   {
+    "day": 5,
+    "city": "bangkok"
+   }
+  ]
  },
  {
   "id": "thailand-beauty-industry-expedition",
@@ -754,7 +1368,29 @@
    "Cute Press",
    "Beiersdorf Thailand (Eucerin)"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "bangkok"
+   },
+   {
+    "day": 2,
+    "city": "bangkok"
+   },
+   {
+    "day": 3,
+    "city": "bangkok"
+   },
+   {
+    "day": 4,
+    "city": "bangkok"
+   },
+   {
+    "day": 5,
+    "city": "bangkok"
+   }
+  ]
  },
  {
   "id": "thailand-longevity-biotech-expedition",
@@ -780,7 +1416,29 @@
    "Boston Health Longevity",
    "Vega Clinic"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "bangkok"
+   },
+   {
+    "day": 2,
+    "city": "nakhonpathom"
+   },
+   {
+    "day": 3,
+    "city": "bangkok"
+   },
+   {
+    "day": 4,
+    "city": "bangkok"
+   },
+   {
+    "day": 5,
+    "city": "bangkok"
+   }
+  ]
  },
  {
   "id": "thailand-bubble-tea-coffee-expedition",
@@ -808,7 +1466,29 @@
    "KOI Thé Thailand",
    "Gong Cha Thailand"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "bangkok"
+   },
+   {
+    "day": 2,
+    "city": "bangkok"
+   },
+   {
+    "day": 3,
+    "city": "bangkok"
+   },
+   {
+    "day": 4,
+    "city": "bangkok"
+   },
+   {
+    "day": 5,
+    "city": "bangkok"
+   }
+  ]
  },
  {
   "id": "vietnam-retail-expedition",
@@ -834,7 +1514,30 @@
    "Circle K / GS25 Vietnam",
    "Con Cưng"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 2,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 3,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 4,
+    "city": "hanoi",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "hanoi"
+   }
+  ]
  },
  {
   "id": "vietnam-food-dairy-expedition",
@@ -860,7 +1563,31 @@
    "TH True Milk",
    "Acecook Vietnam"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 2,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 3,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 4,
+    "city": "vinh",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "hanoi",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "vietnam-dark-kitchen-delivery-expedition",
@@ -884,7 +1611,30 @@
    "Xanh SM (GSM/VinFast)",
    "Ahamove"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 2,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 3,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 4,
+    "city": "hanoi",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "hanoi"
+   }
+  ]
  },
  {
   "id": "vietnam-tech-internet-giants-expedition",
@@ -912,7 +1662,30 @@
    "Shopee/Lazada Vietnam",
    "ELSA"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 2,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 3,
+    "city": "hanoi",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "hanoi"
+   },
+   {
+    "day": 5,
+    "city": "hanoi"
+   }
+  ]
  },
  {
   "id": "vietnam-beauty-industry-expedition",
@@ -938,7 +1711,30 @@
    "Sao Thái Dương",
    "Milaganics"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 2,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 3,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 4,
+    "city": "hanoi",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "hanoi"
+   }
+  ]
  },
  {
   "id": "vietnam-longevity-biotech-expedition",
@@ -960,7 +1756,30 @@
    "VinUniversity",
    "Medeze Vietnam"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "hanoi"
+   },
+   {
+    "day": 2,
+    "city": "hanoi"
+   },
+   {
+    "day": 3,
+    "city": "ho-chi-minh",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 5,
+    "city": "ho-chi-minh"
+   }
+  ]
  },
  {
   "id": "vietnam-bubble-tea-coffee-expedition",
@@ -988,7 +1807,31 @@
    "Phê La",
    "King Coffee (TNI)"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 2,
+    "city": "ho-chi-minh"
+   },
+   {
+    "day": 3,
+    "city": "buon-ma-thuot",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "hanoi",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "hanoi"
+   }
+  ]
  },
  {
   "id": "indonesia-retail-expedition",
@@ -1015,7 +1858,29 @@
    "Ranch Market",
    "Blibli"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "jakarta"
+   },
+   {
+    "day": 2,
+    "city": "jakarta"
+   },
+   {
+    "day": 3,
+    "city": "jakarta"
+   },
+   {
+    "day": 4,
+    "city": "jakarta"
+   },
+   {
+    "day": 5,
+    "city": "jakarta"
+   }
+  ]
  },
  {
   "id": "indonesia-food-dairy-expedition",
@@ -1043,7 +1908,30 @@
    "Nestlé Indonesia",
    "Garudafood"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "jakarta"
+   },
+   {
+    "day": 2,
+    "city": "cikarang"
+   },
+   {
+    "day": 3,
+    "city": "semarang",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "bandung"
+   },
+   {
+    "day": 5,
+    "city": "jakarta"
+   }
+  ]
  },
  {
   "id": "indonesia-dark-kitchen-delivery-expedition",
@@ -1069,7 +1957,29 @@
    "ShopeeFood",
    "Wahyoo"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "jakarta"
+   },
+   {
+    "day": 2,
+    "city": "jakarta"
+   },
+   {
+    "day": 3,
+    "city": "jakarta"
+   },
+   {
+    "day": 4,
+    "city": "jakarta"
+   },
+   {
+    "day": 5,
+    "city": "jakarta"
+   }
+  ]
  },
  {
   "id": "indonesia-tech-internet-giants-expedition",
@@ -1095,7 +2005,29 @@
    "Shopee Indonesia / TikTok Shop",
    "Bukalapak"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "jakarta"
+   },
+   {
+    "day": 2,
+    "city": "jakarta"
+   },
+   {
+    "day": 3,
+    "city": "jakarta"
+   },
+   {
+    "day": 4,
+    "city": "jakarta"
+   },
+   {
+    "day": 5,
+    "city": "jakarta"
+   }
+  ]
  },
  {
   "id": "indonesia-beauty-industry-expedition",
@@ -1124,7 +2056,31 @@
    "MS Glow",
    "Rose All Day"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "tangerang"
+   },
+   {
+    "day": 2,
+    "city": "jakarta"
+   },
+   {
+    "day": 3,
+    "city": "jakarta"
+   },
+   {
+    "day": 4,
+    "city": "yogyakarta",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "jakarta",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "indonesia-longevity-biotech-expedition",
@@ -1150,7 +2106,30 @@
    "Bio Farma / Kimia Farma",
    "Regeneratia Bali"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "jakarta"
+   },
+   {
+    "day": 2,
+    "city": "jakarta"
+   },
+   {
+    "day": 3,
+    "city": "jakarta"
+   },
+   {
+    "day": 4,
+    "city": "jakarta"
+   },
+   {
+    "day": 5,
+    "city": "bali",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "indonesia-bubble-tea-coffee-expedition",
@@ -1176,7 +2155,29 @@
    "Point Coffee (Indomaret)",
    "Kenangan Coffee / Chigo"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "jakarta"
+   },
+   {
+    "day": 2,
+    "city": "jakarta"
+   },
+   {
+    "day": 3,
+    "city": "jakarta"
+   },
+   {
+    "day": 4,
+    "city": "jakarta"
+   },
+   {
+    "day": 5,
+    "city": "jakarta"
+   }
+  ]
  },
  {
   "id": "india-retail-expedition",
@@ -1205,7 +2206,31 @@
    "Blinkit (Eternal)",
    "Vishal Mega Mart"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "mumbai"
+   },
+   {
+    "day": 2,
+    "city": "mumbai"
+   },
+   {
+    "day": 3,
+    "city": "bengaluru",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "bengaluru"
+   },
+   {
+    "day": 5,
+    "city": "gurugram",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "india-food-dairy-expedition",
@@ -1234,7 +2259,31 @@
    "Britannia",
    "Hatsun Agro"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "anand"
+   },
+   {
+    "day": 2,
+    "city": "ahmedabad"
+   },
+   {
+    "day": 3,
+    "city": "delhi",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "bengaluru",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "bengaluru"
+   }
+  ]
  },
  {
   "id": "india-dark-kitchen-delivery-expedition",
@@ -1263,7 +2312,31 @@
    "Biryani By Kilo",
    "Zepto Café"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "mumbai"
+   },
+   {
+    "day": 2,
+    "city": "bengaluru",
+    "leg": "flight"
+   },
+   {
+    "day": 3,
+    "city": "bengaluru"
+   },
+   {
+    "day": 4,
+    "city": "gurugram",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "gurugram"
+   }
+  ]
  },
  {
   "id": "india-tech-internet-giants-expedition",
@@ -1291,7 +2364,30 @@
    "Haptik (Reliance Jio)",
    "Nykaa"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "bengaluru"
+   },
+   {
+    "day": 2,
+    "city": "bengaluru"
+   },
+   {
+    "day": 3,
+    "city": "bengaluru"
+   },
+   {
+    "day": 4,
+    "city": "mumbai",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "mumbai"
+   }
+  ]
  },
  {
   "id": "india-beauty-industry-expedition",
@@ -1318,7 +2414,30 @@
    "Lakmé (HUL)",
    "Good Glamm (MyGlamm)"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "mumbai"
+   },
+   {
+    "day": 2,
+    "city": "mumbai"
+   },
+   {
+    "day": 3,
+    "city": "gurugram",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "gurugram"
+   },
+   {
+    "day": 5,
+    "city": "gurugram"
+   }
+  ]
  },
  {
   "id": "india-longevity-biotech-expedition",
@@ -1345,7 +2464,31 @@
    "The Anti-Aging Centre (TAC)",
    "Apollo/Nova — Regenerative Direction"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "bengaluru"
+   },
+   {
+    "day": 2,
+    "city": "bengaluru"
+   },
+   {
+    "day": 3,
+    "city": "mumbai",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "gurugram",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "gurugram"
+   }
+  ]
  },
  {
   "id": "india-bubble-tea-coffee-expedition",
@@ -1373,7 +2516,31 @@
    "Tata Coffee / Starbucks India JV",
    "Boba Bhai"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "delhi"
+   },
+   {
+    "day": 2,
+    "city": "delhi"
+   },
+   {
+    "day": 3,
+    "city": "bengaluru",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "bengaluru"
+   },
+   {
+    "day": 5,
+    "city": "mumbai",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "malaysia-retail-expedition",
@@ -1400,7 +2567,29 @@
    "Padini Holdings Berhad",
    "Eco-Shop Marketing Berhad"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 2,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 3,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 4,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 5,
+    "city": "kuala-lumpur"
+   }
+  ]
  },
  {
   "id": "malaysia-food-dairy-expedition",
@@ -1426,7 +2615,30 @@
    "Farm Fresh Berhad",
    "Jemaluang Dairy Valley (JDV)"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 2,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 3,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 4,
+    "city": "kulai",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "kulai"
+   }
+  ]
  },
  {
   "id": "malaysia-dark-kitchen-delivery-expedition",
@@ -1451,7 +2663,29 @@
    "MyBurgerLab",
    "Inside Scoop"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 2,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 3,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 4,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 5,
+    "city": "kuala-lumpur"
+   }
+  ]
  },
  {
   "id": "malaysia-tech-internet-giants-expedition",
@@ -1479,7 +2713,30 @@
    "YTL AI Cloud / YTL Power International",
    "Homegrown Fintech Cluster (Jirnexu/CompareHero, iPay88, Funding Societies)"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 2,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 3,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 4,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 5,
+    "city": "kulai",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "malaysia-beauty-industry-expedition",
@@ -1504,7 +2761,30 @@
    "Eng Kah Corporation Berhad",
    "Halal OEM Cluster (CL Cosmetic / TCT Nutraceuticals / Sky Resources)"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 2,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 3,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 4,
+    "city": "penang",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "kuala-lumpur"
+   }
+  ]
  },
  {
   "id": "malaysia-longevity-biotech-expedition",
@@ -1529,7 +2809,29 @@
    "Elixir Biotech / StemTech",
    "National Stem Cell Centre (NSCC) / UKM Tissue Engineering Centre"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 2,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 3,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 4,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 5,
+    "city": "kuala-lumpur"
+   }
+  ]
  },
  {
   "id": "malaysia-bubble-tea-coffee-expedition",
@@ -1553,7 +2855,29 @@
    "Luckin Coffee (Malaysia entry)",
    "Inside Scoop"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 2,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 3,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 4,
+    "city": "kuala-lumpur"
+   },
+   {
+    "day": 5,
+    "city": "kuala-lumpur"
+   }
+  ]
  },
  {
   "id": "uae-fintech-expedition",
@@ -1582,7 +2906,29 @@
    "Abu Dhabi Global Market (ADGM)",
    "Hub71 FinTech Cluster"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "dubai"
+   },
+   {
+    "day": 2,
+    "city": "dubai"
+   },
+   {
+    "day": 3,
+    "city": "dubai"
+   },
+   {
+    "day": 4,
+    "city": "abu-dhabi"
+   },
+   {
+    "day": 5,
+    "city": "abu-dhabi"
+   }
+  ]
  },
  {
   "id": "uae-ai-tech-expedition",
@@ -1611,7 +2957,29 @@
    "Careem",
    "Dubai Future Foundation"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "abu-dhabi"
+   },
+   {
+    "day": 2,
+    "city": "abu-dhabi"
+   },
+   {
+    "day": 3,
+    "city": "dubai"
+   },
+   {
+    "day": 4,
+    "city": "dubai"
+   },
+   {
+    "day": 5,
+    "city": "dubai"
+   }
+  ]
  },
  {
   "id": "uae-logistics-ports-expedition",
@@ -1638,7 +3006,29 @@
    "Dubai Multi Commodities Centre (DMCC)",
    "Amazon.ae"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "dubai"
+   },
+   {
+    "day": 2,
+    "city": "dubai"
+   },
+   {
+    "day": 3,
+    "city": "dubai"
+   },
+   {
+    "day": 4,
+    "city": "dubai"
+   },
+   {
+    "day": 5,
+    "city": "dubai"
+   }
+  ]
  },
  {
   "id": "uae-aviation-expedition",
@@ -1667,7 +3057,29 @@
    "Etihad Engineering",
    "Zayed International Airport"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "dubai"
+   },
+   {
+    "day": 2,
+    "city": "dubai"
+   },
+   {
+    "day": 3,
+    "city": "dubai"
+   },
+   {
+    "day": 4,
+    "city": "dubai"
+   },
+   {
+    "day": 5,
+    "city": "abu-dhabi"
+   }
+  ]
  },
  {
   "id": "uae-realestate-expedition",
@@ -1694,7 +3106,29 @@
    "Knight Frank MENA",
    "Aldar Properties"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "dubai"
+   },
+   {
+    "day": 2,
+    "city": "dubai"
+   },
+   {
+    "day": 3,
+    "city": "dubai"
+   },
+   {
+    "day": 4,
+    "city": "dubai"
+   },
+   {
+    "day": 5,
+    "city": "abu-dhabi"
+   }
+  ]
  },
  {
   "id": "uae-energy-green-tech-expedition",
@@ -1721,7 +3155,29 @@
    "TotalEnergies Middle East",
    "Mohammed bin Rashid Al Maktoum Solar Park"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "abu-dhabi"
+   },
+   {
+    "day": 2,
+    "city": "abu-dhabi"
+   },
+   {
+    "day": 3,
+    "city": "abu-dhabi"
+   },
+   {
+    "day": 4,
+    "city": "dubai"
+   },
+   {
+    "day": 5,
+    "city": "dubai"
+   }
+  ]
  },
  {
   "id": "uae-retail-ecommerce-expedition",
@@ -1748,7 +3204,29 @@
    "InstaShop",
    "LVMH Middle East"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "dubai"
+   },
+   {
+    "day": 2,
+    "city": "dubai"
+   },
+   {
+    "day": 3,
+    "city": "dubai"
+   },
+   {
+    "day": 4,
+    "city": "dubai"
+   },
+   {
+    "day": 5,
+    "city": "dubai"
+   }
+  ]
  },
  {
   "id": "china-logistics-top10-expedition",
@@ -1778,7 +3256,32 @@
    "Cainiao",
    "SF Express / S.F. Holding"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing"
+   },
+   {
+    "day": 2,
+    "city": "shanghai",
+    "leg": "flight"
+   },
+   {
+    "day": 3,
+    "city": "shanghai"
+   },
+   {
+    "day": 4,
+    "city": "hangzhou",
+    "leg": "train"
+   },
+   {
+    "day": 5,
+    "city": "shenzhen",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "china-petrochemicals-guangdong-expedition",
@@ -1804,7 +3307,29 @@
    "CSPC (CNOOC and Shell Petrochemicals)",
    "ExxonMobil Huizhou"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "zhanjiang"
+   },
+   {
+    "day": 2,
+    "city": "zhanjiang"
+   },
+   {
+    "day": 3,
+    "city": "guangzhou"
+   },
+   {
+    "day": 4,
+    "city": "huizhou"
+   },
+   {
+    "day": 5,
+    "city": "huizhou"
+   }
+  ]
  },
  {
   "id": "china-waste-management-expedition",
@@ -1832,7 +3357,30 @@
    "Shanghai Environment Group",
    "China Tianying"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "shenzhen"
+   },
+   {
+    "day": 2,
+    "city": "foshan"
+   },
+   {
+    "day": 3,
+    "city": "guangzhou",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "shanghai"
+   },
+   {
+    "day": 5,
+    "city": "haian"
+   }
+  ]
  },
  {
   "id": "china-film-industry-expedition",
@@ -1859,7 +3407,31 @@
    "Tencent Penguin Pictures (Tencent Video)",
    "Zhejiang Huace Film & TV"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing"
+   },
+   {
+    "day": 2,
+    "city": "beijing"
+   },
+   {
+    "day": 3,
+    "city": "shanghai",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "shanghai"
+   },
+   {
+    "day": 5,
+    "city": "hangzhou",
+    "leg": "train"
+   }
+  ]
  },
  {
   "id": "china-global-brands-expedition",
@@ -1887,7 +3459,33 @@
    "Peacebird",
    "Urban Revivo (UR)"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing"
+   },
+   {
+    "day": 2,
+    "city": "shanghai",
+    "leg": "flight"
+   },
+   {
+    "day": 3,
+    "city": "changshu",
+    "leg": "train"
+   },
+   {
+    "day": 4,
+    "city": "ningbo",
+    "leg": "train"
+   },
+   {
+    "day": 5,
+    "city": "guangzhou",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "china-fintech-giants-expedition",
@@ -1915,7 +3513,32 @@
    "Lufax",
    "East Money Information"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing"
+   },
+   {
+    "day": 2,
+    "city": "shenzhen",
+    "leg": "flight"
+   },
+   {
+    "day": 3,
+    "city": "shenzhen"
+   },
+   {
+    "day": 4,
+    "city": "hangzhou",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "shanghai",
+    "leg": "train"
+   }
+  ]
  },
  {
   "id": "hotel-giants-china",
@@ -1942,7 +3565,32 @@
    "Dossen Group",
    "BTG Hotels Group"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "shanghai"
+   },
+   {
+    "day": 2,
+    "city": "shanghai"
+   },
+   {
+    "day": 3,
+    "city": "hangzhou",
+    "leg": "train"
+   },
+   {
+    "day": 4,
+    "city": "guangzhou",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "beijing",
+    "leg": "flight"
+   }
+  ]
  },
  {
   "id": "global-hospitality-china",
@@ -1967,7 +3615,29 @@
    "Waldorf Astoria Shanghai on the Bund",
    "Tomorrow Square Shanghai (JW Marriott / Ritz-Carlton case)"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "shanghai"
+   },
+   {
+    "day": 2,
+    "city": "shanghai"
+   },
+   {
+    "day": 3,
+    "city": "shanghai"
+   },
+   {
+    "day": 4,
+    "city": "shanghai"
+   },
+   {
+    "day": 5,
+    "city": "shanghai"
+   }
+  ]
  },
  {
   "id": "hongkong-luxury-legacy",
@@ -1991,7 +3661,29 @@
    "Wharf Hotels",
    "The Murray, a Niccolo Hotel Hong Kong"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "hongkong"
+   },
+   {
+    "day": 2,
+    "city": "hongkong"
+   },
+   {
+    "day": 3,
+    "city": "hongkong"
+   },
+   {
+    "day": 4,
+    "city": "hongkong"
+   },
+   {
+    "day": 5,
+    "city": "hongkong"
+   }
+  ]
  },
  {
   "id": "confectionery-expedition",
@@ -2019,7 +3711,31 @@
    "Xingfu Xibing",
    "Maxim's Cakes"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing"
+   },
+   {
+    "day": 2,
+    "city": "beijing",
+    "leg": "flight"
+   },
+   {
+    "day": 3,
+    "city": "shanghai"
+   },
+   {
+    "day": 4,
+    "city": "shanghai",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "shenzhen"
+   }
+  ]
  },
  {
   "id": "china-ai-expedition",
@@ -2049,7 +3765,32 @@
    "Tencent",
    "BrainCo"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "beijing"
+   },
+   {
+    "day": 2,
+    "city": "beijing",
+    "leg": "flight"
+   },
+   {
+    "day": 3,
+    "city": "shanghai",
+    "leg": "train"
+   },
+   {
+    "day": 4,
+    "city": "hangzhou",
+    "leg": "flight"
+   },
+   {
+    "day": 5,
+    "city": "shenzhen"
+   }
+  ]
  },
  {
   "id": "china-dairy-smart-factories-expedition",
@@ -2074,7 +3815,33 @@
    "Weigang Dairy",
    "Bright Dairy"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 1,
+    "city": "hohhot"
+   },
+   {
+    "day": 2,
+    "city": "yinchuan",
+    "leg": "flight"
+   },
+   {
+    "day": 3,
+    "city": "wuhan",
+    "leg": "flight"
+   },
+   {
+    "day": 4,
+    "city": "nanjing",
+    "leg": "train"
+   },
+   {
+    "day": 5,
+    "city": "shanghai",
+    "leg": "train"
+   }
+  ]
  },
  {
   "id": "china-glp1-peptides-expedition",
@@ -2101,6 +3868,42 @@
    "Langhua",
    "Sciwind"
   ],
-  "startDate": null
+  "startDate": null,
+  "route": [
+   {
+    "day": 0,
+    "city": "shanghai"
+   },
+   {
+    "day": 1,
+    "city": "changzhou",
+    "leg": "train"
+   },
+   {
+    "day": 2,
+    "city": "suzhou",
+    "leg": "train"
+   },
+   {
+    "day": 3,
+    "city": "hangzhou",
+    "leg": "train"
+   },
+   {
+    "day": 4,
+    "city": "taizhou",
+    "leg": "train"
+   },
+   {
+    "day": 5,
+    "city": "hangzhou",
+    "leg": "train"
+   },
+   {
+    "day": 6,
+    "city": "shanghai",
+    "leg": "train"
+   }
+  ]
  }
 ]

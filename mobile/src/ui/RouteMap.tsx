@@ -1,12 +1,11 @@
-// Карта маршрута: Китай по провинциям (как на сайте), провинции маршрута подсвечены, дуги переездов — самолёт пунктиром,
-// поезд сплошной линией. «Камера» плавно подлетает: к переезду, пока он рисуется, потом к городу.
+// Карта маршрута любой из 9 стран: регионы (как на сайте), регионы маршрута подсвечены, дуги переездов — самолёт
+// пунктиром, поезд сплошной линией. «Камера» плавно подлетает: к переезду, пока он рисуется, потом к городу.
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 import Svg, { Circle, G, Path, Rect, Text as SvgText } from 'react-native-svg';
 
-import { PROVINCE_SHAPES, type Box } from '@/data/geo';
-import { LEGS, ROUTE_BOX, ROUTE_PROVINCES, STOPS, cityBox, dayShort, legBox, provinceOf, xyOf } from '@/data/route';
-import { DAYS } from '@/data/trip';
+import type { Box, ProvinceShape } from '@/data/geo';
+import { mapRoute, type MapLeg, type MapStop } from '@/data/map-route';
 import { C, F } from './theme';
 
 const CAMERA_MS = 750;
@@ -16,8 +15,7 @@ const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 
 const lerp = (a: Box, b: Box, t: number): Box => [0, 1, 2, 3].map((i) => a[i] + (b[i] - a[i]) * t) as Box;
 
 /** Дуга переезда — изгиб вверх, как на сайте. */
-function arc(from: string, to: string) {
-  const [x1, y1] = xyOf(from), [x2, y2] = xyOf(to);
+function arc([x1, y1]: [number, number], [x2, y2]: [number, number]) {
   const cx = (x1 + x2) / 2, cy = (y1 + y2) / 2 - Math.hypot(x2 - x1, y2 - y1) * 0.18;
   const at = (t: number) => {
     const m = 1 - t;
@@ -26,14 +24,13 @@ function arc(from: string, to: string) {
   const upTo = (t: number) => { const n = Math.max(2, Math.round(28 * t)); return Array.from({ length: n + 1 }, (_, i) => at((t * i) / n)).map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(''); };
   return { full: `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`, upTo, at };
 }
-const ARCS = LEGS.map((l) => arc(l.from, l.to));
 
-/** Провинции — отдельным компонентом: при движении камеры меняется только толщина линий. */
-const Provinces = memo(function Provinces({ k, selProvince }: { k: number; selProvince?: string }) {
+/** Регионы — отдельным компонентом: при движении камеры меняется только толщина линий. */
+const Provinces = memo(function Provinces({ shapes, route, k, selProvince }: { shapes: ProvinceShape[]; route: Set<string>; k: number; selProvince?: string }) {
   return (
     <>
-      {PROVINCE_SHAPES.map((p) => {
-        const onRoute = ROUTE_PROVINCES.has(p.en);
+      {shapes.map((p) => {
+        const onRoute = route.has(p.en);
         return <Path key={p.en} d={p.d} fill={p.en === selProvince ? '#cfe0fc' : onRoute ? '#e4eefd' : '#ffffff'} stroke={onRoute ? '#7aa7ec' : '#b9c3d4'} strokeWidth={(onRoute ? 1.2 : 0.8) * k} />;
       })}
     </>
@@ -41,7 +38,11 @@ const Provinces = memo(function Provinces({ k, selProvince }: { k: number; selPr
 });
 
 type Props = {
-  /** Сколько переездов уже показано (для проигрывания); LEGS.length — весь маршрут. */
+  /** Страна: cn, jp, kr, th, vn, id, in, my, ae. */
+  cc: string;
+  stops: MapStop[];
+  legs: MapLeg[];
+  /** Сколько переездов уже показано (для проигрывания); legs.length — весь маршрут. */
   shown: number;
   /** Выбранный город. */
   sel?: string;
@@ -50,11 +51,16 @@ type Props = {
   onPick?: (key: string) => void;
   /** Мини-карта для карточки: без подписей и анимации. */
   compact?: boolean;
+  /** Только номера городов, без названий — когда городов много и подписи налезают (названия — списком под картой). */
+  numbersOnly?: boolean;
   height: number;
   width: number;
 };
 
-export function RouteMap({ shown, sel, zoomed, onPick, compact, width, height }: Props) {
+export function RouteMap({ cc, stops, legs, shown, sel, zoomed, onPick, compact, numbersOnly, width, height }: Props) {
+  const m = useMemo(() => mapRoute(cc, stops, legs), [cc, stops, legs]);
+  const arcs = useMemo(() => legs.map((l) => arc(m.xy(l.from), m.xy(l.to))), [legs, m]);
+
   // дуга последнего показанного переезда рисуется заново при каждом шаге
   const [prog, setProg] = useState(1);
   const lastShown = useRef(shown);
@@ -69,13 +75,13 @@ export function RouteMap({ shown, sel, zoomed, onPick, compact, width, height }:
     return () => cancelAnimationFrame(raf);
   }, [shown, compact]);
 
-  const drawing = !compact && prog < 1 && shown > 0 && shown <= LEGS.length;
-  const target: Box = compact ? ROUTE_BOX : drawing ? legBox(LEGS[shown - 1]) : zoomed && sel ? cityBox(sel) : ROUTE_BOX;
+  const drawing = !compact && prog < 1 && shown > 0 && shown <= legs.length;
+  const target: Box = compact ? m.routeBox : drawing ? m.legBox(legs[shown - 1]) : zoomed && sel ? m.cityBox(sel) : m.routeBox;
 
   // камера: плавный перелёт к новой рамке
   const [box, setBox] = useState<Box>(target);
   const boxRef = useRef(box);
-  const key = target.map((v) => v.toFixed(0)).join(',');
+  const key = `${cc}:${target.map((v) => v.toFixed(0)).join(',')}`;
   useEffect(() => {
     const from = boxRef.current;
     if (compact) { boxRef.current = target; setBox(target); return; }
@@ -94,36 +100,33 @@ export function RouteMap({ shown, sel, zoomed, onPick, compact, width, height }:
 
   // единиц карты на пиксель экрана — чтобы подписи и линии были одного размера при любом приближении
   const k = Math.max(box[2] / width, box[3] / height);
-  const selStop = STOPS.find((s) => s.key === sel);
-  const selProvince = selStop ? provinceOf(selStop)?.en : undefined;
+  const selProvince = sel ? m.province(sel)?.en : undefined;
   const visible = (x: number, y: number) => x > box[0] && x < box[0] + box[2] && y > box[1] && y < box[1] + box[3];
-  const reached = new Set(LEGS.slice(0, shown).map((l) => l.to));
-
-  const labels = useMemo(() => PROVINCE_SHAPES.filter((p) => p.box[2] / k > 70 && !STOPS.some((s) => provinceOf(s)?.en === p.en && ['Beijing', 'Shanghai'].includes(p.en))), [k]);
+  const reached = new Set(legs.slice(0, shown).map((l) => l.to));
+  const labels = m.geo.shapes.filter((p) => p.box[2] / k > 70);
 
   return (
     <View style={{ width, height }}>
       <Svg width={width} height={height} viewBox={box.map((v) => v.toFixed(1)).join(' ')} preserveAspectRatio="xMidYMid meet">
         <Rect x={box[0] - box[2]} y={box[1] - box[3]} width={box[2] * 3} height={box[3] * 3} fill="#f1f6ff" />
-        <Provinces k={k} selProvince={selProvince} />
+        <Provinces shapes={m.geo.shapes} route={m.provinces} k={k} selProvince={selProvince} />
         {compact ? null : labels.filter((p) => visible(p.label[0], p.label[1])).map((p) => (
-          <SvgText key={p.en} x={p.label[0]} y={p.label[1]} fontSize={10 * k} fontFamily={ROUTE_PROVINCES.has(p.en) ? F.bold : F.regular}
-            fill={ROUTE_PROVINCES.has(p.en) ? C.blueInk : '#8a94a6'} textAnchor="middle" opacity={0.9}>{p.ru}</SvgText>
+          <SvgText key={p.en} x={p.label[0]} y={p.label[1]} fontSize={10 * k} fontFamily={m.provinces.has(p.en) ? F.bold : F.regular}
+            fill={m.provinces.has(p.en) ? C.blueInk : '#8a94a6'} textAnchor="middle" opacity={0.9}>{p.ru}</SvgText>
         ))}
 
-        {LEGS.map((l, i) => {
-          const a = ARCS[i];
+        {legs.map((l, i) => {
+          const a = arcs[i];
           const done = i < shown;
           const current = i === shown - 1 && drawing;
           const color = done ? C.blue : '#b9c3d4';
           const dash = l.how === 'plane' ? [7 * k, 6 * k] : undefined;
           const tip = a.at(current ? prog : 0.5);
-          const showIcon = done || compact;
           return (
             <G key={i}>
               {current ? <Path d={a.full} fill="none" stroke="#b9c3d4" strokeWidth={2 * k} strokeDasharray={dash} /> : null}
               <Path d={current ? a.upTo(prog) : a.full} fill="none" stroke={color} strokeWidth={(l.how === 'train' ? 3.5 : 2.5) * k} strokeLinecap="round" strokeDasharray={dash} />
-              {showIcon && !compact ? (
+              {done && !compact ? (
                 l.how === 'plane'
                   ? <G transform={`translate(${tip.x} ${tip.y}) rotate(${tip.a + 90}) scale(${0.75 * k}) translate(-12 -12)`}><Path d={PLANE} fill={color} /></G>
                   : <G transform={`translate(${tip.x} ${tip.y}) scale(${k})`}><Rect x={-8} y={-6} width={16} height={12} rx={3} fill={color} /><Path d="M-4 1h8" stroke="#fff" strokeWidth={1.8} /></G>
@@ -133,7 +136,7 @@ export function RouteMap({ shown, sel, zoomed, onPick, compact, width, height }:
         })}
 
         {compact ? null : (() => {
-          const [mx, my] = xyOf('moscow');
+          const [mx, my] = m.xy('moscow');
           return visible(mx, my) ? (
             <G>
               <Circle cx={mx} cy={my} r={6 * k} fill={C.ink} stroke="#fff" strokeWidth={2 * k} />
@@ -142,14 +145,13 @@ export function RouteMap({ shown, sel, zoomed, onPick, compact, width, height }:
           ) : null;
         })()}
 
-        {STOPS.map((s, i) => {
-          const [x, y] = xyOf(s.key);
+        {stops.map((s, i) => {
+          const [x, y] = m.xy(s.key);
           const on = s.key === sel;
-          const lit = compact || reached.has(s.key) || shown >= LEGS.length;
+          const lit = compact || reached.has(s.key) || shown >= legs.length;
           const left = s.side === 'left';
           const tx = x + (left ? -14 : 14) * k;
           const anchor = left ? 'end' : 'start';
-          const days = s.days.length > 1 ? `${dayShort(s.days[0])}–${DAYS[s.days[s.days.length - 1]].n}` : dayShort(s.days[0]);
           return (
             <G key={s.key} onPress={onPick ? () => onPick(s.key) : undefined}>
               {on ? <Circle cx={x} cy={y} r={20 * k} fill={C.blue} opacity={0.16} /> : null}
@@ -157,10 +159,10 @@ export function RouteMap({ shown, sel, zoomed, onPick, compact, width, height }:
               {compact ? null : (
                 <>
                   <SvgText x={x} y={y + 3.6 * k} fontSize={10 * k} fontFamily={F.bold} fill="#fff" textAnchor="middle">{String(i + 1)}</SvgText>
-                  <SvgText x={tx} y={y - 1 * k} fontSize={14 * k} fontFamily={F.bold} fill="#fff" stroke="#fff" strokeWidth={3 * k} textAnchor={anchor}>{s.ru}</SvgText>
-                  <SvgText x={tx} y={y - 1 * k} fontSize={14 * k} fontFamily={F.bold} fill={C.ink} textAnchor={anchor}>{s.ru}</SvgText>
-                  <SvgText x={tx} y={y + 13 * k} fontSize={10.5 * k} fontFamily={F.medium} fill="#fff" stroke="#fff" strokeWidth={3 * k} textAnchor={anchor}>{`${s.zh} · ${days}`}</SvgText>
-                  <SvgText x={tx} y={y + 13 * k} fontSize={10.5 * k} fontFamily={F.medium} fill={C.muted} textAnchor={anchor}>{`${s.zh} · ${days}`}</SvgText>
+                  {numbersOnly ? null : <SvgText x={tx} y={y - 1 * k} fontSize={14 * k} fontFamily={F.bold} fill="#fff" stroke="#fff" strokeWidth={3 * k} textAnchor={anchor}>{s.ru}</SvgText>}
+                  {numbersOnly ? null : <SvgText x={tx} y={y - 1 * k} fontSize={14 * k} fontFamily={F.bold} fill={C.ink} textAnchor={anchor}>{s.ru}</SvgText>}
+                  {s.sub && !numbersOnly ? <SvgText x={tx} y={y + 13 * k} fontSize={10.5 * k} fontFamily={F.medium} fill="#fff" stroke="#fff" strokeWidth={3 * k} textAnchor={anchor}>{s.sub}</SvgText> : null}
+                  {s.sub && !numbersOnly ? <SvgText x={tx} y={y + 13 * k} fontSize={10.5 * k} fontFamily={F.medium} fill={C.muted} textAnchor={anchor}>{s.sub}</SvgText> : null}
                   {/* большая невидимая зона нажатия */}
                   <Circle cx={x} cy={y} r={24 * k} fill="#000" opacity={0.001} />
                 </>

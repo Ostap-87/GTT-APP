@@ -4,28 +4,30 @@ import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { foodLine } from '@/data/profile';
-import { CHINA_PREP } from '@/data/china-prep';
-import { ROUTE_STATS, ROUTE_TEXT } from '@/data/route';
-import { CHECKLIST, CULTURE, ME } from '@/data/trip';
+import { countryOf } from '@/data/countries';
+import { MAP_LEGS, MAP_STOPS, ROUTE_STATS, ROUTE_TEXT } from '@/data/route';
+import { CHECKLIST, CULTURE, ME, TRIP } from '@/data/trip';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
 import { Icon } from '@/ui/Icon';
 import { Avatar, Button, Card, Check, Chip, Field, H3, Row, Screen, Seg, T, TitleRow, initials } from '@/ui/kit';
-import { ChinaApps } from '@/ui/ChinaApps';
+import { CountryApps } from '@/ui/ChinaApps';
 import { EsimOffers } from '@/ui/EsimOffers';
 import { RouteMap } from '@/ui/RouteMap';
 import { C, F } from '@/ui/theme';
 
-/** «Китай: связь, оплата, розетки» — раскрывающиеся советы с отметкой «сделано». */
-function ChinaPrep() {
+/** «Страна: связь, оплата, розетки» — раскрывающиеся советы с отметкой «сделано»; набор — по стране поездки. */
+function CountryPrep() {
   const { done, toggle } = useTrip();
   const [open, setOpen] = useState<string | null>(null);
-  const n = CHINA_PREP.filter((c) => done[c.key]).length;
+  const country = countryOf(TRIP.country);
+  const items = country.prep;
+  const n = items.filter((c) => done[c.key]).length;
   return (
     <Card>
-      <TitleRow title={`Китай: связь, оплата, розетки · ${n} из ${CHINA_PREP.length}`} />
-      {CHINA_PREP.map((c) => {
+      <TitleRow title={`${country.ru}: связь, оплата, розетки · ${n} из ${items.length}`} />
+      {items.map((c) => {
         const on = !!done[c.key];
         const isOpen = open === c.key;
         return (
@@ -168,7 +170,7 @@ export default function Prep() {
           <Card onPress={() => router.push('/route')} label="Маршрут поездки">
             <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
               <View style={{ width: 96, height: 115, borderRadius: 10, overflow: 'hidden' }}>
-                <RouteMap compact shown={99} width={96} height={115} />
+                <RouteMap compact cc={TRIP.country} stops={MAP_STOPS} legs={MAP_LEGS} shown={99} width={96} height={115} />
               </View>
               <View style={{ flex: 1, gap: 4 }}>
                 <H3>Как мы поедем</H3>
@@ -199,9 +201,12 @@ export default function Prep() {
               );
             })}
           </Card>
-          <ChinaPrep />
+          <Card onPress={() => router.push({ pathname: '/country/[code]', params: { code: TRIP.country } })} label="Памятка по стране">
+            <Row left={<Icon name="globe" size={22} color={C.blueInk} />} title={`Памятка: ${countryOf(TRIP.country).ru}`} sub="Валюта, оплата, связь, розетки, приложения, фразы, карта регионов" />
+          </Card>
+          <CountryPrep />
           <EsimOffers />
-          <ChinaApps />
+          <CountryApps />
         </>
       ) : stage === 'during' ? (
 <During />

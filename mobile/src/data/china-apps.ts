@@ -1,6 +1,7 @@
 // «Приложения для Китая» (решения 21.10.2026): что поставить до вылета, со ссылками в магазины. Ссылки проверены
 // 21.10.2026 по российским App Store и Google Play. iosCn — на iPhone только в китайском App Store: с российским Apple ID
 // не скачать, тогда подсказываем мини-программу внутри WeChat или Alipay.
+/** zh — название на местном языке (для Китая — иероглифы). */
 export type ChinaApp = { key: string; name: string; zh: string; what: string; ios?: string; iosCn?: boolean; android?: string; androidNote?: string; inside?: string };
 
 export const CHINA_APPS: ChinaApp[] = [

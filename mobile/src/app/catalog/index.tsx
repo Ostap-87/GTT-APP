@@ -30,6 +30,11 @@ export default function Catalog() {
               {COUNTRY_ORDER.map((k) => <Pick key={k} title={`${COUNTRY_RU[k]} · ${counts[k] || 0}`} on={country === k} onPress={() => setCountry(k)} />)}
             </Chips>
           </Card>
+          {country !== 'all' ? (
+            <Card onPress={() => router.push({ pathname: '/country/[code]', params: { code: country } })} label={`Памятка: ${COUNTRY_RU[country]}`}>
+              <Row title={`Памятка: ${COUNTRY_RU[country]}`} sub="Карта регионов, валюта, оплата, связь, розетки, приложения, фразы" />
+            </Card>
+          ) : null}
           <T muted>Программы, маршруты и компании — с сайта globaltechtour.ru.</T>
         </View>
       }

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { OCR_HTML, type OcrEvent } from '@/ocr/ocr-html';
 
-export function OcrEngine({ job, onEvent }: { job: { id: number; image: string } | null; onEvent: (e: OcrEvent) => void }) {
+export function OcrEngine({ job, onEvent }: { job: { id: number; image: string; langs?: string[] } | null; onEvent: (e: OcrEvent) => void }) {
   const ref = useRef<HTMLIFrameElement>(null);
   const [ready, setReady] = useState(false);
   const cb = useRef(onEvent);
@@ -19,7 +19,7 @@ export function OcrEngine({ job, onEvent }: { job: { id: number; image: string }
     return () => window.removeEventListener('message', h);
   }, []);
   useEffect(() => {
-    if (ready && job) ref.current?.contentWindow?.postMessage({ gttOcrRun: job.image }, '*');
+    if (ready && job) ref.current?.contentWindow?.postMessage({ gttOcrRun: job.image, langs: job.langs }, '*');
   }, [ready, job]);
   return <iframe ref={ref} srcDoc={OCR_HTML} title="Распознавание визитки" aria-hidden style={{ position: 'absolute', width: 1, height: 1, opacity: 0, border: 0, pointerEvents: 'none' }} />;
 }

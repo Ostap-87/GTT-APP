@@ -1,15 +1,22 @@
-// Карточка программы: позиционирование, маршрут и компании — дословно из данных сайта; заявка — как на сайте.
-import { Stack, useLocalSearchParams } from 'expo-router';
+// Карточка программы: позиционирование, маршрут на карте страны (регионы и города — как на сайте) и компании — дословно
+// из данных сайта; памятка по стране; заявка — как на сайте.
+import { Stack, router, useLocalSearchParams } from 'expo-router';
+import { useMemo, useState } from 'react';
 import { Linking, Text, View } from 'react-native';
 
 import catalog from '@/data/catalog.json';
 import { COUNTRY_RU, plural } from '@/data/catalog-meta';
+import { programRoute } from '@/data/map-route';
 import { Button, Card, Chip, H3, Plain, T } from '@/ui/kit';
+import { RouteMap } from '@/ui/RouteMap';
 import { C, F } from '@/ui/theme';
 
 export default function Program() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const t = catalog.find((x) => x.id === id);
+  const route = useMemo(() => programRoute(t?.route || []), [t]);
+  const [boxW, setBoxW] = useState(0);
+  const [shown, setShown] = useState(99);
   if (!t) return <Plain><T>Программа не найдена</T></Plain>;
   return (
     <Plain>
@@ -27,6 +34,20 @@ export default function Program() {
       <Card>
         <H3>Маршрут</H3>
         <T>{t.cities.join(' → ')}</T>
+        {route.stops.length ? (
+          <View onLayout={(e) => setBoxW(e.nativeEvent.layout.width)} style={{ borderRadius: 12, overflow: 'hidden' }}>
+            {boxW ? <RouteMap cc={t.country} stops={route.stops} legs={route.legs} shown={Math.min(shown, route.legs.length)} width={boxW} height={Math.round(boxW * 0.9)} /> : <View style={{ height: 240 }} />}
+          </View>
+        ) : null}
+        {route.stops.length ? (
+          <Button title="Проиграть маршрут" icon="play" kind="light" small onPress={() => {
+            setShown(0);
+            route.legs.forEach((_, i) => setTimeout(() => setShown(i + 1), 400 + i * 1600));
+          }} />
+        ) : null}
+      </Card>
+      <Card onPress={() => router.push({ pathname: '/country/[code]', params: { code: t.country } })} label={`Памятка: ${COUNTRY_RU[t.country]}`}>
+        <T>{`Памятка: ${COUNTRY_RU[t.country]} — валюта, оплата, связь, розетки, приложения, фразы`}</T>
       </Card>
       <Card>
         <H3>Компании</H3>

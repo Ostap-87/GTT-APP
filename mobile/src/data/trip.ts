@@ -8,6 +8,8 @@ export const TRIP = {
   dates: '9–14 ноября 2026',
   route: 'Пекин → Шанхай → Ханчжоу → Шэньчжэнь',
   today: 1, // в демо «сегодня» — вторник, 10 ноября
+  /** Страна поездки — от неё валюта, язык, подготовка, приложения и карта (data/countries.ts). */
+  country: 'cn',
 };
 
 export type EventKind = 'move' | 'co' | 'meal' | 'culture' | 'info';

@@ -1,8 +1,8 @@
-// Интерактивный маршрут для делегатов (решения 21.10.2026): карта Китая по провинциям — как на сайте, города, как едем
+// Интерактивный маршрут для делегатов (решения 21.10.2026): карта страны по регионам — как на сайте, города, как едем
 // между ними, что в каждом городе. Координаты городов — из данных сайта (companies.json → cities).
 // Данные — из тестовой поездки (trip.ts); на шаге 2 придут с сервера из «Центра поездки».
-import { FULL_BOX, padBox, pointBox, project, provinceAt, unionBox, type Box } from './geo';
 import { VISITS } from './group';
+import type { MapLeg, MapStop } from './map-route';
 import { CULTURE, DAYS, HOTELS, WEATHER, dayEvents } from './trip';
 
 export type Stop = { key: string; ru: string; zh: string; lng: number; lat: number; days: number[]; hotel?: string; side: 'left' | 'right' };
@@ -46,36 +46,9 @@ export function stopInfo(s: Stop) {
 export const ROUTE_TEXT = ['Москва', ...STOPS.map((s) => s.ru), 'Москва'].join(' → ');
 export const ROUTE_STATS = { cities: STOPS.length, days: DAYS.length, visits: VISITS.length };
 
-// ——— Точки на карте и «камера» ———
-
-/** Москва — за краем карты на северо-западе, как прилёт на карте сайта. */
-export const MOSCOW_XY: [number, number] = [FULL_BOX[2] * 0.05, FULL_BOX[3] * 0.1];
-export const xyOf = (key: string): [number, number] => {
-  if (key === 'moscow') return MOSCOW_XY;
-  const s = STOPS.find((x) => x.key === key)!;
-  return project(s.lng, s.lat);
-};
-export const provinceOf = (s: Stop) => provinceAt(s.lng, s.lat);
-/** Провинции маршрута — подсвечены на карте. */
-export const ROUTE_PROVINCES = new Set(STOPS.map((s) => provinceOf(s)?.en).filter(Boolean) as string[]);
-
-const routeBoxRaw = STOPS.map((s) => xyOf(s.key)).reduce<Box>((b, [x, y]) => unionBox(b, pointBox(x, y, 1)), pointBox(...xyOf(STOPS[0].key), 1));
-/** Весь маршрут с запасом по краям. */
-export const ROUTE_BOX = padBox(routeBoxRaw, Math.max(routeBoxRaw[2], routeBoxRaw[3]) * 0.22);
-
-/** Город крупно: его провинция с запасом, но не меньше 120 единиц — иначе Шанхай и Пекин были бы точкой. */
-export function cityBox(key: string): Box {
-  const s = STOPS.find((x) => x.key === key)!;
-  const [x, y] = xyOf(key);
-  const pb = provinceOf(s)?.box;
-  const base = pb ? unionBox(pb, pointBox(x, y, 120)) : pointBox(x, y, 120);
-  return padBox(base, Math.max(base[2], base[3]) * 0.25);
-}
-
-/** Переезд целиком: оба конца с запасом (для Москвы — весь Китай). */
-export function legBox(l: Leg): Box {
-  if (l.from === 'moscow' || l.to === 'moscow') return FULL_BOX;
-  const [x1, y1] = xyOf(l.from), [x2, y2] = xyOf(l.to);
-  const b = unionBox(pointBox(x1, y1, 1), pointBox(x2, y2, 1));
-  return padBox(b, Math.max(b[2], b[3], 80) * 0.45);
-}
+/** Точки и переезды для карты (RouteMap): подпись под городом — иероглифы и дни. */
+export const MAP_STOPS: MapStop[] = STOPS.map((s) => ({
+  key: s.key, ru: s.ru, lng: s.lng, lat: s.lat, side: s.side,
+  sub: `${s.zh} · ${s.days.length > 1 ? `${dayShort(s.days[0])}–${DAYS[s.days[s.days.length - 1]].n}` : dayShort(s.days[0])}`,
+}));
+export const MAP_LEGS: MapLeg[] = LEGS.map(({ from, to, how }) => ({ from, to, how }));

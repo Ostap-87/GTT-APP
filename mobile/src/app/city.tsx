@@ -9,7 +9,7 @@ import { CAT_COLOR, CITY_CATS, PLACES, cityMapXml, type PlaceCat } from '@/data/
 import { hotelOf } from '@/data/trip';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
-import { ChinaApps } from '@/ui/ChinaApps';
+import { CountryApps } from '@/ui/ChinaApps';
 import { Converter } from '@/ui/Converter';
 import { Button, Card, Chip, Chips, H3, Pick, Plain, Row, Seg, T } from '@/ui/kit';
 import { OfflineNote } from '@/ui/OfflineNote';
@@ -59,7 +59,7 @@ export default function City() {
         <T style={{ color: C.onDark }}>{`DiDi или такси на улице — адрес по-китайски готов. ${h.name}.`}</T>
         <Button title="Показать адрес водителю" icon="car" kind="light" onPress={() => router.push({ pathname: '/driver', params: { zh: h.addrZh, ru: h.addrRu } })} />
       </Card>
-      <ChinaApps />
+      <CountryApps />
       <T muted>Места, часы работы и расстояния — примеры. Подборку для каждого города делает координатор, магазины 24/7 и туалеты ищутся на карте автоматически.</T>
     </Plain>
   );
