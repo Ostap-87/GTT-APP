@@ -78,6 +78,7 @@ export default function RootLayout() {
             <Stack.Screen name="report" options={{ title: 'Итоги поездки' }} />
             <Stack.Screen name="mindmap" options={{ title: 'Майндмэп' }} />
             <Stack.Screen name="transcript" options={{ title: 'Расшифровка' }} />
+            <Stack.Screen name="route" options={{ title: 'Маршрут' }} />
           </Stack>
         </ToastProvider>
         </VisitsProvider>

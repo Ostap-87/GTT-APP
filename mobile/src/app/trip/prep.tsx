@@ -2,9 +2,11 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { SvgXml } from 'react-native-svg';
 
 import { foodLine } from '@/data/profile';
 import { CHINA_PREP } from '@/data/china-prep';
+import { ROUTE_STATS, ROUTE_TEXT, routeSvg } from '@/data/route';
 import { CHECKLIST, CULTURE, ME } from '@/data/trip';
 import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
@@ -161,6 +163,18 @@ export default function Prep() {
       </View>
       {stage === 'before' ? (
         <>
+          <Card onPress={() => router.push('/route')} label="Маршрут поездки">
+            <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+              <View style={{ width: 96, height: 115, borderRadius: 10, overflow: 'hidden' }}>
+                <SvgXml xml={routeSvg(99, undefined, { regular: F.regular, bold: F.bold })} width={96} height={115} />
+              </View>
+              <View style={{ flex: 1, gap: 4 }}>
+                <H3>Как мы поедем</H3>
+                <T>{ROUTE_TEXT}</T>
+                <T muted>{`${ROUTE_STATS.cities} города · ${ROUTE_STATS.days} дней · ${ROUTE_STATS.visits} компаний — смотреть маршрут`}</T>
+              </View>
+            </View>
+          </Card>
           <Card>
             <TitleRow title={`Подготовка · ${count} из ${CHECKLIST.length}`} />
             <View style={{ height: 8, borderRadius: 4, backgroundColor: C.line2, overflow: 'hidden' }}>
