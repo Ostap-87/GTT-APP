@@ -45,7 +45,7 @@ export default function Today() {
   const unread = k.unread('delegate');
   const tools = TOOLS.filter(([key]) => TENANT.tools.includes(key));
 
-  // блоки экрана — организатор включает нужные и задаёт порядок в конструкторе (TENANT.blocks)
+  // блоки экрана и их порядок — из бренда (TENANT.blocks)
   const block = (key: TodayBlock) => {
     switch (key) {
       case 'now': return dep || k.guideLive ? (

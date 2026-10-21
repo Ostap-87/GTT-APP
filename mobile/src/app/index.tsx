@@ -14,7 +14,6 @@ import { GLOBE_Y, LETTER_H, LETTER_Y, unitPx, type SplashConfig, type SplashEven
 import { useResetAll } from '@/state/reset';
 import { useToast } from '@/state/toast';
 import { Button } from '@/ui/kit';
-import { Monogram } from '@/ui/Monogram';
 import { Splash3D } from '@/ui/Splash3D';
 import { C, F } from '@/ui/theme';
 
@@ -24,8 +23,6 @@ const native = Platform.OS !== 'web';
 let seenSplash = false;
 
 export default function Welcome() {
-  // у других организаторов (white label) — свой стартовый экран без заставки GTT
-  if (TENANT.id !== 'gtt') return <TenantWelcome />;
   return <GttWelcome />;
 }
 
@@ -101,22 +98,7 @@ function GttWelcome() {
   );
 }
 
-/** Стартовый экран организатора (white label): монограмма и название его бренда, те же входы. */
-function TenantWelcome() {
-  const insets = useSafeAreaInsets();
-  return (
-    <View style={[st.wrap, { backgroundColor: C.bg }]}>
-      <View style={{ position: 'absolute', left: 0, right: 0, top: insets.top + 64, alignItems: 'center', gap: 14, paddingHorizontal: 24 }}>
-        <Monogram t={TENANT} size={112} />
-        <Text style={[st.big, { textAlign: 'center' }]}>{TENANT.name}</Text>
-        <Text style={[st.tagline, { fontSize: 15 }]}>{TENANT.tagline}</Text>
-      </View>
-      <Entry bottom={insets.bottom} />
-    </View>
-  );
-}
-
-/** Входы в роли — общие для стартового экрана GTT и организаторов. */
+/** Входы в роли на стартовом экране. */
 function Entry({ bottom }: { bottom: number }) {
   const resetAll = useResetAll();
   const toast = useToast();
@@ -141,9 +123,6 @@ function Entry({ bottom }: { bottom: number }) {
         </View>
         <Text style={st.note}>{`Открыто: ${TRIP.title}, ${TRIP.dates}. Участники вымышленные. Всё, что вы отметите, сохраняется на телефоне.`}</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 22 }}>
-          <Pressable onPress={() => router.push('/join')} accessibilityRole="button" accessibilityLabel="Ввести код приглашения от организатора" hitSlop={8}>
-            <Text style={[st.note, { color: C.blue, fontFamily: F.semibold }]}>{`Код приглашения · ${TENANT.short}`}</Text>
-          </Pressable>
           <Pressable onPress={reset} accessibilityRole="button" accessibilityLabel="Начать демо заново" hitSlop={8}>
             <Text style={[st.note, { color: armed ? C.warn : C.blue, fontFamily: F.semibold }]}>{armed ? 'Нажмите ещё раз — всё сотрётся' : 'Начать демо заново'}</Text>
           </Pressable>

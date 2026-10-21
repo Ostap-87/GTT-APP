@@ -28,6 +28,7 @@
 | [`docs/wechat-mini-program.md`](docs/wechat-mini-program.md) | Мини-программа WeChat: что сделано и чек-лист запуска |
 | [`design/`](design/README.md) | Макеты экранов по ролям: файлы холста, PNG-превью, листы-обзоры |
 | [`mobile/`](mobile/README.md) | Приложение на Expo (iPhone, Android, веб): экраны делегата, каталог с сайта |
+| `Ostap-87/GTT-PLATFORM` | Отдельный репозиторий: white label для других организаторов, конструктор, разбор рынков |
 | [`miniprogram/`](miniprogram/README.md) | Мини-программа WeChat: страница визита для принимающей стороны и оплата |
 | [`server/`](server/README.md) | Сервер мини-программы: вход WeChat, визиты, уведомления, WeChat Pay, бот WeCom |
 | [`tools/`](tools) | Каталог для приложения (`sync-catalog.mjs`), превью дизайна, иконки, проверка мини-программы (`mp-check.mjs`), загрузка в WeChat (`mp-ci.mjs`) |

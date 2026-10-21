@@ -12,8 +12,10 @@
 - `docs/decisions.md` — журнал: что решил пользователь, что ещё предложение. Каждую новую договорённость
   записывай сюда с датой.
 - `docs/*.md` — остальные проработки (например, `wechat-mini-program.md`).
-- `docs/market-research.md` — рынки технологического туризма и MICE, конкуренты, модель white label (21.10.2026). Рабочая
-  версия с диаграммами — Claude Docs https://claude.ai/artifact/Cg9az4DRCa6CMrLtmvjciE; правишь её — обнови и файл.
+- **White label** (другие организаторы, коды приглашения, конструктор организатора) и разбор рынков технологического туризма
+  и MICE — отдельный репозиторий `Ostap-87/GTT-PLATFORM` со своим проектом Expo (решение пользователя 21.10.2026: «чтобы они
+  не смешивались»). Здесь — только приложение GTT; конструктор и white label сюда не добавляем. Улучшения отсюда
+  платформа забирает сама (`git merge` из GTT-APP), обратно ничего не переносится.
 - `design/canvas/` — копия файлов холста Claude Design (https://claude.ai/artifact/8Tw2bADzTCNwschFSXRMAy,
   файлы `project/*.dc.html` и `canvas.json`). После правок на холсте скопируй изменённые файлы сюда и пересобери
   превью: `node tools/render-previews.mjs`, затем `python3 tools/role-sheets.py`.
@@ -33,10 +35,9 @@
   по веб-сборке (`dist/`), лист — `design/previews/_приложение-<тема>.jpg`.
 - Дизайн — «пластилин» (решение 21.10.2026): цвета и тени только из `src/ui/theme.ts` (`C`, `SH`), элементы — из `src/ui/kit.tsx`,
   движение — `src/ui/motion.tsx` (с учётом «Уменьшить движение»), нижняя панель — `src/ui/TabBar3D.tsx`; подробности — `mobile/README.md`.
-- White label (решение 21.10.2026): организатор — `src/data/tenant.ts` (`TENANT`, `applyTenant`). Цвета бренда (`C.blue*`, `C.hero*`,
-  `SH.blue`, `SH.hero`) — только при рендере, не в `StyleSheet.create`; название и координатор — из `TENANT`, а не «GTT» в коде.
-  Конструктор организатора — `/builder` (логотип, цвет из HEX, блоки «Сегодня», плитки, вкладки, код); пока сервера нет,
-  свои организаторы хранятся на телефоне (`tenants.custom`). Новый блок «Сегодня» — ключ в `TODAY_BLOCKS` и ветка в `block()`.
+- Бренд — `src/data/tenant.ts` (`TENANT`, `applyTenant`): цвета (`C.blue*`, `C.hero*`, `SH.blue`, `SH.hero`) — только при рендере,
+  не в `StyleSheet.create`; название и координатор — из `TENANT`. Так приложение остаётся основой для GTT-PLATFORM.
+  Новый блок «Сегодня» — ключ в `TodayBlock` (`tenant.ts`) и ветка в `block()` (`src/app/trip/index.tsx`).
 - Всё, что зависит от страны поездки (валюта, язык, подготовка, приложения, карта регионов), — профиль в `src/data/countries.ts`
   (9 стран, решение 21.10.2026); новый экран берёт страну из `TRIP.country`, а не пишет «Китай» в коде.
 - Каталог — `node tools/sync-catalog.mjs` из клона SINOTECH (цен в каталоге нет); тестовая поездка — `src/data/trip*.ts`,

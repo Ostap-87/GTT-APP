@@ -11,10 +11,10 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { applyTrip } from '@/data/active';
-import { applyTenant, setCustomTenants, type Tenant } from '@/data/tenant';
+import { applyTenant } from '@/data/tenant';
 import { AdminProvider } from '@/state/admin';
 import { AgentProvider } from '@/state/agent';
-import { DemoContext, ResetContext, TenantContext } from '@/state/reset';
+import { DemoContext, ResetContext } from '@/state/reset';
 import { CoordProvider } from '@/state/coord';
 import { clearStore, loadStore, peekStored, putStored } from '@/state/store';
 import { TripProvider } from '@/state/trip';
@@ -29,17 +29,15 @@ export default function RootLayout() {
   const [stored, setStored] = useState(false);
   const [gen, setGen] = useState(0);
   // какая программа открыта в демо делегата — тоже сохраняется; её данные подставляются до первого экрана
-  // организатор (white label) — тоже до первого экрана: от него цвета и бренд
-  useEffect(() => { loadStore().finally(() => { setCustomTenants(peekStored<Tenant[]>('tenants.custom')); applyTenant(peekStored<string>('tenant.id')); applyTrip(peekStored<string>('demo.program')); setStored(true); }); }, []);
-  const resetAll = useCallback(async () => { await clearStore(); setCustomTenants([]); applyTenant(null); applyTrip(null); setGen((g) => g + 1); }, []);
-  const switchTenant = useCallback((id: string) => { putStored('tenant.id', applyTenant(id)); setGen((g) => g + 1); }, []);
+  // бренд GTT — тоже до первого экрана: от него цвета темы
+  useEffect(() => { loadStore().finally(() => { applyTenant(); applyTrip(peekStored<string>('demo.program')); setStored(true); }); }, []);
+  const resetAll = useCallback(async () => { await clearStore(); applyTrip(null); setGen((g) => g + 1); }, []);
   const openDemo = useCallback((programId: string) => { putStored('demo.program', applyTrip(programId)); setGen((g) => g + 1); }, []);
   if (!loaded || !stored) return null;
   return (
     <SafeAreaProvider>
       <ResetContext.Provider value={resetAll}>
       <DemoContext.Provider value={openDemo}>
-      <TenantContext.Provider value={switchTenant}>
       <TripProvider key={gen}>
         <CoordProvider>
         <AgentProvider>
@@ -102,8 +100,6 @@ export default function RootLayout() {
             <Stack.Screen name="route" options={{ title: 'Маршрут' }} />
             <Stack.Screen name="cards" options={{ title: 'Визитница' }} />
             <Stack.Screen name="chat" options={{ title: 'Чат с координатором' }} />
-            <Stack.Screen name="join" options={{ title: 'Код приглашения' }} />
-            <Stack.Screen name="builder" options={{ title: 'Конструктор организатора' }} />
             <Stack.Screen name="country/[code]" options={{ title: 'Памятка по стране' }} />
             <Stack.Screen name="admin" options={{ headerShown: false }} />
             <Stack.Screen name="admin-trip/[id]" options={{ title: 'Поездка' }} />
@@ -114,7 +110,6 @@ export default function RootLayout() {
         </AgentProvider>
         </CoordProvider>
       </TripProvider>
-      </TenantContext.Provider>
       </DemoContext.Provider>
       </ResetContext.Provider>
     </SafeAreaProvider>

@@ -71,7 +71,7 @@ function Tab({ name, title, on, onPress, onLongPress, flat }: { name: string; ti
 }
 
 /** three — объёмные значки делегата (вкладки поездки); без него — контурные значки экранов. */
-/** hide — вкладки, которые организатор выключил в конструкторе. */
+/** hide — вкладки, выключенные в бренде (TENANT.tabs). */
 export function TabBar3D({ state, descriptors, navigation, insets, three, hide = [] }: BarProps & { three?: boolean; hide?: string[] }) {
   return (
     <View

@@ -19,7 +19,7 @@ const TABS: [string, string, IconName][] = [
 export default function TripTabs() {
   return (
     <View style={{ flex: 1, backgroundColor: C.bg }}>
-      {/* плавающая панель: у GTT объёмные значки, у других организаторов (white label) — контурные в цвете их бренда */}
+      {/* плавающая панель с объёмными значками (TENANT.icons3d), без них — контурные в цвете бренда */}
       <Tabs tabBar={(p) => <TabBar3D {...p} three={TENANT.icons3d} hide={[TENANT.tabs.library ? '' : 'library', TENANT.tabs.people ? '' : 'people']} />} screenOptions={{ headerShown: false, animation: 'shift', sceneStyle: { backgroundColor: C.bg } }}>
         {TABS.map(([name, title, icon]) => (
           <Tabs.Screen key={name} name={name} options={{ title, tabBarIcon: ({ color }) => <Icon name={icon} size={24} color={String(color)} /> }} />

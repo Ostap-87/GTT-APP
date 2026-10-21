@@ -196,24 +196,12 @@ Expo меняется от версии к версии: перед работо
   (`sendChat`, `readChat`, `unread`, `readBy`).
 - **Категория расхода сама** — `guessCategory` в `src/data/expenses.ts` (побеждает категория с большим числом совпадений).
 
-## White label — организатор как клиент платформы (21.10.2026)
+## Бренд приложения (21.10.2026)
 
-- **Организатор** — `src/data/tenant.ts`: `TENANTS` (GTT и демо «Ваш бренд»), текущий `TENANT`, `applyTenant(id)` меняет
-  на месте акцентные цвета темы (`C.blue`, `blueInk`, `blueSoft`, `heroFrom`, `heroTo`) и тени `SH.blue`, `SH.hero`.
-  Выбор хранится в `tenant.id`; смена — `useSwitchTenant()` из `src/state/reset.ts` (экраны пересобираются через `gen`).
+- `src/data/tenant.ts`: название, цвета, координатор, блоки «Сегодня» (`TENANT.blocks`) и плитки «Под рукой» (`TENANT.tools`).
+  `applyTenant()` при запуске ставит цвета темы (`C.blue`, `blueInk`, `blueSoft`, `heroFrom`, `heroTo`) и тени `SH.blue`, `SH.hero`.
 - **Правило:** цвета бренда читаем только при рендере (inline-стили, функции), не в `StyleSheet.create` и не в константах
-  модуля — они вычисляются один раз при загрузке и не узнают о смене организатора. Тексты с названием организатора —
-  `TENANT.name` / `TENANT.short`, координатор — `TENANT.coordinator`.
-- **Вход** — `src/app/join.tsx`: код руками → стартовый экран организатора; ссылка `/join?code=DEMO` → сразу «Сегодня».
-  Стартовый экран — `src/app/index.tsx` (`TenantWelcome` для всех, кроме GTT), монограмма — `src/ui/Monogram.tsx`.
-- **Панель вкладок** — `TabBar3D three={TENANT.icons3d}`: объёмные значки только у GTT.
-- **Конструктор организатора** — `src/app/builder.tsx` (`/builder`, `/builder?id=<id>` — правка своего). Организатор из
-  конструктора — тот же `Tenant` с `custom: true`, `logo` (data: URI PNG 256 px), `phone`, `blocks` (порядок и видимость блоков
-  «Сегодня», `TODAY_BLOCKS`), `tools` (плитки «Под рукой», `TOOLS`), `tabs` (вкладки «Материалы» и «Люди»). Цвета — из одного
-  HEX через `deriveBrand`. Хранится на телефоне в `tenants.custom`, при запуске — `setCustomTenants` в `_layout.tsx`;
-  `allTenants()` и `tenantByCode()` видят и встроенных, и своих.
-- **«Сегодня» из блоков** — `src/app/trip/index.tsx`: `block(key)` возвращает блок, порядок — `TENANT.blocks`; плитки —
-  `TENANT.tools`; скрытые вкладки — `TabBar3D hide=[…]` в `src/app/trip/_layout.tsx`. Новый блок: ключ в `TodayBlock` и
-  `TODAY_BLOCKS` (`tenant.ts`) + ветка в `block()`.
-- Проверка в браузере: начинать с `/demo` или `/join?code=…`; стартовый экран GTT с 3D-заставкой «вешает» безголовый Chromium.
-
+  модуля; название и координатор — `TENANT.name`, `TENANT.coordinator`. Так этот код без правок работает и в GTT-PLATFORM.
+- **«Сегодня» из блоков** — `src/app/trip/index.tsx`: `block(key)` возвращает блок, порядок — `TENANT.blocks`. Новый блок:
+  ключ в `TodayBlock` (`tenant.ts`) + ветка в `block()`.
+- White label (другие организаторы, коды приглашения, конструктор) — отдельный репозиторий `Ostap-87/GTT-PLATFORM`.

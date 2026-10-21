@@ -17,7 +17,7 @@ export default function People() {
     <Screen eyebrow={`Группа · ${DELEGATES.length} делегатов и 2 организатора`} title="Люди">
       <Card tone="dark">
         <TitleRow title={<T bold style={{ color: '#fff' }}>Связь с координатором</T>} />
-        <T style={{ color: C.onDark }}>{`${TENANT.coordinator.name} · ${TENANT.demo ? 'на связи' : 'русский, китайский, английский'} · круглосуточно`}</T>
+        <T style={{ color: C.onDark }}>{`${TENANT.coordinator.name} · русский, китайский, английский · круглосуточно`}</T>
         <Button title="Все контакты и экстренные номера" onPress={() => router.push('/contacts')} />
       </Card>
       <Card>

@@ -7,7 +7,3 @@ export const useResetAll = () => useContext(ResetContext);
 /** Открыть в демо делегата программу сайта по id (пусто — подробное демо «Новый ритейл Китая»); экраны пересобираются. */
 export const DemoContext = createContext<(programId: string) => void>(() => {});
 export const useOpenDemo = () => useContext(DemoContext);
-
-/** Сменить организатора (white label): бренд и цвета применяются, экраны пересобираются. */
-export const TenantContext = createContext<(tenantId: string) => void>(() => {});
-export const useSwitchTenant = () => useContext(TenantContext);

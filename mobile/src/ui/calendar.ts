@@ -12,7 +12,7 @@ import { safeName, shareFile } from './files';
 import { TENANT } from '@/data/tenant';
 
 export type CalendarResult = { how: 'calendar' | 'file'; n: number } | { how: 'denied' | 'error'; n: 0 };
-// календарь называется по организатору поездки (white label)
+// календарь называется по бренду (TENANT.name)
 const title = () => TENANT.name;
 
 /** Можно ли писать в календарь напрямую (собранное приложение, не Expo Go и не браузер). */
