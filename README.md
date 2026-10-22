@@ -17,6 +17,14 @@
 - мини-программа WeChat для принимающей стороны — код и сервер готовы, ждут аккаунта мини-программы
   ([чек-лист](docs/wechat-mini-program.md#чек-лист-что-нужно-от-вас)).
 
+**На MacBook** — окно приложения с иконкой на рабочем столе (нужен Python 3.9+ с python.org). В Терминале:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Ostap-87/GTT-APP/main/mac/install_mac.command | bash -s Ostap-87/GTT-APP
+```
+
+Эта же команда обновляет приложение до свежей сборки ([`mac/`](mac/), GitHub Actions «Сборка для Mac»).
+
 Репозиторий публичный: секретов и настоящих персональных данных в нём нет, только вымышленные демо-данные.
 
 ## Где что лежит
@@ -28,6 +36,7 @@
 | [`docs/wechat-mini-program.md`](docs/wechat-mini-program.md) | Мини-программа WeChat: что сделано и чек-лист запуска |
 | [`design/`](design/README.md) | Макеты экранов по ролям: файлы холста, PNG-превью, листы-обзоры |
 | [`mobile/`](mobile/README.md) | Приложение на Expo (iPhone, Android, веб): экраны делегата, каталог с сайта |
+| [`mac/`](mac/install_mac.command) | Приложение для Mac: установщик, окно (`gtt_window.py`), настройки `app.conf`, иконка |
 | `Ostap-87/GTT-PLATFORM` | Отдельный репозиторий: white label для других организаторов, конструктор, разбор рынков |
 | [`miniprogram/`](miniprogram/README.md) | Мини-программа WeChat: страница визита для принимающей стороны и оплата |
 | [`server/`](server/README.md) | Сервер мини-программы: вход WeChat, визиты, уведомления, WeChat Pay, бот WeCom |

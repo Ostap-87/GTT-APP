@@ -47,6 +47,12 @@
 - Модули, которых нет в Expo Go (например, expo-calendar), — только с запасным путём (файл `.ics` и т. п.) и проверкой
   `Constants.executionEnvironment`; документы, расходы и визитки делегата хранятся только на телефоне и в репозиторий не попадают.
 - На телефон — GitHub Actions «Приложение — Expo Go» (секрет `EXPO_TOKEN`), QR-код в сводке прогона.
+- На MacBook (решение пользователя 22.10.2026: «скачать на макбук и протестировать, как с СибДок») — `mac/`: окно
+  приложения с иконкой в «Программах» и на рабочем столе. GitHub Actions «Сборка для Mac» на каждый пуш в `mobile/`
+  собирает веб-версию в `web.zip` выпуска `mac-web`; установщик скачивает его, сервер — `mac/gtt_window.py` (порт 8731
+  постоянный: данные сохраняются), окно — pywebview. Установка и обновление:
+  `curl -fsSL https://raw.githubusercontent.com/Ostap-87/GTT-APP/main/mac/install_mac.command | bash -s Ostap-87/GTT-APP`.
+  Окно, порт, стартовый адрес — `mac/app.conf`; иконка — `python3 mac/make_icon.py app`.
 - Места на диске мало: после установки пакетов `npm cache clean --force`.
 
 ## Мини-программа WeChat и сервер
