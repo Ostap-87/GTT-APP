@@ -20,10 +20,10 @@
 **На MacBook** — окно приложения с иконкой на рабочем столе (нужен Python 3.9+ с python.org). В Терминале:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Ostap-87/GTT-APP/main/mac/install_mac.command | bash -s Ostap-87/GTT-APP
+D=$(mktemp -d) && curl -fL https://codeload.github.com/Ostap-87/GTT-APP/tar.gz/refs/heads/mac-dist | tar -xzf - -C "$D" --strip-components=1 && bash "$D/install_mac.command"
 ```
 
-Эта же команда обновляет приложение до свежей сборки ([`mac/`](mac/), GitHub Actions «Сборка для Mac»).
+Эта же команда обновляет приложение до свежей сборки ([`mac/`](mac/), GitHub Actions «Сборка для Mac», ветка `mac-dist`).
 
 Репозиторий публичный: секретов и настоящих персональных данных в нём нет, только вымышленные демо-данные.
 
