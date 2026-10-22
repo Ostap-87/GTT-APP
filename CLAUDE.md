@@ -55,7 +55,9 @@
   `D=$(mktemp -d) && curl -fL https://codeload.github.com/Ostap-87/GTT-APP/tar.gz/refs/heads/mac-dist | tar -xzf - -C "$D" --strip-components=1 && bash "$D/install_mac.command"`.
   Окно, порт, стартовый адрес — `mac/app.conf`; иконка — `python3 mac/make_icon.py app`. Старые Mac: код сборки
   переводится в ES2019 (esbuild, движок Safari 13+), первым скриптом — `mac/compat.js` (недостающие функции и текст
-  ошибки вместо белого экрана); при Safari старше 15 и наличии Chrome / Яндекс Браузера / Edge окно открывается в нём.
+  ошибки вместо белого экрана). Окно — Chrome / Яндекс Браузер / Edge в режиме приложения, если есть (`WEBKIT=1` в
+  `app.conf` — всегда pywebview). Журнал `~/Library/Logs/<NAME>.log`: версии macOS, Safari, pywebview, запросы и ошибки
+  страницы (compat.js шлёт их на `/__log`) — первым делом просить у пользователя `tail -40` этого файла.
 - Места на диске мало: после установки пакетов `npm cache clean --force`.
 
 ## Мини-программа WeChat и сервер
