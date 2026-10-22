@@ -53,7 +53,9 @@
   raw.githubusercontent.com в части сетей России закрыт), сервер — `mac/gtt_window.py` (порт 8731
   постоянный: данные сохраняются), окно — pywebview. Установка и обновление:
   `D=$(mktemp -d) && curl -fL https://codeload.github.com/Ostap-87/GTT-APP/tar.gz/refs/heads/mac-dist | tar -xzf - -C "$D" --strip-components=1 && bash "$D/install_mac.command"`.
-  Окно, порт, стартовый адрес — `mac/app.conf`; иконка — `python3 mac/make_icon.py app`.
+  Окно, порт, стартовый адрес — `mac/app.conf`; иконка — `python3 mac/make_icon.py app`. Старые Mac: код сборки
+  переводится в ES2019 (esbuild, движок Safari 13+), первым скриптом — `mac/compat.js` (недостающие функции и текст
+  ошибки вместо белого экрана); при Safari старше 15 и наличии Chrome / Яндекс Браузера / Edge окно открывается в нём.
 - Места на диске мало: после установки пакетов `npm cache clean --force`.
 
 ## Мини-программа WeChat и сервер
