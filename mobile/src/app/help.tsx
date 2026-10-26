@@ -2,6 +2,7 @@
 // показать прохожему, полицейскому, водителю; звонок координатору и экстренные номера страны; «Отправить координатору,
 // где я» — только по нажатию, без слежки: координатор получает точку на карте (в демо — у себя на «Пульте»).
 import * as Location from 'expo-location';
+import { router } from 'expo-router';
 import { Linking, Platform, Pressable, Share, Text, View } from 'react-native';
 import { useState } from 'react';
 
@@ -79,6 +80,11 @@ export default function Help() {
         {Platform.OS === 'web' ? <T muted>В браузере место определяется по разрешению сайта.</T> : null}
       </Card>
 
+      {TRIP.country === 'cn' ? (
+        <Card onPress={() => router.push('/pharmacy')} label="Аптека: карточки для фармацевта">
+          <Row left={<Icon name="pill" size={24} color={C.blueInk} />} title="Аптека: покажите фармацевту" sub="Симптомы и лекарства по-китайски, на русском, английском, казахском и узбекском" />
+        </Card>
+      ) : null}
       <Card tone="warn">
         <H3>{`Экстренные службы: ${country.ru}`}</H3>
         {country.emergency.map(([n, l]) => (

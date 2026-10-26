@@ -36,6 +36,10 @@ export function searchIndex(p: Personal): Hit[] {
   const cc = countryOf(TRIP.country);
   cc.emergency.forEach(([n, l]) => add('Экстренные номера', `${n} — ${l}`, cc.ru, '/help', 'экстренный помощь скорая полиция пожар sos'));
   add('Помощь', 'Помощь: карточка на местном языке', 'Позвонить координатору, отправить, где я', '/help', 'потерялся sos помощь где я');
+  if (TRIP.country === 'cn') {
+    add('Аптеки и фрукты', 'Аптеки: покажите фармацевту', 'Симптомы и лекарства по-китайски, ближайшая аптека на карте', '/pharmacy', 'аптека лекарство таблетки болит голова температура простуда кашель диарея аллергия 药店 pharmacy');
+    add('Аптеки и фрукты', 'Фруктовые лавки', 'Цена за 斤 = 500 г, фразы продавцу, сезоны фруктов', '/fruit', 'фрукты фруктовая лавка рынок манго личи дуриан арбуз 水果 fruit');
+  }
   STOPS.forEach((s) => add('Маршрут', s.ru, `${stopDays(s)}${s.zh ? ` · ${s.zh}` : ''}`, '/route', 'город маршрут'));
   cc.prep.forEach((x) => add('Памятка', x.title, x.sub, { pathname: '/country/[code]', params: { code: cc.code } }, x.how.join(' ')));
   cc.apps.forEach((a) => add('Приложения', a.name, a.what, { pathname: '/country/[code]', params: { code: cc.code } }, a.zh || ''));

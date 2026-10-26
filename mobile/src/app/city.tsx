@@ -1,8 +1,9 @@
 // «Город» — свободное время: подборка координатора рядом с отелем (шопинг, ночная жизнь, магазины 24/7, туалеты),
 // отметка «Иду гулять» (координатор знает, что всё в порядке; где человек — не отслеживается), такси в отель.
+// В Китае — входы в «Аптеки» и «Фруктовые лавки» (26.10.2026).
 import { Stack, router } from 'expo-router';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 import { CAT_COLOR, CITY_CATS, PLACES, PLACES_CITY, cityMapXml, type PlaceCat } from '@/data/extras';
@@ -11,9 +12,11 @@ import { useCoord } from '@/state/coord';
 import { useToast } from '@/state/toast';
 import { CountryApps } from '@/ui/ChinaApps';
 import { Converter } from '@/ui/Converter';
+import { Icon } from '@/ui/Icon';
 import { Button, Card, Chip, Chips, H3, Pick, Plain, Row, Seg, T } from '@/ui/kit';
+import { Press } from '@/ui/motion';
 import { OfflineNote } from '@/ui/OfflineNote';
-import { C } from '@/ui/theme';
+import { C, F, SH } from '@/ui/theme';
 
 export default function City() {
   const { out, setOut } = useCoord();
@@ -42,6 +45,7 @@ export default function City() {
           ) : null}
         </Card>
       )}
+      {TRIP.country === 'cn' ? <ShopTiles /> : null}
       <Converter />
       <Seg options={CITY_CATS} value={cat} onChange={setCat} />
       {hasPlaces ? (
@@ -72,5 +76,27 @@ export default function City() {
       <CountryApps />
       <T muted>Места, часы работы и расстояния — примеры. Подборку для каждого города делает координатор, магазины 24/7 и туалеты ищутся на карте автоматически.</T>
     </Plain>
+  );
+}
+
+/** «Аптеки» и «Фруктовые лавки» — две плитки рядом (решение пользователя 26.10.2026). */
+function ShopTiles() {
+  const tiles = [
+    { to: '/pharmacy', icon: 'pill', title: 'Аптеки', sub: 'Карточки для фармацевта по-китайски' },
+    { to: '/fruit', icon: 'apple', title: 'Фруктовые лавки', sub: 'Цена за 斤 = 500 г, фразы продавцу' },
+  ] as const;
+  return (
+    <View style={{ flexDirection: 'row', gap: 12 }}>
+      {tiles.map((x) => (
+        <Press key={x.to} onPress={() => router.push(x.to)} label={x.title} scaleTo={0.95}
+          style={{ flex: 1, gap: 8, padding: 14, borderRadius: 22, backgroundColor: C.card, boxShadow: SH.clay }}>
+          <View style={{ width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: C.well, boxShadow: SH.inset }}>
+            <Icon name={x.icon} size={22} color={C.blueInk} />
+          </View>
+          <Text style={{ fontFamily: F.bold, fontSize: 14.5, color: C.ink }}>{x.title}</Text>
+          <Text style={{ fontFamily: F.regular, fontSize: 12, lineHeight: 16, color: C.muted }}>{x.sub}</Text>
+        </Press>
+      ))}
+    </View>
   );
 }

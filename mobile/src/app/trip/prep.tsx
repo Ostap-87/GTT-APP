@@ -88,6 +88,8 @@ function During() {
         <Row title="Расходы" sub="Фото чека → сумма в рублях → отчёт для бухгалтерии" left={<Icon name="receipt" size={22} color={C.blueInk} />} onPress={() => router.push('/expenses')} label="Расходы" />
         <Row title="Поиск по поездке" sub="Компании, адреса, телефоны, заметки, визитки" left={<Icon name="search" size={22} color={C.blueInk} />} onPress={() => router.push('/search')} label="Поиск по поездке" />
         <Row title="Город" sub={`Шопинг, вечер, магазины 24/7 и туалеты рядом с отелем, ${countryOf(TRIP.country).currency.ru} в рубли`} left={<Icon name="map" size={22} color={C.blueInk} />} onPress={() => router.push('/city')} label="Город" />
+        {TRIP.country === 'cn' ? <Row title="Аптеки" sub="Карточки «покажите фармацевту», лекарства по-китайски, ближайшая аптека на карте" left={<Icon name="pill" size={22} color={C.blueInk} />} onPress={() => router.push('/pharmacy')} label="Аптеки" /> : null}
+        {TRIP.country === 'cn' ? <Row title="Фруктовые лавки" sub="Цена за 斤 = 500 г, как попросить порезать и помыть, сезоны" left={<Icon name="apple" size={22} color={C.blueInk} />} onPress={() => router.push('/fruit')} label="Фруктовые лавки" /> : null}
         <Row title="Майндмэп дня" sub="Темы встреч, договорённости и контакты — картой из ваших заметок" left={<Icon name="mindmap" size={22} color={C.blueInk} />} onPress={() => router.push('/mindmap')} label="Майндмэп дня" />
         <Row title="Итоги поездки — PDF" sub="Компании, заметки, фото и визитки одним файлом" left={<Icon name="doc" size={22} color={C.blueInk} />} onPress={() => router.push('/report')} label="Итоги поездки" />
       </Card>
