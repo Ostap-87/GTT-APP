@@ -1,0 +1,188 @@
+[
+ {
+  "id": "guoda",
+  "kind": "pharmacy",
+  "zh": "国大药房",
+  "lat": "Guoda (Sinopharm)"
+ },
+ {
+  "id": "laobaixing",
+  "kind": "pharmacy",
+  "zh": "老百姓大药房",
+  "lat": "LBX Pharmacy"
+ },
+ {
+  "id": "yifeng",
+  "kind": "pharmacy",
+  "zh": "益丰大药房",
+  "lat": "Yifeng"
+ },
+ {
+  "id": "dashenlin",
+  "kind": "pharmacy",
+  "zh": "大参林",
+  "lat": "Dashenlin"
+ },
+ {
+  "id": "yixintang",
+  "kind": "pharmacy",
+  "zh": "一心堂",
+  "lat": "Yixintang"
+ },
+ {
+  "id": "nepstar",
+  "kind": "pharmacy",
+  "zh": "海王星辰",
+  "lat": "Nepstar"
+ },
+ {
+  "id": "tongrentang",
+  "kind": "pharmacy",
+  "zh": "同仁堂",
+  "lat": "Tong Ren Tang"
+ },
+ {
+  "id": "jinxiang",
+  "kind": "pharmacy",
+  "zh": "金象大药房",
+  "lat": "Jinxiang"
+ },
+ {
+  "id": "diyi",
+  "kind": "pharmacy",
+  "zh": "第一医药",
+  "lat": "Shanghai No.1 Pharmacy"
+ },
+ {
+  "id": "leiyunshang",
+  "kind": "pharmacy",
+  "zh": "雷允上",
+  "lat": "Lei Yun Shang"
+ },
+ {
+  "id": "huqingyutang",
+  "kind": "pharmacy",
+  "zh": "胡庆余堂",
+  "lat": "Hu Qing Yu Tang"
+ },
+ {
+  "id": "jiuzhou",
+  "kind": "pharmacy",
+  "zh": "九洲大药房",
+  "lat": "Jiuzhou (China Jo-Jo)"
+ },
+ {
+  "id": "heping",
+  "kind": "pharmacy",
+  "zh": "和平药房",
+  "lat": "Heping"
+ },
+ {
+  "id": "tongjunge",
+  "kind": "pharmacy",
+  "zh": "桐君阁大药房",
+  "lat": "Tongjunge"
+ },
+ {
+  "id": "xinhu",
+  "kind": "pharmacy",
+  "zh": "鑫斛药房",
+  "lat": "Xinhu"
+ },
+ {
+  "id": "yikang",
+  "kind": "pharmacy",
+  "zh": "怡康医药",
+  "lat": "Yikang"
+ },
+ {
+  "id": "baixin",
+  "kind": "pharmacy",
+  "zh": "百信药房",
+  "lat": "Baixin (Nanjing Pharmaceutical)"
+ },
+ {
+  "id": "xiansheng",
+  "kind": "pharmacy",
+  "zh": "先声再康",
+  "lat": "Simcere Zaikang"
+ },
+ {
+  "id": "renmintongtai",
+  "kind": "pharmacy",
+  "zh": "人民同泰",
+  "lat": "Renmin Tongtai"
+ },
+ {
+  "id": "shuyu",
+  "kind": "pharmacy",
+  "zh": "漱玉平民",
+  "lat": "Shuyu Pingmin"
+ },
+ {
+  "id": "jinyitang",
+  "kind": "pharmacy",
+  "zh": "津一堂",
+  "lat": "Jinyitang"
+ },
+ {
+  "id": "ruicheng",
+  "kind": "pharmacy",
+  "zh": "瑞澄大药房",
+  "lat": "Ruicheng"
+ },
+ {
+  "id": "watsons",
+  "kind": "pharmacy",
+  "zh": "屈臣氏",
+  "lat": "Watsons"
+ },
+ {
+  "id": "mannings",
+  "kind": "pharmacy",
+  "zh": "萬寧",
+  "lat": "Mannings"
+ },
+ {
+  "id": "pagoda",
+  "kind": "fruit",
+  "zh": "百果园",
+  "lat": "Pagoda"
+ },
+ {
+  "id": "guoduomei",
+  "kind": "fruit",
+  "zh": "果多美",
+  "lat": "Guoduomei"
+ },
+ {
+  "id": "xianfeng",
+  "kind": "fruit",
+  "zh": "鲜丰水果",
+  "lat": "Xianfeng Fruit"
+ },
+ {
+  "id": "ymt",
+  "kind": "fruit",
+  "zh": "油麻地果欄",
+  "lat": "Yau Ma Tei Fruit Market"
+ },
+ {
+  "id": "parknshop",
+  "kind": "fruit",
+  "zh": "百佳",
+  "lat": "PARKnSHOP"
+ },
+ {
+  "id": "wellcome",
+  "kind": "fruit",
+  "zh": "惠康",
+  "lat": "Wellcome"
+ },
+ {
+  "id": "redmarket",
+  "kind": "fruit",
+  "zh": "紅街市",
+  "lat": "Red Market (Mercado Vermelho)"
+ }
+]

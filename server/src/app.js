@@ -5,6 +5,8 @@ import { signSession, verifySession, inviteCode, safeEqual } from './auth.js';
 import { visitView, guestListRows } from './store.js';
 import { xlsx } from './xlsx.js';
 import { notifyVisitMembers, teamMessages } from './events.js';
+import { createNearby, rateLimiter } from './amap/index.js';
+import { AmapError } from './amap/client.js';
 
 export class HttpError extends Error {
   constructor(status, code, message) { super(message || code); this.status = status; this.code = code; }
@@ -78,7 +80,8 @@ export function validateVisit(v) {
 const ALLOWED_EXT = ['pdf', 'ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx', 'jpg', 'jpeg', 'png', 'mp4', 'mov'];
 const cleanName = (name) => String(name || 'file').replace(/[\\/:*?"<>|\u0000-\u001f]/g, '_').slice(-120);
 
-export function createApp({ cfg, store, wx, pay, bot, log = () => {} }) {
+export function createApp({ cfg, store, wx, pay, bot, nearby, log = () => {} }) {
+  nearby ||= createNearby({ key: cfg.amap?.key, mt: { ...cfg.mt, cacheFile: path.join(cfg.dataDir, 'mt-cache.json') }, log });
   const routes = [];
   const route = (method, pattern, body, handler) => {
     const keys = [];
@@ -379,6 +382,39 @@ export function createApp({ cfg, store, wx, pay, bot, log = () => {} }) {
     store.save();
     const result = await notifyVisitMembers({ store, wx, templates: cfg.templates, log }, visit, body.type, vars);
     return { ok: true, ...result };
+  });
+
+  // ——— Приложение: «Рядом» — аптеки и фруктовые лавки по Amap, уже на языке делегата (src/amap/README.md) ———
+
+  const nearbyLimit = rateLimiter({ limit: cfg.amap?.ratePerMin || 30 });
+  const cors = (res) => {
+    res.setHeader('access-control-allow-origin', '*');
+    res.setHeader('access-control-allow-headers', 'x-app-token');
+    res.setHeader('access-control-allow-methods', 'GET, OPTIONS');
+  };
+  route('OPTIONS', '/api/nearby', null, ({ res }) => { cors(res); return {}; });
+  route('GET', '/api/nearby', null, async ({ req, res, query }) => {
+    cors(res);
+    if (cfg.amap?.appToken && !safeEqual(req.headers['x-app-token'], cfg.amap.appToken)) throw new HttpError(401, 'app_token');
+    const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket.remoteAddress;
+    if (!nearbyLimit(ip)) throw new HttpError(429, 'too_many', 'Слишком много запросов — попробуйте через минуту');
+    try {
+      return await nearby.search({
+        kind: query.get('kind') || 'pharmacy',
+        lat: Number(query.get('lat')),
+        lng: Number(query.get('lng')),
+        coord: query.get('coord') === 'gcj02' ? 'gcj02' : 'wgs84',
+        radius: Number(query.get('radius')) || 1500,
+        lang: query.get('lang') || 'ru',
+      });
+    } catch (err) {
+      if (['bad_kind', 'bad_location', 'out_of_china'].includes(err.code)) throw new HttpError(400, err.code, err.message);
+      if (err instanceof AmapError || err.name === 'TimeoutError') {
+        log('amap', err.message);
+        throw new HttpError(502, 'amap_unavailable', 'Карты Amap сейчас не ответили — откройте поиск в Amap');
+      }
+      throw err;
+    }
   });
 
   return async function handle(req, res) {

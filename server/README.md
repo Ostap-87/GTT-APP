@@ -31,11 +31,22 @@ npm start       # боевой режим, переменные окружени
 | `WXPAY_PUBLIC_KEY_FILE`, `WXPAY_PUBLIC_KEY_ID` | открытый ключ WeChat Pay (微信支付公钥) и его ID `PUB_KEY_ID_…` |
 | `WXPAY_NOTIFY_URL` | `https://<домен>/api/wx/pay/notify` |
 | `MAX_UPLOAD_MB` | лимит файла от компании, по умолчанию 30 |
+| `AMAP_KEY` | ключ Amap типа «Web服务» для «Рядом» (`src/amap/README.md`); без него — демо-режим с вымышленными местами |
+| `NEARBY_APP_TOKEN` | токен приложения для `/api/nearby` (заголовок `x-app-token`); то же значение — `EXPO_PUBLIC_NEARBY_TOKEN` |
+| `NEARBY_RATE_PER_MIN` | запросов к `/api/nearby` в минуту с одного IP, по умолчанию 30 |
+| `MT_PROVIDER`, `MT_KEY`, `MT_FOLDER_ID` | машинный перевод меток Amap (`yandex` или `deepl`), по желанию |
 
 Без `WXPAY_*` оплата выключена (кнопка в мини-программе неактивна). Без `WECOM_WEBHOOK_KEY` сообщения команде
 пишутся в лог. Шаблон уведомления с пустым `templateId` не отправляется.
 
 ## API
+
+Приложение (без входа; `x-app-token`, если задан `NEARBY_APP_TOKEN`):
+
+| Запрос | Что делает |
+| --- | --- |
+| `GET /api/nearby?kind=pharmacy\|fruit\|supermarket\|convenience&lat&lng&lang=ru\|en\|kk\|uz` | ближайшие места по Amap, переведённые на язык делегата, с китайским оригиналом (`src/amap/README.md`) |
+
 
 Мини-программа (заголовок `Authorization: Bearer <токен из /api/wx/login>`):
 

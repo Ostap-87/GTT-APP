@@ -9,6 +9,7 @@ import { MEDS, PHARMA_PHRASES, PH, SYMPTOMS, medCard } from '@/data/pharmacy';
 import { PHARMA, PHARMA_NATIONAL, PHARMA_WORDS, UI, ambulanceOf } from '@/data/shops';
 import { Card, H3, Plain, Row, T } from '@/ui/kit';
 import { OfflineNote } from '@/ui/OfflineNote';
+import { NearbyCard } from '@/ui/NearbyCard';
 import { CardTiles, ChainRows, EmergencyLine, OtherSection, PhraseRow, SearchWords, ShopHead, Zh, openCard, useShopCity, useShopLang } from '@/ui/shops-ui';
 import { C, F } from '@/ui/theme';
 
@@ -59,6 +60,8 @@ export default function Pharmacy() {
           </>
         ) : null}
       </Card>
+
+      <NearbyCard kind="pharmacy" lang={lang} city={city} />
 
       <Card>
         <H3>{tr(PH.find, lang)}</H3>

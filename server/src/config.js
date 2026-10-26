@@ -28,6 +28,14 @@ export function loadConfig(env = process.env) {
     },
     templates: JSON.parse(readMaybe(env.WX_TEMPLATES_FILE || here('../config/subscribe-templates.json')) || '{}'),
     wecom: { webhookKey: env.WECOM_WEBHOOK_KEY || '' },
+    // «Рядом» для приложения (src/amap/README.md): без AMAP_KEY — демо-режим с вымышленными местами
+    amap: {
+      key: env.AMAP_KEY || '',
+      appToken: env.NEARBY_APP_TOKEN || '',
+      ratePerMin: Number(env.NEARBY_RATE_PER_MIN || 30),
+    },
+    // Машинный перевод меток Amap (по желанию): yandex | deepl
+    mt: { provider: env.MT_PROVIDER || '', key: env.MT_KEY || '', folderId: env.MT_FOLDER_ID || '' },
     pay: {
       mchId: env.WXPAY_MCHID || '',
       serialNo: env.WXPAY_SERIAL_NO || '',

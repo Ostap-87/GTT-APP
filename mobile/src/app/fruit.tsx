@@ -15,6 +15,7 @@ import { useRate } from '@/ui/Converter';
 import { CutSection, FruitPhoto, PhotoCredit, fruitTabs, useFruitTab } from '@/ui/fruit-ui';
 import { Card, Chip, H3, Plain, Row, Seg, T, inputStyle } from '@/ui/kit';
 import { OfflineNote } from '@/ui/OfflineNote';
+import { NearbyCard } from '@/ui/NearbyCard';
 import { CardTiles, ChainRows, OtherSection, PhraseRow, SearchWords, ShopHead, Zh, openCard, useShopCity, useShopLang } from '@/ui/shops-ui';
 import { C, F } from '@/ui/theme';
 
@@ -73,6 +74,7 @@ export default function Fruit() {
       <OfflineNote what="Фразы для продавца, сезоны и пересчёт цены" />
       <ShopHead lang={lang} setLang={setLang} cs={cs} />
       <JinCalc city={city} lang={lang} />
+      <NearbyCard kind="fruit" lang={lang} city={city} />
 
       {city.note ? <Card tone="info"><T>{tr(city.note, lang)}</T></Card> : null}
 
