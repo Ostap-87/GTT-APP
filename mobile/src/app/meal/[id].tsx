@@ -31,7 +31,7 @@ export default function MealScreen() {
           ? (algNames(profile).length ? <Button title="Карточка для официанта" icon="translate" kind="light" onPress={() => router.push('/waiter')} /> : null)
           : <Button title="Заполнить профиль" kind="light" onPress={() => router.push('/profile')} />}
       </Card>
-      <Address3 zh={m.addrZh} ru={ru} en={en} note="Точный адрес — в брони; координатор добавит его до поездки." />
+      <Address3 zh={m.addrZh} ru={ru} en={en} name={m.place} note="Точный адрес — в брони; координатор добавит его до поездки." />
     </Plain>
   );
 }

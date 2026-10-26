@@ -12,6 +12,7 @@ import { useStored } from '@/state/store';
 import { useToast } from '@/state/toast';
 import { Icon } from './Icon';
 import { Button, Card, Chip, Chips, Label, Pick, Row, Seg, T } from './kit';
+import { OpenInApps, OpenInAppsHint } from './OpenInApps';
 import { Press } from './motion';
 import { C, F, SH } from './theme';
 
@@ -113,8 +114,10 @@ export function SearchWords({ words, city, lang, copyTx, openTx, copiedTx }: { w
             <View style={{ flex: 1 }}><Button title={copyTx} icon="copy" kind="ghost" small onPress={() => { Clipboard.setStringAsync(w).then(() => toast(`${copiedTx}: ${w}`)).catch(() => toast(w)); }} /></View>
             <View style={{ flex: 1 }}><Button title={openTx} icon="map" kind="light" small onPress={() => { Linking.openURL(mapSearchUrl(w, city)).catch(() => toast(w)); }} /></View>
           </View>
+          {city.region === 'cn' ? <OpenInApps q={w} lang={lang} /> : null}
         </View>
       ))}
+      {city.region === 'cn' ? <OpenInAppsHint lang={lang} /> : null}
     </>
   );
 }

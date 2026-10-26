@@ -74,6 +74,9 @@
   `server/src/amap/README.md`), в приложении — `src/ui/NearbyCard.tsx` + `src/data/nearby.ts` (адрес сервера —
   `EXPO_PUBLIC_NEARBY_URL`). Ключ Amap — только переменная сервера `AMAP_KEY`. Новая сеть в `shops.ts` →
   `python3 tools/amap-data.py --chains-only` (иначе падает тест сервера).
+- «Открыть в Dianping / Meituan» (решение пользователя 26.10.2026, вариант «в») — `src/ui/OpenInApps.tsx` + `src/data/apps.ts`:
+  своего API у них нет, поэтому китайское название — в буфер и поиск в их приложении; новое место с китайским названием
+  (ресторан, магазин, достопримечательность) — показывать эти кнопки рядом с адресом.
 - Места на диске мало: после установки пакетов `npm cache clean --force`.
 
 ## Мини-программа WeChat и сервер

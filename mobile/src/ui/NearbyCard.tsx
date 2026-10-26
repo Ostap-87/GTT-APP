@@ -10,6 +10,7 @@ import { NEARBY_URL, distanceText, fetchNearby, whereAmI, type NearbyItem, type 
 import type { ShopCity } from '@/data/shops';
 import { Icon } from './Icon';
 import { Button, Card, Chip, H3, T } from './kit';
+import { OpenInApps, OpenInAppsHint } from './OpenInApps';
 import { C, F, SH } from './theme';
 
 const NB = {
@@ -91,6 +92,7 @@ function Place({ p, lang }: { p: NearbyItem; lang: Lang }) {
         </View>
         {p.tel[0] ? <View style={{ flex: 1 }}><Button title={tr(NB.call, lang)} icon="phone" kind="ghost" small onPress={() => { Linking.openURL(`tel:${p.tel[0].replace(/[^\d+]/g, '')}`).catch(() => {}); }} /></View> : null}
       </View>
+      <OpenInApps q={p.zh.name.replace(/[(（].*$/, '')} lang={lang} />
     </View>
   );
 }
@@ -132,6 +134,7 @@ export function NearbyCard({ kind, lang, city }: { kind: NearbyKind; lang: Lang;
           {reply.source === 'demo' ? <Card tone="warn"><T>{tr(NB.demo, lang)}</T></Card> : null}
           {spot && !spot.exact ? <T muted>{tr(NB.noGps, lang)}</T> : null}
           {reply.items.length ? reply.items.slice(0, 8).map((p) => <Place key={p.id} p={p} lang={lang} />) : <T>{tr(NB.none, lang)}</T>}
+          <OpenInAppsHint lang={lang} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <Text style={{ flex: 1, fontFamily: F.regular, fontSize: 12, lineHeight: 17, color: C.muted }}>{tr(NB.source, lang)}</Text>
             <Button title={tr(NB.again, lang)} kind="ghost" small onPress={load} />

@@ -5,6 +5,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { hasHan } from '@/data/apps';
 import { countryOf } from '@/data/countries';
 import { TRIP, type EventKind, type TripEvent } from '@/data/trip';
 import { VISITS } from '@/data/group';
@@ -12,6 +13,7 @@ import { useToast } from '@/state/toast';
 import { Icon } from './Icon';
 import type { IconName } from './icon-paths';
 import { Button, Card, Chip, Row, s as kit } from './kit';
+import { OpenInApps } from './OpenInApps';
 import { Appear, Press } from './motion';
 import { C, F, SH } from './theme';
 
@@ -110,7 +112,7 @@ export function EventRow({ e }: { e: TripEvent }) {
   );
 }
 
-export function Address3({ zh, ru, en, note }: { zh: string; ru: string; en: string; note?: string }) {
+export function Address3({ zh, ru, en, note, name }: { zh: string; ru: string; en: string; note?: string; name?: string }) {
   const toast = useToast();
   const copy = async (text: string) => {
     try { await Clipboard.setStringAsync(text); } catch { /* буфер недоступен — достаточно сообщения */ }
@@ -139,6 +141,7 @@ export function Address3({ zh, ru, en, note }: { zh: string; ru: string; en: str
       {note ? <Text style={kit.muted}>{note}</Text> : null}
       {zh ? <Button title="Показать водителю" full onPress={() => router.push({ pathname: '/driver', params: { zh, ru } })} /> : null}
       {zh || en ? <Button title={`Открыть в картах (${cn ? 'Amap' : 'Google'})`} kind="ghost" full onPress={openMaps} /> : null}
+      {cn && (hasHan(name) || zh) ? <OpenInApps q={hasHan(name) ? name! : zh} hint /> : null}
     </Card>
   );
 }

@@ -15,7 +15,7 @@ export default function PlaceScreen() {
       <T muted>{p.what}</T>
       <Row title="Часы" right={<T>{p.hours}</T>} />
       <Row title="Как далеко" right={<T>{p.dist}</T>} />
-      <Address3 zh={p.zh} ru={p.ru} en={p.en} note="Название по-китайски таксисты понимают; точный адрес — в карте" />
+      <Address3 zh={p.zh} ru={p.ru} en={p.en} name={p.zh} note="Название по-китайски таксисты понимают; точный адрес — в карте" />
       <Button title="Такси сюда — показать водителю" icon="car" onPress={() => router.push({ pathname: '/driver', params: { zh: p.zh, ru: p.ru } })} />
       <T muted>DiDi работает на английском и принимает иностранные карты; его можно вызвать и из WeChat или Alipay. Свободное такси на улице — с зелёной табличкой «空车».</T>
     </Plain>
