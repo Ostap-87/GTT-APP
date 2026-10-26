@@ -123,7 +123,8 @@ export function createNearby({ key = '', mt = {}, log = () => {}, fetchImpl = fe
         name: name.text,
         branch: name.branch || null,
         chain: name.chain?.id || null,
-        type: typeLabel(p.typecode, lang),
+        // У фруктовых лавок категория Amap бывает «商场» и т. п. — подписываем только фруктовый рынок
+        type: kind === 'fruit' && !p.typecode.startsWith('060704') ? null : typeLabel(p.typecode, lang),
         address: translateAddress(addrZh, lang) || null,
         hours: translateHours(hoursZh, lang),
         open24: /24小[时時]|00:00\s*-\s*24:00/.test(hoursZh),
