@@ -1,5 +1,6 @@
 // «Фруктовые лавки» (решение пользователя 26.10.2026): цена за 斤 (500 г) с пересчётом в килограммы и рубли, как
 // называются лавки, сети в городе, слова для поиска на карте, карточки для продавца, фрукты с сезонами и местные сорта.
+// Список фруктов — вкладки «На вес» (称重) и «Нарезка» (果切), у каждого фрукта фото (src/ui/fruit-ui.tsx).
 import { Stack } from 'expo-router';
 import { useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
@@ -11,7 +12,8 @@ import { PH } from '@/data/pharmacy';
 import { FRUIT_CHAINS, FRUIT_WORDS, UI, type ShopCity } from '@/data/shops';
 import { TRIP } from '@/data/trip';
 import { useRate } from '@/ui/Converter';
-import { Card, Chip, H3, Plain, Row, T, inputStyle } from '@/ui/kit';
+import { CutSection, FruitPhoto, PhotoCredit, fruitTabs, useFruitTab } from '@/ui/fruit-ui';
+import { Card, Chip, H3, Plain, Row, Seg, T, inputStyle } from '@/ui/kit';
 import { OfflineNote } from '@/ui/OfflineNote';
 import { CardTiles, ChainRows, OtherSection, PhraseRow, SearchWords, ShopHead, Zh, openCard, useShopCity, useShopLang } from '@/ui/shops-ui';
 import { C, F } from '@/ui/theme';
@@ -57,6 +59,8 @@ export default function Fruit() {
   const { city } = cs;
   const cn = city.region === 'cn';
   const open = (id: string) => openCard(id, lang, city, 'fr');
+  const [tab, setTab] = useFruitTab();
+  const tabs = <Seg options={fruitTabs(lang)} value={tab} onChange={setTab} />;
   const m = tripMonth();
   const list = FRUITS.filter((x) => !x.hidden);
   // сначала то, что в сезон во время поездки
@@ -86,7 +90,7 @@ export default function Fruit() {
           {city.local.map((x) => {
             const fr = fruitOf(x.fruit);
             return (
-              <Row key={x.zh} title={<Zh zh={x.zh} size={18} />}
+              <Row key={x.zh} title={<Zh zh={x.zh} size={18} />} left={<FruitPhoto id={x.photo || x.fruit} size={48} />}
                 sub={`${x.tx ? tr(x.tx, lang) : fr ? tr(fr.name, lang) : ''}${fr ? ` · ${seasonText(fr.months)}` : ''}`}
                 right={fr && inSeason(fr, m) ? <Chip tone="ok">{tr(FR.inTrip, lang)}</Chip> : undefined} />
             );
@@ -116,22 +120,24 @@ export default function Fruit() {
         {FR.howLines.map((x, i) => <T key={i}>{`• ${tr(x, lang)}`}</T>)}
       </Card>
 
-      <Card>
-        <H3>{tr(FR.fruits, lang)}</H3>
-        <T muted>{tr(FR.fruitsSub, lang)}</T>
-        {sorted.map((fr) => (
-          <Row key={fr.id} onPress={() => open(fruitCard(fr).id)} label={tr(fr.name, lang)}
-            left={<View style={{ width: 36, height: 36, borderRadius: 12, backgroundColor: C.well, alignItems: 'center', justifyContent: 'center' }}>
-              {fr.emoji ? <Text style={{ fontSize: 20 }}>{fr.emoji}</Text> : <Text style={{ fontSize: 17, fontWeight: '700', color: C.blueInk }}>{fr.zh[0]}</Text>}
-            </View>}
-            title={<View style={{ gap: 2 }}>
-              <Text style={{ fontFamily: F.semibold, fontSize: 14.5, color: C.ink }}>{tr(fr.name, lang)}</Text>
-              <Zh zh={fr.zh} size={17} />
-            </View>}
-            sub={`${seasonText(fr.months)}${fr.note ? `\n${tr(fr.note, lang)}` : ''}`}
-            right={inSeason(fr, m) && !allYear(fr) ? <Chip tone="ok">{fill(tr(FR.seasonNow, lang), { month: MONTHS[lang][m - 1] })}</Chip> : undefined} />
-        ))}
-      </Card>
+      {tab === 'cut' ? <CutSection tabs={tabs} lang={lang} city={city} onOpen={open} /> : (
+        <Card>
+          {tabs}
+          <H3>{tr(FR.fruits, lang)}</H3>
+          <T muted>{`${tr(FR.weightNote, lang)} ${tr(FR.fruitsSub, lang)}`}</T>
+          {sorted.map((fr) => (
+            <Row key={fr.id} onPress={() => open(fruitCard(fr).id)} label={tr(fr.name, lang)}
+              left={<FruitPhoto id={fr.id} size={64} fallback={fr.emoji ? <Text style={{ fontSize: 24 }}>{fr.emoji}</Text> : <Text style={{ fontSize: 20, fontWeight: '700', color: C.blueInk }}>{fr.zh[0]}</Text>} />}
+              title={<View style={{ gap: 2 }}>
+                <Text style={{ fontFamily: F.semibold, fontSize: 14.5, color: C.ink }}>{tr(fr.name, lang)}</Text>
+                <Zh zh={fr.zh} size={17} />
+              </View>}
+              sub={`${seasonText(fr.months)}${fr.note ? `\n${tr(fr.note, lang)}` : ''}`}
+              right={inSeason(fr, m) && !allYear(fr) ? <Chip tone="ok">{fill(tr(FR.seasonNow, lang), { month: MONTHS[lang][m - 1] })}</Chip> : undefined} />
+          ))}
+        </Card>
+      )}
+      <PhotoCredit lang={lang} />
 
       <OtherSection title={tr(UI.pharmaLink, lang)} sub={tr(UI.pharmaLinkSub, lang)} icon="pill" to="/pharmacy" />
       <T muted>{tr(FR.footer, lang)}</T>

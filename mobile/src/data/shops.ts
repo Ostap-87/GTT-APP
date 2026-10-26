@@ -11,7 +11,8 @@ import { CITY, TRIP } from './trip';
 
 export type Region = 'cn' | 'hk' | 'mo';
 export type Chain = { id: string; zh: string; lat: string; from: Tx; note?: Tx };
-export type LocalFruit = { zh: string; fruit: string; tx?: Tx };
+/** photo — своё фото сорта (assets/fruit/<photo>.jpg), если он выглядит иначе, чем обычный фрукт; иначе — фото фрукта. */
+export type LocalFruit = { zh: string; fruit: string; tx?: Tx; photo?: string };
 export type ShopCity = {
   id: string; zh: string; name: Tx; region: Region;
   /** Другие написания города в данных поездки. */
@@ -132,7 +133,7 @@ export const SHOP_CITIES: ShopCity[] = [
     local: [{ zh: '周至猕猴桃', fruit: 'kiwi' }, { zh: '临潼石榴', fruit: 'pomegranate' }] },
   { id: 'wuhan', zh: '武汉', name: t('Ухань', 'Wuhan', 'Ухань', 'Uxan'), region: 'cn', ph: ['yifeng'], fr: ['pagoda'] },
   { id: 'changsha', zh: '长沙', name: N.changsha, region: 'cn', ph: ['laobaixing', 'yifeng'], fr: ['pagoda'],
-    local: [{ zh: '炎陵黄桃', fruit: 'peach', tx: t('жёлтый персик', 'yellow peach', 'сары шабдалы', 'sariq shaftoli') }, { zh: '麻阳冰糖橙', fruit: 'orange' }] },
+    local: [{ zh: '炎陵黄桃', fruit: 'peach', photo: 'yellow-peach', tx: t('жёлтый персик', 'yellow peach', 'сары шабдалы', 'sariq shaftoli') }, { zh: '麻阳冰糖橙', fruit: 'orange' }] },
   { id: 'xiamen', zh: '厦门', name: t('Сямэнь', 'Xiamen', 'Сямэнь', 'Syamen'), region: 'cn', alias: ['Сямынь'], ph: [], fr: ['pagoda'],
     local: [{ zh: '琯溪蜜柚', fruit: 'pomelo' }] },
   { id: 'sanya', zh: '三亚', name: t('Санья', 'Sanya', 'Санья', 'Sanya'), region: 'cn', lat: 18.25, lng: 109.51, ph: ['yixintang'], fr: ['pagoda'],
@@ -144,7 +145,7 @@ export const SHOP_CITIES: ShopCity[] = [
       'Sanya — kurort: dorixonalarda quyoshda kuyish va yoʻlda koʻngil aynishiga qarshi vositalarni koʻp soʻrashadi. Turistlar bozorida mevalar qimmatroq — 斤 narxini koʻrib, tarmoq doʻkonlari bilan solishtiring.',
     ) },
   { id: 'harbin', zh: '哈尔滨', name: N.harbin, region: 'cn', ph: ['renmintongtai', 'dashenlin'], fr: ['pagoda'],
-    local: [{ zh: '冻梨', fruit: 'pear', tx: t('мороженая груша — зимнее лакомство', 'frozen pear — a winter treat', 'мұздатылған алмұрт — қысқы тағам', 'muzlatilgan nok — qishki taom') }],
+    local: [{ zh: '冻梨', fruit: 'pear', photo: 'frozen-pear', tx: t('мороженая груша — зимнее лакомство', 'frozen pear — a winter treat', 'мұздатылған алмұрт — қысқы тағам', 'muzlatilgan nok — qishki taom') }],
     note: t(
       'Харбин: зимой бывает −30 °C. В аптеках и магазинах есть грелки-наклейки 暖宝宝 (nuǎnbǎobǎo) и мазь от обморожения 冻疮膏 (dòngchuānggāo).',
       'Harbin: winter can reach −30 °C. Pharmacies and shops sell stick-on heat packs 暖宝宝 (nuǎnbǎobǎo) and frostbite ointment 冻疮膏 (dòngchuānggāo).',
@@ -251,6 +252,8 @@ export function mapSearchUrl(word: string, c: ShopCity) {
 const PY_WORDS: [string, string][] = [
   ['大参林', 'dà shēn lín'], ['想吐', 'xiǎng tù'], ['睡不着', 'shuì bu zháo'], ['恶心', 'ě xin'], ['眼睛', 'yǎn jing'],
   ['舒服', 'shū fu'], ['石榴', 'shí liu'], ['葡萄', 'pú tao'],
+  // 切 в разделе всегда «резать» — qiē (pinyin-pro даёт qiè, как в 一切); 告诉, 时候 — лёгкий тон
+  ['切', 'qiē'], ['告诉', 'gào su'], ['时候', 'shí hou'],
 ];
 const pyRaw = (s: string) => pinyin(s, { toneType: 'symbol', nonZh: 'consecutive' });
 /** Пиньинь со знаками тонов: слоги через пробел, знаки препинания латиницей. Для латиницы — пусто. */

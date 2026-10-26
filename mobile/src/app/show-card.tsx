@@ -1,17 +1,20 @@
 // Крупная карточка «покажите фармацевту / продавцу» (26.10.2026): китайский текст во весь экран, пиньинь, английская строка
 // и смысл на языке раздела — чтобы человек знал, что показывает. Как «Показать водителю» и «Карточка для официанта».
+// У карточек фруктов и нарезки вместо значка — фото (продавец сразу видит, о чём речь).
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 
-import { FR, FRUITS, FRUIT_PHRASES, fruitCard } from '@/data/fruit';
+import { CUTS, CUT_PHRASES, FR, FRUITS, FRUIT_PHRASES, cutCard, fruitCard, type FruitShowCard } from '@/data/fruit';
 import { isLang, tr, type Lang } from '@/data/lang';
 import { MEDS, PHARMA_PHRASES, PH, SYMPTOMS, medCard, type ShowCard } from '@/data/pharmacy';
 import { UI, py, shopCity } from '@/data/shops';
+import { FruitPhoto, hasPhoto } from '@/ui/fruit-ui';
 import { C, F } from '@/ui/theme';
 
-function findCard(id: string): ShowCard | undefined {
+function findCard(id: string): FruitShowCard | ShowCard | undefined {
   return SYMPTOMS.find((c) => c.id === id) || PHARMA_PHRASES.find((c) => c.id === id) || FRUIT_PHRASES.find((c) => c.id === id)
-    || MEDS.map(medCard).find((c) => c.id === id) || FRUITS.map(fruitCard).find((c) => c.id === id);
+    || MEDS.map(medCard).find((c) => c.id === id) || FRUITS.map(fruitCard).find((c) => c.id === id)
+    || CUT_PHRASES.find((c) => c.id === id) || CUTS.map(cutCard).find((c) => c.id === id);
 }
 
 export default function ShowCardScreen() {
@@ -23,12 +26,14 @@ export default function ShowCardScreen() {
   const who = p.who === 'fr' ? FR.phrases : PH.show;
   if (!card) return <View style={{ flex: 1, backgroundColor: C.card }} />;
   const pinyin = py(card.zh);
+  const photo = 'photo' in card && hasPhoto(card.photo) ? card.photo : undefined;
   const size = card.zh.length > 24 ? 30 : card.zh.length > 12 ? 36 : 44;
   return (
     <ScrollView style={{ flex: 1, backgroundColor: C.card }} contentContainerStyle={{ flexGrow: 1, padding: 24, justifyContent: 'center', gap: 16 }}>
       <Stack.Screen options={{ title: tr(who, lang) }} />
       <Text style={{ fontFamily: F.medium, fontSize: 16, color: C.muted, textAlign: 'center' }}>{`请看一下 · ${tr(UI.showScreen, lang)}`}</Text>
-      {card.emoji ? <Text style={{ fontSize: 44, textAlign: 'center' }}>{card.emoji}</Text> : null}
+      {photo ? <View style={{ alignSelf: 'center' }}><FruitPhoto id={photo} size={176} /></View>
+        : card.emoji ? <Text style={{ fontSize: 44, textAlign: 'center' }}>{card.emoji}</Text> : null}
       <Text selectable style={{ fontSize: size, lineHeight: Math.round(size * 1.4), fontWeight: '700', color: C.ink, textAlign: 'center' }}>{card.zh}</Text>
       {pinyin && !hk ? <Text selectable style={{ fontFamily: F.regular, fontSize: 16, lineHeight: 23, color: C.muted, textAlign: 'center' }}>{pinyin}</Text> : null}
       <Text selectable style={{ fontFamily: F.semibold, fontSize: hk ? 22 : 18, lineHeight: hk ? 30 : 25, color: C.ink, textAlign: 'center' }}>{card.en}</Text>
