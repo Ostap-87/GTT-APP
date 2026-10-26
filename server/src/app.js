@@ -404,7 +404,7 @@ export function createApp({ cfg, store, wx, pay, bot, nearby, log = () => {} }) 
         lat: Number(query.get('lat')),
         lng: Number(query.get('lng')),
         coord: query.get('coord') === 'gcj02' ? 'gcj02' : 'wgs84',
-        radius: Number(query.get('radius')) || 1500,
+        radius: Number(query.get('radius')) || undefined,
         lang: query.get('lang') || 'ru',
       });
     } catch (err) {

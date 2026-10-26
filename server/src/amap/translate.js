@@ -24,6 +24,17 @@ const NAME_TYPES = [
   ['果品市场', 'fruitMarket'], ['水果超市', 'fruit'], ['水果店', 'fruit'], ['水果摊', 'fruit'], ['水果', 'fruit'], ['鲜果', 'fruit'],
   ['果业', 'fruit'], ['果蔬', 'fruit'], ['生鲜超市', 'supermarket'], ['超市', 'supermarket'], ['便利店', 'convenience'],
   ['菜市场', 'market'], ['市场', 'market'], ['街市', 'market'],
+  // Еда (путеводитель «Рядом»: рестораны, кафе)
+  ['火锅店', 'hotpot'], ['火锅', 'hotpot'], ['烤鸭店', 'duck'], ['烤鸭', 'duck'], ['饺子馆', 'dumplings'], ['饺子', 'dumplings'],
+  ['拉面馆', 'noodles'], ['面馆', 'noodles'], ['拉面', 'noodles'], ['烧烤店', 'bbq'], ['烧烤', 'bbq'], ['小吃店', 'snacks'], ['小吃', 'snacks'],
+  ['咖啡馆', 'coffee'], ['咖啡厅', 'coffee'], ['咖啡', 'coffee'], ['茶馆', 'tea'], ['茶楼', 'tea'], ['茶室', 'tea'], ['奶茶', 'milkTea'],
+  ['甜品店', 'dessert'], ['甜品', 'dessert'], ['烘焙', 'bakery'], ['面包店', 'bakery'], ['面包', 'bakery'],
+  ['大酒楼', 'restaurant'], ['酒楼', 'restaurant'], ['酒家', 'restaurant'], ['饭店', 'restaurant'], ['餐厅', 'restaurant'], ['菜馆', 'restaurant'],
+  ['食府', 'restaurant'], ['饭馆', 'restaurant'],
+  // Места
+  ['博物院', 'museum'], ['博物馆', 'museum'], ['美术馆', 'artMuseum'], ['纪念馆', 'memorial'], ['动物园', 'zoo'], ['植物园', 'botanic'],
+  ['森林公园', 'park'], ['公园', 'park'], ['古镇', 'oldTown'], ['景区', 'scenic'], ['寺', 'temple'], ['塔', 'pagoda'],
+  ['购物中心', 'mall'], ['商场', 'mall'], ['百货', 'dept'], ['广场', 'plaza'],
 ];
 export const TYPE_WORD = {
   pharmacy: { ru: 'Аптека', en: 'Pharmacy', kk: 'Дәріхана', uz: 'dorixonasi' },
@@ -34,12 +45,52 @@ export const TYPE_WORD = {
   supermarket: { ru: 'Супермаркет', en: 'Supermarket', kk: 'Супермаркет', uz: 'supermarketi' },
   convenience: { ru: 'Магазин у дома', en: 'Convenience Store', kk: 'Шағын дүкен', uz: 'mini-doʻkoni' },
   market: { ru: 'Рынок', en: 'Market', kk: 'Базар', uz: 'bozori' },
+  hotpot: { ru: 'Хого', en: 'Hotpot', kk: 'Хого', uz: 'xogo' },
+  duck: { ru: 'Утка по-пекински', en: 'Roast Duck', kk: 'Пекин үйрегі', uz: 'Pekin oʻrdagi' },
+  dumplings: { ru: 'Пельменная', en: 'Dumplings', kk: 'Тұшпарахана', uz: 'chuchvaraxona' },
+  noodles: { ru: 'Лапшичная', en: 'Noodles', kk: 'Кеспехана', uz: 'lagʻmonxona' },
+  bbq: { ru: 'Барбекю', en: 'BBQ', kk: 'Барбекю', uz: 'barbekyu' },
+  snacks: { ru: 'Закусочная', en: 'Snacks', kk: 'Тағамхана', uz: 'gazakxona' },
+  coffee: { ru: 'Кофейня', en: 'Coffee', kk: 'Кофехана', uz: 'qahvaxona' },
+  tea: { ru: 'Чайная', en: 'Tea House', kk: 'Шайхана', uz: 'choyxona' },
+  milkTea: { ru: 'Чай с молоком', en: 'Milk Tea', kk: 'Сүтті шай', uz: 'sutli choy' },
+  dessert: { ru: 'Десерты', en: 'Desserts', kk: 'Десерттер', uz: 'desertlar' },
+  bakery: { ru: 'Пекарня', en: 'Bakery', kk: 'Наубайхана', uz: 'novvoyxona' },
+  restaurant: { ru: 'Ресторан', en: 'Restaurant', kk: 'Мейрамхана', uz: 'restorani' },
+  museum: { ru: 'Музей', en: 'Museum', kk: 'Мұражай', uz: 'muzeyi' },
+  artMuseum: { ru: 'Художественный музей', en: 'Art Museum', kk: 'Өнер мұражайы', uz: 'sanʼat muzeyi' },
+  memorial: { ru: 'Мемориал', en: 'Memorial Hall', kk: 'Мемориал', uz: 'memoriali' },
+  zoo: { ru: 'Зоопарк', en: 'Zoo', kk: 'Хайуанаттар бағы', uz: 'hayvonot bogʻi' },
+  botanic: { ru: 'Ботанический сад', en: 'Botanical Garden', kk: 'Ботаникалық бақ', uz: 'botanika bogʻi' },
+  park: { ru: 'Парк', en: 'Park', kk: 'Саябақ', uz: 'bogʻi' },
+  oldTown: { ru: 'Старый город', en: 'Ancient Town', kk: 'Көне қала', uz: 'qadimiy shaharcha' },
+  scenic: { ru: 'Туристическая зона', en: 'Scenic Area', kk: 'Туристік аймақ', uz: 'sayyohlik hududi' },
+  temple: { ru: 'Храм', en: 'Temple', kk: 'Ғибадатхана', uz: 'ibodatxonasi' },
+  pagoda: { ru: 'Пагода', en: 'Pagoda', kk: 'Пагода', uz: 'pagodasi' },
+  mall: { ru: 'ТЦ', en: 'Mall', kk: 'СО', uz: 'savdo markazi' },
+  dept: { ru: 'Универмаг', en: 'Department Store', kk: 'Әмбебап дүкен', uz: 'univermagi' },
+  plaza: { ru: 'Плаза', en: 'Plaza', kk: 'Плаза', uz: 'Plaza', suffix: true },
 };
+// Известные места — принятые названия вместо транслитерации (только для достопримечательностей)
+const FAMOUS = [
+  ['故宫', { ru: 'Запретный город (Гугун)', en: 'Forbidden City (Palace Museum)', kk: 'Тыйым салынған қала (Гугун)', uz: 'Taqiqlangan shahar (Gugun)' }],
+  ['天坛', { ru: 'Храм Неба (Тяньтань)', en: 'Temple of Heaven', kk: 'Аспан ғибадатханасы (Тяньтань)', uz: 'Osmon ibodatxonasi (Tyantan)' }],
+  ['颐和园', { ru: 'Летний дворец (Ихэюань)', en: 'Summer Palace', kk: 'Жазғы сарай (Ихэюань)', uz: 'Yozgi saroy (Iheyuan)' }],
+  ['天安门广场', { ru: 'Площадь Тяньаньмэнь', en: 'Tiananmen Square', kk: 'Тяньаньмэнь алаңы', uz: 'Tyananmen maydoni' }],
+  ['长城', { ru: 'Великая Китайская стена', en: 'Great Wall', kk: 'Ұлы Қытай қорғаны', uz: 'Buyuk Xitoy devori' }],
+  ['外滩', { ru: 'Набережная Вайтань (Бунд)', en: 'The Bund', kk: 'Вайтань жағалауы', uz: 'Vaytan sohili' }],
+  ['东方明珠', { ru: 'Телебашня «Восточная жемчужина»', en: 'Oriental Pearl Tower', kk: '«Шығыс інжу» телемұнарасы', uz: '«Sharq marvaridi» teleminorasi' }],
+  ['豫园', { ru: 'Сад Юйюань', en: 'Yu Garden', kk: 'Юйюань бағы', uz: 'Yuyuan bogʻi' }],
+  ['西湖', { ru: 'Озеро Сиху', en: 'West Lake', kk: 'Сиху көлі', uz: 'Sixu koʻli' }],
+  ['兵马俑', { ru: 'Терракотовая армия', en: 'Terracotta Army', kk: 'Терракота әскері', uz: 'Terrakota armiyasi' }],
+  ['广州塔', { ru: 'Телебашня Гуанчжоу (Кантон-тауэр)', en: 'Canton Tower', kk: 'Гуанчжоу телемұнарасы', uz: 'Guanchjou teleminorasi' }],
+].sort((a, b) => b[0].length - a[0].length);
 /** «Аптека «Лаобайсин»», «Laobaixing Pharmacy», «Laobaixing dorixonasi». */
 function withType(core, type, lang) {
   const w = type && TYPE_WORD[type][lang];
   if (!w) return core;
   if (!core) return cap(w);
+  if (TYPE_WORD[type].suffix) return `${core} ${w}`;
   if (lang === 'en') return `${core} ${w}`;
   if (lang === 'uz') return `${core} ${w}`;
   return `${w} «${core}»`;
@@ -257,6 +308,7 @@ export function translateName(zh, lang, { kind } = {}) {
   const bm = /^(.*?)[（(]([^)）]*)[)）]\s*$/.exec(full);
   const main = (bm ? bm[1] : full).trim();
   const branchZh = bm ? bm[2].trim() : '';
+  const famous = kind === 'sights' && FAMOUS.find(([zh]) => main.includes(zh));
   const chain = CHAINS.find((c) => main.includes(c.zh));
   let rest = chain ? main.replace(chain.zh, '') : main;
   rest = rest.replace(/(连锁|連鎖|平价|平價|便民|惠民|健康|医疗|醫療|有限公司|股份)/g, '');
@@ -288,7 +340,8 @@ export function translateName(zh, lang, { kind } = {}) {
       : /^旗舰$/.test(branchCore) ? { ru: 'флагманский', en: 'flagship', kk: 'флагман', uz: 'flagman' }[lang]
         : translateAddress(branchCore, lang))
     : '';
-  return { text: withType(core, type, lang), branch, chain: chain ? { id: chain.id, kind: chain.kind, lat: chain.lat } : null, type };
+  const text = famous ? famous[1][lang] : withType(core, type, lang);
+  return { text, branch, chain: chain ? { id: chain.id, kind: chain.kind, lat: chain.lat } : null, type };
 }
 
 const WEEK = { 一: 0, 二: 1, 三: 2, 四: 3, 五: 4, 六: 5, 日: 6, 天: 6, 末: 7 };

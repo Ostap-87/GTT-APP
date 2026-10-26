@@ -1,0 +1,548 @@
+{
+"050000": {
+"ru": "Еда и напитки",
+"en": "Food & Beverages Related",
+"kk": "Тамақ және сусындар",
+"uz": "Ovqat va ichimliklar"
+},
+"050100": {
+"ru": "Китайская кухня",
+"en": "Chinese Food Restaurant",
+"kk": "Қытай асханасы",
+"uz": "Xitoy oshxonasi"
+},
+"050101": {
+"ru": "Китайский ресторан",
+"en": "Complex Food",
+"kk": "Қытай мейрамханасы",
+"uz": "Xitoy restorani"
+},
+"050102": {
+"ru": "Сычуаньская кухня",
+"en": "Sichuan Food",
+"kk": "Сычуань асханасы",
+"uz": "Sichuan oshxonasi"
+},
+"050103": {
+"ru": "Кантонская кухня",
+"en": "Cantonese Food",
+"kk": "Кантон асханасы",
+"uz": "Kanton oshxonasi"
+},
+"050104": {
+"ru": "Шаньдунская кухня",
+"en": "Shandong Food",
+"kk": "Шаньдун асханасы",
+"uz": "Shandun oshxonasi"
+},
+"050105": {
+"ru": "Цзянсуская кухня",
+"en": "Jiangsu Food",
+"kk": "Цзянсу асханасы",
+"uz": "Szyansu oshxonasi"
+},
+"050106": {
+"ru": "Чжэцзянская кухня",
+"en": "Zhejiang Food",
+"kk": "Чжэцзян асханасы",
+"uz": "Chjeszyan oshxonasi"
+},
+"050107": {
+"ru": "Шанхайская кухня",
+"en": "Shanghai Food",
+"kk": "Шанхай асханасы",
+"uz": "Shanxay oshxonasi"
+},
+"050108": {
+"ru": "Хунаньская кухня",
+"en": "Hunan Food",
+"kk": "Хунань асханасы",
+"uz": "Xunan oshxonasi"
+},
+"050109": {
+"ru": "Аньхойская кухня",
+"en": "Anhui Food",
+"kk": "Аньхой асханасы",
+"uz": "Anxoy oshxonasi"
+},
+"050110": {
+"ru": "Фуцзяньская кухня",
+"en": "Fujian Food",
+"kk": "Фуцзянь асханасы",
+"uz": "Fuszyan oshxonasi"
+},
+"050111": {
+"ru": "Пекинская кухня",
+"en": "Beijing Food",
+"kk": "Бейжің асханасы",
+"uz": "Pekin oshxonasi"
+},
+"050112": {
+"ru": "Хубэйская кухня",
+"en": "Hubei Food",
+"kk": "Хубэй асханасы",
+"uz": "Xubey oshxonasi"
+},
+"050113": {
+"ru": "Северо-восточная кухня",
+"en": "Northeastern Chinese Food",
+"kk": "Солтүстік-шығыс асханасы",
+"uz": "Shimoli-sharqiy oshxona"
+},
+"050114": {
+"ru": "Кухня Юньнани и Гуйчжоу",
+"en": "Yunnan & Guizhou Food",
+"kk": "Юньнань және Гуйчжоу асханасы",
+"uz": "Yunnan va Guychjou oshxonasi"
+},
+"050115": {
+"ru": "Северо-западная кухня",
+"en": "Northwestern Chinese Food",
+"kk": "Солтүстік-батыс асханасы",
+"uz": "Shimoli-gʻarbiy oshxona"
+},
+"050116": {
+"ru": "Старинная марка",
+"en": "Traditional Brand",
+"kk": "Көне бренд",
+"uz": "Qadimiy brend"
+},
+"050117": {
+"ru": "Хого (горячий котёл)",
+"en": "Hotpot Restaurant",
+"kk": "Хого (ыстық қазан)",
+"uz": "Xogo (qaynoq qozon)"
+},
+"050118": {
+"ru": "Местная кухня",
+"en": "Local Special Food",
+"kk": "Жергілікті асхана",
+"uz": "Mahalliy oshxona"
+},
+"050119": {
+"ru": "Морепродукты",
+"en": "Sea Food",
+"kk": "Теңіз өнімдері",
+"uz": "Dengiz mahsulotlari"
+},
+"050120": {
+"ru": "Вегетарианская кухня",
+"en": "Vegetarian Food",
+"kk": "Вегетариандық асхана",
+"uz": "Vegetarian oshxona"
+},
+"050121": {
+"ru": "Халяль",
+"en": "Islamic Food",
+"kk": "Халал",
+"uz": "Halol"
+},
+"050122": {
+"ru": "Тайваньская кухня",
+"en": "Taiwan Food",
+"kk": "Тайвань асханасы",
+"uz": "Tayvan oshxonasi"
+},
+"050123": {
+"ru": "Чаочжоуская кухня",
+"en": "Chaozhou Food",
+"kk": "Чаочжоу асханасы",
+"uz": "Chaochjou oshxonasi"
+},
+"050200": {
+"ru": "Иностранная кухня",
+"en": "Foreign Food Restaurant",
+"kk": "Шетел асханасы",
+"uz": "Xorijiy oshxona"
+},
+"050201": {
+"ru": "Европейская кухня",
+"en": "Western Restaurant",
+"kk": "Еуропа асханасы",
+"uz": "Yevropa oshxonasi"
+},
+"050202": {
+"ru": "Японская кухня",
+"en": "Japanese Cuisine",
+"kk": "Жапон асханасы",
+"uz": "Yapon oshxonasi"
+},
+"050203": {
+"ru": "Корейская кухня",
+"en": "South Korean Cuisine",
+"kk": "Корей асханасы",
+"uz": "Koreys oshxonasi"
+},
+"050204": {
+"ru": "Французская кухня",
+"en": "French Food",
+"kk": "Француз асханасы",
+"uz": "Fransuz oshxonasi"
+},
+"050205": {
+"ru": "Итальянская кухня",
+"en": "Italian Food",
+"kk": "Итальян асханасы",
+"uz": "Italyan oshxonasi"
+},
+"050206": {
+"ru": "Тайская и вьетнамская кухня",
+"en": "Thai/Vietnamese Food",
+"kk": "Тай және вьетнам асханасы",
+"uz": "Tay va vyetnam oshxonasi"
+},
+"050207": {
+"ru": "Средиземноморская кухня",
+"en": "Mediterranean Food",
+"kk": "Жерорта теңізі асханасы",
+"uz": "Oʻrta yer dengizi oshxonasi"
+},
+"050208": {
+"ru": "Американская кухня",
+"en": "American Food",
+"kk": "Америка асханасы",
+"uz": "Amerika oshxonasi"
+},
+"050209": {
+"ru": "Индийская кухня",
+"en": "Indian Food",
+"kk": "Үнді асханасы",
+"uz": "Hind oshxonasi"
+},
+"050210": {
+"ru": "Британская кухня",
+"en": "British Food",
+"kk": "Британ асханасы",
+"uz": "Britaniya oshxonasi"
+},
+"050211": {
+"ru": "Стейк-хаус",
+"en": "Steak House",
+"kk": "Стейк-хаус",
+"uz": "Steykxaus"
+},
+"050212": {
+"ru": "Русская кухня",
+"en": "Russian Food",
+"kk": "Орыс асханасы",
+"uz": "Rus oshxonasi"
+},
+"050213": {
+"ru": "Португальская кухня",
+"en": "Portuguese Food",
+"kk": "Португал асханасы",
+"uz": "Portugal oshxonasi"
+},
+"050214": {
+"ru": "Немецкая кухня",
+"en": "German Food",
+"kk": "Неміс асханасы",
+"uz": "Nemis oshxonasi"
+},
+"050215": {
+"ru": "Бразильская кухня",
+"en": "Brazilian Food",
+"kk": "Бразилия асханасы",
+"uz": "Braziliya oshxonasi"
+},
+"050216": {
+"ru": "Мексиканская кухня",
+"en": "Mexican Food",
+"kk": "Мексика асханасы",
+"uz": "Meksika oshxonasi"
+},
+"050217": {
+"ru": "Азиатская кухня",
+"en": "Other Asian Food",
+"kk": "Азия асханасы",
+"uz": "Osiyo oshxonasi"
+},
+"050300": {
+"ru": "Фастфуд",
+"en": "Fast Food Restaurant",
+"kk": "Фастфуд",
+"uz": "Fastfud"
+},
+"050301": {
+"ru": "KFC",
+"en": "KFC",
+"kk": "KFC",
+"uz": "KFC"
+},
+"050302": {
+"ru": "McDonald's",
+"en": "McDonald's",
+"kk": "McDonald's",
+"uz": "McDonald's"
+},
+"050303": {
+"ru": "Pizza Hut",
+"en": "Pizza Hut",
+"kk": "Pizza Hut",
+"uz": "Pizza Hut"
+},
+"050304": {
+"ru": "Yonghe Doujiang (соевое молоко)",
+"en": "Yon ho",
+"kk": "Yonghe Doujiang (соя сүті)",
+"uz": "Yonghe Doujiang (soya suti)"
+},
+"050305": {
+"ru": "Гонконгское кафе",
+"en": "Teahouse",
+"kk": "Гонконг кафесі",
+"uz": "Gonkong kafesi"
+},
+"050306": {
+"ru": "Cafe de Coral",
+"en": "Cafe de Coral",
+"kk": "Cafe de Coral",
+"uz": "Cafe de Coral"
+},
+"050307": {
+"ru": "Fairwood",
+"en": "Fairwood",
+"kk": "Fairwood",
+"uz": "Fairwood"
+},
+"050308": {
+"ru": "Maxim's",
+"en": "Maxim's",
+"kk": "Maxim's",
+"uz": "Maxim's"
+},
+"050309": {
+"ru": "Yoshinoya",
+"en": "Yoshinoya",
+"kk": "Yoshinoya",
+"uz": "Yoshinoya"
+},
+"050310": {
+"ru": "Saint's Alp",
+"en": "Saint's Alp Teahouse",
+"kk": "Saint's Alp",
+"uz": "Saint's Alp"
+},
+"050311": {
+"ru": "Xiabu Xiabu (хого)",
+"en": "Xiabu Xiabu",
+"kk": "Xiabu Xiabu (хого)",
+"uz": "Xiabu Xiabu (xogo)"
+},
+"050400": {
+"ru": "Кафе",
+"en": "Leisure Food Restaurant",
+"kk": "Кафе",
+"uz": "Kafe"
+},
+"050500": {
+"ru": "Кофейня",
+"en": "Coffee House",
+"kk": "Кофехана",
+"uz": "Qahvaxona"
+},
+"050501": {
+"ru": "Starbucks",
+"en": "Starbucks Coffee",
+"kk": "Starbucks",
+"uz": "Starbucks"
+},
+"050502": {
+"ru": "UBC Coffee",
+"en": "UBC Coffee",
+"kk": "UBC Coffee",
+"uz": "UBC Coffee"
+},
+"050503": {
+"ru": "Pacific Coffee",
+"en": "Pacific Coffee Company",
+"kk": "Pacific Coffee",
+"uz": "Pacific Coffee"
+},
+"050504": {
+"ru": "Paris Cafe",
+"en": "Paris Cafe",
+"kk": "Paris Cafe",
+"uz": "Paris Cafe"
+},
+"050600": {
+"ru": "Чайная",
+"en": "Tea House",
+"kk": "Шайхана",
+"uz": "Choyxona"
+},
+"050700": {
+"ru": "Мороженое и напитки",
+"en": "Icecream Shop",
+"kk": "Балмұздақ және сусындар",
+"uz": "Muzqaymoq va ichimliklar"
+},
+"050800": {
+"ru": "Пекарня",
+"en": "Bakery",
+"kk": "Наубайхана",
+"uz": "Novvoyxona"
+},
+"050900": {
+"ru": "Десерты",
+"en": "Dessert House",
+"kk": "Десерттер",
+"uz": "Desertlar"
+},
+"060100": {
+"ru": "Торговый центр",
+"en": "Shopping Plaza",
+"kk": "Сауда орталығы",
+"uz": "Savdo markazi"
+},
+"060101": {
+"ru": "Торговый центр",
+"en": "Shopping Centre",
+"kk": "Сауда орталығы",
+"uz": "Savdo markazi"
+},
+"060102": {
+"ru": "Универмаг",
+"en": "Shops",
+"kk": "Әмбебап дүкен",
+"uz": "Univermag"
+},
+"060103": {
+"ru": "Дьюти-фри",
+"en": "Duty-free Shop",
+"kk": "Дьюти-фри",
+"uz": "Dyuti-fri"
+},
+"110000": {
+"ru": "Достопримечательность",
+"en": "Tourist Attraction",
+"kk": "Көрікті орын",
+"uz": "Diqqatga sazovor joy"
+},
+"110100": {
+"ru": "Парк, площадь",
+"en": "Park & Square",
+"kk": "Саябақ, алаң",
+"uz": "Bogʻ, maydon"
+},
+"110101": {
+"ru": "Парк",
+"en": "Park",
+"kk": "Саябақ",
+"uz": "Bogʻ"
+},
+"110102": {
+"ru": "Зоопарк",
+"en": "Zoo",
+"kk": "Хайуанаттар бағы",
+"uz": "Hayvonot bogʻi"
+},
+"110103": {
+"ru": "Ботанический сад",
+"en": "Botanical Garden",
+"kk": "Ботаникалық бақ",
+"uz": "Botanika bogʻi"
+},
+"110104": {
+"ru": "Океанариум",
+"en": "Aquarium",
+"kk": "Океанариум",
+"uz": "Okeanarium"
+},
+"110105": {
+"ru": "Городская площадь",
+"en": "City Plaza",
+"kk": "Қала алаңы",
+"uz": "Shahar maydoni"
+},
+"110106": {
+"ru": "В парке",
+"en": "Facilities within the park",
+"kk": "Саябақ ішінде",
+"uz": "Bogʻ ichida"
+},
+"110200": {
+"ru": "Достопримечательность",
+"en": "Scenery Spot",
+"kk": "Көрікті орын",
+"uz": "Diqqatga sazovor joy"
+},
+"110201": {
+"ru": "Всемирное наследие",
+"en": "World Heritage",
+"kk": "Әлемдік мұра",
+"uz": "Jahon merosi"
+},
+"110202": {
+"ru": "Достопримечательность гос. уровня",
+"en": "National View Spot",
+"kk": "Мемлекеттік көрікті орын",
+"uz": "Davlat ahamiyatidagi joy"
+},
+"110203": {
+"ru": "Достопримечательность провинции",
+"en": "Provincial View Spot",
+"kk": "Провинция көрікті орны",
+"uz": "Viloyat ahamiyatidagi joy"
+},
+"110204": {
+"ru": "Мемориал",
+"en": "Memorial Hall",
+"kk": "Мемориал",
+"uz": "Memorial"
+},
+"110205": {
+"ru": "Буддийский или даосский храм",
+"en": "Buddhist & Taoist Temple",
+"kk": "Будда не дао ғибадатханасы",
+"uz": "Buddaviy yoki daos ibodatxonasi"
+},
+"110206": {
+"ru": "Церковь",
+"en": "Church",
+"kk": "Шіркеу",
+"uz": "Cherkov"
+},
+"110207": {
+"ru": "Мечеть",
+"en": "Mosque",
+"kk": "Мешіт",
+"uz": "Masjid"
+},
+"110208": {
+"ru": "Пляж",
+"en": "Beach",
+"kk": "Жағажай",
+"uz": "Plyaj"
+},
+"110209": {
+"ru": "Смотровая площадка",
+"en": "View Point",
+"kk": "Көру алаңы",
+"uz": "Tomosha maydonchasi"
+},
+"140100": {
+"ru": "Музей",
+"en": "Museum",
+"kk": "Мұражай",
+"uz": "Muzey"
+},
+"140200": {
+"ru": "Выставочный зал",
+"en": "Exhibition Hall",
+"kk": "Көрме залы",
+"uz": "Koʻrgazma zali"
+},
+"140400": {
+"ru": "Художественная галерея",
+"en": "Art Gallery",
+"kk": "Өнер галереясы",
+"uz": "Sanʼat galereyasi"
+},
+"140600": {
+"ru": "Музей науки и техники",
+"en": "Science & Technology Museum",
+"kk": "Ғылым және техника мұражайы",
+"uz": "Fan va texnika muzeyi"
+}
+}

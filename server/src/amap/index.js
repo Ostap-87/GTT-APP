@@ -2,6 +2,7 @@
 // Встраивается в любой Node-сервер без зависимостей: createNearby() + mountNearby(route) (см. README.md рядом).
 // Без ключа AMAP_KEY работает в демо-режиме: вымышленные места вокруг точки (source: 'demo') — чтобы приложение
 // можно было собрать, показать и проверить до получения ключа.
+import { readFileSync } from 'node:fs';
 import { aroundSearch, normalize } from './client.js';
 import { distanceM, gcjToWgs, outOfChina, wgsToGcj } from './coords.js';
 import { createTranslator } from './mt.js';
@@ -13,10 +14,20 @@ export const KINDS = {
   fruit: { keywords: '水果', exclude: /^05/ }, // без кафе и чайных с «水果» в названии (категория 05 — 餐饮)
   supermarket: { types: '060400' },
   convenience: { types: '060200' },
+  // Путеводитель «Рядом» (решение пользователя 26.10.2026, вариант «б»): еда, кафе, места, торговые центры
+  food: { types: '050100|050200|050300|050400' },
+  cafe: { types: '050500|050600|050700|050800|050900' },
+  sights: { types: '110000|140100|140400|140600', radius: 5000 },
+  mall: { types: '060100', radius: 3000 },
 };
+
+// Кухни и типы мест на четырёх языках (английский — официальный из таблицы Amap)
+const TYPES_I18N = JSON.parse(readFileSync(new URL('./data/types-i18n.json', import.meta.url), 'utf8'));
 
 const TYPE_BY_CODE = [[/^090601/, 'pharmacy'], [/^060704/, 'fruitMarket'], [/^0604/, 'supermarket'], [/^0602/, 'convenience'], [/^0607/, 'market']];
 const typeLabel = (code, lang) => {
+  const i18n = TYPES_I18N[code] || TYPES_I18N[`${code.slice(0, 4)}00`];
+  if (i18n) return i18n[lang];
   const t = TYPE_BY_CODE.find(([re]) => re.test(code))?.[1];
   return t ? TYPE_WORD[t][lang === 'uz' ? 'en' : lang] : null;
 };
@@ -35,12 +46,33 @@ const DEMO = {
     ['新鲜水果店', '解放路5号', 0.0047, -0.0028, '06:00-22:00', null],
     ['人民路果品市场', '人民路200号', -0.0066, 0.0052, '05:00-19:00', 4.1],
   ],
+  food: [
+    ['老北京炸酱面馆(人民路店)', '人民路66号', 0.0016, 0.0009, '10:00-21:30', 4.5, '050111', 38],
+    ['蜀香火锅(中山路店)', '中山路28号2层', -0.0024, 0.0017, '11:00-02:00', 4.7, '050117', 120],
+    ['东北饺子馆', '解放路12号', 0.0038, -0.0021, '10:30-22:00', 4.3, '050113', 45],
+    ['海港海鲜酒楼', '滨江路8号', -0.0061, -0.0035, '11:00-22:00', 4.6, '050119', 210],
+    ['清真兰州拉面', '建设路77号', 0.0055, 0.0042, '07:00-22:00', 4.4, '050121', 25],
+  ],
+  cafe: [
+    ['街角咖啡', '人民路70号', 0.0012, 0.0011, '08:00-22:00', 4.6, '050500', 32],
+    ['老城茶馆', '解放路3号', -0.0029, 0.0024, '10:00-23:00', 4.8, '050600', 88],
+    ['甜心甜品店', '中山路40号', 0.0033, -0.0018, '11:00-22:30', 4.4, '050900', 30],
+  ],
+  sights: [
+    ['人民公园', '人民路1号', 0.0045, 0.0031, '06:00-22:00', 4.7, '110101', null],
+    ['城市博物馆', '文化路9号', -0.0082, 0.0047, '周二至周日 09:00-17:00', 4.8, '140100', null],
+    ['白塔寺', '塔山路', 0.0121, -0.0093, '08:30-17:30', 4.5, '110205', null],
+  ],
+  mall: [
+    ['人民广场购物中心', '人民路100号', -0.0021, -0.0012, '10:00-22:00', 4.5, '060101', null],
+  ],
 };
 function demoPois(kind, lng, lat) {
-  return (DEMO[kind] || DEMO.pharmacy).map(([name, address, dx, dy, hours, rating], i) => ({
-    id: `demo-${kind}-${i}`, name, address, typecode: kind === 'fruit' ? (name.includes('市场') ? '060704' : '060100') : '090601',
+  return (DEMO[kind] || DEMO.pharmacy).map(([name, address, dx, dy, hours, rating, code, cost], i) => ({
+    id: `demo-${kind}-${i}`, name, address,
+    typecode: code || (kind === 'fruit' ? (name.includes('市场') ? '060704' : '060100') : '090601'),
     type: '', province: '', city: '', district: '', lng: lng + dx, lat: lat + dy, distance: null, tel: [],
-    hoursToday: hours, hoursWeek: '', rating, cost: null, tag: '', photo: null, demo: true,
+    hoursToday: hours, hoursWeek: '', rating, cost: cost ?? null, tag: '', photo: null, demo: true,
   }));
 }
 
@@ -69,7 +101,7 @@ export function createNearby({ key = '', mt = {}, log = () => {}, fetchImpl = fe
    * kind — pharmacy | fruit | supermarket | convenience; lat/lng — где человек; coord — wgs84 (GPS, по умолчанию) или gcj02;
    * lang — ru | en | kk | uz. Ответ — места по удалённости, всё уже на языке lang; китайский оригинал — в zh.
    */
-  async function search({ kind = 'pharmacy', lat, lng, coord = 'wgs84', radius = 1500, lang = 'ru' }) {
+  async function search({ kind = 'pharmacy', lat, lng, coord = 'wgs84', radius, lang = 'ru' }) {
     if (!KINDS[kind]) throw Object.assign(new Error(`kind: ${Object.keys(KINDS).join(' | ')}`), { code: 'bad_kind' });
     if (!LANGS.includes(lang)) lang = 'ru';
     if (!Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) {
@@ -77,7 +109,7 @@ export function createNearby({ key = '', mt = {}, log = () => {}, fetchImpl = fe
     }
     if (outOfChina(lng, lat)) throw Object.assign(new Error('точка за пределами Китая — Amap там не работает'), { code: 'out_of_china' });
     const [glng, glat] = coord === 'gcj02' ? [lng, lat] : wgsToGcj(lng, lat);
-    const { pois, cached } = await places(kind, glng, glat, radius);
+    const { pois, cached } = await places(kind, glng, glat, radius || KINDS[kind].radius || 1500);
 
     const items = pois.map((p) => {
       const name = translateName(p.name, lang, { kind });

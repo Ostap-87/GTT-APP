@@ -227,6 +227,10 @@ Expo меняется от версии к версии: перед работо
   «Маршрут» (Amap), «Таксисту» (`/driver` с китайским названием и адресом), «Позвонить». Адрес сервера —
   `EXPO_PUBLIC_NEARBY_URL` (без него блок скрыт), токен — `EXPO_PUBLIC_NEARBY_TOKEN`. Ключ Amap — только на сервере
   (`server/src/amap/README.md`); без ключа сервер отвечает демо-данными и блок показывает плашку «Демо».
+- **«Еда и места рядом»** — `src/app/around.tsx` (путеводитель, вариант «б»): язык и город — как в «Аптеках» (`ShopHead`),
+  вкладки `food`, `cafe`, `sights`, `mall` (выбор — ключ `around.kind`), список — `useNearby` и `NearbyPlace` из
+  `src/ui/NearbyCard.tsx` (средний чек `cost` с пересчётом в рубли по курсу ЦБ). Без `EXPO_PUBLIC_NEARBY_URL` — поиск рядом
+  в Dianping / Meituan; в Гонконге и Макао — Google Карты.
 - **«Открыть в Dianping / Meituan»** — `src/ui/OpenInApps.tsx` (кнопки и подсказка `OpenInAppsHint`), ссылки и порядок
   попыток — `src/data/apps.ts` (`openInApp`: поиск по схеме → приложение → App Store / сайт; в веб-версии — сайт).
   Название сначала копируется в буфер. Стоит в `SearchWords`, `NearbyCard` и `Address3` (проп `name` — китайское название

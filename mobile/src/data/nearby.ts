@@ -13,7 +13,8 @@ import type { ShopCity } from './shops';
 export const NEARBY_URL = (process.env.EXPO_PUBLIC_NEARBY_URL || '').replace(/\/+$/, '');
 const TOKEN = process.env.EXPO_PUBLIC_NEARBY_TOKEN || '';
 
-export type NearbyKind = 'pharmacy' | 'fruit';
+/** pharmacy, fruit — «Рядом с вами» в разделах; food, cafe, sights, mall — путеводитель «Еда и места рядом» (/around). */
+export type NearbyKind = 'pharmacy' | 'fruit' | 'food' | 'cafe' | 'sights' | 'mall';
 export type NearbyItem = {
   id: string;
   name: string;
@@ -25,6 +26,8 @@ export type NearbyItem = {
   open24: boolean;
   tel: string[];
   rating: number | null;
+  /** Средний чек на человека, юани (рестораны и кафе). */
+  cost: number | null;
   photo: string | null;
   tag: string | null;
   distance: number;

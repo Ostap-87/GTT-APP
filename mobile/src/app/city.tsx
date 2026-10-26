@@ -79,17 +79,18 @@ export default function City() {
   );
 }
 
-/** «Аптеки» и «Фруктовые лавки» — две плитки рядом (решение пользователя 26.10.2026). */
+/** «Аптеки», «Фруктовые лавки» и «Еда и места рядом» — плитки (решения пользователя 26.10.2026). */
 function ShopTiles() {
   const tiles = [
     { to: '/pharmacy', icon: 'pill', title: 'Аптеки', sub: 'Карточки для фармацевта по-китайски' },
     { to: '/fruit', icon: 'apple', title: 'Фруктовые лавки', sub: 'Цена за 斤 = 500 г, фразы продавцу' },
+    { to: '/around', icon: 'food', title: 'Еда и места рядом', sub: 'Рестораны, кафе, достопримечательности — по-русски, отзывы в Dianping' },
   ] as const;
   return (
-    <View style={{ flexDirection: 'row', gap: 12 }}>
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
       {tiles.map((x) => (
         <Press key={x.to} onPress={() => router.push(x.to)} label={x.title} scaleTo={0.95}
-          style={{ flex: 1, gap: 8, padding: 14, borderRadius: 22, backgroundColor: C.card, boxShadow: SH.clay }}>
+          style={{ flexBasis: '45%', flexGrow: 1, gap: 8, padding: 14, borderRadius: 22, backgroundColor: C.card, boxShadow: SH.clay }}>
           <View style={{ width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: C.well, boxShadow: SH.inset }}>
             <Icon name={x.icon} size={22} color={C.blueInk} />
           </View>

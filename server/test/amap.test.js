@@ -163,3 +163,19 @@ test('API /api/nearby: демо, CORS, ошибки', async () => {
     server.close();
   }
 });
+
+test('Путеводитель: кухни и места на четырёх языках, известные места — принятыми названиями', async () => {
+  const nb = createNearby({});
+  const food = await nb.search({ kind: 'food', lat: 39.9098, lng: 116.3974, lang: 'ru' });
+  const hotpot = food.items.find((x) => x.zh.name.startsWith('蜀香火锅'));
+  assert.equal(hotpot.name, 'Хого «Шусян»');
+  assert.equal(hotpot.type, 'Хого (горячий котёл)');
+  assert.equal(hotpot.cost, 120);
+  const sights = await nb.search({ kind: 'sights', lat: 39.9098, lng: 116.3974, lang: 'uz' });
+  assert.ok(sights.items.some((x) => x.type === 'Muzey'));
+  assert.equal(translateName('故宫博物院', 'ru', { kind: 'sights' }).text, 'Запретный город (Гугун)');
+  assert.equal(translateName('外滩', 'en', { kind: 'sights' }).text, 'The Bund');
+  assert.equal(translateName('长城汽车(4S店)', 'ru', { kind: 'food' }).text.includes('Великая'), false);
+  assert.equal(translateName('海底捞火锅(王府井店)', 'en', { kind: 'food' }).text, 'Haidilao Hotpot');
+  assert.equal(translateName('万达广场(CBD店)', 'ru', { kind: 'mall' }).text, 'Ваньда Плаза');
+});

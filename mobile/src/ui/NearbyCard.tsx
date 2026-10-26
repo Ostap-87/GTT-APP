@@ -50,6 +50,7 @@ const NB = {
     'Demo: Amap javobi shunday koʻrinadi. Joylar toʻqima — haqiqiylari Amap kaliti ulangandan keyin chiqadi.',
   ),
   walk: t('{m} мин пешком', '{m} min walk', 'жаяу {m} мин', 'piyoda {m} daq'),
+  cost: t('чек ~{cny} ¥{rub}', 'avg ~{cny} ¥{rub}', 'орташа ~{cny} ¥{rub}', 'oʻrtacha ~{cny} ¥{rub}'),
   open24: t('Круглосуточно', '24 hours', 'Тәулік бойы', 'Kecha-kunduz'),
   route: t('Маршрут', 'Route', 'Маршрут', 'Yoʻnalish'),
   taxi: t('Таксисту', 'For a taxi', 'Таксиге', 'Taksiga'),
@@ -62,7 +63,28 @@ const NB = {
   ),
 };
 
-function Place({ p, lang }: { p: NearbyItem; lang: Lang }) {
+/** Загрузка мест рядом: состояние, ответ сервера, точка (GPS или центр города). */
+export function useNearby(kind: NearbyKind, lang: Lang, city: ShopCity) {
+  const [state, setState] = useState<'idle' | 'wait' | 'done' | 'fail'>('idle');
+  const [reply, setReply] = useState<NearbyReply | null>(null);
+  const [spot, setSpot] = useState<Spot | null>(null);
+  const load = async () => {
+    setState('wait');
+    try {
+      const at = await whereAmI(city);
+      if (!at) throw new Error('no location');
+      setSpot(at);
+      setReply(await fetchNearby(kind, lang, at));
+      setState('done');
+    } catch {
+      setState('fail');
+    }
+  };
+  return { state, reply, spot, load };
+}
+
+/** Одно место: название на языке раздела, китайский оригинал, расстояние, часы, рейтинг, чек; маршрут, такси, звонок, Dianping. */
+export function NearbyPlace({ p, lang, rub }: { p: NearbyItem; lang: Lang; rub?: number }) {
   return (
     <View style={{ gap: 8, paddingTop: 12, borderTopWidth: 1, borderTopColor: C.line2 }}>
       <View style={{ flexDirection: 'row', gap: 12 }}>
@@ -81,6 +103,7 @@ function Place({ p, lang }: { p: NearbyItem; lang: Lang }) {
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
         {p.open24 ? <Chip tone="ok">{tr(NB.open24, lang)}</Chip> : p.hours ? <Chip tone="plain">{p.hours}</Chip> : null}
         {p.rating ? <Chip tone="plain">{`★ ${p.rating.toFixed(1)}`}</Chip> : null}
+        {p.cost ? <Chip tone="plain">{fill(tr(NB.cost, lang), { cny: Math.round(p.cost), rub: rub ? ` ≈ ${Math.round((p.cost * rub) / 10) * 10} ₽` : '' })}</Chip> : null}
         {p.type ? <Chip tone="plain">{p.type}</Chip> : null}
         {p.tag ? <Chip tone="plain">{p.tag}</Chip> : null}
       </View>
@@ -97,25 +120,12 @@ function Place({ p, lang }: { p: NearbyItem; lang: Lang }) {
   );
 }
 
-export function NearbyCard({ kind, lang, city }: { kind: NearbyKind; lang: Lang; city: ShopCity }) {
-  const [state, setState] = useState<'idle' | 'wait' | 'done' | 'fail'>('idle');
-  const [reply, setReply] = useState<NearbyReply | null>(null);
-  const [spot, setSpot] = useState<Spot | null>(null);
+export const NEARBY_TEXT = NB;
+
+export function NearbyCard({ kind, lang, city }: { kind: 'pharmacy' | 'fruit'; lang: Lang; city: ShopCity }) {
+  const { state, reply, spot, load } = useNearby(kind, lang, city);
   // Amap — карты материкового Китая; в Гонконге и Макао остаются слова для поиска в Google Картах
   if (!NEARBY_URL || city.region !== 'cn') return null;
-
-  const load = async () => {
-    setState('wait');
-    try {
-      const at = await whereAmI(city);
-      if (!at) throw new Error('no location');
-      setSpot(at);
-      setReply(await fetchNearby(kind, lang, at));
-      setState('done');
-    } catch {
-      setState('fail');
-    }
-  };
 
   return (
     <Card>
@@ -133,7 +143,7 @@ export function NearbyCard({ kind, lang, city }: { kind: NearbyKind; lang: Lang;
         <>
           {reply.source === 'demo' ? <Card tone="warn"><T>{tr(NB.demo, lang)}</T></Card> : null}
           {spot && !spot.exact ? <T muted>{tr(NB.noGps, lang)}</T> : null}
-          {reply.items.length ? reply.items.slice(0, 8).map((p) => <Place key={p.id} p={p} lang={lang} />) : <T>{tr(NB.none, lang)}</T>}
+          {reply.items.length ? reply.items.slice(0, 8).map((p) => <NearbyPlace key={p.id} p={p} lang={lang} />) : <T>{tr(NB.none, lang)}</T>}
           <OpenInAppsHint lang={lang} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <Text style={{ flex: 1, fontFamily: F.regular, fontSize: 12, lineHeight: 17, color: C.muted }}>{tr(NB.source, lang)}</Text>

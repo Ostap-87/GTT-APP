@@ -85,6 +85,7 @@ export default function RootLayout() {
             <Stack.Screen name="city" options={{ title: 'Город' }} />
             <Stack.Screen name="pharmacy" options={{ title: 'Аптеки' }} />
             <Stack.Screen name="fruit" options={{ title: 'Фруктовые лавки' }} />
+            <Stack.Screen name="around" options={{ title: 'Еда и места рядом' }} />
             <Stack.Screen name="show-card" options={{ title: 'Покажите', presentation: 'modal' }} />
             <Stack.Screen name="demo" options={{ title: 'Выбрать поездку' }} />
             <Stack.Screen name="search" options={{ title: 'Поиск по поездке' }} />
