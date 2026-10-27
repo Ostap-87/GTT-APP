@@ -5,14 +5,14 @@ import type { IconName } from '@/ui/icon-paths';
 import { C, SH } from '@/ui/theme';
 
 /** Блоки экрана «Сегодня» в порядке показа. */
-export type TodayBlock = 'now' | 'next' | 'ann' | 'tools' | 'coord' | 'weather' | 'route';
-const ALL_BLOCKS: TodayBlock[] = ['now', 'next', 'ann', 'tools', 'coord', 'weather', 'route'];
+export type TodayBlock = 'now' | 'next' | 'ann' | 'poll' | 'tools' | 'coord' | 'weather' | 'route';
+const ALL_BLOCKS: TodayBlock[] = ['now', 'next', 'ann', 'poll', 'tools', 'coord', 'weather', 'route'];
 /** Плитки «Под рукой»: ключ, подпись, значок, экран. */
-export type ToolKey = 'translator' | 'docs' | 'help' | 'expenses' | 'city' | 'guide' | 'cards' | 'chat';
+export type ToolKey = 'translator' | 'docs' | 'help' | 'expenses' | 'city' | 'guide' | 'cards' | 'chat' | 'map';
 export const TOOLS: [ToolKey, string, IconName, string][] = [
   ['translator', 'Переводчик', 'translate', '/translator'], ['docs', 'Документы', 'passport', '/docs'], ['help', 'Помощь', 'help', '/help'],
-  ['expenses', 'Расходы', 'receipt', '/expenses'], ['city', 'Город', 'map', '/city'], ['guide', 'Гид', 'headphones', '/guide'],
-  ['cards', 'Визитки', 'card', '/cards'], ['chat', 'Чат', 'chat', '/chat'],
+  ['expenses', 'Расходы', 'receipt', '/expenses'], ['city', 'Город', 'building', '/city'], ['guide', 'Гид', 'headphones', '/guide'],
+  ['cards', 'Визитки', 'card', '/cards'], ['chat', 'Чат', 'chat', '/chat'], ['map', 'Карта без интернета', 'map', '/offline-map'],
 ];
 
 export type Tenant = {
@@ -44,7 +44,7 @@ const GTT: Tenant = {
   id: 'gtt', name: 'Global Tech Tour', short: 'GTT', tagline: 'Экспедиции к лидерам технологий',
   accent: '#1a73e8', accentInk: '#1558b8', accentSoft: '#dde8fb', heroFrom: '#2b80f2', heroTo: '#0f4fc0', rgb: '26, 115, 232',
   icons3d: true, coordinator: { name: 'Остап Доценко', initials: 'ОД' },
-  blocks: ALL_BLOCKS.map((key) => ({ key, on: true })), tools: ['translator', 'docs', 'help', 'expenses', 'city', 'guide'],
+  blocks: ALL_BLOCKS.map((key) => ({ key, on: true })), tools: ['translator', 'docs', 'help', 'expenses', 'city', 'guide', 'map'],
   tabs: { library: true, people: true },
 };
 

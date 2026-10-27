@@ -16,6 +16,8 @@ import { AdminProvider } from '@/state/admin';
 import { AgentProvider } from '@/state/agent';
 import { DemoContext, ResetContext } from '@/state/reset';
 import { CoordProvider } from '@/state/coord';
+import { GeoProvider } from '@/state/geo';
+import { PollsProvider } from '@/state/polls';
 import { clearStore, loadStore, peekStored, putStored } from '@/state/store';
 import { TripProvider } from '@/state/trip';
 import { VisitsProvider } from '@/state/visits';
@@ -40,6 +42,8 @@ export default function RootLayout() {
       <DemoContext.Provider value={openDemo}>
       <TripProvider key={gen}>
         <CoordProvider>
+        <GeoProvider>
+        <PollsProvider>
         <AgentProvider>
         <AdminProvider>
         <VisitsProvider>
@@ -107,11 +111,19 @@ export default function RootLayout() {
             <Stack.Screen name="country/[code]" options={{ title: 'Памятка по стране' }} />
             <Stack.Screen name="admin" options={{ headerShown: false }} />
             <Stack.Screen name="admin-trip/[id]" options={{ title: 'Поездка' }} />
+            <Stack.Screen name="offline-map" options={{ title: 'Карта без интернета' }} />
+            <Stack.Screen name="geo-consent" options={{ title: 'Геопозиция для координатора' }} />
+            <Stack.Screen name="group-map" options={{ title: 'Где группа' }} />
+            <Stack.Screen name="polls" options={{ title: 'Опросы в группе' }} />
+            <Stack.Screen name="poll-edit" options={{ title: 'Опрос', presentation: 'modal' }} />
+            <Stack.Screen name="poll/[id]" options={{ title: 'Опрос координатора' }} />
           </Stack>
         </ToastProvider>
         </VisitsProvider>
         </AdminProvider>
         </AgentProvider>
+        </PollsProvider>
+        </GeoProvider>
         </CoordProvider>
       </TripProvider>
       </DemoContext.Provider>

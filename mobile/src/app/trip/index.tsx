@@ -7,10 +7,12 @@ import { Animated, Easing, Linking, Text, View } from 'react-native';
 
 import { GUIDE } from '@/data/extras';
 import { NOW, VISITS, toMin } from '@/data/group';
+import { pollLeft } from '@/data/polls';
 import { routeText } from '@/data/route';
 import { TENANT, TOOLS, type TodayBlock } from '@/data/tenant';
-import { CITY, DAYS, DAY_NOTES, TRIP, WEATHER, dayEvents, hotelOf, weatherLine, type TripEvent } from '@/data/trip';
+import { CITY, DAYS, DAY_NOTES, ME, TRIP, WEATHER, dayEvents, hotelOf, weatherLine, type TripEvent } from '@/data/trip';
 import { useCoord } from '@/state/coord';
+import { usePolls } from '@/state/polls';
 import { useToast } from '@/state/toast';
 import { useTrip } from '@/state/trip';
 import { okFeel } from '@/ui/haptics';
@@ -34,6 +36,7 @@ export default function Today() {
   const w = WEATHER[i];
   const h = hotelOf(i);
   const k = useCoord();
+  const P = usePolls();
   const ann = k.anns.find((a) => a.toD); // последнее объявление координатора делегатам
   // ближайшее: выезд или переезд перед первым визитом дня — крупно в «Сейчас», остальное — лентой
   const ev = dayEvents(i);
@@ -71,6 +74,21 @@ export default function Today() {
           <TitleRow title={<View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="megaphone" size={20} color={C.warn} /><H3>Объявление координатора</H3></View>} right={<T muted>{ann.time}</T>} />
           <T>{ann.ru}</T>
         </Card>
+      ) : null;
+      // опрос координатора — только если координатор включил опросы и запустил этот (state/polls.tsx)
+      case 'poll': return P.live.length ? (
+        <View key={key} style={{ gap: 10 }}>
+          {P.live.map((p) => {
+            const done = !!p.votes[ME.id] || p.questions.some((q) => q.by === ME.id);
+            return (
+              <Card key={p.id} tone="info" onPress={() => router.push(`/poll/${p.id}`)} label={`Опрос координатора: ${p.title}`}>
+                <TitleRow title={<View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="poll" size={20} color={C.blueInk} /><H3>Опрос координатора</H3></View>} right={<T muted>{pollLeft(p)}</T>} />
+                <T>{p.title}</T>
+                <Button title={done ? 'Вы ответили · изменить' : p.kind === 'questions' ? 'Задать вопрос' : 'Ответить'} kind={done ? 'light' : 'primary'} small onPress={() => router.push(`/poll/${p.id}`)} />
+              </Card>
+            );
+          })}
+        </View>
       ) : null;
       case 'tools': return tools.length ? (
         <View key={key} style={{ gap: 14 }}>

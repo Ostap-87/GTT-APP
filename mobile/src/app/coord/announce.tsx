@@ -1,9 +1,11 @@
 // «Объявление»: шаблон или свой текст → делегатам (push), компании по-китайски, в Telegram группы.
+import { router } from 'expo-router';
 import { useState } from 'react';
-import { TextInput } from 'react-native';
+import { Switch, TextInput, View } from 'react-native';
 
 import { TEMPLATES } from '@/data/group';
 import { useCoord } from '@/state/coord';
+import { usePolls } from '@/state/polls';
 import { useToast } from '@/state/toast';
 import { Button, Card, Check, Chips, H3, Pick, Row, T, inputStyle } from '@/ui/kit';
 import { CoordScreen } from '@/ui/coord-ui';
@@ -11,6 +13,7 @@ import { C, F } from '@/ui/theme';
 
 export default function Announce() {
   const k = useCoord();
+  const P = usePolls();
   const toast = useToast();
   const [tpl, setTpl] = useState<string>(TEMPLATES[0].key);
   const [text, setText] = useState<string>(TEMPLATES[0].ru);
@@ -34,6 +37,18 @@ export default function Announce() {
         <Check on={to.h} onPress={() => setTo({ ...to, h: !to.h })}>JD.com (中文)</Check>
         <Check on={to.tg} onPress={() => setTo({ ...to, tg: !to.tg })}>Telegram группы</Check>
         <Button title="Отправить" icon="send" onPress={send} />
+      </Card>
+      <Card>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          <View style={{ flex: 1 }}>
+            <H3>Опросы в группе</H3>
+            <T muted>{P.enabled ? `Включены · идёт ${P.live.length} · черновиков ${P.list.filter((p) => p.status === 'draft').length}` : 'Выключены: включайте на время поездки, когда опросы подготовлены'}</T>
+          </View>
+          <Switch value={P.enabled} onValueChange={(v) => { P.setEnabled(v); toast(v ? 'Опросы включены' : 'Опросы выключены — у делегатов они скрыты'); }}
+            accessibilityLabel="Опросы для группы" trackColor={{ true: C.blue, false: C.line }} thumbColor="#ffffff" />
+        </View>
+        <T muted>Ресторан на ужин, дополнительная экскурсия, вопросы к компании перед визитом — делегаты видят только запущенный опрос.</T>
+        <Button title="Открыть опросы" icon="poll" kind="light" onPress={() => router.push('/polls')} />
       </Card>
       <Card>
         <H3>Отправлено</H3>

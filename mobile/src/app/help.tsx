@@ -1,10 +1,15 @@
 // «Помощь» (решение 21.10.2026): карточка на местном языке «Я из делегации, позвоните моему координатору» с номером —
 // показать прохожему, полицейскому, водителю; звонок координатору и экстренные номера страны; «Отправить координатору,
 // где я» — только по нажатию, без слежки: координатор получает точку на карте (в демо — у себя на «Пульте»).
+// SOS (решение 27.10.2026): удержать кнопку — точка уходит координатору (коннектор data/live-geo.ts) и сразу набирается
+// его номер; постоянная геопозиция для координатора — отдельно и только с согласия (экран «Геопозиция для координатора»).
 import * as Location from 'expo-location';
 import { router } from 'expo-router';
 import { Linking, Platform, Pressable, Share, Text, View } from 'react-native';
 import { useState } from 'react';
+
+import { GEO_CONNECTED, type GeoFix } from '@/data/live-geo';
+import { useGeo } from '@/state/geo';
 
 import { countryOf } from '@/data/countries';
 import { CONTACTS, ME, TRIP, hotelOf } from '@/data/trip';
@@ -57,6 +62,7 @@ export default function Help() {
   const local = country.help;
   return (
     <Plain>
+      <SosCard phone={phone} />
       <Card style={{ borderWidth: 2, borderColor: C.warn }}>
         <T muted>Покажите этот экран прохожему, полицейскому или водителю</T>
         {local ? <Text style={{ fontFamily: F.bold, fontSize: 30, lineHeight: 36, color: C.ink }}>{local[0]}</Text> : null}
@@ -95,5 +101,60 @@ export default function Help() {
       </Card>
       <T muted>Тексты на местном языке — общие, их проверит координатор перед поездкой.</T>
     </Plain>
+  );
+}
+
+/** Быстрая точка для SOS: последняя известная (до 2 минут) или новая, но не дольше 6 секунд — звонок важнее. */
+async function quickFix(): Promise<GeoFix | null> {
+  try {
+    const perm = await Location.requestForegroundPermissionsAsync();
+    if (!perm.granted) return null;
+    const last = await Location.getLastKnownPositionAsync({ maxAge: 120000 });
+    const pos = last || (await Promise.race([
+      Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced }),
+      new Promise<null>((r) => setTimeout(() => r(null), 6000)),
+    ]));
+    return pos ? { lat: pos.coords.latitude, lng: pos.coords.longitude, acc: pos.coords.accuracy ?? undefined, at: Date.now() } : null;
+  } catch {
+    return null;
+  }
+}
+
+/** SOS: удержать 1,5 секунды (случайное касание не срабатывает) → точка координатору и звонок ему. */
+export function SosCard({ phone }: { phone: string }) {
+  const g = useGeo();
+  const toast = useToast();
+  const [busy, setBusy] = useState(false);
+  const last = g.sos.find((x) => x.whoId === ME.id);
+  const fire = async () => {
+    if (busy) return;
+    setBusy(true);
+    const fix = await quickFix();
+    await g.sendSos(fix);
+    setBusy(false);
+    toast(fix ? 'SOS и точка отправлены — звоним координатору' : 'SOS отправлен без точки — звоним координатору');
+    call(phone);
+  };
+  return (
+    <Card style={{ borderWidth: 2, borderColor: C.red }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+        <Pressable onLongPress={fire} delayLongPress={1500} onPress={() => toast('Удерживайте кнопку SOS 1,5 секунды')} accessibilityRole="button"
+          accessibilityLabel="SOS: удерживайте полторы секунды — координатор получит вашу точку, и начнётся звонок ему"
+          style={({ pressed }) => ({ width: 92, height: 92, borderRadius: 46, alignItems: 'center', justifyContent: 'center', backgroundColor: pressed ? '#a3260f' : C.red, boxShadow: '0px 10px 22px rgba(197,50,27,0.35), inset -3px -4px 8px rgba(0,0,0,0.18), inset 3px 3px 6px rgba(255,255,255,0.25)' })}>
+          <Text style={{ fontFamily: F.display, fontSize: 34, color: '#fff' }}>{busy ? '…' : 'SOS'}</Text>
+        </Pressable>
+        <View style={{ flex: 1, gap: 4 }}>
+          <H3>Срочно нужна помощь</H3>
+          <T muted>Удерживайте кнопку 1,5 секунды: координатор получит, где вы, и сразу начнётся звонок ему.</T>
+        </View>
+      </View>
+      {last ? (
+        <T muted>{`SOS отправлен в ${last.at}${last.fix ? ` · точка ±${Math.round(last.fix.acc || 0)} м` : ' · без точки'}${last.status === 'resolved' ? ' · координатор отметил: решено' : ''}`}</T>
+      ) : null}
+      {!GEO_CONNECTED ? <T muted>Демо: сервер ещё не подключён — сигнал виден на «Пульте» координатора в этой версии, звонок настоящий.</T> : null}
+      <Row left={<Icon name="locate" size={22} color={g.consent.on ? C.ok : C.muted} />} title="Геопозиция для координатора"
+        sub={g.consent.on ? 'Включена: координатор видит вашу последнюю точку в дни поездки' : 'Выключена: координатор видит точку только при SOS и «Отправить, где я»'}
+        onPress={() => router.push('/geo-consent')} label="Настроить геопозицию для координатора" />
+    </Card>
   );
 }

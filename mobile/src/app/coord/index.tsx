@@ -7,6 +7,9 @@ import { VISITS, byId, fem, plural } from '@/data/group';
 import { DELEGATES, ME, TRIP } from '@/data/trip';
 import { useAgent } from '@/state/agent';
 import { useCoord } from '@/state/coord';
+import { useGeo } from '@/state/geo';
+import { usePolls } from '@/state/polls';
+import { tally } from '@/data/polls';
 import { useToast } from '@/state/toast';
 import { Avatar, Button, Card, Chip, Row, T, TitleRow, initials } from '@/ui/kit';
 import { Bar, CoordScreen, LegsCard, Stat } from '@/ui/coord-ui';
@@ -17,6 +20,8 @@ type Item = { key: string; title: string; sub?: string; btns: [string, 'primary'
 
 export default function Center() {
   const k = useCoord();
+  const geo = useGeo();
+  const P = usePolls();
   const ag = useAgent();
   const toast = useToast();
   const ready = DELEGATES.filter((d) => k.ready(d.id)).length;
@@ -26,6 +31,11 @@ export default function Center() {
   const todo = k.notReady.filter((d) => !k.reminded[d.id]);
 
   const items: Item[] = [];
+  // SOS делегата (Помощь → удержать SOS) — самое первое
+  geo.openSos.forEach((x) => items.push({
+    key: `sos-${x.id}`, title: `SOS · ${x.who} · ${x.at}`, sub: x.fix ? `Точка ±${Math.round(x.fix.acc || 0)} м — на карте группы` : 'Без точки — позвоните',
+    btns: [['Где группа', 'primary', () => router.push('/group-map')], ['Решено', 'ghost', () => geo.resolveSos(x.id)]],
+  }));
   // делегат нажал «Помощь → Отправить, где я» — самое срочное наверху
   k.where.filter((w) => !w.seen).forEach((w) => items.push({
     key: `w-${w.id}`, title: `Где сейчас ${w.who} · отправлено в ${w.at}`, sub: `Точность ~${Math.round(w.acc || 0)} м · ${w.lat.toFixed(5)}, ${w.lng.toFixed(5)}`,
@@ -95,12 +105,31 @@ export default function Center() {
         {dep ? <Chip tone="ok">{`Выехали в ${dep} · JD.com знает: прибытие ~10:25`}</Chip> : null}
       </Card>
 
+      {(() => {
+        const g = geo.group();
+        const lag = g.filter((x) => x.consent && x.lag && !x.stale).length;
+        const near = g.filter((x) => x.consent && !x.lag && !x.stale).length;
+        return (
+          <Card onPress={() => router.push('/group-map')} label="Где группа: карта" tone={geo.openSos.length ? 'warn' : undefined}>
+            <TitleRow title="Где группа" right={geo.openSos.length ? <Chip tone="warn">{`SOS · ${geo.openSos.length}`}</Chip> : <Chip tone={lag ? 'warn' : 'ok'}>{lag ? `отстали · ${lag}` : 'все рядом'}</Chip>} />
+            <T muted>{`Рядом с точкой сбора ${near} · без согласия ${g.filter((x) => !x.consent).length} · карта города работает без интернета`}</T>
+          </Card>
+        );
+      })()}
+
       <LegsCard />
 
       <Card onPress={() => router.push({ pathname: '/chat', params: { as: 'coord' } })} label="Чат с делегатами">
         <TitleRow title="Чат с делегатами" right={k.unread('coord') > 0 ? <Chip tone="new">{`${k.unread('coord')} новых`}</Chip> : <Chip tone="ok">всё прочитано</Chip>} />
         <T muted numberOfLines={2}>{lastD ? `${ME.ru}, ${lastD.at}: «${lastD.text}»` : 'Делегаты пишут сюда из приложения — без поиска номера в мессенджерах.'}</T>
       </Card>
+
+      {P.enabled ? (
+        <Card onPress={() => router.push('/polls')} label="Опросы в группе">
+          <TitleRow title="Опросы в группе" right={P.live.length ? <Chip tone="new">{`идёт · ${P.live.length}`}</Chip> : <Chip tone="info">включены</Chip>} />
+          <T muted numberOfLines={2}>{P.live.length ? P.live.map((p) => `${p.title}: ${p.kind === 'questions' ? `${p.questions.length} вопросов` : `ответили ${tally(p).total} из 18`}`).join(' · ') : 'Черновики готовы — запустите, когда нужно.'}</T>
+        </Card>
+      ) : null}
 
       <Card>
         <TitleRow title="Радиогид для группы" right={k.guideLive ? <Chip tone="new">в эфире</Chip> : null} />
